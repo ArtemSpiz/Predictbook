@@ -18,6 +18,9 @@ import { Blog } from './collections/Blog'
 import { CaseStudies } from './collections/CaseStudies'
 import { Categories } from './collections/Categories'
 import { Tags } from './collections/Tags'
+import { Header } from './globals/Header'
+import { Footer } from './globals/Footer'
+import { Translations } from './globals/Translations'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -53,7 +56,10 @@ export default buildConfig({
   },
   editor: wideMarkupLexical,
   collections,
-  globals: [],
+  globals:
+    starterConfig.i18n.locales.length > 1
+      ? [Header, Footer, Translations]
+      : [Header, Footer],
   plugins,
   db: resolveDbAdapter(starterConfig.database),
   email: resolveEmailAdapter(starterConfig.email),

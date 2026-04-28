@@ -1,0 +1,18 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "blog": "Blog",
+    "caseStudies": "Case Studies"
+  },
+  "buttons": {
+    "readMore": "Read more",
+    "submit": "Submit",
+    "learnMore": "Learn more"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong"
+  }
+}
