@@ -1,7 +1,36 @@
 import type { CollectionConfig } from 'payload'
+import starterConfig from '../../../starter.config'
 import { slugField } from '@/fields/slug'
 import { Hero } from '@/blocks/Hero/config'
+import { CallToAction } from '@/blocks/CallToAction/config'
+import { RichTextBlock } from '@/blocks/RichTextBlock/config'
+import { MediaWithText } from '@/blocks/MediaWithText/config'
+import { ContentMedia } from '@/blocks/ContentMedia/config'
+import { TextColumns } from '@/blocks/TextColumns/config'
+import { FeatureGrid } from '@/blocks/FeatureGrid/config'
+import { ImageGrid } from '@/blocks/ImageGrid/config'
+import { LogoCloud } from '@/blocks/LogoCloud/config'
+import { Testimonials } from '@/blocks/Testimonials/config'
+import { FAQ } from '@/blocks/FAQ/config'
+import { Stats } from '@/blocks/Stats/config'
+import { StatsChart } from '@/blocks/StatsChart/config'
 import { pagesReadAccess, pagesWriteAccess } from './access'
+
+const allBlocks = [
+  Hero,
+  CallToAction,
+  RichTextBlock,
+  MediaWithText,
+  ContentMedia,
+  TextColumns,
+  FeatureGrid,
+  ImageGrid,
+  LogoCloud,
+  FAQ,
+  Stats,
+  ...(starterConfig.features.swiper ? [Testimonials] : []),
+  ...(starterConfig.features.charts ? [StatsChart] : []),
+]
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -31,7 +60,7 @@ export const Pages: CollectionConfig = {
               name: 'blocks',
               type: 'blocks',
               minRows: 0,
-              blocks: [Hero], // remaining 12 blocks added in Phase 6 final wiring
+              blocks: allBlocks,
             },
           ],
         },
