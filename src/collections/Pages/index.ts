@@ -14,6 +14,7 @@ import { Testimonials } from '@/blocks/Testimonials/config'
 import { FAQ } from '@/blocks/FAQ/config'
 import { Stats } from '@/blocks/Stats/config'
 import { StatsChart } from '@/blocks/StatsChart/config'
+import { ContactFormBlock } from '@/blocks/ContactForm/config'
 import { pagesReadAccess, pagesWriteAccess } from './access'
 
 const allBlocks = [
@@ -30,6 +31,7 @@ const allBlocks = [
   Stats,
   ...(starterConfig.features.swiper ? [Testimonials] : []),
   ...(starterConfig.features.charts ? [StatsChart] : []),
+  ...(starterConfig.features.formBuilder ? [ContactFormBlock] : []),
 ]
 
 export const Pages: CollectionConfig = {
