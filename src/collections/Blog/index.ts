@@ -1,6 +1,81 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, Field } from 'payload'
+import starterConfig from '../../../starter.config'
+import { wideMarkupLexical } from '@/fields/wideMarkupLexical'
+import { slugField } from '@/fields/slug'
+import { blogReadAccess, blogWriteAccess } from './access'
+
+const enableCategories = starterConfig.collections.categories
+const enableTags = starterConfig.collections.tags
+
+const metaFields: Field[] = [
+  { name: 'author', type: 'relationship', relationTo: 'users' },
+  ...(enableCategories
+    ? ([
+        {
+          name: 'categories',
+          type: 'relationship',
+          relationTo: 'categories',
+          hasMany: true,
+        },
+      ] as Field[])
+    : []),
+  ...(enableTags
+    ? ([
+        {
+          name: 'tags',
+          type: 'relationship',
+          relationTo: 'tags',
+          hasMany: true,
+        },
+      ] as Field[])
+    : []),
+  {
+    name: 'publishedAt',
+    type: 'date',
+    admin: { date: { pickerAppearance: 'dayAndTime' } },
+  },
+]
 
 export const Blog: CollectionConfig = {
   slug: 'blog',
-  fields: [{ name: 'title', type: 'text', required: true }],
+  admin: {
+    useAsTitle: 'title',
+    defaultColumns: ['title', 'slug', 'publishedAt', '_status'],
+  },
+  access: {
+    read: blogReadAccess,
+    create: blogWriteAccess,
+    update: blogWriteAccess,
+    delete: blogWriteAccess,
+  },
+  versions: {
+    drafts: { autosave: { interval: 2000 } },
+    maxPerDoc: 25,
+  },
+  fields: [
+    {
+      type: 'tabs',
+      tabs: [
+        {
+          label: 'Content',
+          fields: [
+            { name: 'title', type: 'text', required: true },
+            { name: 'excerpt', type: 'textarea' },
+            { name: 'coverImage', type: 'upload', relationTo: 'media' },
+            {
+              name: 'content',
+              type: 'richText',
+              editor: wideMarkupLexical,
+              required: true,
+            },
+          ],
+        },
+        {
+          label: 'Meta',
+          fields: metaFields,
+        },
+      ],
+    },
+    slugField('title'),
+  ],
 }
