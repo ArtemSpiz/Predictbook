@@ -1,7 +1,7 @@
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { buildConfig } from 'payload'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { wideMarkupLexical } from './fields/wideMarkupLexical'
 
 import starterConfig from '../starter.config'
 import { resolveDbAdapter } from './starter/adapters/db'
@@ -51,7 +51,7 @@ export default buildConfig({
         }
       : undefined,
   },
-  editor: lexicalEditor({}),
+  editor: wideMarkupLexical,
   collections,
   globals: [],
   plugins,
