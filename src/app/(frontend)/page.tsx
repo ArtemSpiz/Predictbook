@@ -1,8 +1,22 @@
-export default function HomePage() {
+import { getPageBySlug } from '@/utilities/getPageBySlug'
+import { RenderBlocks } from '@/blocks/RenderBlocks'
+
+export default async function HomePage() {
+  const page = await getPageBySlug('home')
+  if (!page) {
+    return (
+      <main style={{ padding: 40 }}>
+        <h1>Payload Starter</h1>
+        <p>
+          No "home" page yet. Run <code>pnpm seed</code> after Phase 11 or create one in{' '}
+          <a href="/admin/collections/pages">/admin/collections/pages</a>.
+        </p>
+      </main>
+    )
+  }
   return (
-    <main style={{ padding: 40 }}>
-      <h1>Payload Starter</h1>
-      <p>Phase 0 boot OK. Visit <a href="/admin">/admin</a> after Phase 3.</p>
+    <main>
+      <RenderBlocks blocks={page.blocks ?? []} />
     </main>
   )
 }
