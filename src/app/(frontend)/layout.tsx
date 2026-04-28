@@ -1,15 +1,21 @@
 import type { Metadata } from 'next'
+import { Header } from '@/components/Header'
+import { Footer } from '@/components/Footer'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Payload Starter',
+  title: { default: 'Payload Starter', template: '%s | Payload Starter' },
   description: 'Payload + Next.js starter',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   )
 }
