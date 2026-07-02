@@ -1,4 +1,5 @@
-import type { PageBlock, Media } from '@/payload-types'
+import type { Media } from '@/payload-types'
+import type { PageBlock } from '@/blocks/types'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import Link from 'next/link'
 

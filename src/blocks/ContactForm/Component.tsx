@@ -1,5 +1,5 @@
 import { ContactFormClient } from './Component.client'
-import type { PageBlock } from '@/payload-types'
+import type { PageBlock } from '@/blocks/types'
 
 type Block = Extract<PageBlock, { blockType: 'contact-form-block' }>
 

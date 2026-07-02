@@ -2,6 +2,8 @@ import type { CollectionConfig, Field } from 'payload'
 import starterConfig from '../../../starter.config'
 import { wideMarkupLexical } from '@/fields/wideMarkupLexical'
 import { slugField } from '@/fields/slug'
+import { revalidateCollectionHooks } from '@/hooks/revalidateFrontCache'
+import { pingIndexNowOnPublish } from '@/utilities/indexNow'
 import { blogReadAccess, blogWriteAccess } from './access'
 
 const enableCategories = starterConfig.collections.categories
@@ -51,6 +53,13 @@ export const Blog: CollectionConfig = {
   versions: {
     drafts: { autosave: { interval: 2000 } },
     maxPerDoc: 25,
+  },
+  hooks: {
+    afterChange: [
+      ...revalidateCollectionHooks.afterChange,
+      pingIndexNowOnPublish((slug) => `/blog/${slug}`),
+    ],
+    afterDelete: revalidateCollectionHooks.afterDelete,
   },
   fields: [
     {

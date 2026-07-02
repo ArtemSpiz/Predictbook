@@ -1,6 +1,9 @@
 import type { CollectionConfig } from 'payload'
 import { isAdmin } from '@/access/isAdmin'
 
+const isAdminUser = ({ req }: { req: { user?: unknown } }): boolean =>
+  (req.user as { role?: string })?.role === 'admin'
+
 export const Users: CollectionConfig = {
   slug: 'users',
   auth: true,
@@ -13,7 +16,7 @@ export const Users: CollectionConfig = {
     read: isAdmin,
     update: isAdmin,
     delete: isAdmin,
-    admin: isAdmin,
+    admin: isAdminUser,
   },
   fields: [
     { name: 'name', type: 'text' },

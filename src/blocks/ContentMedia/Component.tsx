@@ -1,5 +1,7 @@
-import type { PageBlock, Media } from '@/payload-types'
+import type { Media } from '@/payload-types'
+import type { PageBlock } from '@/blocks/types'
 import { RichText } from '@payloadcms/richtext-lexical/react'
+import { PayloadImage } from '@/components/PayloadImage'
 
 type Block = Extract<PageBlock, { blockType: 'content-media' }>
 
@@ -28,9 +30,11 @@ export function ContentMediaBlock({ block }: { block: Block }) {
               }`}
             >
               <div>
-                {img?.url && (
-                  <img src={img.url} alt={img.alt ?? ''} className="w-full rounded" />
-                )}
+                <PayloadImage
+                  media={img}
+                  className="w-full h-auto rounded"
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                />
               </div>
               <div>
                 {section.heading && (

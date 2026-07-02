@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import type { EmailAdapter } from 'payload'
 
 vi.mock('@payloadcms/email-resend', () => ({
   resendAdapter: vi.fn((opts) => ({ __kind: 'resend', opts })),
@@ -19,7 +20,9 @@ describe('resolveEmailAdapter', () => {
   })
 
   it('returns console adapter for console provider', async () => {
-    const adapter = resolveEmailAdapter({ ...baseCfg, provider: 'console' })
+    // Console provider returns an EmailAdapter factory synchronously; initialize it.
+    const factory = resolveEmailAdapter({ ...baseCfg, provider: 'console' }) as EmailAdapter
+    const adapter = factory({ payload: {} as never })
     const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
     await adapter.sendEmail({ to: 'x@y.z', subject: 'hi', html: '<p>body</p>' })
     expect(consoleSpy).toHaveBeenCalled()
@@ -29,7 +32,7 @@ describe('resolveEmailAdapter', () => {
   it('returns resend adapter for resend provider', () => {
     process.env.RESEND_API_KEY = 'k'
     const a = resolveEmailAdapter({ ...baseCfg, provider: 'resend' })
-    expect((a as { __kind: string }).__kind).toBe('resend')
+    expect((a as unknown as { __kind: string }).__kind).toBe('resend')
   })
 
   it('returns nodemailer adapter for smtp provider', () => {
@@ -38,13 +41,13 @@ describe('resolveEmailAdapter', () => {
     process.env.SMTP_PASSWORD = 'p'
     process.env.SMTP_PORT = '587'
     const a = resolveEmailAdapter({ ...baseCfg, provider: 'smtp' })
-    expect((a as { __kind: string }).__kind).toBe('nodemailer')
+    expect((a as unknown as { __kind: string }).__kind).toBe('nodemailer')
   })
 
   it('returns nodemailer adapter for sendgrid provider', () => {
     process.env.SENDGRID_API_KEY = 'k'
     const a = resolveEmailAdapter({ ...baseCfg, provider: 'sendgrid' })
-    expect((a as { __kind: string }).__kind).toBe('nodemailer')
+    expect((a as unknown as { __kind: string }).__kind).toBe('nodemailer')
   })
 
   it('throws when resend api key missing', () => {

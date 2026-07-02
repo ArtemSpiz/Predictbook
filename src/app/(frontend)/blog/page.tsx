@@ -1,5 +1,7 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { findBlogPosts } from '@/utilities/getBlogPosts'
+import { localeAlternates } from '@/utilities/metadataAlternates'
 
 export default async function BlogList() {
   const { docs } = await findBlogPosts({ limit: 20 })
@@ -20,4 +22,8 @@ export default async function BlogList() {
   )
 }
 
-export const metadata = { title: 'Blog' }
+export const metadata: Metadata = {
+  title: 'Blog',
+  ...localeAlternates('/blog'),
+  openGraph: { type: 'website', title: 'Blog', url: '/blog' },
+}

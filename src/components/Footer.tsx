@@ -11,15 +11,12 @@ export async function Footer() {
     <footer className="border-t mt-16 py-12">
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-4 gap-8">
         {(data.columns ?? []).map(
-          (
-            col: { title?: string; items?: { link?: any; id?: string }[]; id?: string },
-            i: number,
-          ) => (
+          (col: any, i: number) => (
             <div key={col.id ?? i}>
               {col.title && <h4 className="font-semibold mb-3">{col.title}</h4>}
               <ul className="space-y-2 text-sm">
                 {(col.items ?? []).map(
-                  (it: { link?: any; id?: string }, j: number) => {
+                  (it: any, j: number) => {
                     const link = it.link
                     const href =
                       link?.type === 'reference' && typeof link.reference?.value === 'object'

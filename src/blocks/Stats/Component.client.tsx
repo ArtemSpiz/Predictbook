@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import type { PageBlock } from '@/payload-types'
+import type { PageBlock } from '@/blocks/types'
 
 type Block = Extract<PageBlock, { blockType: 'stats' }>
 

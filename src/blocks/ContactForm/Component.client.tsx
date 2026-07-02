@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
-import type { PageBlock, Form } from '@/payload-types'
+import type { Form } from '@/payload-types'
+import type { PageBlock } from '@/blocks/types'
 
 type Block = Extract<PageBlock, { blockType: 'contact-form-block' }>
 

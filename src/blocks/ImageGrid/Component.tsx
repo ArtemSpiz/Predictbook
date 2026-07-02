@@ -1,4 +1,6 @@
-import type { PageBlock, Media } from '@/payload-types'
+import type { Media } from '@/payload-types'
+import type { PageBlock } from '@/blocks/types'
+import { PayloadImage } from '@/components/PayloadImage'
 
 type Block = Extract<PageBlock, { blockType: 'image-grid' }>
 
@@ -29,10 +31,11 @@ export function ImageGridBlock({ block }: { block: Block }) {
             if (!img?.url) return null
             return (
               <figure key={i}>
-                <img
-                  src={img.url}
-                  alt={img.alt ?? item.caption ?? ''}
+                <PayloadImage
+                  media={img}
+                  alt={item.caption ?? ''}
                   className="w-full h-auto rounded"
+                  sizes="(min-width: 768px) 33vw, 50vw"
                 />
                 {item.caption && (
                   <figcaption className="text-sm text-gray-500 mt-1 text-center">

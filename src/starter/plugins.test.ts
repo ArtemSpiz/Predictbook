@@ -26,13 +26,13 @@ const allOn = {
 describe('buildPlugins', () => {
   it('includes all plugins when all toggles are on', () => {
     const plugins = buildPlugins(allOn)
-    const kinds = plugins.map((p) => (p as { __k: string }).__k)
+    const kinds = plugins.map((p) => (p as unknown as { __k: string }).__k)
     expect(kinds).toEqual(expect.arrayContaining(['seo', 'redirects', 'search', 'form', 'nested', 'ie']))
   })
 
   it('omits a plugin when its toggle is off', () => {
     const plugins = buildPlugins({ ...allOn, seo: false, search: false })
-    const kinds = plugins.map((p) => (p as { __k: string }).__k)
+    const kinds = plugins.map((p) => (p as unknown as { __k: string }).__k)
     expect(kinds).not.toContain('seo')
     expect(kinds).not.toContain('search')
     expect(kinds).toContain('redirects')

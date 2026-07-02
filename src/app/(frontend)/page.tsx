@@ -1,5 +1,9 @@
+import type { Metadata } from 'next'
 import { getPageBySlug } from '@/utilities/getPageBySlug'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
+import { localeAlternates } from '@/utilities/metadataAlternates'
+
+export const metadata: Metadata = { ...localeAlternates('') }
 
 export default async function HomePage() {
   const page = await getPageBySlug('home')
