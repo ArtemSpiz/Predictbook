@@ -1,4 +1,5 @@
-import type { PageBlock, Media } from '@/payload-types'
+import type { Media } from '@/payload-types'
+import type { PageBlock } from '@/blocks/types'
 
 type Block = Extract<PageBlock, { blockType: 'feature-grid' }>
 

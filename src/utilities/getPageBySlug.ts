@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
@@ -14,8 +15,25 @@ async function fetchPageBySlug(slug: string): Promise<Page | null> {
   return (result.docs[0] as unknown as Page) ?? null
 }
 
-export const getPageBySlug = (slug: string) =>
-  unstable_cache(() => fetchPageBySlug(slug), ['page', slug], {
-    tags: [`page:${slug}`],
-    revalidate: 60,
-  })()
+/**
+ * Cached page fetch. `unstable_cache` persists across requests (invalidated by
+ * the shared `payload` tag on any content change); React `cache` dedupes calls
+ * within a single request/render.
+ */
+export const getPageBySlug = cache((slug: string) =>
+  unstable_cache(() => fetchPageBySlug(slug), ['page', slug], { tags: ['payload'] })(),
+)
+
+/** Uncached draft fetch (includes unpublished) for live preview / draft mode. */
+export async function getPageBySlugDraft(slug: string): Promise<Page | null> {
+  const payload = await getPayload({ config })
+  const result = await payload.find({
+    collection: 'pages',
+    where: { slug: { equals: slug } },
+    depth: 2,
+    limit: 1,
+    draft: true,
+    overrideAccess: true,
+  })
+  return (result.docs[0] as unknown as Page) ?? null
+}

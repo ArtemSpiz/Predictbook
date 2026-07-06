@@ -1,4 +1,4 @@
-import type { PageBlock } from '@/payload-types'
+import type { PageBlock } from '@/blocks/types'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import Link from 'next/link'
 

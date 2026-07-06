@@ -1,6 +1,8 @@
 import type { CollectionConfig } from 'payload'
 import { wideMarkupLexical } from '@/fields/wideMarkupLexical'
 import { slugField } from '@/fields/slug'
+import { revalidateCollectionHooks } from '@/hooks/revalidateFrontCache'
+import { pingIndexNowOnPublish } from '@/utilities/indexNow'
 import { caseStudiesReadAccess, caseStudiesWriteAccess } from './access'
 
 export const CaseStudies: CollectionConfig = {
@@ -18,6 +20,13 @@ export const CaseStudies: CollectionConfig = {
   versions: {
     drafts: { autosave: { interval: 2000 } },
     maxPerDoc: 25,
+  },
+  hooks: {
+    afterChange: [
+      ...revalidateCollectionHooks.afterChange,
+      pingIndexNowOnPublish((slug) => `/case-studies/${slug}`),
+    ],
+    afterDelete: revalidateCollectionHooks.afterDelete,
   },
   fields: [
     {

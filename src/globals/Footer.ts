@@ -1,10 +1,12 @@
 import type { GlobalConfig } from 'payload'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { linkField } from '@/fields/link'
+import { revalidateGlobalHooks } from '@/hooks/revalidateFrontCache'
 
 export const Footer: GlobalConfig = {
   slug: 'footer',
   access: { read: () => true, update: isAdminOrEditor },
+  hooks: revalidateGlobalHooks,
   fields: [
     {
       name: 'columns',

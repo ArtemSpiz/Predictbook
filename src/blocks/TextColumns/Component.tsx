@@ -1,4 +1,4 @@
-import type { PageBlock } from '@/payload-types'
+import type { PageBlock } from '@/blocks/types'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 
 type Block = Extract<PageBlock, { blockType: 'text-columns' }>

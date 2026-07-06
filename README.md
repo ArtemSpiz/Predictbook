@@ -27,6 +27,7 @@ pnpm dev
 ```
 
 Visit:
+
 - `http://localhost:3000` — public site
 - `http://localhost:3000/admin` — Payload admin (creates first user on first visit)
 
@@ -50,30 +51,30 @@ Single typed file at the repo root controls every project-level choice:
 import { defineStarterConfig } from './src/starter/define'
 
 export default defineStarterConfig({
-  database: { provider: 'postgres' },              // 'postgres' | 'sqlite'
-  storage:  { provider: 'local' },                 // 'local' | 's3' | 'gcs' | 'vercel-blob'
-  cdn:      { url: process.env.NEXT_PUBLIC_CDN_URL },
-  email:    { provider: 'console', from: 'noreply@example.com' },
+  database: { provider: 'postgres' }, // 'postgres' | 'sqlite'
+  storage: { provider: 'local' }, // 'local' | 's3' | 'gcs' | 'vercel-blob'
+  cdn: { url: process.env.NEXT_PUBLIC_CDN_URL },
+  email: { provider: 'console', from: 'noreply@example.com' },
 
   i18n: {
-    locales: ['en'],                               // length === 1 → single-locale mode
+    locales: ['en'], // length === 1 → single-locale mode
     defaultLocale: 'en',
-    skipFields: [],                                // overrides for codemod
+    skipFields: [], // overrides for codemod
     forceFields: [],
     skipCollections: [],
   },
 
   features: {
-    gsap: false,                                   // animation library
-    swiper: true,                                  // carousels (LogoCloud, Testimonials)
-    charts: true,                                  // Recharts (StatsChart block)
-    livePreview: true,                             // Payload draft live-preview
-    seo: true,                                     // @payloadcms/plugin-seo
-    redirects: true,                               // @payloadcms/plugin-redirects
-    search: true,                                  // @payloadcms/plugin-search
-    formBuilder: true,                             // @payloadcms/plugin-form-builder
-    nestedDocs: true,                              // @payloadcms/plugin-nested-docs
-    importExport: true,                            // @payloadcms/plugin-import-export
+    gsap: false, // animation library
+    swiper: true, // carousels (LogoCloud, Testimonials)
+    charts: true, // Recharts (StatsChart block)
+    livePreview: true, // Payload draft live-preview
+    seo: true, // @payloadcms/plugin-seo
+    redirects: true, // @payloadcms/plugin-redirects
+    search: true, // @payloadcms/plugin-search
+    formBuilder: true, // @payloadcms/plugin-form-builder
+    nestedDocs: true, // @payloadcms/plugin-nested-docs
+    importExport: true, // @payloadcms/plugin-import-export
     auditLog: false,
   },
 
@@ -148,7 +149,9 @@ The `Highlight` feature at `src/features/highlight/` is the reference. To add yo
 ### Database
 
 ```ts
-database: { provider: 'sqlite' }
+database: {
+  provider: 'sqlite'
+}
 ```
 
 ```env
@@ -163,7 +166,9 @@ pnpm migrate
 ### Storage
 
 ```ts
-storage: { provider: 's3' }    // or 'gcs' | 'vercel-blob' | 'local'
+storage: {
+  provider: 's3'
+} // or 'gcs' | 'vercel-blob' | 'local'
 ```
 
 ```env

@@ -1,5 +1,6 @@
 import { resendAdapter } from '@payloadcms/email-resend'
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
+import type { EmailAdapter } from 'payload'
 import type { EmailConfig } from '../types'
 
 function requireEnv(name: string): string {
@@ -8,23 +9,21 @@ function requireEnv(name: string): string {
   return value
 }
 
-export function resolveEmailAdapter(config: EmailConfig) {
+export function resolveEmailAdapter(
+  config: EmailConfig,
+): EmailAdapter | Promise<EmailAdapter> {
   if (config.provider === 'console') {
-    return {
+    // Payload email adapters are factory functions `({ payload }) => { ...sendEmail }`.
+    return () => ({
       name: 'console',
       defaultFromAddress: config.from,
       defaultFromName: config.from,
-      sendEmail: async (message: {
-        to: string | string[]
-        subject?: string
-        html?: string
-        text?: string
-      }) => {
+      sendEmail: async (message) => {
         // eslint-disable-next-line no-console
         console.log('[email:console]', JSON.stringify(message, null, 2))
         return { accepted: Array.isArray(message.to) ? message.to : [message.to] }
       },
-    }
+    })
   }
 
   if (config.provider === 'resend') {

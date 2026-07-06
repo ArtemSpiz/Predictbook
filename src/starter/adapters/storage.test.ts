@@ -32,19 +32,19 @@ describe('resolveStorageAdapter', () => {
     process.env.S3_ACCESS_KEY_ID = 'k'
     process.env.S3_SECRET_ACCESS_KEY = 's'
     const a = resolveStorageAdapter({ provider: 's3' })
-    expect((a as { __kind: string }).__kind).toBe('s3')
+    expect((a as unknown as { __kind: string }).__kind).toBe('s3')
   })
 
   it('returns gcs plugin for gcs provider', () => {
     process.env.GCS_BUCKET = 'b'
     const a = resolveStorageAdapter({ provider: 'gcs' })
-    expect((a as { __kind: string }).__kind).toBe('gcs')
+    expect((a as unknown as { __kind: string }).__kind).toBe('gcs')
   })
 
   it('returns vercel-blob plugin for vercel-blob provider', () => {
     process.env.BLOB_READ_WRITE_TOKEN = 't'
     const a = resolveStorageAdapter({ provider: 'vercel-blob' })
-    expect((a as { __kind: string }).__kind).toBe('vercel')
+    expect((a as unknown as { __kind: string }).__kind).toBe('vercel')
   })
 
   it('throws when s3 env vars missing', () => {

@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
+import { revalidateCollectionHooks } from '@/hooks/revalidateFrontCache'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -14,6 +15,7 @@ export const Media: CollectionConfig = {
     update: isAdminOrEditor,
     delete: isAdminOrEditor,
   },
+  hooks: revalidateCollectionHooks,
   upload: {
     staticDir: path.resolve(dirname, '../../public/media'),
     imageSizes: [

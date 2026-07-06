@@ -1,5 +1,6 @@
 import starterConfig from '../../../starter.config'
-import type { PageBlock, Media } from '@/payload-types'
+import type { Media } from '@/payload-types'
+import type { PageBlock } from '@/blocks/types'
 
 type Block = Extract<PageBlock, { blockType: 'logo-cloud' }>
 

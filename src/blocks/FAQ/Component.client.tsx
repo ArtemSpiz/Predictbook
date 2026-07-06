@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { RichText } from '@payloadcms/richtext-lexical/react'
-import type { PageBlock } from '@/payload-types'
+import type { PageBlock } from '@/blocks/types'
 
 type Block = Extract<PageBlock, { blockType: 'faq' }>
 

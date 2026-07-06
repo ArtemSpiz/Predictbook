@@ -1,6 +1,7 @@
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { buildConfig } from 'payload'
+import sharp from 'sharp'
 import { wideMarkupLexical } from './fields/wideMarkupLexical'
 
 import starterConfig from '../starter.config'
@@ -21,6 +22,7 @@ import { Tags } from './collections/Tags'
 import { Header } from './globals/Header'
 import { Footer } from './globals/Footer'
 import { Translations } from './globals/Translations'
+import { SiteSettings } from './globals/SiteSettings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -48,8 +50,12 @@ export default buildConfig({
             collectionConfig?: { slug?: string }
           }) => {
             const slug = data?.slug ?? ''
-            const base = collectionConfig?.slug === 'pages' ? '' : `/${collectionConfig?.slug ?? ''}`
-            return `${process.env.NEXT_PUBLIC_SERVER_URL}${base}/${slug}?preview=${process.env.PREVIEW_SECRET ?? ''}`
+            const coll = collectionConfig?.slug
+            const path = coll === 'pages' ? `/${slug}` : `/${coll ?? ''}/${slug}`
+            const server = process.env.NEXT_PUBLIC_SERVER_URL ?? ''
+            // Route through the preview endpoint so Next draft mode is enabled
+            // before landing on the page (renders unpublished content).
+            return `${server}/next/preview?secret=${process.env.PREVIEW_SECRET ?? ''}&path=${encodeURIComponent(path)}`
           },
         }
       : undefined,
@@ -58,10 +64,11 @@ export default buildConfig({
   collections,
   globals:
     starterConfig.i18n.locales.length > 1
-      ? [Header, Footer, Translations]
-      : [Header, Footer],
+      ? [Header, Footer, SiteSettings, Translations]
+      : [Header, Footer, SiteSettings],
   plugins,
   db: resolveDbAdapter(starterConfig.database),
+  sharp,
   email: resolveEmailAdapter(starterConfig.email),
   localization: resolveLocalization(starterConfig.i18n),
   secret: process.env.PAYLOAD_SECRET || 'unset',

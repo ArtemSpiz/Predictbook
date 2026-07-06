@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import starterConfig from '../../../starter.config'
 import { slugField } from '@/fields/slug'
+import { revalidateCollectionHooks } from '@/hooks/revalidateFrontCache'
 import { Hero } from '@/blocks/Hero/config'
 import { CallToAction } from '@/blocks/CallToAction/config'
 import { RichTextBlock } from '@/blocks/RichTextBlock/config'
@@ -50,6 +51,7 @@ export const Pages: CollectionConfig = {
     drafts: { autosave: { interval: 2000 } },
     maxPerDoc: 25,
   },
+  hooks: revalidateCollectionHooks,
   fields: [
     {
       type: 'tabs',

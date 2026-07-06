@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import starterConfig from '../../starter.config'
-import type { PageBlock } from '@/payload-types'
+import type { PageBlock } from '@/blocks/types'
 import { HeroBlock } from './Hero/Component'
 import { CallToActionBlock } from './CallToAction/Component'
 import { RichTextBlockComponent } from './RichTextBlock/Component'

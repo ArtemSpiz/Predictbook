@@ -4,7 +4,8 @@ import { Navigation, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
-import type { PageBlock, Media } from '@/payload-types'
+import type { Media } from '@/payload-types'
+import type { PageBlock } from '@/blocks/types'
 
 type Block = Extract<PageBlock, { blockType: 'testimonials' }>
 

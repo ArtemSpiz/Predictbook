@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<title>LinkedIn Marketplace & Rental — пропозиція</title>
+<style>
+  @page {
+    size: A4;
+    margin: 18mm 16mm;
+  }
+
+  :root {
+    --accent: #0a66c2;
+    --accent-soft: #e8f1fa;
+    --ink: #1d2433;
+    --muted: #5b6478;
+    --line: #e2e6ee;
+    --good: #137a3d;
+    --warn: #b8540a;
+    --bad: #b42318;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    color: var(--ink);
+    font-family: -apple-system, "Inter", "Helvetica Neue", Arial, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .cover {
+    background: linear-gradient(135deg, var(--accent) 0%, #084a8f 100%);
+    color: #fff;
+    padding: 28mm 14mm 16mm;
+    margin: -18mm -16mm 8mm;
+  }
+  .cover .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 9pt;
+    opacity: 0.85;
+  }
+  .cover h1 {
+    font-size: 24pt;
+    line-height: 1.2;
+    margin: 6px 0 14px;
+    font-weight: 700;
+  }
+  .cover p.lead {
+    font-size: 11.5pt;
+    line-height: 1.6;
+    max-width: 540px;
+    opacity: 0.95;
+    margin: 0;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 28px;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.25);
+  }
+  .cover-meta .item {
+    display: flex;
+    flex-direction: column;
+  }
+  .cover-meta .label {
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.75;
+  }
+  .cover-meta .value {
+    font-size: 14pt;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  h2 {
+    font-size: 14pt;
+    color: var(--accent);
+    margin: 22px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--accent-soft);
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 11.5pt;
+    margin: 16px 0 6px;
+    color: var(--ink);
+    page-break-after: avoid;
+  }
+  p { margin: 6px 0; }
+  strong { color: var(--ink); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0 14px;
+    font-size: 9.7pt;
+    page-break-inside: auto;
+  }
+  thead { display: table-header-group; }
+  tr { page-break-inside: avoid; }
+  th, td {
+    padding: 7px 9px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--line);
+  }
+  th {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 9.2pt;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  td.num, th.num { text-align: right; white-space: nowrap; }
+  tr:nth-child(even) td { background: #fafbfd; }
+
+  .weeks-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin: 8px 0 6px;
+  }
+  .week-card {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 14px;
+    background: #fff;
+    page-break-inside: avoid;
+  }
+  .week-card .head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .week-card .num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 11pt;
+  }
+  .week-card .title {
+    font-weight: 600;
+    font-size: 11pt;
+    color: var(--ink);
+  }
+
+  .checks {
+    list-style: none;
+    padding: 0;
+    margin: 6px 0 12px;
+    columns: 2;
+    column-gap: 18px;
+  }
+  .checks li {
+    padding: 4px 0 4px 22px;
+    position: relative;
+    font-size: 10pt;
+    break-inside: avoid;
+  }
+  .checks li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    color: var(--good);
+    font-weight: 700;
+  }
+
+  .pill {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 999px;
+    font-size: 8.5pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .pill.good { background: #e6f4ec; color: var(--good); }
+  .pill.warn { background: #fff3e6; color: var(--warn); }
+
+  .small { font-size: 9.2pt; color: var(--muted); }
+
+  footer.doc-footer {
+    margin-top: 22px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+    font-size: 9pt;
+    color: var(--muted);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+  <!-- COVER -->
+  <header class="cover">
+    <div class="eyebrow">Пропозиція до реалізації</div>
+    <h1>LinkedIn Marketplace<br/>&amp; Rental — MVP</h1>
+    <p class="lead">
+      Онлайн-сервіс для продажу SMM-послуг та оренди готових LinkedIn-акаунтів.
+      Готовий до запуску за 4 тижні.
+    </p>
+    <div class="cover-meta">
+      <div class="item">
+        <span class="label">Термін</span>
+        <span class="value">~4 тижні</span>
+      </div>
+      <div class="item">
+        <span class="label">Робочих днів</span>
+        <span class="value">~19</span>
+      </div>
+      <div class="item">
+        <span class="label">Локалізація</span>
+        <span class="value">EN + UA</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- WHAT WE BUILD -->
+  <h2>Що ми робимо</h2>
+  <p>
+    Веб-сайт + адмін-панель, де клієнт може:
+  </p>
+  <ul>
+    <li><strong>Купити SMM-послугу</strong> — наприклад, пакет connections (25 / 50 / 75 / 100) для своєї LinkedIn-сторінки</li>
+    <li><strong>Орендувати готовий LinkedIn-акаунт</strong> на 1 місяць — з логіном, паролем, проксі і 2FA</li>
+    <li><strong>Бачити свої замовлення</strong> в особистому кабінеті, отримувати 2FA-коди, продовжувати оренду</li>
+  </ul>
+  <p>
+    Адмін керує всім з однієї панелі: акаунти, замовлення, статуси, сповіщення в Telegram з кнопками "Прийняти / Відхилити".
+  </p>
+
+  <!-- TIMELINE -->
+  <h2>Що отримає клієнт по тижнях</h2>
+
+  <div class="weeks-grid">
+
+    <div class="week-card">
+      <div class="head">
+        <span class="num">1</span>
+        <span class="title">Сайт + основа</span>
+      </div>
+      <table>
+        <tr>
+          <td style="width: 30%;"><strong>Лендінг (EN + UA)</strong></td>
+          <td>Головна з двома кнопками "Buy SMM" / "Rent Accounts", блок "Як це працює", FAQ, контакти. Адмінка для редагування.</td>
+        </tr>
+        <tr>
+          <td><strong>Реєстрація і логін</strong></td>
+          <td>Email + підтвердження + скидання пароля.</td>
+        </tr>
+        <tr>
+          <td><strong>Шифрування даних</strong></td>
+          <td>Паролі, проксі, 2FA-секрети зашифровані в базі (AES-256).</td>
+        </tr>
+        <tr>
+          <td><strong>Інфраструктура</strong></td>
+          <td>Налаштовано базу даних, домен, деплой, окремий сервер для авто-задач.</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="week-card">
+      <div class="head">
+        <span class="num">2</span>
+        <span class="title">Маркетплейс</span>
+      </div>
+      <table>
+        <tr>
+          <td style="width: 30%;"><strong>Каталог SMM-послуг</strong></td>
+          <td>Старт — Connections. Пакети 25 / 50 / 75 / 100. Якщо немає вільних акаунтів — великий пакет неактивний.</td>
+        </tr>
+        <tr>
+          <td><strong>Каталог акаунтів для оренди</strong></td>
+          <td>Картки з гео, кількістю connections, ціною. Фільтри. Поштучний вибір або готові пакети.</td>
+        </tr>
+        <tr>
+          <td><strong>Форма замовлення</strong></td>
+          <td>Заявка → email + Telegram адміну з кнопками "Прийняти / Відхилити".</td>
+        </tr>
+        <tr>
+          <td><strong>База акаунтів в адмінці</strong></td>
+          <td>CRUD + CSV-імпорт. Поля: login, password, proxy, 2FA, гео, статус, пул (SMM / Rental).</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="week-card">
+      <div class="head">
+        <span class="num">3</span>
+        <span class="title">Кабінет + сповіщення</span>
+      </div>
+      <table>
+        <tr>
+          <td style="width: 30%;"><strong>Особистий кабінет</strong></td>
+          <td>"Мої замовлення" + "Мої акаунти" з кнопками: показати дані, показати 2FA-код, продовжити, поскаржитися.</td>
+        </tr>
+        <tr>
+          <td><strong>Адмін-дашборд</strong></td>
+          <td>Кількість акаунтів по пулах і статусах. Bulk-дії, ручна заміна, перегляд "хто і до коли орендує".</td>
+        </tr>
+        <tr>
+          <td><strong>Email-сповіщення</strong></td>
+          <td>8 типів: підтвердження, видача, нагадування 3д / 1д, експірація, авто-заміна.</td>
+        </tr>
+        <tr>
+          <td><strong>Telegram-бот</strong></td>
+          <td>Алерти адміну з inline-кнопками "Прийняти / Відхилити".</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="week-card">
+      <div class="head">
+        <span class="num">4</span>
+        <span class="title">Автоматика + запуск</span>
+      </div>
+      <table>
+        <tr>
+          <td style="width: 30%;"><strong>Авто-зміна пароля</strong></td>
+          <td>При експірації — сервіс заходить на LinkedIn, змінює пароль, оновлює 2FA. Старі дані юзера невалідні.</td>
+        </tr>
+        <tr>
+          <td><strong>ADSPower / LinkedinHelper sync</strong></td>
+          <td>Раз на годину пулить стан акаунтів, переключає статус "warming → ready" автоматично.</td>
+        </tr>
+        <tr>
+          <td><strong>Авто-заміна забанених</strong></td>
+          <td>Якщо акаунт забанили під час оренди — автоматично видається інший з пулу і гео.</td>
+        </tr>
+        <tr>
+          <td><strong>Тестування + Deploy</strong></td>
+          <td>Перевірка сценаріїв, мобільна версія, фікс багів, production-deploy + інструкція для адміна.</td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- RISK FACTORS -->
+  <h2>Що може зсунути термін</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 70%;">Фактор</th>
+        <th class="num">Вплив</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>LinkedIn змінив UI — Playwright-скрипти треба переписувати</td>
+        <td class="num"><span class="pill warn">+0.5-1 тиждень</span></td>
+      </tr>
+      <tr>
+        <td>Клієнт хоче кастомний дизайн з кількома раундами правок</td>
+        <td class="num"><span class="pill warn">+1 тиждень</span></td>
+      </tr>
+      <tr>
+        <td>Нестабільні проксі / зміна провайдера</td>
+        <td class="num"><span class="pill warn">+0.5 тижні</span></td>
+      </tr>
+      <tr>
+        <td>ADSPower вже працює і налаштований у клієнта</td>
+        <td class="num"><span class="pill good">−0.5 тижні</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- GUARANTEED -->
+  <h2>Що буде гарантовано на запуск</h2>
+  <ul class="checks">
+    <li>Працюючий лендінг (EN + UA)</li>
+    <li>Реєстрація юзерів + кабінет</li>
+    <li>Каталог SMM-послуг з capacity-перевіркою</li>
+    <li>Каталог акаунтів з фільтрами</li>
+    <li>Email + Telegram сповіщення</li>
+    <li>Inline-кнопки "Прийняти / Відхилити" в Telegram</li>
+    <li>Reveal credentials у кабінеті</li>
+    <li>Кнопка "Show 2FA code" (генерація на льоту)</li>
+    <li>Auto-нагадування 3д / 1д</li>
+    <li>Auto-зміна пароля при експірації</li>
+    <li>Auto-заміна забаненого акаунта</li>
+    <li>ADSPower sync статусів</li>
+    <li>Production deploy + інструкція для адміна</li>
+  </ul>
+
+  <!-- ROADMAP -->
+  <h2>Дорожня карта після MVP</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 24%;">Фаза</th>
+        <th>Що додаємо</th>
+        <th class="num">Орієнтовно</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>MVP</strong> (зараз)</td>
+        <td>Все вище</td>
+        <td class="num"><span class="pill good">~4 тижні</span></td>
+      </tr>
+      <tr>
+        <td><strong>Автоматика SMM-дій</strong></td>
+        <td>Бот виконує connections / likes / comments з anti-bot логікою (5 entry paths, warm-up, failure injection)</td>
+        <td class="num">+6-10 тижнів</td>
+      </tr>
+      <tr>
+        <td><strong>Платежі</strong></td>
+        <td>Stripe / NOWPayments, авто-фактури, повернення коштів</td>
+        <td class="num">+2-3 тижні</td>
+      </tr>
+      <tr>
+        <td><strong>Мобільний PWA</strong></td>
+        <td>Зручний доступ клієнтів з телефону</td>
+        <td class="num">+3-4 тижні</td>
+      </tr>
+      <tr>
+        <td><strong>Multi-tenant</strong></td>
+        <td>Reseller-модель: інші команди продають з нашого пулу</td>
+        <td class="num">+4-6 тижнів</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <footer class="doc-footer">
+    Орієнтовний документ для обговорення. Фінальні строки фіксуються в SOW після узгодження.
+  </footer>
+
+</body>
+</html>

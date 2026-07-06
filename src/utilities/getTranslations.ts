@@ -10,7 +10,13 @@ async function fetchTranslations(locale: string): Promise<Translations> {
   if (!isMultiLocale) return enFallback as Translations
   try {
     const payload = await getPayload({ config })
-    const data = await payload.findGlobal({ slug: 'translations', locale })
+    // The `translations` global is only registered when multiple locales are
+    // configured, so it is absent from the generated single-locale global union.
+    // This branch is unreachable unless `isMultiLocale`, hence the casts.
+    const data = await payload.findGlobal({
+      slug: 'translations' as 'header',
+      locale: locale as 'all',
+    })
     return { ...enFallback, ...(data as Partial<Translations>) }
   } catch {
     return enFallback as Translations
@@ -19,6 +25,5 @@ async function fetchTranslations(locale: string): Promise<Translations> {
 
 export const getTranslations = (locale: string) =>
   unstable_cache(() => fetchTranslations(locale), ['translations', locale], {
-    tags: [`translations:${locale}`],
-    revalidate: 300,
+    tags: ['payload'],
   })()
