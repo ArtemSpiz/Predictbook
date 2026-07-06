@@ -52,6 +52,7 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.7",
     "graphql": "^16.8.2",
+    "lexical": "^0.46.0",
     "lucide-react": "^0.378.0",
     "next": "15.4.4",
     "next-sitemap": "^4.2.3",
