@@ -13,7 +13,7 @@ import type {
 export async function revalidateFrontCache(): Promise<void> {
   try {
     const { revalidateTag } = await import('next/cache')
-    revalidateTag('payload', 'max')
+    revalidateTag('payload')
   } catch {
     /* not running inside Next.js */
   }
