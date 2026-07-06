@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { findCaseStudies } from '@/utilities/getCaseStudies'
 import { localeAlternates } from '@/utilities/metadataAlternates'
-import { PayloadImage } from '@/components/PayloadImage'
+import { PayloadImage } from '@/app/components/PayloadImage'
 
 export default async function CaseStudiesList() {
   const { docs } = await findCaseStudies()

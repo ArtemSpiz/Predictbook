@@ -1,6 +1,6 @@
 import type { Media } from '@/payload-types'
 import type { PageBlock } from '@/blocks/types'
-import { PayloadImage } from '@/components/PayloadImage'
+import { PayloadImage } from '@/app/components/PayloadImage'
 
 type Block = Extract<PageBlock, { blockType: 'image-grid' }>
 
@@ -22,9 +22,7 @@ export function ImageGridBlock({ block }: { block: Block }) {
   return (
     <section className="px-6 py-12">
       <div className="max-w-6xl mx-auto">
-        {block.heading && (
-          <h2 className="text-3xl font-bold text-center mb-10">{block.heading}</h2>
-        )}
+        {block.heading && <h2 className="text-3xl font-bold text-center mb-10">{block.heading}</h2>}
         <div className={`grid gap-4 grid-cols-2 ${colClass}`}>
           {images.map((item, i) => {
             const img = typeof item.image === 'object' ? item.image : null

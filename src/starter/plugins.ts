@@ -57,7 +57,12 @@ export function buildPlugins(features: FeaturesConfig) {
   if (features.importExport) {
     plugins.push(
       importExportPlugin({
-        collections: [{ slug: 'pages' }, { slug: 'blog' }, { slug: 'case-studies' }, { slug: 'media' }],
+        collections: [
+          { slug: 'pages' },
+          { slug: 'blog' },
+          { slug: 'case-studies' },
+          { slug: 'media' },
+        ],
       }),
     )
   }

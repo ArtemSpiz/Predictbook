@@ -5,7 +5,7 @@ import { getBlogPostBySlug, getBlogPostBySlugDraft } from '@/utilities/getBlogPo
 import { generateMeta } from '@/utilities/generateMeta'
 import { getSiteUrl } from '@/utilities/getSiteUrl'
 import { generatePageStructuredData, jsonLdScriptContent } from '@/utilities/structuredData'
-import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { LivePreviewListener } from '@/app/components/LivePreviewListener'
 
 type Props = { params: Promise<{ slug: string }> }
 

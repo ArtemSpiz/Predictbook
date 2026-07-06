@@ -1,7 +1,7 @@
 import type { Media } from '@/payload-types'
 import type { PageBlock } from '@/blocks/types'
 import { RichText } from '@payloadcms/richtext-lexical/react'
-import { PayloadImage } from '@/components/PayloadImage'
+import { PayloadImage } from '@/app/components/PayloadImage'
 
 type Block = Extract<PageBlock, { blockType: 'content-media' }>
 
