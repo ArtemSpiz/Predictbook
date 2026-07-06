@@ -21,6 +21,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false }, { status: 401 })
   }
 
-  revalidateTag('payload', 'max')
+  revalidateTag('payload')
   return NextResponse.json({ ok: true, revalidated: 'payload' })
 }
