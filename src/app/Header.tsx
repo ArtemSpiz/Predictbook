@@ -46,9 +46,9 @@ export async function Header() {
   return (
     <>
       <InfiniteScroll />
-      <header className="container-custom">
-        <div className="border-[#E1DDD5]    md:border-r-1 md:border-l-1">
-          <div className=" mx-auto md:px-6 py-3 flex items-center justify-between border-b border-[#E1DDD5]">
+      <header className="md:container-custom">
+        <div className="border-[#E1DDD5]  md:border-r md:border-l">
+          <div className=" mx-auto md:px-6 py-3 flex items-center justify-between border-b border-[#E1DDD5] max-md:px-5">
             <div className="flex gap-2 items-center">
               <div className="w-6 h-6 lg:hidden">
                 <Image src={Burger} alt="" />
@@ -77,7 +77,7 @@ export async function Header() {
               </button>
             </div>
           </div>
-          <div className="mx-auto md:px-6 max-xl:px-2 flex items-center justify-between  border-b border-[#E1DDD5]">
+          <div className="mx-auto md:pr-6 max-xl:pr-2 flex items-center justify-between  border-b border-[#E1DDD5] max-md:px-5">
             <div className="flex max-lg:hidden">
               {MenuItems.map((item, i) => (
                 <div key={item.label} className="relative group  border-r border-[#E1DDD5]">

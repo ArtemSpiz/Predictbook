@@ -1,7 +1,7 @@
 import { defineStarterConfig } from './src/starter/define'
 
 export default defineStarterConfig({
-  database: { provider: 'postgres' },
+  database: { provider: 'mongodb' },
   storage: { provider: 'local' },
   cdn: { url: process.env.NEXT_PUBLIC_CDN_URL },
   email: { provider: 'console', from: 'noreply@example.com' },

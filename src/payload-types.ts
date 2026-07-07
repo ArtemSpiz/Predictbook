@@ -108,7 +108,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: number;
+    defaultIDType: string;
   };
   fallbackLocale: null;
   globals: {
@@ -161,7 +161,7 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: number;
+  id: string;
   name?: string | null;
   role: 'admin' | 'editor';
   updatedAt: string;
@@ -188,7 +188,7 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: number;
+  id: string;
   alt?: string | null;
   caption?: string | null;
   updatedAt: string;
@@ -234,7 +234,7 @@ export interface Media {
  * via the `definition` "pages".
  */
 export interface Page {
-  id: number;
+  id: string;
   title: string;
   blocks?:
     | (
@@ -262,15 +262,15 @@ export interface Page {
                     reference?:
                       | ({
                           relationTo: 'pages';
-                          value: number | Page;
+                          value: string | Page;
                         } | null)
                       | ({
                           relationTo: 'blog';
-                          value: number | Blog;
+                          value: string | Blog;
                         } | null)
                       | ({
                           relationTo: 'case-studies';
-                          value: number | CaseStudy;
+                          value: string | CaseStudy;
                         } | null);
                     url?: string | null;
                     label: string;
@@ -281,8 +281,8 @@ export interface Page {
               | null;
             background?: {
               type?: ('none' | 'image' | 'video') | null;
-              image?: (number | null) | Media;
-              video?: (number | null) | Media;
+              image?: (string | null) | Media;
+              video?: (string | null) | Media;
             };
             id?: string | null;
             blockName?: string | null;
@@ -312,15 +312,15 @@ export interface Page {
                     reference?:
                       | ({
                           relationTo: 'pages';
-                          value: number | Page;
+                          value: string | Page;
                         } | null)
                       | ({
                           relationTo: 'blog';
-                          value: number | Blog;
+                          value: string | Blog;
                         } | null)
                       | ({
                           relationTo: 'case-studies';
-                          value: number | CaseStudy;
+                          value: string | CaseStudy;
                         } | null);
                     url?: string | null;
                     label: string;
@@ -373,8 +373,8 @@ export interface Page {
             };
             media?: {
               type?: ('image' | 'video') | null;
-              image?: (number | null) | Media;
-              video?: (number | null) | Media;
+              image?: (string | null) | Media;
+              video?: (string | null) | Media;
             };
             mediaPosition?: ('left' | 'right') | null;
             id?: string | null;
@@ -401,7 +401,7 @@ export interface Page {
                     };
                     [k: string]: unknown;
                   } | null;
-                  image?: (number | null) | Media;
+                  image?: (string | null) | Media;
                   id?: string | null;
                 }[]
               | null;
@@ -443,7 +443,7 @@ export interface Page {
             columns?: ('2' | '3' | '4') | null;
             items?:
               | {
-                  icon?: (number | null) | Media;
+                  icon?: (string | null) | Media;
                   title: string;
                   description?: string | null;
                   id?: string | null;
@@ -458,7 +458,7 @@ export interface Page {
             columns?: ('2' | '3' | '4' | '6') | null;
             images?:
               | {
-                  image: number | Media;
+                  image: string | Media;
                   caption?: string | null;
                   id?: string | null;
                 }[]
@@ -471,7 +471,7 @@ export interface Page {
             heading?: string | null;
             logos?:
               | {
-                  image: number | Media;
+                  image: string | Media;
                   name?: string | null;
                   id?: string | null;
                 }[]
@@ -532,7 +532,7 @@ export interface Page {
                   quote: string;
                   author: string;
                   role?: string | null;
-                  avatar?: (number | null) | Media;
+                  avatar?: (string | null) | Media;
                   id?: string | null;
                 }[]
               | null;
@@ -581,7 +581,7 @@ export interface Page {
         | {
             heading?: string | null;
             description?: string | null;
-            form: number | Form;
+            form: string | Form;
             id?: string | null;
             blockName?: string | null;
             blockType: 'contact-form-block';
@@ -598,12 +598,12 @@ export interface Page {
     /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
-    image?: (number | null) | Media;
+    image?: (string | null) | Media;
   };
-  parent?: (number | null) | Page;
+  parent?: (string | null) | Page;
   breadcrumbs?:
     | {
-        doc?: (number | null) | Page;
+        doc?: (string | null) | Page;
         url?: string | null;
         label?: string | null;
         id?: string | null;
@@ -618,10 +618,10 @@ export interface Page {
  * via the `definition` "blog".
  */
 export interface Blog {
-  id: number;
+  id: string;
   title: string;
   excerpt?: string | null;
-  coverImage?: (number | null) | Media;
+  coverImage?: (string | null) | Media;
   content: {
     root: {
       type: string;
@@ -637,9 +637,9 @@ export interface Blog {
     };
     [k: string]: unknown;
   };
-  author?: (number | null) | User;
-  categories?: (number | Category)[] | null;
-  tags?: (number | Tag)[] | null;
+  author?: (string | null) | User;
+  categories?: (string | Category)[] | null;
+  tags?: (string | Tag)[] | null;
   publishedAt?: string | null;
   /**
    * URL-friendly identifier (auto-generated from title if blank)
@@ -651,7 +651,7 @@ export interface Blog {
     /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
-    image?: (number | null) | Media;
+    image?: (string | null) | Media;
   };
   updatedAt: string;
   createdAt: string;
@@ -662,7 +662,7 @@ export interface Blog {
  * via the `definition` "categories".
  */
 export interface Category {
-  id: number;
+  id: string;
   title: string;
   description?: string | null;
   /**
@@ -677,7 +677,7 @@ export interface Category {
  * via the `definition` "tags".
  */
 export interface Tag {
-  id: number;
+  id: string;
   title: string;
   /**
    * URL-friendly identifier (auto-generated from title if blank)
@@ -691,10 +691,10 @@ export interface Tag {
  * via the `definition` "case-studies".
  */
 export interface CaseStudy {
-  id: number;
+  id: string;
   title: string;
   excerpt?: string | null;
-  coverImage?: (number | null) | Media;
+  coverImage?: (string | null) | Media;
   content: {
     root: {
       type: string;
@@ -722,7 +722,7 @@ export interface CaseStudy {
    * e.g. "3 months", "Q1 2024"
    */
   duration?: string | null;
-  relatedCaseStudies?: (number | CaseStudy)[] | null;
+  relatedCaseStudies?: (string | CaseStudy)[] | null;
   publishedAt?: string | null;
   /**
    * URL-friendly identifier (auto-generated from title if blank)
@@ -734,7 +734,7 @@ export interface CaseStudy {
     /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
-    image?: (number | null) | Media;
+    image?: (string | null) | Media;
   };
   updatedAt: string;
   createdAt: string;
@@ -745,7 +745,7 @@ export interface CaseStudy {
  * via the `definition` "forms".
  */
 export interface Form {
-  id: number;
+  id: string;
   title: string;
   fields?:
     | (
@@ -919,22 +919,22 @@ export interface Form {
  * via the `definition` "redirects".
  */
 export interface Redirect {
-  id: number;
+  id: string;
   from: string;
   to?: {
     type?: ('reference' | 'custom') | null;
     reference?:
       | ({
           relationTo: 'pages';
-          value: number | Page;
+          value: string | Page;
         } | null)
       | ({
           relationTo: 'blog';
-          value: number | Blog;
+          value: string | Blog;
         } | null)
       | ({
           relationTo: 'case-studies';
-          value: number | CaseStudy;
+          value: string | CaseStudy;
         } | null);
     url?: string | null;
   };
@@ -948,21 +948,21 @@ export interface Redirect {
  * via the `definition` "search".
  */
 export interface Search {
-  id: number;
+  id: string;
   title?: string | null;
   priority?: number | null;
   doc:
     | {
         relationTo: 'pages';
-        value: number | Page;
+        value: string | Page;
       }
     | {
         relationTo: 'blog';
-        value: number | Blog;
+        value: string | Blog;
       }
     | {
         relationTo: 'case-studies';
-        value: number | CaseStudy;
+        value: string | CaseStudy;
       };
   updatedAt: string;
   createdAt: string;
@@ -972,8 +972,8 @@ export interface Search {
  * via the `definition` "form-submissions".
  */
 export interface FormSubmission {
-  id: number;
-  form: number | Form;
+  id: string;
+  form: string | Form;
   submissionData?:
     | {
         field: string;
@@ -989,7 +989,7 @@ export interface FormSubmission {
  * via the `definition` "exports".
  */
 export interface Export {
-  id: number;
+  id: string;
   name?: string | null;
   format: 'csv' | 'json';
   limit?: number | null;
@@ -1026,7 +1026,7 @@ export interface Export {
  * via the `definition` "imports".
  */
 export interface Import {
-  id: number;
+  id: string;
   collectionSlug: string;
   importMode?: ('create' | 'update' | 'upsert') | null;
   matchField?: string | null;
@@ -1063,7 +1063,7 @@ export interface Import {
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: number;
+  id: string;
   key: string;
   data:
     | {
@@ -1080,7 +1080,7 @@ export interface PayloadKv {
  * via the `definition` "payload-jobs".
  */
 export interface PayloadJob {
-  id: number;
+  id: string;
   /**
    * Input data provided to the job
    */
@@ -1172,56 +1172,56 @@ export interface PayloadJob {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: number;
+  id: string;
   document?:
     | ({
         relationTo: 'users';
-        value: number | User;
+        value: string | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: number | Media;
+        value: string | Media;
       } | null)
     | ({
         relationTo: 'pages';
-        value: number | Page;
+        value: string | Page;
       } | null)
     | ({
         relationTo: 'blog';
-        value: number | Blog;
+        value: string | Blog;
       } | null)
     | ({
         relationTo: 'case-studies';
-        value: number | CaseStudy;
+        value: string | CaseStudy;
       } | null)
     | ({
         relationTo: 'categories';
-        value: number | Category;
+        value: string | Category;
       } | null)
     | ({
         relationTo: 'tags';
-        value: number | Tag;
+        value: string | Tag;
       } | null)
     | ({
         relationTo: 'redirects';
-        value: number | Redirect;
+        value: string | Redirect;
       } | null)
     | ({
         relationTo: 'search';
-        value: number | Search;
+        value: string | Search;
       } | null)
     | ({
         relationTo: 'forms';
-        value: number | Form;
+        value: string | Form;
       } | null)
     | ({
         relationTo: 'form-submissions';
-        value: number | FormSubmission;
+        value: string | FormSubmission;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -1231,10 +1231,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: number;
+  id: string;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   key?: string | null;
   value?:
@@ -1254,7 +1254,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: number;
+  id: string;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -2000,8 +2000,8 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  * via the `definition` "header".
  */
 export interface Header {
-  id: number;
-  logo?: (number | null) | Media;
+  id: string;
+  logo?: (string | null) | Media;
   items?:
     | {
         link: {
@@ -2009,15 +2009,15 @@ export interface Header {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: number | Page;
+                value: string | Page;
               } | null)
             | ({
                 relationTo: 'blog';
-                value: number | Blog;
+                value: string | Blog;
               } | null)
             | ({
                 relationTo: 'case-studies';
-                value: number | CaseStudy;
+                value: string | CaseStudy;
               } | null);
           url?: string | null;
           label: string;
@@ -2034,7 +2034,7 @@ export interface Header {
  * via the `definition` "footer".
  */
 export interface Footer {
-  id: number;
+  id: string;
   columns?:
     | {
         title?: string | null;
@@ -2045,15 +2045,15 @@ export interface Footer {
                 reference?:
                   | ({
                       relationTo: 'pages';
-                      value: number | Page;
+                      value: string | Page;
                     } | null)
                   | ({
                       relationTo: 'blog';
-                      value: number | Blog;
+                      value: string | Blog;
                     } | null)
                   | ({
                       relationTo: 'case-studies';
-                      value: number | CaseStudy;
+                      value: string | CaseStudy;
                     } | null);
                 url?: string | null;
                 label: string;
@@ -2081,7 +2081,7 @@ export interface Footer {
  * via the `definition` "site-settings".
  */
 export interface SiteSetting {
-  id: number;
+  id: string;
   /**
    * Include published blog posts in sitemap.xml.
    */

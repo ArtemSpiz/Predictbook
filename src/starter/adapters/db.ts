@@ -1,5 +1,6 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
+import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import type { DatabaseConfig } from '../types'
 
 export function resolveDbAdapter(config: DatabaseConfig) {
@@ -25,6 +26,11 @@ export function resolveDbAdapter(config: DatabaseConfig) {
     return sqliteAdapter({
       client: { url },
       migrationDir: 'src/migrations',
+    })
+  }
+  if (config.provider === 'mongodb') {
+    return mongooseAdapter({
+      url,
     })
   }
   throw new Error(`Unsupported database provider: ${(config as { provider: string }).provider}`)

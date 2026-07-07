@@ -59,7 +59,7 @@ export default function Summary() {
               btnRefs.current[i] = el
             }}
             onClick={() => handleSwitch(i)}
-            className={`relative z-10 px-4 py-2 w-[45%] rounded-lg text-sm bg-transparent transition-colors duration-300 ${
+            className={`relative z-10 px-4 py-2 w-[48%] rounded-lg text-sm bg-transparent transition-colors duration-300 ${
               active === i ? 'text-[#F7F6F5]' : 'text-[#5D554F] '
             }`}
           >

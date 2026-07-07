@@ -22,7 +22,7 @@ type AlertProps = {
   cards: AlertCard[]
 }
 
-export default async function Alert({ title, cards }: AlertProps) {
+export default function Alert({ title, cards }: AlertProps) {
   return (
     <div>
       <div className="bg-[#FFFFFF] border border-solid border-[#E1DDD5] mb-3">
@@ -35,9 +35,9 @@ export default async function Alert({ title, cards }: AlertProps) {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col">
           {cards.map((card, i) => (
-            <div key={i} className="border-t-px border-[#E1DDD5] rounded-lg p-4">
+            <div key={i} className="border-t border-[#E1DDD5] p-4">
               <div className="flex items-center justify-between mb-3">
                 <div
                   className={`py-1 px-1.5 border border-solid text-xs uppercase ${
@@ -90,7 +90,6 @@ export default async function Alert({ title, cards }: AlertProps) {
       </div>
 
       <CustomBtn text="View all whale alerts" center />
-
     </div>
   )
 }

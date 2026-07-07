@@ -1,4 +1,4 @@
-export type DatabaseProvider = 'postgres' | 'sqlite'
+export type DatabaseProvider = 'postgres' | 'sqlite' | 'mongodb'
 export type StorageProvider = 'local' | 's3' | 'gcs' | 'vercel-blob'
 export type EmailProvider = 'console' | 'resend' | 'smtp' | 'sendgrid'
 
