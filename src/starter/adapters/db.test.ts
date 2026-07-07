@@ -26,7 +26,8 @@ describe('resolveDbAdapter', () => {
     expect((a as unknown as { __kind: string }).__kind).toBe('sqlite')
   })
 
-  it('throws if DATABASE_URL is missing', () => {
-    expect(() => resolveDbAdapter({ provider: 'postgres' })).toThrow(/DATABASE_URL/)
+  it('falls back to sqlite when DATABASE_URL is missing', () => {
+    const a = resolveDbAdapter({ provider: 'postgres' })
+    expect((a as unknown as { __kind: string }).__kind).toBe('sqlite')
   })
 })

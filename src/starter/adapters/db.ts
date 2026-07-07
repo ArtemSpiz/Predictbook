@@ -5,7 +5,15 @@ import type { DatabaseConfig } from '../types'
 export function resolveDbAdapter(config: DatabaseConfig) {
   const url = process.env.DATABASE_URL
   if (!url) {
-    throw new Error('DATABASE_URL is required. See .env.example.')
+    // Fall back to a local SQLite file so the project boots without any
+    // external database provisioned. Set DATABASE_URL for postgres/remote DB.
+    console.warn(
+      '[db] DATABASE_URL is not set — falling back to local SQLite (file:./local.db). See .env.example.',
+    )
+    return sqliteAdapter({
+      client: { url: 'file:./local.db' },
+      migrationDir: 'src/migrations',
+    })
   }
   if (config.provider === 'postgres') {
     return postgresAdapter({

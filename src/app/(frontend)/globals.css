@@ -11,6 +11,12 @@
   *::before,
   *::after {
     box-sizing: border-box;
+    /* Preflight is disabled in tailwind.config.mjs, so re-add the border reset
+       it normally provides. Without `border-style: solid`, the `border`
+       utility (which only sets border-width) renders nothing. */
+    border-width: 0;
+    border-style: solid;
+    border-color: theme('colors.gray.200', currentColor);
   }
 
   html,

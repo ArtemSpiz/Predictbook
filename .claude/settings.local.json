@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cross-env NODE_OPTIONS=--no-deprecation npx vitest run --config ./vitest.config.mts src/starter/adapters/db.test.ts)",
+      "Bash(npx vitest *)",
+      "Bash(npx tailwindcss *)",
+      "Read(//Users/silentfox/**)",
+      "Read(//Users/silentfox/node_modules/**)",
+      "Bash(gh auth *)",
+      "Bash(ssh -T -o StrictHostKeyChecking=accept-new git@github.com)"
+    ]
+  }
+}
