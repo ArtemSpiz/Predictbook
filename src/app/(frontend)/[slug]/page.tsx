@@ -44,5 +44,7 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params
   const page = await getPageBySlug(slug)
   if (!page) return {}
-  return generateMeta({ doc: page, pathSuffix: `/${page.slug}`, type: 'website' })
+  return generateMeta({ doc: page, pathSuffix: `/${page.slug}`, type: 'website' } as Parameters<
+    typeof generateMeta
+  >[0])
 }

@@ -66,5 +66,9 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params
   const cs = await getCaseStudyBySlug(slug)
   if (!cs) return {}
-  return generateMeta({ doc: cs, pathSuffix: `/case-studies/${cs.slug}`, type: 'article' })
+  return generateMeta({
+    doc: cs,
+    pathSuffix: `/case-studies/${cs.slug}`,
+    type: 'article',
+  } as Parameters<typeof generateMeta>[0])
 }
