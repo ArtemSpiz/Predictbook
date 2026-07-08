@@ -1,4 +1,4 @@
-import { arbitrageCards, politicsCards, whaleCards } from '@/app/Mock/HomeMockData'
+import { arbitrageCards, whaleCards } from '@/app/Mock/HomeMockData'
 import Alert, { AlertCard } from './Alert'
 import ArticleType, { GridCard } from './ArticlesType'
 import Feed from './Feed'

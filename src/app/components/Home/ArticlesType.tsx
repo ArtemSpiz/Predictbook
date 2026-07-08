@@ -2,25 +2,19 @@ import AllBtn from '@/app/ui/AllBtn'
 import Image, { StaticImageData } from 'next/image'
 import Link from 'next/link'
 
-export interface GridCard {
-  slug: string
-  image: StaticImageData
-  type: string
-  day: string
-  time: string
-  title: string
-  text: string
-}
+import { Article } from '@/app/Mock/BlogMockData'
+
 interface ArticleTypeProps {
   title: string
-  cards: GridCard[]
+  cards: Article[]
 }
  
 export default function ArticleType({ title, cards }: ArticleTypeProps) {
 
+
   const filteredCards = cards
   .filter((card) =>
-    card.categories?.some(
+    card.categories.some(
       (category) => category.toLowerCase() === title.toLowerCase()
     )
   )
