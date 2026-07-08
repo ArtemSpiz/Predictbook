@@ -1,6 +1,7 @@
 import { SignalsCards } from '@/app/Mock/SignailsMock'
 import Image from 'next/image'
 import Star from '../../../../public/StarFeatured.png'
+import { getCategoryStyle } from '@/app/lib/getCategoryStyle'
 
 export default function SignalsCard() {
   const sortedCards = SignalsCards.sort((a, b) => Number(!!b.featured) - Number(!!a.featured))
@@ -24,27 +25,10 @@ export default function SignalsCard() {
               )}
 
               {card.categories.map((item, index) => {
-                const categoryStyle =
-                  item.toLowerCase() === 'featured'
-                    ? 'bg-[#E0E8F5] border-[#CAD7ED] text-[#4A83EC]'
-                    : item.toLowerCase() === 'arbitrage'
-                      ? 'bg-[#ECF2E0] border-[#C6DB9E] text-[#36581E]'
-                      : item.toLowerCase() === 'crypto'
-                        ? 'bg-[#FEFDF2] border-[#E9E9D1] text-[#655E4A]'
-                        : item.toLowerCase() === 'whale alert'
-                          ? 'bg-[#E8E0F2] border-[#ADABE7] text-[#3C3985]'
-                          : item.toLowerCase() === 'politics'
-                            ? 'bg-[#EBF5FF] border-[#C7DBEC] text-[#3B586F]'
-                            : item.toLowerCase() === 'technology'
-                              ? 'bg-[#FEF2F2] border-[#E9D1D1] text-[#654A4A]'
-                              : item.toLowerCase() === 'sports'
-                                ? 'bg-[#F2FEF3] border-[#D1E9D4] text-[#4A654F]'
-                                : 'bg-[#F4F0ED] border-[#E1DDD5] text-[#5D554F]'
-
                 return (
                   <div
                     key={index}
-                    className={`px-1.5 py-1 flex items-center gap-2 text-xs uppercase ${categoryStyle}`}
+                    className={`px-1.5 py-1 flex items-center gap-2 text-xs uppercase ${getCategoryStyle(item)}`}
                   >
                     {item}
                   </div>

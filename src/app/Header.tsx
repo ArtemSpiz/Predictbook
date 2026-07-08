@@ -42,7 +42,7 @@ const MenuItems = [
   },
   {
     label: 'Live Feed',
-    link: '',
+    link: '/live-feed',
   },
 ]
 

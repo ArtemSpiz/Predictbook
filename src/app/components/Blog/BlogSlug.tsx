@@ -6,6 +6,7 @@ import X from '../../../../public/XBlog.png'
 import Copy from '../../../../public/Copy.png'
 import AnotherBlogs from './AnotherBlogs'
 import { Breadcrumbs } from '@/app/ui/Breadcrumbs'
+import { getCategoryStyle } from '@/app/lib/getCategoryStyle'
 
 interface Props {
   article: Article
@@ -45,23 +46,10 @@ export default function BlogSlug({ article }: Props) {
         )}
 
         {article.categories.map((category) => {
-          const categoryStyle =
-            category.toLowerCase() === 'politics'
-              ? 'bg-[#F0EFFE] border-[#D4D2EA] text-[#444263]'
-              : category.toLowerCase() === 'sports'
-                ? 'bg-[#F2FEF3] border-[#D1E9D4] text-[#4A654F]'
-                : category.toLowerCase() === 'crypto'
-                  ? 'bg-[#FEFDF2] border-[#E9E9D1] text-[#655E4A]'
-                  : category.toLowerCase() === 'technology'
-                    ? 'bg-[#FEF2F2] border-[#E9D1D1] text-[#654A4A]'
-                    : category.toLowerCase() === 'science'
-                      ? 'bg-[#EBF5FF] border-[#C7DBEC] text-[#3B586F]'
-                      : 'bg-[#F4F0ED] border-[#E1DDD5] text-[#5D554F]'
-
           return (
             <div
               key={category}
-              className={`border border-solid px-1.5 py-1 text-xs uppercase max-md:text-xs ${categoryStyle}`}
+              className={`border border-solid px-1.5 py-1 text-xs uppercase max-md:text-xs ${getCategoryStyle(category)}`}
             >
               {category}
             </div>

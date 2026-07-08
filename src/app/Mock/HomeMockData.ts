@@ -83,3 +83,57 @@ export const politicsCards: GridCard[] = [
     text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
   },
 ]
+
+export const FeedContent = [
+  {
+    slug: 'congress-crypto-hearing-how-odds-moved-in-real-time',
+    title: 'Congress crypto hearing: how odds moved in real time',
+    subtitle: 'Tracking live odds movements as news develops on the tariff negotiations.',
+    categories: ['crypto'],
+    updates: 12,
+    day: 'June 22, 2026',
+    time: '11:33 AM',
+    live: true,
+    timeline: [
+      {
+        time: 'Latest',
+        text: 'Polymarket lifts "bill passes" to 61% — up 9pp since the session opened.',
+      },
+      {
+        time: '14:18',
+        text: 'Sen. Lummis confirms support for the Gillibrand amendment. Markets react within minutes.',
+      },
+      {
+        time: '14:18',
+        text: 'New market opens on Gillibrand amendment specifically. Opens at 38¢ YES.',
+      },
+    ],
+  },
+  {
+    slug: 'after-supreme-courts-TPS-decision',
+    title:
+      'After Supreme Court’s TPS decision, more than a million immigrants face scramble to stay in US',
+    subtitle:
+      'Until Thursday morning, hundreds of thousands of Haitians were legally living and working in the United States, along with thousands of Syrians. ',
+    categories: ['POLITICS'],
+    updates: 12,
+    day: 'June 22, 2026',
+    time: '11:33 AM',
+    timeline: [
+      {
+        time: '15:01',
+        text: 'Polymarket lifts "bill passes" to 61% — up 9pp since the session opened.',
+      },
+      {
+        time: '14:18',
+        text: 'Sen. Lummis confirms support for the Gillibrand amendment. Markets react within minutes.',
+      },
+      {
+        time: '14:18',
+        text: 'New market opens on Gillibrand amendment specifically. Opens at 38¢ YES.',
+      },
+    ],
+  },
+]
+
+export type FeedArticle = (typeof FeedContent)[number]
