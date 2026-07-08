@@ -15,7 +15,7 @@ const Icons = [
     icon: Tg,
     href: '',
   },
-  {
+  { 
     icon: X,
     href: '',
   },
@@ -30,10 +30,10 @@ const MenuItems = [
     label: 'Analysis',
     links: [
       { text: 'All analysis', link: '/blog' },
-      { text: 'Sports', link: '/blog?category=Sports' },
-      { text: 'Politics', link: '/blog?category=Politics' },
-      { text: 'Economics', link: '/blog?category=Economics' },
-      { text: 'Crypto', link: '/blog?category=Crypto' },
+      { text: 'Sports', link: '/blog/category/sports' },
+      { text: 'Politics', link: '/blog/category/politics' },
+      { text: 'Economics', link: '/blog/category/economics' },
+      { text: 'Crypto', link: '/blog/category/crypto' },
     ],
   },
   {
@@ -55,7 +55,6 @@ export function Header() {
     if (item.label === 'Analysis') {
       return pathname.startsWith('/blog')
     }
-
     return pathname === item.link
   }
 

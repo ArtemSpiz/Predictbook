@@ -47,6 +47,7 @@ export default function LiveFeedSlug({ article }: Props) {
       <div className="w-full h-px bg-[#E1DDD5]" />
 
       <div className="p-4 bg-white">
+        {/* багато richText*/}
         {article.timeline.map((item, index) => (
           <div key={index} className="flex gap-4 items-start">
             <div

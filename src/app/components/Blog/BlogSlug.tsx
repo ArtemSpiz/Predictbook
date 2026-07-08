@@ -7,6 +7,7 @@ import Copy from '../../../../public/Copy.png'
 import AnotherBlogs from './AnotherBlogs'
 import { Breadcrumbs } from '@/app/ui/Breadcrumbs'
 import { getCategoryStyle } from '@/app/lib/getCategoryStyle'
+import Link from 'next/link'
 
 interface Props {
   article: Article
@@ -47,12 +48,13 @@ export default function BlogSlug({ article }: Props) {
 
         {article.categories.map((category) => {
           return (
-            <div
+            <Link
               key={category}
-              className={`border border-solid px-1.5 py-1 text-xs uppercase max-md:text-xs ${getCategoryStyle(category)}`}
+              href={`/blog/category/${category.toLowerCase()}`}
+              className={`border border-solid px-1.5 py-1 text-xs uppercase max-md:text-xs transition-opacity hover:opacity-80 ${getCategoryStyle(category)}`}
             >
               {category}
-            </div>
+            </Link>
           )
         })}
       </div>
@@ -61,7 +63,12 @@ export default function BlogSlug({ article }: Props) {
 
       <div className="flex items-center justify-between">
         <div>
-          <div className="text-[#5D554F] mb-1 text-base">{article.name}</div>
+          <Link
+            href={`/blog/${article.slug}/${encodeURIComponent(article.name.replace(/\s+/g, '-'))}`}
+            className="text-[#5D554F] mb-1 text-base hover:underline"
+          >
+            {article.name}
+          </Link>
           <div className="text-[#5D554F] text-base">
             {article.day} • {article.time}
           </div>
@@ -81,7 +88,7 @@ export default function BlogSlug({ article }: Props) {
       </div>
       <div className="w-full h-px bg-[#E1DDD5]" />
 
-      {/* буде одним контентом */}
+      {/* one richText*/}
       <div className="flex flex-col gap-6">
         {article.image && (
           <img src={article.image.src} alt={article.title} className="w-full rounded-xl" />

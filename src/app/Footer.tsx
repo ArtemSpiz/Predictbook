@@ -29,12 +29,12 @@ const footerLinks = {
   analysis: {
     title: 'ANALYSIS',
     links: [
-      { label: 'Politics', href: '/analysis/politics' },
-      { label: 'Economics', href: '/analysis/economics' },
-      { label: 'Crypto', href: '/analysis/crypto' },
-      { label: 'Technology', href: '/analysis/technology' },
-      { label: 'Sports', href: '/analysis/sports' },
-      { label: 'Science', href: '/analysis/science' },
+      { label: 'Politics', href: '/blog/category/politics' },
+      { label: 'Economics', href: '/blog/category/economics' },
+      { label: 'Crypto', href: '/blog/category/crypto' },
+      { label: 'Technology', href: '/blog/category/technology' },
+      { label: 'Sports', href: '/blog/category/sports' },
+      { label: 'Science', href: '/blog/category/science' },
     ],
   },
   about: {

@@ -1,10 +1,13 @@
 import gridImg from '../../../public/gridImg.png'
+import authorPhoto from '../../../public/authorPhoto.png'
 
 export const ArticlesContent = [
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates',
     underTitle: 'DEVELOPING',
     name: 'Dr. Toghrul Aliyev',
+    authorPhoto: authorPhoto,
+    authorJob: 'Digital Finance Reporter',
     image: gridImg,
     live: true,
     title: 'Why Kalshi consistently underprices third-party candidates',
@@ -17,6 +20,8 @@ export const ArticlesContent = [
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates-2',
     name: 'Dr. Toghrul Aliyev',
+    authorPhoto: authorPhoto,
+    authorJob: 'Digital Finance Reporter',
     image: gridImg,
     title: 'Why Kalshi consistently underprices third-party candidates',
     text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
@@ -27,6 +32,8 @@ export const ArticlesContent = [
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates-3',
     name: 'Dr. Toghrul Aliyev',
+    authorPhoto: authorPhoto,
+    authorJob: 'Digital Finance Reporter',
     image: gridImg,
     title: 'Why Kalshi consistently underprices third-party candidates 3',
     text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
@@ -37,6 +44,8 @@ export const ArticlesContent = [
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates-4',
     name: 'Dr. Toghrul Aliyev',
+    authorPhoto: authorPhoto,
+    authorJob: 'Digital Finance Reporter',
     image: gridImg,
     title: 'Why Kalshi consistently underprices third-party candidates',
     text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
@@ -46,7 +55,9 @@ export const ArticlesContent = [
   },
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates-5',
-    name: 'Dr. Toghrul Aliyev',
+    name: 'Dr. Toghrul Aliyev 2',
+    authorPhoto: authorPhoto,
+    authorJob: 'Digital Finance Reporter',
     image: gridImg,
     title: 'Why Kalshi consistently underprices third-party candidates',
     text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
@@ -56,17 +67,21 @@ export const ArticlesContent = [
   },
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates-6',
-    name: 'Dr. Toghrul Aliyev',
+    name: 'Dr. Toghrul Aliyev 2',
+    authorPhoto: authorPhoto,
+    authorJob: 'Digital Finance Reporter',
     image: gridImg,
     title: 'Why Kalshi consistently underprices third-party candidates',
     text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
     day: 'Today',
     time: '12:00',
-    categories: ['POLITICS'],
+    categories: ['Politics'],
   },
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates-7',
-    name: 'Dr. Toghrul Aliyev',
+    name: 'Dr. Toghrul Aliyev 3',
+    authorPhoto: authorPhoto,
+    authorJob: 'Digital Finance Reporter',
     image: gridImg,
     title: 'Why Kalshi consistently underprices third-party candidates',
     text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
@@ -76,7 +91,9 @@ export const ArticlesContent = [
   },
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates-8',
-    name: 'Dr. Toghrul Aliyev',
+    name: 'Dr. Toghrul Aliyev 3',
+    authorPhoto: authorPhoto,
+    authorJob: 'Digital Finance Reporter',
     image: gridImg,
     live: true,
     title: 'Why Kalshi consistently underprices third-party candidates',
@@ -87,7 +104,9 @@ export const ArticlesContent = [
   },
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates-9',
-    name: 'Dr. Toghrul Aliyev',
+    name: 'Dr. Toghrul Aliyev 4',
+    authorPhoto: authorPhoto,
+    authorJob: 'Digital Finance Reporter',
     image: gridImg,
     title: 'Why Kalshi consistently underprices third-party candidates',
     text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
@@ -97,7 +116,9 @@ export const ArticlesContent = [
   },
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates-10',
-    name: 'Dr. Toghrul Aliyev',
+    name: 'Dr. Toghrul Aliyev 5',
+    authorPhoto: authorPhoto,
+    authorJob: 'Digital Finance Reporter',
     image: gridImg,
     title: 'Why Kalshi consistently underprices third-party candidates',
     text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
