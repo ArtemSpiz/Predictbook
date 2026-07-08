@@ -21,7 +21,7 @@ export default async function RealCard() {
 
       <div>
         {' '}
-        <div className="text-white font-medium text-2xl mb-2 max-w-[150px]">Want signals in real time?</div>
+        <div className="text-white font-medium text-2xl mb-2 md:max-w-[150px]">Want signals in real time?</div>
         <div className="text-[#F4F0ED] text-sm">
           Get instant alerts with advanced filtering tailored to your interests.
         </div>

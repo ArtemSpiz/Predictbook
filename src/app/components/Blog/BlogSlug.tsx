@@ -5,6 +5,7 @@ import Facebook from '../../../../public/Facebook.png'
 import X from '../../../../public/XBlog.png'
 import Copy from '../../../../public/Copy.png'
 import AnotherBlogs from './AnotherBlogs'
+import { Breadcrumbs } from '@/app/ui/Breadcrumbs'
 
 interface Props {
   article: Article
@@ -28,6 +29,7 @@ const Contacts = [
 export default function BlogSlug({ article }: Props) {
   return (
     <div className="flex flex-col gap-6 flex-1 md:border-r border-[#E1DDD5] md:p-5">
+      <Breadcrumbs items={[{ label: 'Analysis', href: '/blog' }, { label: article.title }]} />
       <div className="flex items-center gap-2">
         {article.underTitle && (
           <div className=" bg-[#F7F4F2] px-1.5 py-1 text-xs font-bold uppercase text-[#6B42D9]">
