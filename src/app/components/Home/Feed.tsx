@@ -4,6 +4,7 @@ import Timeline from '../../../../public/timeline.png'
 import Image from 'next/image'
 import FeedCard from '@/app/ui/FeedCard'
 import { FeedContent } from '@/app/Mock/HomeMockData'
+import Link from 'next/link'
 
 export default async function Feed() {
   return (
@@ -21,7 +22,9 @@ export default async function Feed() {
 
       <div className="flex flex-col gap-6">
         {FeedContent.slice(0, 1).map((card, i) => (
-          <FeedCard key={i} card={card} home />
+          <Link key={i} href={`/live-feed/${card.slug}`} >
+            <FeedCard card={card} home />
+          </Link>
         ))}
       </div>
     </div>
