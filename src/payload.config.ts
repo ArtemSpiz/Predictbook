@@ -67,7 +67,7 @@ export default buildConfig({
       ? [Header, Footer, SiteSettings, Translations]
       : [Header, Footer, SiteSettings],
   plugins,
-  db: resolveDbAdapter(starterConfig.database),
+  db: await resolveDbAdapter(starterConfig.database),
   sharp,
   email: resolveEmailAdapter(starterConfig.email),
   localization: resolveLocalization(starterConfig.i18n),
