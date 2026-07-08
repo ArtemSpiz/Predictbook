@@ -30,7 +30,7 @@ export default function BlogCol() {
   const [searchQuery, setSearchQuery] = useState('')
 
   const sortedCards = useMemo(
-    () => [...ArticlesContent].sort((a, b) => Number(!!b.image) - Number(!!a.image)),
+    () => [...ArticlesContent].sort((a, b) => Number(!!b.featured) - Number(!!a.featured)),
     [],
   )
 

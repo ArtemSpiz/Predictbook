@@ -55,13 +55,26 @@ export default async function BlogPost({ params }: Props) {
   )
 }
 
+// export async function generateMetadata({ params }: Props) {
+//   const { slug } = await params
+//   const post = await getBlogPostBySlug(slug)
+//   if (!post) return {}
+//   return generateMeta({
+//     doc: post,
+//     pathSuffix: `/blog/${post.slug}`,
+//     type: 'article',
+//   } as Parameters<typeof generateMeta>[0])
+// }
+
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params
-  const post = await getBlogPostBySlug(slug)
-  if (!post) return {}
-  return generateMeta({
-    doc: post,
-    pathSuffix: `/blog/${post.slug}`,
-    type: 'article',
-  } as Parameters<typeof generateMeta>[0])
+
+  const article = ArticlesContent.find((item) => item.slug === slug)
+
+  if (!article) return {}
+
+  return {
+    title: article.title,
+    description: article.text,
+  }
 }

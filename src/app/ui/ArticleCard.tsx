@@ -4,22 +4,23 @@ import Live from '../../../public/live.png'
 interface ArticleCardProps {
   card: {
     underTitle?: string
-    image?: StaticImageData
+    image?: string | StaticImageData
     live?: boolean
     title: string
     text: string
     day: string
     time: string
     categories: string[]
+    featured?: boolean
   }
 }
 
 export default function ArticleCard({ card }: ArticleCardProps) {
   return (
     <div
-      className={`border cursor-pointer bg-white border-[#E1DDD5] border-solid transition-all duration-200 ease-in-out hover:bg-[#FAF8F7] group ${card.image ? 'xl:col-span-2' : ''}`}
+      className={`border cursor-pointer bg-white border-[#E1DDD5] border-solid transition-all duration-200 ease-in-out hover:bg-[#FAF8F7] group ${card.featured ? 'xl:col-span-2' : ''}`}
     >
-      {card.image && (
+      {card.featured && card.image && (
         <div className="relative h-auto w-full">
           <Image src={card.image} alt={card.title} />
 

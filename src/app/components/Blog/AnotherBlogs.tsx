@@ -10,7 +10,7 @@ interface AnotherBlogsProps {
 }
 
 export default function AnotherBlogs({ currentSlug }: AnotherBlogsProps) {
-  const anotherArticles = ArticlesContent.filter((article) => article.slug !== currentSlug && !article.image).slice(
+  const anotherArticles = ArticlesContent.filter((article) => article.slug !== currentSlug && !article.featured).slice(
     0,
     2,
   )
