@@ -31,7 +31,7 @@ const InfiniteScrollData = [
   },
 ]
 
-export async function InfiniteScroll() {
+export function InfiniteScroll() {
   const items = [...InfiniteScrollData, ...InfiniteScrollData]
 
   return (

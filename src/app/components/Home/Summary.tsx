@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import CustomBtn from '@/app/ui/CustomBtn'
+import SummaryCard from '@/app/ui/SummaryCard'
 
 const TypeSummary = [
   {
@@ -68,36 +69,13 @@ export default function Summary() {
         ))}
       </div>
 
-      <div className="overflow-hidden  border border-solid border-[#E1DDD5]">
-        <div className="flex items-center justify-between border-b border-[#E1DDD5] bg-white p-4">
-          <div className="text-xs uppercase text-black">{card.title}</div>
-          <div className="text-xs text-[#5D554F]">Today · 20:00</div>
-        </div>
-
-        <div className="flex flex-col gap-4 bg-[#E8E0D8] p-4 overflow-hidden">
-          <div
-            key={active}
-            style={{ '--dir': direction } as React.CSSProperties}
-            className="space-y-3 animate-info-in"
-          >
-            <div className="text-lg font-semibold">{card.infoTitle}</div>
-
-            <ul className="space-y-2 pl-0 text-sm text-[#5D554F]">
-              {card.info.map((item) => (
-                <li key={item} className="flex gap-2">
-                  <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[#221E1D] shrink-0" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="max-md:hidden">
-            <CustomBtn text={`Read ${card.title.toLowerCase()}`} center light />
-          </div>
-        </div>
-      </div>
-
+      <SummaryCard
+        title={card.title}
+        infoTitle={card.infoTitle}
+        info={card.info}
+        direction={direction}
+        active={active}
+      />
     </div>
   )
 }

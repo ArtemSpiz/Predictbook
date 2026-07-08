@@ -1,3 +1,6 @@
+'use client'
+
+import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import Tg from '../../public/tg.png'
 import X from '../../public/x.png'
@@ -19,16 +22,16 @@ const Icons = [
 const MenuItems = [
   {
     label: 'Home',
-    link: '',
+    link: '/',
   },
   {
     label: 'Analysis',
     links: [
-      { text: 'All analysis', link: '' },
-      { text: 'Sports', link: '' },
-      { text: 'Politics', link: '' },
-      { text: 'Finance', link: '' },
-      { text: 'Crypto', link: '' },
+      { text: 'All analysis', link: '/blog' },
+      { text: 'Sports', link: '/blog?category=Sports' },
+      { text: 'Politics', link: '/blog?category=Politics' },
+      { text: 'Economics', link: '/blog?category=Economics' },
+      { text: 'Crypto', link: '/blog?category=Crypto' },
     ],
   },
   {
@@ -41,8 +44,17 @@ const MenuItems = [
   },
 ]
 
-export async function Header() {
-  const active = 0
+export function Header() {
+  const pathname = usePathname()
+
+  const isActive = (item: (typeof MenuItems)[number]) => {
+    if (item.label === 'Analysis') {
+      return pathname.startsWith('/blog')
+    }
+
+    return pathname === item.link
+  }
+
   return (
     <>
       <InfiniteScroll />
@@ -85,7 +97,7 @@ export async function Header() {
                     href={item.link}
                     className="flex items-center gap-2 p-4 max-xl:p-3 hover:bg-[#F2ECE6] group-hover:bg-[#F2ECE6]"
                   >
-                    <span className={`text-sm ${active === i ? 'font-bold' : 'font-normal'}`}>
+                    <span className={`text-sm ${isActive(item) ? 'font-bold' : 'font-normal'}`}>
                       {item.label}
                     </span>
 
