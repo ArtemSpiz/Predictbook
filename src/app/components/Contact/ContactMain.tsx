@@ -4,7 +4,7 @@ import ContactCard from './ContactCard'
 
 export default function ContactMain() {
   return (
-    <div className="flex flex-col gap-6 flex-1 md:border-r border-[#E1DDD5] md:p-5">
+    <div className="flex flex-col gap-6 flex-1">
       <div className="flex flex-col gap-2">
         <Breadcrumbs items={[{ label: 'Contact Us' }]} />
         <BlockTitle
