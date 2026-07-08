@@ -6,7 +6,8 @@ import GridArticles from './GridArticles'
 import RealCard from './RealCard'
 import Summary from './Summary'
 import ArticleTypeMobileSwitcher from './ArticleTypeMobileSwitcher'
-import Signals from './Signals'
+import Signals from './Signals' 
+import { ArticlesContent } from '@/app/Mock/BlogMockData'
 
 export default async function Main() {
   return (
@@ -33,17 +34,17 @@ export default async function Main() {
           <Feed />
           <div className="w-full h-px bg-[#E1DDD5] " />
           <ArticleTypeMobileSwitcher
-            politicsCards={politicsCards}
-            sportsCards={politicsCards}
-            cryptoCards={politicsCards}
+            politicsCards={ArticlesContent}
+            sportsCards={ArticlesContent}
+            cryptoCards={ArticlesContent}
           />
 
           <div className="max-xl:hidden flex flex-col gap-5">
-            <ArticleType title="Politics" cards={politicsCards} />
+            <ArticleType title="Politics" cards={ArticlesContent} />
             <div className="w-full h-px bg-[#E1DDD5] " />
-            <ArticleType title="Sports" cards={politicsCards} />
+            <ArticleType title="Sports" cards={ArticlesContent} />
             <div className="w-full h-px bg-[#E1DDD5] " />
-            <ArticleType title="Crypto" cards={politicsCards} />
+            <ArticleType title="Crypto" cards={ArticlesContent} />
           </div>
           <div className="w-full h-px bg-[#E1DDD5] " />
         </div>

@@ -1,7 +1,9 @@
 import AllBtn from '@/app/ui/AllBtn'
 import Image, { StaticImageData } from 'next/image'
+import Link from 'next/link'
 
 export interface GridCard {
+  slug: string
   image: StaticImageData
   type: string
   day: string
@@ -9,23 +11,32 @@ export interface GridCard {
   title: string
   text: string
 }
-
 interface ArticleTypeProps {
   title: string
   cards: GridCard[]
 }
-
+ 
 export default function ArticleType({ title, cards }: ArticleTypeProps) {
+
+  const filteredCards = cards
+  .filter((card) =>
+    card.categories?.some(
+      (category) => category.toLowerCase() === title.toLowerCase()
+    )
+  )
+  .slice(0, 3)
+
+
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between gap-3">
         <div className="font-semibold text-2xl max-md:text-base">{title}</div>
-        <AllBtn text="All articles" />
+        <AllBtn text="All articles" link={`/blog/category/${title.toLowerCase()}`}/>
       </div>
 
       <div className="grid xl:grid-cols-3 gap-2">
-        {cards.map((card, i) => (
-          <div key={i} className="bg-white border border-[#E1DDD5] border-solid">
+        {filteredCards.map((card, i) => (
+          <Link  href={`/blog/${card.slug}`}  key={i} className="bg-white border border-[#E1DDD5] border-solid">
             <div className="w-full h-auto">
               <Image src={card.image} alt="" />
             </div>
@@ -51,7 +62,7 @@ export default function ArticleType({ title, cards }: ArticleTypeProps) {
                 <div className="text-sm line-clamp-3 text-[#5D554F]">{card.text}</div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
