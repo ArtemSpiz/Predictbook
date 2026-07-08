@@ -1,0 +1,38 @@
+import Link from 'next/link'
+import BlockTitle from '@/app/ui/BlockTitle'
+import { ArticlesContent } from '@/app/Mock/BlogMockData'
+import ArticleCard from '@/app/ui/ArticleCard'
+import Image from 'next/image'
+import ArrowBack from '../../../../public/ArrowBack.png'
+
+interface AnotherBlogsProps {
+  currentSlug: string
+}
+
+export default function AnotherBlogs({ currentSlug }: AnotherBlogsProps) {
+  const anotherArticles = ArticlesContent.filter((article) => article.slug !== currentSlug && !article.image).slice(
+    0,
+    2,
+  )
+
+  return (
+    <div className='flex flex-col gap-4'>
+      <Link href="/blog" className="flex gap-1 items-center">
+        <div className="w-3 h-3">
+          <Image src={ArrowBack} alt="" />
+        </div>
+        <div className="text-sm">Back to Analysis</div>
+      </Link>
+
+      <BlockTitle title="More analysis from today" />
+
+      <div className="flex flex-col gap-2">
+        {anotherArticles.map((card) => (
+          <Link key={card.slug} href={`/blog/${card.slug}`}>
+            <ArticleCard card={card} />
+          </Link>
+        ))}
+      </div>
+    </div>
+  )
+}

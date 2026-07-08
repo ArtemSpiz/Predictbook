@@ -1,6 +1,6 @@
 interface BlockTitleProps {
   title: string
-  subtitle: string
+  subtitle?: string
 }
 
 export default function BlockTitle({ title, subtitle }: BlockTitleProps) {

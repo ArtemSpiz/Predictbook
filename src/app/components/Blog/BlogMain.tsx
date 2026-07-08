@@ -27,7 +27,7 @@ export default function BlogMain() {
   return (
     <div className="container-custom">
       <div className="md:border-l md:border-r border-[#E1DDD5] p-6 flex gap-5 max-md:flex-col max-lg:p-0 max-lg:py-5">
-        <div className=" flex flex-col gap-5 flex-1 md:border-r border-[#E1DDD5] md:pr-5">
+        <div className=" flex flex-col gap-5 flex-1 md:border-r border-[#E1DDD5] md:pr-5 max-lg:pl-5 max-md:pl-0">
           <BlogCol />
         </div>
 

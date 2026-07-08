@@ -4,6 +4,7 @@ export const ArticlesContent = [
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates',
     underTitle: 'DEVELOPING',
+    name: 'Dr. Toghrul Aliyev',
     image: gridImg,
     live: true,
     title: 'Why Kalshi consistently underprices third-party candidates',
@@ -14,6 +15,8 @@ export const ArticlesContent = [
   },
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates-2',
+    name: 'Dr. Toghrul Aliyev',
+
     title: 'Why Kalshi consistently underprices third-party candidates',
     text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
     day: 'Today',
@@ -22,6 +25,8 @@ export const ArticlesContent = [
   },
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates-3',
+    name: 'Dr. Toghrul Aliyev',
+
     title: 'Why Kalshi consistently underprices third-party candidates',
     text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
     day: 'Today',
@@ -30,6 +35,8 @@ export const ArticlesContent = [
   },
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates-4',
+    name: 'Dr. Toghrul Aliyev',
+
     title: 'Why Kalshi consistently underprices third-party candidates',
     text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
     day: 'Today',
@@ -38,6 +45,8 @@ export const ArticlesContent = [
   },
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates-5',
+    name: 'Dr. Toghrul Aliyev',
+
     title: 'Why Kalshi consistently underprices third-party candidates',
     text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
     day: 'Today',
@@ -46,6 +55,8 @@ export const ArticlesContent = [
   },
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates-6',
+    name: 'Dr. Toghrul Aliyev',
+
     title: 'Why Kalshi consistently underprices third-party candidates',
     text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
     day: 'Today',
@@ -54,6 +65,8 @@ export const ArticlesContent = [
   },
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates-7',
+    name: 'Dr. Toghrul Aliyev',
+
     title: 'Why Kalshi consistently underprices third-party candidates',
     text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
     day: 'Today',
@@ -62,6 +75,8 @@ export const ArticlesContent = [
   },
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates-8',
+    name: 'Dr. Toghrul Aliyev',
+
     live: true,
     title: 'Why Kalshi consistently underprices third-party candidates',
     text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
@@ -71,6 +86,8 @@ export const ArticlesContent = [
   },
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates-9',
+    name: 'Dr. Toghrul Aliyev',
+
     title: 'Why Kalshi consistently underprices third-party candidates',
     text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
     day: 'Today',
@@ -79,6 +96,8 @@ export const ArticlesContent = [
   },
   {
     slug: 'why-kalshi-consistently-underprices-third-party-candidates-10',
+    name: 'Dr. Toghrul Aliyev',
+
     title: 'Why Kalshi consistently underprices third-party candidates',
     text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
     day: 'Today',

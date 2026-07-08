@@ -1,15 +1,34 @@
 import { Article } from '@/app/Mock/BlogMockData'
 import Image from 'next/image'
 import Live from '../../../../public/live.png'
+import Facebook from '../../../../public/Facebook.png'
+import X from '../../../../public/XBlog.png'
+import Copy from '../../../../public/Copy.png'
+import AnotherBlogs from './AnotherBlogs'
 
 interface Props {
   article: Article
 }
 
-export default async function BlogSlug({ article }: Props) {
+const Contacts = [
+  {
+    icon: X,
+    link: '',
+  },
+  {
+    icon: Facebook,
+    link: '',
+  },
+  {
+    icon: Copy,
+    link: '',
+  },
+]
+
+export default function BlogSlug({ article }: Props) {
   return (
-    <div className="max-w-5xl mx-auto py-10">
-      <div className="flex items-center gap-2 mb-4">
+    <div className="flex flex-col gap-6 flex-1 md:border-r border-[#E1DDD5] md:p-5">
+      <div className="flex items-center gap-2">
         {article.underTitle && (
           <div className=" bg-[#F7F4F2] px-1.5 py-1 text-xs font-bold uppercase text-[#6B42D9]">
             {article.underTitle}
@@ -48,17 +67,42 @@ export default async function BlogSlug({ article }: Props) {
         })}
       </div>
 
-      <h1 className="text-2xl font-bold mb-4">{article.title}</h1>
+      <div className="text-2xl font-bold">{article.title}</div>
 
-      <p className="text-gray-500 mb-6">
-        {article.day} • {article.time}
-      </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <div className="text-[#5D554F] mb-1 text-base">{article.name}</div>
+          <div className="text-[#5D554F] text-base">
+            {article.day} • {article.time}
+          </div>
+        </div>
 
-      {article.image && (
-        <img src={article.image.src} alt={article.title} className="w-full rounded-xl mb-6" />
-      )}
+        <div className="flex gap-1 items-center self-stretch">
+          {Contacts.map((card, i) => (
+            <div
+              key={i}
+              className="border border-[#E1DDD5] cursor-pointer rounded-md w-10 h-10 flex justify-center items-center"
+            >
+              {' '}
+              <Image src={card.icon} alt="" className="w-4 h-4" />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="w-full h-px bg-[#E1DDD5]" />
 
-      <p>{article.text}</p>
+      {/* буде одним контентом */}
+      <div className="flex flex-col gap-6">
+        {article.image && (
+          <img src={article.image.src} alt={article.title} className="w-full rounded-xl" />
+        )}
+
+        <p>{article.text}</p>
+      </div>
+
+      <div className="w-full h-px bg-[#E1DDD5]" />
+
+      <AnotherBlogs currentSlug={article.slug} />
     </div>
   )
 }

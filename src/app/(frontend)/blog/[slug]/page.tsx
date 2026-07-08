@@ -8,6 +8,8 @@ import { generatePageStructuredData, jsonLdScriptContent } from '@/utilities/str
 import { LivePreviewListener } from '@/app/components/LivePreviewListener'
 import BlogSlug from '@/app/components/Blog/BlogSlug'
 import { ArticlesContent } from '@/app/Mock/BlogMockData'
+import RealCard from '@/app/components/Home/RealCard'
+import SponsoredCard from '@/app/components/Home/SponsoredCard'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -41,8 +43,14 @@ export default async function BlogPost({ params }: Props) {
   }
 
   return (
-    <main className="max-w-3xl mx-auto px-6 py-12">
-      <BlogSlug article={article} />
+    <main className="container-custom">
+      <div className="md:border-l md:border-r border-[#E1DDD5] p-6 flex gap-5 max-md:flex-col max-lg:p-0 max-lg:py-5">
+        <BlogSlug article={article} />
+        <div className="flex flex-col gap-4 md:max-w-[300px]">
+          <RealCard />
+          <SponsoredCard />
+        </div>
+      </div>
     </main>
   )
 }

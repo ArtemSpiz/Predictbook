@@ -46,7 +46,7 @@ const ArticlesContent = [
 export default async function GridArticles() {
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex justify-between items-center gap-3">
+      <div className="flex justify-between items-center gap-3 pr-5">
         <BlockTitle title="Analysis" subtitle="Expert perspectives behind market movements." />
         <AllBtn text="All articles" />
       </div>
