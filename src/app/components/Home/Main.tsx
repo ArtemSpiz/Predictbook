@@ -1,13 +1,13 @@
 import { arbitrageCards, whaleCards } from '@/app/Mock/HomeMockData'
 import Alert, { AlertCard } from './Alert'
-import ArticleType, { GridCard } from './ArticlesType'
+import ArticleType from './ArticlesType'
 import Feed from './Feed'
 import GridArticles from './GridArticles'
 import RealCard from './RealCard'
 import Summary from './Summary'
 import ArticleTypeMobileSwitcher from './ArticleTypeMobileSwitcher'
 import Signals from './Signals' 
-import { ArticlesContent } from '@/app/Mock/BlogMockData'
+import { ArticlesContent } from '@/app/Mock/BlogMockData' 
 
 export default async function Main() {
   return (

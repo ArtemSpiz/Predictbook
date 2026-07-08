@@ -1,13 +1,14 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import ArticleType, { GridCard } from './ArticlesType'
+import ArticleType from './ArticlesType'
+import { Article } from '@/app/Mock/BlogMockData'
 
 interface ArticleTypeMobileSwitcherProps {
-  politicsCards: GridCard[]
-  sportsCards: GridCard[]
-  cryptoCards: GridCard[]
-}
+  politicsCards: Article[]
+  sportsCards: Article[]
+  cryptoCards: Article[]
+} 
 
 const tabs = ['Politics', 'Sports', 'Crypto']
 

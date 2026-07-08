@@ -1,6 +1,6 @@
 import { AlertCard } from '../components/Home/Alert'
-import { GridCard } from '../components/Home/ArticlesType'
 import Img from '../../../public/gridImg.png'
+import { Article } from './BlogMockData'
 
 export const whaleCards: AlertCard[] = [
   {
@@ -54,33 +54,6 @@ export const arbitrageCards: AlertCard[] = [
     title: '$95K on Bitcoin above $120K by year end',
     size: '$95K',
     odds: '3.4×',
-  },
-]
-
-export const politicsCards: GridCard[] = [
-  {
-    image: Img,
-    type: 'politics',
-    day: 'Today',
-    time: '12:00',
-    title: 'Why Kalshi consistently underprices third-party candidates',
-    text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
-  },
-  {
-    image: Img,
-    type: 'politics',
-    day: 'Today',
-    time: '12:00',
-    title: 'Why Kalshi consistently underprices third-party candidates',
-    text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
-  },
-  {
-    image: Img,
-    type: 'politics',
-    day: 'Today',
-    time: '12:00',
-    title: 'Why Kalshi consistently underprices third-party candidates',
-    text: '90 days of trading data reveals a systematic bias — and how to trade against it.90 days of trading data reveals a systematic bias — and how to trade against it.',
   },
 ]
 
