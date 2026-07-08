@@ -1,13 +1,15 @@
 import Image from 'next/image'
 import Arrow from '../../../public/BtnArrow.png'
+import Link from 'next/link'
 
 interface AllBtnProps {
   text: string
+  link?: string
 }
 
-export default function AllBtn({ text }: AllBtnProps) {
+export default function AllBtn({ text, link = '' }: AllBtnProps) {
   return (
-    <a className={`group flex gap-1 text-sm items-center text-nowrap`}>
+    <Link href={link} className={`group flex gap-1 text-sm items-center text-nowrap`}>
       <span>{text}</span>
       <Image
         src={Arrow}
@@ -16,6 +18,6 @@ export default function AllBtn({ text }: AllBtnProps) {
         group-hover:translate-x-0.5 group-hover:-translate-y-0.5
         transition-all duration-300 ease-out"
       />
-    </a>
+    </Link>
   )
 }
