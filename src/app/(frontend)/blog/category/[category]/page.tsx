@@ -8,7 +8,7 @@ import BlockTitle from '@/app/ui/BlockTitle'
 import { Breadcrumbs } from '@/app/ui/Breadcrumbs'
 import Arrow from '../../../../../../public/down.png'
 
-type Props = {
+type Props = { 
   params: Promise<{ category: string }>
 }
 
@@ -52,8 +52,8 @@ export default async function CategoryPage({ params }: Props) {
           ) : (
             <div className="flex flex-col gap-4">
               {filteredArticles.map((article, index) => (
+                <Link  key={article.slug}  href={`/blog/${article.slug}`} >
                 <ArticleCard
-                  key={article.slug}
                   card={{
                     title: article.title,
                     text: article.text,
@@ -65,7 +65,7 @@ export default async function CategoryPage({ params }: Props) {
                     categories: article.categories,
                     featured: index === 0,
                   }}
-                />
+                /></Link>
               ))}
 
               {filteredArticles.length >= 10 && (

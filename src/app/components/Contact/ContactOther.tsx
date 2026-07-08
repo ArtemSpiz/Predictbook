@@ -54,7 +54,7 @@ export default function ContactOther() {
 
             <div>
               <div className="text-[#5D554F] text-sm">{card.title}</div>
-              <a className="text-sm">
+              <a className="text-sm cursor-pointer flex items-center">
                 <span className="underline">{card.linkText}</span>
                 <Image src={BtnArrow} alt="" className="w-4 h-4" />
               </a>
