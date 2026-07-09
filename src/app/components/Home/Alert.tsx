@@ -20,9 +20,12 @@ export type AlertCard = {
 type AlertProps = {
   title: string
   cards: AlertCard[]
+  delayLabel?: string
+  viewAllText: string
+  viewAllUrl?: string
 }
 
-export default function Alert({ title, cards }: AlertProps) {
+export default function Alert({ title, cards, delayLabel, viewAllText, viewAllUrl }: AlertProps) {
   return (
     <div>
       <div className="bg-white border border-solid border-line mb-3">
@@ -31,7 +34,7 @@ export default function Alert({ title, cards }: AlertProps) {
 
           <div className="flex items-center gap-2 text-muted">
             <Image src={Clock} alt="" className="w-3 h-3" />
-            <span>30-min delay</span>
+            {delayLabel && <span>{delayLabel}</span>}
           </div>
         </div>
 
@@ -89,7 +92,7 @@ export default function Alert({ title, cards }: AlertProps) {
         </div>
       </div>
 
-      <CustomBtn text="View all whale alerts" center />
+      <CustomBtn text={viewAllText} center href={viewAllUrl} />
     </div>
   )
 }

@@ -43,9 +43,19 @@ export default async function Main() {
       <div className="md:border-l md:border-r border-line p-6 flex gap-5 max-md:flex-col max-lg:p-0 max-lg:py-5">
         <div className="flex flex-col gap-5 w-full  md:max-w-[300px]">
           <Signals>
-            <Alert title="Whale Alert" cards={whaleAlerts} />
+            <Alert
+              title="Whale Alert"
+              cards={whaleAlerts}
+              delayLabel="30-min delay"
+              viewAllText="View all whale alerts"
+            />
             <div className="w-full h-px bg-line" />
-            <Alert title="Arbitrage Alert" cards={arbitrageAlerts} />
+            <Alert
+              title="Arbitrage Alert"
+              cards={arbitrageAlerts}
+              delayLabel="30-min delay"
+              viewAllText="View all arbitrage alerts"
+            />
             <div className="w-full h-px bg-line" />
           </Signals>
 
