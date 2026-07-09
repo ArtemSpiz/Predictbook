@@ -82,16 +82,17 @@ export default async function Main() {
             items={feedItems.slice(0, 1)}
           />
           <div className="w-full h-px bg-line " />
-          <ArticleTypeMobileSwitcher
-            politicsCards={articles}
-            sportsCards={articles}
-            cryptoCards={articles}
-          />
+          <ArticleTypeMobileSwitcher header={{ title: 'Explore by Category' }} sections={[]} />
 
           <div className="max-xl:hidden flex flex-col gap-5">
             {sections.map((title, i) => (
               <div key={title} className="flex flex-col gap-5">
-                <ArticleType title={title} cards={articles} />
+                <ArticleType
+                  title={title}
+                  accent="politics"
+                  viewAllUrl={`/blog/category/${title.toLowerCase()}`}
+                  cards={articles}
+                />
                 {i < sections.length - 1 && <div className="w-full h-px bg-line " />}
               </div>
             ))}
