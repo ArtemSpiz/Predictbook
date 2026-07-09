@@ -1,0 +1,13 @@
+# Reverse proxy for the app, TLS terminated with a Cloudflare Origin Certificate.
+# {$DOMAIN} is injected by docker-compose.prod.yml.
+{$DOMAIN} {
+	tls /etc/caddy/certs/origin.pem /etc/caddy/certs/origin.key
+
+	encode zstd gzip
+
+	# Long-cache Next static assets and uploaded media.
+	@immutable path /_next/static/* /media/*
+	header @immutable Cache-Control "public, max-age=31536000, immutable"
+
+	reverse_proxy app:3000
+}

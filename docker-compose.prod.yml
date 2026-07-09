@@ -1,0 +1,36 @@
+# Production stack for AWS EC2 behind Cloudflare.
+# DB = MongoDB Atlas, storage = Cloudflare R2 (both external — no local containers).
+# Caddy terminates TLS with a Cloudflare Origin Certificate and proxies to the app.
+#
+# Usage on the server:
+#   1. Create .env from .env.example and fill in real values (Atlas + R2).
+#   2. Put the Cloudflare Origin cert/key in ./certs/origin.pem and ./certs/origin.key.
+#   3. DOMAIN=your-domain.com docker compose -f docker-compose.prod.yml up -d --build
+services:
+  app:
+    build: .
+    env_file: .env
+    environment:
+      NODE_ENV: production
+    restart: unless-stopped
+    expose:
+      - '3000'
+
+  caddy:
+    image: caddy:2-alpine
+    depends_on: [app]
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      DOMAIN: ${DOMAIN:?set DOMAIN to your public hostname}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./certs:/etc/caddy/certs:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

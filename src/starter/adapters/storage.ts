@@ -13,11 +13,24 @@ export function resolveStorageAdapter(config: StorageConfig) {
   if (config.provider === 'local') return null
 
   if (config.provider === 's3') {
+    // When a public CDN URL is set (Cloudflare R2 public bucket / custom domain),
+    // serve media straight from the CDN instead of proxying every request through
+    // the Node server — essential for a high-traffic, photo-heavy site.
+    const cdnUrl = process.env.NEXT_PUBLIC_CDN_URL?.replace(/\/$/, '')
     return s3Storage({
-      collections: { media: true },
+      collections: {
+        media: cdnUrl
+          ? {
+              disablePayloadAccessControl: true,
+              generateFileURL: ({ filename, prefix }) =>
+                `${cdnUrl}/${prefix ? `${prefix}/` : ''}${filename}`,
+            }
+          : true,
+      },
       bucket: requireEnv('S3_BUCKET'),
       config: {
-        region: requireEnv('S3_REGION'),
+        // R2 always uses region 'auto'; real AWS S3 sets S3_REGION explicitly.
+        region: process.env.S3_REGION || 'auto',
         credentials: {
           accessKeyId: requireEnv('S3_ACCESS_KEY_ID'),
           secretAccessKey: requireEnv('S3_SECRET_ACCESS_KEY'),

@@ -7,6 +7,7 @@ declare namespace NodeJS {
     PREVIEW_SECRET?: string
     NODE_ENV: 'development' | 'production' | 'test'
 
+    STORAGE_PROVIDER?: 'local' | 's3' | 'gcs' | 'vercel-blob'
     S3_BUCKET?: string
     S3_REGION?: string
     S3_ACCESS_KEY_ID?: string
