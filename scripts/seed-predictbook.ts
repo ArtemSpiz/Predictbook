@@ -50,20 +50,23 @@ const CATEGORY_TITLES = [
 
 async function main() {
   const payload = await getPayload({ config })
-  const catId: Record<string, number> = {}
+  const catId: Record<string, string> = {}
 
-  // author
-  let authorId: number | undefined
+  let authorId: string | undefined
   {
     const email = 'toghrul@predictbook.io'
-    const found = await payload.find({ collection: 'users', where: { email: { equals: email } }, limit: 1 })
-    if (found.docs.length) authorId = found.docs[0].id as number
+    const found = await payload.find({
+      collection: 'users',
+      where: { email: { equals: email } },
+      limit: 1,
+    })
+    if (found.docs.length) authorId = found.docs[0].id
     else {
       const u = await payload.create({
         collection: 'users',
         data: { email, password: 'editor1234', name: 'Dr. Toghrul Aliyev', role: 'editor' } as any,
       })
-      authorId = u.id as number
+      authorId = u.id
       console.log(' ✓ author user (toghrul@predictbook.io / editor1234)')
     }
   }
@@ -72,20 +75,28 @@ async function main() {
   console.log('[seed] categories...')
   for (const title of CATEGORY_TITLES) {
     const slug = slugify(title)
-    const found = await payload.find({ collection: 'categories', where: { slug: { equals: slug } }, limit: 1 })
-    if (found.docs.length) catId[slug] = found.docs[0].id as number
+    const found = await payload.find({
+      collection: 'categories',
+      where: { slug: { equals: slug } },
+      limit: 1,
+    })
+    if (found.docs.length) catId[slug] = found.docs[0].id
     else {
       const c = await payload.create({ collection: 'categories', data: { title, slug } as any })
-      catId[slug] = c.id as number
+      catId[slug] = c.id
     }
   }
   const cats = (...titles: string[]) => titles.map((t) => catId[slugify(t)]).filter(Boolean)
 
   // cover image (reuse mock gridImg.png)
-  let coverId: number | undefined
+  let coverId: string | undefined
   {
-    const found = await payload.find({ collection: 'media', where: { alt: { equals: 'Predictbook article cover' } }, limit: 1 })
-    if (found.docs.length) coverId = found.docs[0].id as number
+    const found = await payload.find({
+      collection: 'media',
+      where: { alt: { equals: 'Predictbook article cover' } },
+      limit: 1,
+    })
+    if (found.docs.length) coverId = found.docs[0].id
     else {
       try {
         const m = await payload.create({
@@ -93,10 +104,13 @@ async function main() {
           data: { alt: 'Predictbook article cover' } as any,
           filePath: path.join(PUBLIC, 'gridImg.png'),
         })
-        coverId = m.id as number
+        coverId = m.id
         console.log(' ✓ cover image uploaded')
       } catch (e) {
-        console.warn(' ! cover image upload failed (continuing without images):', (e as Error).message)
+        console.warn(
+          ' ! cover image upload failed (continuing without images):',
+          (e as Error).message,
+        )
       }
     }
   }
@@ -172,7 +186,8 @@ async function main() {
       kind: 'arbitrage',
       categories: cats('Arbitrage', 'Politics', 'KALSHI VS POLYMARKET'),
       title: 'Polymarket vs Kalshi: 8pp spread on Biden 2026 candidacy',
-      subtitle: 'An 8pp spread between venues on Biden’s 2026 candidacy — a clean cross-market play.',
+      subtitle:
+        'An 8pp spread between venues on Biden’s 2026 candidacy — a clean cross-market play.',
       profitably: true,
       yesPrice: '34¢',
       noPrice: '26¢',
@@ -250,9 +265,18 @@ async function main() {
       updates: 12,
       live: true,
       timeline: [
-        { time: 'Latest', text: 'Polymarket lifts "bill passes" to 61% — up 9pp since the session opened.' },
-        { time: '14:18', text: 'Sen. Lummis confirms support for the Gillibrand amendment. Markets react within minutes.' },
-        { time: '14:18', text: 'New market opens on Gillibrand amendment specifically. Opens at 38¢ YES.' },
+        {
+          time: 'Latest',
+          text: 'Polymarket lifts "bill passes" to 61% — up 9pp since the session opened.',
+        },
+        {
+          time: '14:18',
+          text: 'Sen. Lummis confirms support for the Gillibrand amendment. Markets react within minutes.',
+        },
+        {
+          time: '14:18',
+          text: 'New market opens on Gillibrand amendment specifically. Opens at 38¢ YES.',
+        },
       ],
     },
     {
@@ -265,9 +289,18 @@ async function main() {
       updates: 12,
       live: false,
       timeline: [
-        { time: '15:01', text: 'Polymarket lifts "bill passes" to 61% — up 9pp since the session opened.' },
-        { time: '14:18', text: 'Sen. Lummis confirms support for the Gillibrand amendment. Markets react within minutes.' },
-        { time: '14:18', text: 'New market opens on Gillibrand amendment specifically. Opens at 38¢ YES.' },
+        {
+          time: '15:01',
+          text: 'Polymarket lifts "bill passes" to 61% — up 9pp since the session opened.',
+        },
+        {
+          time: '14:18',
+          text: 'Sen. Lummis confirms support for the Gillibrand amendment. Markets react within minutes.',
+        },
+        {
+          time: '14:18',
+          text: 'New market opens on Gillibrand amendment specifically. Opens at 38¢ YES.',
+        },
       ],
     },
   ]
@@ -287,8 +320,16 @@ async function main() {
     slug: 'home-page',
     data: {
       summaries: [
-        { title: 'Daily summary', infoTitle: 'Daily Market Pulse — Monday June 9', info: summaryInfo.map((text) => ({ text })) },
-        { title: 'Weekly summary', infoTitle: 'Weekly Market Pulse — Monday June 9', info: summaryInfo.map((text) => ({ text })) },
+        {
+          title: 'Daily summary',
+          infoTitle: 'Daily Market Pulse — Monday June 9',
+          info: summaryInfo.map((text) => ({ text })),
+        },
+        {
+          title: 'Weekly summary',
+          infoTitle: 'Weekly Market Pulse — Monday June 9',
+          info: summaryInfo.map((text) => ({ text })),
+        },
       ],
       articleSections: [
         { label: 'Politics', category: catId['politics'] },
@@ -323,12 +364,13 @@ async function main() {
       methods: [
         { title: 'Email', linkText: 'hello@predictbook.io', link: 'mailto:hello@predictbook.io' },
         { title: 'Telegram', linkText: '@predictbook', link: 'https://t.me/predictbook' },
-        { title: 'Advertising & partnerships', linkText: 'partnerships@predictbook.io', link: 'mailto:partnerships@predictbook.io' },
+        {
+          title: 'Advertising & partnerships',
+          linkText: 'partnerships@predictbook.io',
+          link: 'mailto:partnerships@predictbook.io',
+        },
       ],
-      socials: [
-        { link: 'https://t.me/predictbook' },
-        { link: 'https://x.com/predictbook' },
-      ],
+      socials: [{ link: 'https://t.me/predictbook' }, { link: 'https://x.com/predictbook' }],
       valueCard: {
         title: 'Other ways to reach us',
         text: 'Your input helps us improve Predictbook and deliver better analysis.',
@@ -362,7 +404,9 @@ async function main() {
       title: 'Analysis',
       subtitle:
         'Short-form market analysis — 3 pieces per day, ~300 words each. Our writers take live prediction market signals and give context and directional reasoning.',
-      categories: ['All', 'Politics', 'Economics', 'Crypto', 'Technology', 'Sports', 'Science'].map((title) => ({ title })),
+      categories: ['All', 'Politics', 'Economics', 'Crypto', 'Technology', 'Sports', 'Science'].map(
+        (title) => ({ title }),
+      ),
     } as any,
   })
 

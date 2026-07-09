@@ -46,7 +46,7 @@ export default function ArticleType({ title, cards }: ArticleTypeProps) {
                   {title}
                 </div>
 
-                <div className="text-sm text-date">
+                <div className="text-xs text-date flex-nowrap text-nowrap">
                   {card.day} · {card.time}
                 </div>
               </div>
