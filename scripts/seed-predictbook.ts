@@ -447,6 +447,28 @@ async function main() {
         placeholder: 'Your email',
         buttonText: 'Subscribe',
       },
+      sidebarBlocks: [
+        {
+          blockType: 'live-feed-block',
+          heading: 'Live Feed',
+          limit: 1,
+          viewAllText: 'All threads',
+          viewAllUrl: '/live-feed',
+          hidden: false,
+        },
+        {
+          blockType: 'real-card',
+          badgeIcon: lightningId,
+          badgeText: 'Real-time alerts',
+          showLiveDot: true,
+          title: 'Want signals in real time?',
+          description: 'Get instant alerts with advanced filtering tailored to your interests.',
+          buttonText: 'Join Real-time Alerts',
+          buttonUrl: '/signals',
+          backgroundImage: graphId,
+          hidden: false,
+        },
+      ],
     } as any,
   })
 
