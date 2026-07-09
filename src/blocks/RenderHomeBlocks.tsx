@@ -2,14 +2,16 @@ import { Fragment } from 'react'
 import { planRegion } from './homeBlocks'
 import Signals from '@/app/components/Home/Signals'
 import { SignalFeedBlockComponent } from './SignalFeed/Component'
-import { SummaryBlockComponent } from './Summary/Component'
-import { RealCardBlockComponent } from './RealCard/Component'
-import { AnalysisBlockComponent } from './Analysis/Component'
-import { LiveFeedBlockComponent } from './LiveFeedBlock/Component'
 import { CategorySections } from './CategorySection/CategorySections'
+import { regionBlockComponents } from './regionBlockComponents'
 import type { HomePage } from '@/payload-types'
 
 const Divider = () => <div className="w-full h-px bg-line" />
+
+function SingleBlock({ block }: { block: { blockType: string } }) {
+  const Component = regionBlockComponents[block.blockType]
+  return Component ? <Component block={block} /> : null
+}
 
 type SidebarBlock = NonNullable<HomePage['sidebarBlocks']>[number]
 type MainBlock = NonNullable<HomePage['mainBlocks']>[number]
@@ -40,13 +42,9 @@ export function SidebarRegion({
                 </Fragment>
               ))}
             </Signals>
-          ) : seg.block.blockType === 'summary' ? (
-            <SummaryBlockComponent
-              block={seg.block as unknown as Parameters<typeof SummaryBlockComponent>[0]['block']}
-            />
-          ) : seg.block.blockType === 'real-card' ? (
-            <RealCardBlockComponent block={seg.block} />
-          ) : null}
+          ) : (
+            <SingleBlock block={seg.block} />
+          )}
         </Fragment>
       ))}
     </>
@@ -71,11 +69,9 @@ export function MainRegion({
               blocks={seg.blocks as Extract2<MainBlock, 'category-section'>[]}
               header={categoryHeader}
             />
-          ) : seg.block.blockType === 'analysis' ? (
-            <AnalysisBlockComponent block={seg.block} />
-          ) : seg.block.blockType === 'live-feed-block' ? (
-            <LiveFeedBlockComponent block={seg.block} />
-          ) : null}
+          ) : (
+            <SingleBlock block={seg.block} />
+          )}
         </Fragment>
       ))}
     </>
