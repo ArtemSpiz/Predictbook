@@ -19,6 +19,8 @@ const TypeSummary = [
   {
     title: 'Weekly summary',
     infoTitle: 'Weekly Market Pulse',
+    day: 'Week of June 2',
+    time: '2026',
     info: [
       'Fed cut odds hit 63¢ — 6pt jump from Friday close',
       'Nvidia arb window opened briefly, now closed at 48¢',
@@ -53,12 +55,16 @@ export default async function BlogMain() {
           />
           <SummaryCard
             title={TypeSummary[0].title}
+            day={TypeSummary[0].day}
+            time={TypeSummary[0].time}
             infoTitle={TypeSummary[0].infoTitle}
             info={TypeSummary[0].info}
           />
 
           <SummaryCard
             title={TypeSummary[1].title}
+            day={TypeSummary[1].day}
+            time={TypeSummary[1].time}
             infoTitle={TypeSummary[1].infoTitle}
             info={TypeSummary[1].info}
           />

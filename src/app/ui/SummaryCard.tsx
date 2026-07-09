@@ -9,6 +9,8 @@ interface SummaryCardProps {
   info: string[]
   direction?: number
   active?: number
+  day?: string
+  time?: string
 }
 
 export default function SummaryCard({
@@ -17,12 +19,16 @@ export default function SummaryCard({
   info,
   direction = 1,
   active = 0,
+  day = 'Today',
+  time = '20:00',
 }: SummaryCardProps) {
   return (
     <div className="overflow-hidden border border-solid border-line">
       <div className="flex items-center justify-between border-b border-line bg-white p-4">
         <div className="text-xs uppercase text-black">{title}</div>
-        <div className="text-xs text-muted">Today · 20:00</div>
+        <div className="text-xs text-muted">
+          {day} · {time}
+        </div>
       </div>
 
       <div className="flex flex-col gap-4 overflow-hidden bg-sand-3 p-4">
