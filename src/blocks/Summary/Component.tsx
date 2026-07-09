@@ -1,5 +1,3 @@
-// src/blocks/SummaryBlock/Component.tsx
-
 import Summary, { SummaryItem } from '@/app/components/Home/Summary'
 
 type SummaryBlock = {

@@ -565,6 +565,28 @@ export interface Page {
             blockType: 'summary';
           }
         | {
+            /**
+             * Icon in the badge (e.g., Lightning)
+             */
+            badgeIcon: string | Media;
+            badgeText: string;
+            showLiveDot?: boolean | null;
+            title: string;
+            description: string;
+            buttonText: string;
+            /**
+             * Where the button leads (optional; if left blank, there is no link)
+             */
+            buttonUrl?: string | null;
+            /**
+             * Decorative image (e.g., Graph)
+             */
+            backgroundImage: string | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'real-card';
+          }
+        | {
             heading?: string | null;
             items?:
               | {
@@ -1686,6 +1708,20 @@ export interface PagesSelect<T extends boolean = true> {
                         };
                     id?: T;
                   };
+              id?: T;
+              blockName?: T;
+            };
+        'real-card'?:
+          | T
+          | {
+              badgeIcon?: T;
+              badgeText?: T;
+              showLiveDot?: T;
+              title?: T;
+              description?: T;
+              buttonText?: T;
+              buttonUrl?: T;
+              backgroundImage?: T;
               id?: T;
               blockName?: T;
             };

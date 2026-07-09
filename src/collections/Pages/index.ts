@@ -18,6 +18,7 @@ import { StatsChart } from '@/blocks/StatsChart/config'
 import { ContactFormBlock } from '@/blocks/ContactForm/config'
 import { pagesReadAccess, pagesWriteAccess } from './access'
 import { SummaryBlock } from '@/blocks/Summary/config'
+import { RealCardBlock } from '@/blocks/RealCard/config'
 
 const allBlocks = [
   Hero,
@@ -32,6 +33,7 @@ const allBlocks = [
   FAQ,
   Stats,
   SummaryBlock,
+  RealCardBlock,
   ...(starterConfig.features.swiper ? [Testimonials] : []),
   ...(starterConfig.features.charts ? [StatsChart] : []),
   ...(starterConfig.features.formBuilder ? [ContactFormBlock] : []),

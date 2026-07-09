@@ -16,6 +16,7 @@ import { StatsBlock } from './Stats/Component'
 import { StatsChartBlock } from './StatsChart/Component'
 import { ContactFormBlockComponent } from './ContactForm/Component'
 import { SummaryBlockComponent } from './Summary/Component'
+import { RealCardBlockComponent } from './RealCard/Component'
 
 const baseComponents: Record<string, React.ComponentType<{ block: any }>> = {
   hero: HeroBlock,
@@ -30,6 +31,7 @@ const baseComponents: Record<string, React.ComponentType<{ block: any }>> = {
   faq: FAQBlock,
   stats: StatsBlock,
   summary: SummaryBlockComponent,
+  'real-card': RealCardBlockComponent,
 }
 
 const components: Record<string, React.ComponentType<{ block: any }>> = {
