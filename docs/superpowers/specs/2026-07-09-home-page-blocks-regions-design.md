@@ -36,6 +36,13 @@ missing domain blocks, and makes each block's on-site position explicit in admin
   replacing the old single `articleSections` array.
 - **Visibility:** Every block has a `hidden` checkbox to disable it on-site without deleting.
 - **Scope now:** Home page only. Other pages are audited into a backlog section below.
+- **No hardcoded content (hard rule).** Every string and setting rendered on the home page
+  must come from Payload — headings, subtitles, delay labels, "view all" texts/links, and
+  the mobile section headers that are currently hardcoded in `Signals.tsx` ("Signals" +
+  subtitle) and `ArticleTypeMobileSwitcher.tsx` ("Explore by Category" + subtitle). Category
+  accent colors must not be keyed off hardcoded category names (`ArticlesType.tsx:42-44`);
+  the accent becomes an explicit per-block field. Collection-sourced card data counts as
+  admin-driven because the collections are themselves editable in admin.
 
 ## Architecture
 
@@ -58,6 +65,12 @@ Home Page (global)
   "Analysis", "Live Feed", "Category section", "Promo card", "Market pulse summaries").
 - Each block config gets an `imageURL` thumbnail so the block picker previews it.
 - Tabs and blocks get `admin.description` text stating where the content appears.
+- **Mobile section headers (admin-driven).** Besides its `blocks` array, each tab carries a
+  small group of label fields for the mobile-only headers currently hardcoded in code:
+  - Left sidebar tab → `signalsMobileHeader` group: `title`, `subtitle` (the mobile
+    "Signals" collapse header).
+  - Main content tab → `categorySwitcherHeader` group: `title`, `subtitle` (the mobile
+    "Explore by Category" switcher header).
 
 ### Blocks
 
@@ -69,7 +82,7 @@ under `src/blocks/<Name>/{config.ts,Component.tsx}` following the existing conve
 | **Signal Feed** | `signal-feed` | `heading`, `kind` (whale \| arbitrage), `delayLabel`, `limit`, `viewAllText`, `viewAllUrl`, `hidden` | `signals` collection filtered by `kind` |
 | **Analysis** | `analysis` | `heading`, `subtitle`, `limit`, `viewAllText`, `viewAllUrl`, `hidden` | `blog` (latest / featured first) |
 | **Live Feed** | `live-feed-block` | `heading`, `limit`, `viewAllText`, `viewAllUrl`, `hidden` | `live-feed` collection |
-| **Category Section** | `category-section` | `label`, `category` (relationship → categories), `limit`, `hidden` | `blog` filtered by category |
+| **Category Section** | `category-section` | `label`, `category` (relationship → categories), `accent` (select: politics \| sports \| crypto \| neutral), `limit`, `hidden` | `blog` filtered by category |
 | **Market pulse summaries** | `summary` (existing) | reuse `SummaryBlock`; add `hidden` | — (inline content) |
 | **Promo card** | `real-card` (existing) | reuse `RealCardBlock`; add `hidden` | — (inline content) |
 
