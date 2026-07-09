@@ -51,14 +51,14 @@ export default async function AuthorPage({ params }: Props) {
 
           <div className="flex justify-between gap-3 lg:items-center max-lg:flex-col">
             <div className="flex items-center gap-6">
-              <div className="min-w-28 min-h-28 max-lg:w-20 max-lg:h-20 rounded-full overflow-hidden">
-                <Image src={authorInfo.authorPhoto} alt="" className='object-cover'/>
+              <div className="w-28 h-28 lg:min-h-28 lg:min-w-28 min-w-20 max-lg:w-20 max-lg:h-20 rounded-full overflow-hidden">
+                <Image src={authorInfo.authorPhoto} alt="" className="object-cover w-full h-full" />
               </div>
 
               <BlockTitle title={author} subtitle={authorInfo.authorJob} />
             </div>
 
-            <div className="flex items-center flex-wrap gap-1">
+            <div className="flex items-center lg:justify-end flex-wrap gap-1">
               {Content.map((item, i) => (
                 <div
                   key={i}
@@ -68,7 +68,7 @@ export default async function AuthorPage({ params }: Props) {
                     <Image src={item.icon} alt="" />
                   </div>
 
-                  <div className='text-nowrap'>{item.text}</div>
+                  <div className="text-nowrap">{item.text}</div>
                 </div>
               ))}
             </div>

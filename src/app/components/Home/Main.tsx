@@ -13,7 +13,7 @@ export default async function Main() {
   return (
     <div className="container-custom">
       <div className="md:border-l md:border-r border-[#E1DDD5] p-6 flex gap-5 max-md:flex-col max-lg:p-0 max-lg:py-5">
-        <div className="flex flex-col gap-5  md:max-w-[300px]">
+        <div className="flex flex-col gap-5 w-full  md:max-w-[300px]">
           <Signals>
             <Alert title="Whale Alert" cards={whaleCards} />
             <div className="w-full h-px bg-[#E1DDD5]" />
