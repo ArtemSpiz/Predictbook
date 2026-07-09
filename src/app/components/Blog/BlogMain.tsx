@@ -1,73 +1,18 @@
-import { Suspense } from 'react'
-import BlockTitle from '@/app/ui/BlockTitle'
-import SummaryCard from '@/app/ui/SummaryCard'
-import BlogCol from './BlogsCol'
-import { findBlogPosts } from '@/utilities/getBlogPosts'
+import { RenderBlockList } from '@/blocks/RenderBlockList'
 import { getBlogPageContent } from '@/utilities/getPageContent'
-import { blogToArticleView } from '@/app/lib/viewModels'
-
-const TypeSummary = [
-  {
-    title: 'Daily summary',
-    infoTitle: 'Daily Market Pulse',
-    info: [
-      'Fed cut odds hit 63¢ — 6pt jump from Friday close',
-      'Nvidia arb window opened briefly, now closed at 48¢',
-      'Kalshi recession market surges on PMI miss',
-    ],
-  },
-  {
-    title: 'Weekly summary',
-    infoTitle: 'Weekly Market Pulse',
-    day: 'Week of June 2',
-    time: '2026',
-    info: [
-      'Fed cut odds hit 63¢ — 6pt jump from Friday close',
-      'Nvidia arb window opened briefly, now closed at 48¢',
-      'Kalshi recession market surges on PMI miss',
-    ],
-  },
-]
 
 export default async function BlogMain() {
-  const [posts, content] = await Promise.all([findBlogPosts({ limit: 30 }), getBlogPageContent()])
-  const articles = posts.docs.map(blogToArticleView)
-  const categories = (content?.categories ?? []).map((c) => c.title)
+  const content = await getBlogPageContent()
 
   return (
     <div className="container-custom">
       <div className="md:border-l md:border-r border-line p-6 flex gap-5 max-md:flex-col max-lg:p-0 max-lg:py-5">
-        <div className=" flex flex-col gap-5 flex-1 md:border-r border-line md:pr-5 max-lg:pl-5 max-md:pl-0">
-          <Suspense fallback={<div>Loading...</div>}>
-            <BlogCol
-              articles={articles}
-              categories={categories}
-              title={content?.title ?? undefined}
-              subtitle={content?.subtitle ?? undefined}
-            />
-          </Suspense>
+        <div className="flex flex-col gap-5 flex-1 md:border-r border-line md:pr-5 max-lg:pl-5 max-md:pl-0">
+          <RenderBlockList blocks={content?.mainBlocks} />
         </div>
 
         <div className="flex flex-col gap-4 md:max-w-[300px]">
-          <BlockTitle
-            title="Summary"
-            subtitle="A concise recap of the market's biggest moves, key signals, and what mattered most."
-          />
-          <SummaryCard
-            title={TypeSummary[0].title}
-            day={TypeSummary[0].day}
-            time={TypeSummary[0].time}
-            infoTitle={TypeSummary[0].infoTitle}
-            info={TypeSummary[0].info}
-          />
-
-          <SummaryCard
-            title={TypeSummary[1].title}
-            day={TypeSummary[1].day}
-            time={TypeSummary[1].time}
-            infoTitle={TypeSummary[1].infoTitle}
-            info={TypeSummary[1].info}
-          />
+          <RenderBlockList blocks={content?.sidebarBlocks} />
         </div>
       </div>
     </div>

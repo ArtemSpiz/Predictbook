@@ -1,6 +1,8 @@
 import type { GlobalConfig } from 'payload'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { revalidateGlobalHooks } from '@/hooks/revalidateFrontCache'
+import { BlogListBlock } from '@/blocks/BlogList/config'
+import { SummaryBlock } from '@/blocks/Summary/config'
 
 export const BlogPage: GlobalConfig = {
   slug: 'blog-page',
@@ -8,19 +10,32 @@ export const BlogPage: GlobalConfig = {
   access: { read: () => true, update: isAdminOrEditor },
   hooks: revalidateGlobalHooks,
   fields: [
-    { name: 'title', type: 'text', defaultValue: 'Analysis' },
     {
-      name: 'subtitle',
-      type: 'textarea',
-      defaultValue:
-        'Short-form market analysis — 3 pieces per day, ~300 words each. Our writers take live prediction market signals and give context and directional reasoning.',
-    },
-    {
-      name: 'categories',
-      type: 'array',
-      label: 'Filter categories',
-      admin: { description: 'Category filter buttons shown above the list.' },
-      fields: [{ name: 'title', type: 'text', required: true }],
+      type: 'tabs',
+      tabs: [
+        {
+          label: 'Main content',
+          fields: [
+            {
+              name: 'mainBlocks',
+              type: 'blocks',
+              labels: { singular: 'Main block', plural: 'Main blocks' },
+              blocks: [BlogListBlock],
+            },
+          ],
+        },
+        {
+          label: 'Right sidebar',
+          fields: [
+            {
+              name: 'sidebarBlocks',
+              type: 'blocks',
+              labels: { singular: 'Sidebar block', plural: 'Sidebar blocks' },
+              blocks: [SummaryBlock],
+            },
+          ],
+        },
+      ],
     },
   ],
 }

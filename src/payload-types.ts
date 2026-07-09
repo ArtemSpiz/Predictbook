@@ -2755,15 +2755,56 @@ export interface LiveFeedPage {
  */
 export interface BlogPage {
   id: string;
-  title?: string | null;
-  subtitle?: string | null;
-  /**
-   * Category filter buttons shown above the list.
-   */
-  categories?:
+  mainBlocks?:
     | {
-        title: string;
+        heading: string;
+        subtitle?: string | null;
+        /**
+         * Category filter buttons shown above the list.
+         */
+        categories?:
+          | {
+              title: string;
+              id?: string | null;
+            }[]
+          | null;
+        limit?: number | null;
+        /**
+         * Temporarily hide this block without deleting it.
+         */
+        hidden?: boolean | null;
         id?: string | null;
+        blockName?: string | null;
+        blockType: 'blog-list';
+      }[]
+    | null;
+  sidebarBlocks?:
+    | {
+        /**
+         * If there is only one, the tabs are not displayed on the site.
+         */
+        tabs?:
+          | {
+              title: string;
+              infoTitle: string;
+              day?: string | null;
+              time?: string | null;
+              info?:
+                | {
+                    text: string;
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Temporarily hide this block without deleting it.
+         */
+        hidden?: boolean | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'summary';
       }[]
     | null;
   updatedAt?: string | null;
@@ -3133,13 +3174,51 @@ export interface LiveFeedPageSelect<T extends boolean = true> {
  * via the `definition` "blog-page_select".
  */
 export interface BlogPageSelect<T extends boolean = true> {
-  title?: T;
-  subtitle?: T;
-  categories?:
+  mainBlocks?:
     | T
     | {
-        title?: T;
-        id?: T;
+        'blog-list'?:
+          | T
+          | {
+              heading?: T;
+              subtitle?: T;
+              categories?:
+                | T
+                | {
+                    title?: T;
+                    id?: T;
+                  };
+              limit?: T;
+              hidden?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  sidebarBlocks?:
+    | T
+    | {
+        summary?:
+          | T
+          | {
+              tabs?:
+                | T
+                | {
+                    title?: T;
+                    infoTitle?: T;
+                    day?: T;
+                    time?: T;
+                    info?:
+                      | T
+                      | {
+                          text?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
+              hidden?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;

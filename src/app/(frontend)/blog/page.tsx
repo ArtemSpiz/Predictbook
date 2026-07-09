@@ -5,10 +5,11 @@ import BlogMain from '@/app/components/Blog/BlogMain'
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await getBlogPageContent()
-  const title = content?.title ?? 'Analysis'
+  const block = content?.mainBlocks?.find((b) => b.blockType === 'blog-list')
+  const title = block?.heading ?? 'Analysis'
   return {
     title,
-    description: content?.subtitle ?? undefined,
+    description: block?.subtitle ?? undefined,
     ...localeAlternates('blog'),
     openGraph: { type: 'website', title, url: '/blog' },
   }

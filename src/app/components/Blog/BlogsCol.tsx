@@ -13,23 +13,12 @@ import type { ArticleView } from '@/app/lib/viewModels'
 interface Props {
   articles: ArticleView[]
   categories: string[]
-  title?: string
+  title: string
   subtitle?: string
 }
 
-const DEFAULT_CATEGORIES = [
-  'All',
-  'Politics',
-  'Economics',
-  'Crypto',
-  'Technology',
-  'Sports',
-  'Science',
-]
-
 export default function BlogCol({ articles, categories, title, subtitle }: Props) {
   const searchParams = useSearchParams()
-  const categoryList = categories.length > 0 ? categories : DEFAULT_CATEGORIES
 
   const initialCategory = searchParams.get('category') || 'All'
 
@@ -60,13 +49,7 @@ export default function BlogCol({ articles, categories, title, subtitle }: Props
   return (
     <div className="flex flex-col gap-6 pb-4">
       <div className="flex flex-col gap-3">
-        <BlockTitle
-          title={title ?? 'Analysis'}
-          subtitle={
-            subtitle ??
-            'Short-form market analysis — 3 pieces per day, ~300 words each. Our writers take live prediction market signals and give context and directional reasoning.'
-          }
-        />
+        <BlockTitle title={title} subtitle={subtitle} />
 
         <div className="relative w-full p-3 pl-7 overflow-hidden bg-white rounded-lg">
           <div className="w-3 h-3 absolute top-1/2 -translate-y-1/2 left-3">
@@ -82,7 +65,7 @@ export default function BlogCol({ articles, categories, title, subtitle }: Props
       </div>
 
       <div className="flex flex-wrap gap-2">
-        {categoryList.map((cat) => {
+        {categories.map((cat) => {
           const isActive = activeCategory === cat
           return (
             <button

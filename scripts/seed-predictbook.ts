@@ -560,12 +560,53 @@ async function main() {
   await payload.updateGlobal({
     slug: 'blog-page',
     data: {
-      title: 'Analysis',
-      subtitle:
-        'Short-form market analysis — 3 pieces per day, ~300 words each. Our writers take live prediction market signals and give context and directional reasoning.',
-      categories: ['All', 'Politics', 'Economics', 'Crypto', 'Technology', 'Sports', 'Science'].map(
-        (title) => ({ title }),
-      ),
+      mainBlocks: [
+        {
+          blockType: 'blog-list',
+          heading: 'Analysis',
+          subtitle:
+            'Short-form market analysis — 3 pieces per day, ~300 words each. Our writers take live prediction market signals and give context and directional reasoning.',
+          categories: [
+            'All',
+            'Politics',
+            'Economics',
+            'Crypto',
+            'Technology',
+            'Sports',
+            'Science',
+          ].map((title) => ({ title })),
+          limit: 30,
+          hidden: false,
+        },
+      ],
+      sidebarBlocks: [
+        {
+          blockType: 'summary',
+          tabs: [
+            {
+              title: 'Daily summary',
+              infoTitle: 'Daily Market Pulse',
+              info: [
+                { text: 'Fed cut odds hit 63¢ — 6pt jump from Friday close' },
+                { text: 'Nvidia arb window opened briefly, now closed at 48¢' },
+                { text: 'Kalshi recession market surges on PMI miss' },
+              ],
+            },
+            {
+              title: 'Weekly summary',
+              infoTitle: 'Weekly Market Pulse',
+              day: 'Week of June 2',
+              time: '2026',
+              info: [
+                { text: 'Fed cut odds hit 63¢ — 6pt jump from Friday close' },
+                { text: 'Nvidia arb window opened briefly, now closed at 48¢' },
+                { text: 'Kalshi recession market surges on PMI miss' },
+              ],
+            },
+          ],
+          hidden: false,
+        },
+      ],
     } as any,
   })
 
