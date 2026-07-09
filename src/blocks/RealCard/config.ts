@@ -1,4 +1,5 @@
 import { Block } from 'payload'
+import { hiddenField } from '../_shared/fields'
 
 export const RealCardBlock: Block = {
   slug: 'real-card',
@@ -70,5 +71,6 @@ export const RealCardBlock: Block = {
         description: 'Decorative image (e.g., Graph)',
       },
     },
+    hiddenField,
   ],
 }

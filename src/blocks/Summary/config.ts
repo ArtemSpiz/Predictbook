@@ -1,4 +1,5 @@
 import { Block } from 'payload'
+import { hiddenField } from '../_shared/fields'
 
 export const SummaryBlock: Block = {
   slug: 'summary',
@@ -52,5 +53,6 @@ export const SummaryBlock: Block = {
         },
       ],
     },
+    hiddenField,
   ],
 }
