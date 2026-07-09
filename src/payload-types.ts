@@ -560,6 +560,10 @@ export interface Page {
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Temporarily hide this block without deleting it.
+             */
+            hidden?: boolean | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'summary';
@@ -582,6 +586,10 @@ export interface Page {
              * Decorative image (e.g., Graph)
              */
             backgroundImage: string | Media;
+            /**
+             * Temporarily hide this block without deleting it.
+             */
+            hidden?: boolean | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'real-card';
@@ -1708,6 +1716,7 @@ export interface PagesSelect<T extends boolean = true> {
                         };
                     id?: T;
                   };
+              hidden?: T;
               id?: T;
               blockName?: T;
             };
@@ -1722,6 +1731,7 @@ export interface PagesSelect<T extends boolean = true> {
               buttonText?: T;
               buttonUrl?: T;
               backgroundImage?: T;
+              hidden?: T;
               id?: T;
               blockName?: T;
             };
@@ -2384,31 +2394,147 @@ export interface SiteSetting {
  */
 export interface HomePage {
   id: string;
+  signalsMobileHeader: {
+    title: string;
+    subtitle?: string | null;
+  };
   /**
-   * Daily / weekly summary tabs.
+   * Whale Alert, Arbitrage Alert, Summaries, Promo card.
    */
-  summaries?:
-    | {
-        title: string;
-        infoTitle: string;
-        info?:
-          | {
-              text: string;
-              id?: string | null;
-            }[]
-          | null;
-        id?: string | null;
-      }[]
+  sidebarBlocks?:
+    | (
+        | {
+            /**
+             * On-site title, e.g. "Whale Alert" or "Arbitrage Alert".
+             */
+            heading: string;
+            /**
+             * Which signals to pull from the Signals collection.
+             */
+            kind: 'whale' | 'arbitrage';
+            delayLabel?: string | null;
+            limit?: number | null;
+            viewAllText: string;
+            viewAllUrl?: string | null;
+            /**
+             * Temporarily hide this block without deleting it.
+             */
+            hidden?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'signal-feed';
+          }
+        | {
+            /**
+             * If there is only one, the tabs are not displayed on the site.
+             */
+            tabs?:
+              | {
+                  title: string;
+                  infoTitle: string;
+                  day?: string | null;
+                  time?: string | null;
+                  info?:
+                    | {
+                        text: string;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  id?: string | null;
+                }[]
+              | null;
+            /**
+             * Temporarily hide this block without deleting it.
+             */
+            hidden?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'summary';
+          }
+        | {
+            /**
+             * Icon in the badge (e.g., Lightning)
+             */
+            badgeIcon: string | Media;
+            badgeText: string;
+            showLiveDot?: boolean | null;
+            title: string;
+            description: string;
+            buttonText: string;
+            /**
+             * Where the button leads (optional; if left blank, there is no link)
+             */
+            buttonUrl?: string | null;
+            /**
+             * Decorative image (e.g., Graph)
+             */
+            backgroundImage: string | Media;
+            /**
+             * Temporarily hide this block without deleting it.
+             */
+            hidden?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'real-card';
+          }
+      )[]
     | null;
+  categorySwitcherHeader: {
+    title: string;
+    subtitle?: string | null;
+  };
   /**
-   * Titled rows on the homepage sourced from a blog category.
+   * Analysis, Live Feed, Category sections.
    */
-  articleSections?:
-    | {
-        label: string;
-        category: string | Category;
-        id?: string | null;
-      }[]
+  mainBlocks?:
+    | (
+        | {
+            heading: string;
+            subtitle?: string | null;
+            limit?: number | null;
+            viewAllText: string;
+            viewAllUrl?: string | null;
+            /**
+             * Temporarily hide this block without deleting it.
+             */
+            hidden?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'analysis';
+          }
+        | {
+            heading: string;
+            limit?: number | null;
+            viewAllText: string;
+            viewAllUrl?: string | null;
+            /**
+             * Temporarily hide this block without deleting it.
+             */
+            hidden?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'live-feed-block';
+          }
+        | {
+            /**
+             * Row heading, e.g. "Politics".
+             */
+            label: string;
+            category: string | Category;
+            /**
+             * Badge color theme for this row.
+             */
+            accent: 'politics' | 'sports' | 'crypto' | 'tech' | 'science';
+            limit?: number | null;
+            /**
+             * Temporarily hide this block without deleting it.
+             */
+            hidden?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'category-section';
+          }
+      )[]
     | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -2601,25 +2727,109 @@ export interface SiteSettingsSelect<T extends boolean = true> {
  * via the `definition` "home-page_select".
  */
 export interface HomePageSelect<T extends boolean = true> {
-  summaries?:
+  signalsMobileHeader?:
     | T
     | {
         title?: T;
-        infoTitle?: T;
-        info?:
-          | T
-          | {
-              text?: T;
-              id?: T;
-            };
-        id?: T;
+        subtitle?: T;
       };
-  articleSections?:
+  sidebarBlocks?:
     | T
     | {
-        label?: T;
-        category?: T;
-        id?: T;
+        'signal-feed'?:
+          | T
+          | {
+              heading?: T;
+              kind?: T;
+              delayLabel?: T;
+              limit?: T;
+              viewAllText?: T;
+              viewAllUrl?: T;
+              hidden?: T;
+              id?: T;
+              blockName?: T;
+            };
+        summary?:
+          | T
+          | {
+              tabs?:
+                | T
+                | {
+                    title?: T;
+                    infoTitle?: T;
+                    day?: T;
+                    time?: T;
+                    info?:
+                      | T
+                      | {
+                          text?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
+              hidden?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'real-card'?:
+          | T
+          | {
+              badgeIcon?: T;
+              badgeText?: T;
+              showLiveDot?: T;
+              title?: T;
+              description?: T;
+              buttonText?: T;
+              buttonUrl?: T;
+              backgroundImage?: T;
+              hidden?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  categorySwitcherHeader?:
+    | T
+    | {
+        title?: T;
+        subtitle?: T;
+      };
+  mainBlocks?:
+    | T
+    | {
+        analysis?:
+          | T
+          | {
+              heading?: T;
+              subtitle?: T;
+              limit?: T;
+              viewAllText?: T;
+              viewAllUrl?: T;
+              hidden?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'live-feed-block'?:
+          | T
+          | {
+              heading?: T;
+              limit?: T;
+              viewAllText?: T;
+              viewAllUrl?: T;
+              hidden?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'category-section'?:
+          | T
+          | {
+              label?: T;
+              category?: T;
+              accent?: T;
+              limit?: T;
+              hidden?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;

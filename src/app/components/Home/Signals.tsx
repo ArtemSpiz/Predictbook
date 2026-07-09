@@ -4,11 +4,12 @@ import { useEffect, useRef, useState } from 'react'
 
 type SignalsProps = {
   children: React.ReactNode
+  header: { title: string; subtitle?: string | null }
 }
 
 const options = ['Show', 'Hide']
 
-export default function Signals({ children }: SignalsProps) {
+export default function Signals({ children, header }: SignalsProps) {
   const [show, setShow] = useState(true)
 
   const active = show ? 0 : 1
@@ -28,10 +29,8 @@ export default function Signals({ children }: SignalsProps) {
       <div className="md:hidden">
         <div className="flex items-start justify-between gap-4 mb-3">
           <div>
-            <div className="font-semibold text-lg mb-1">Signals</div>
-            <div className="text-muted text-sm">
-              Track emerging trends before they become headlines
-            </div>
+            <div className="font-semibold text-lg mb-1">{header.title}</div>
+            {header.subtitle && <div className="text-muted text-sm">{header.subtitle}</div>}
           </div>
 
           <div className="relative flex rounded-xl bg-white border border-solid border-line gap-1 shrink-0 h-fit">

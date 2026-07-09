@@ -1,6 +1,12 @@
 import type { GlobalConfig } from 'payload'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { revalidateGlobalHooks } from '@/hooks/revalidateFrontCache'
+import { SignalFeedBlock } from '@/blocks/SignalFeed/config'
+import { SummaryBlock } from '@/blocks/Summary/config'
+import { RealCardBlock } from '@/blocks/RealCard/config'
+import { AnalysisBlock } from '@/blocks/Analysis/config'
+import { LiveFeedBlock } from '@/blocks/LiveFeedBlock/config'
+import { CategorySectionBlock } from '@/blocks/CategorySection/config'
 
 export const HomePage: GlobalConfig = {
   slug: 'home-page',
@@ -9,32 +15,65 @@ export const HomePage: GlobalConfig = {
   hooks: revalidateGlobalHooks,
   fields: [
     {
-      name: 'summaries',
-      type: 'array',
-      label: 'Market pulse summaries',
-      admin: { description: 'Daily / weekly summary tabs.' },
-      fields: [
-        { name: 'title', type: 'text', required: true },
-        { name: 'infoTitle', type: 'text', required: true },
+      type: 'tabs',
+      tabs: [
         {
-          name: 'info',
-          type: 'array',
-          fields: [{ name: 'text', type: 'text', required: true }],
+          label: 'Left sidebar',
+          description: 'Blocks shown in the left column of the home page.',
+          fields: [
+            {
+              name: 'signalsMobileHeader',
+              type: 'group',
+              label: 'Signals header (mobile only)',
+              fields: [
+                { name: 'title', type: 'text', required: true, defaultValue: 'Signals' },
+                {
+                  name: 'subtitle',
+                  type: 'text',
+                  defaultValue: 'Track emerging trends before they become headlines',
+                },
+              ],
+            },
+            {
+              name: 'sidebarBlocks',
+              type: 'blocks',
+              labels: { singular: 'Sidebar block', plural: 'Sidebar blocks' },
+              admin: { description: 'Whale Alert, Arbitrage Alert, Summaries, Promo card.' },
+              blocks: [SignalFeedBlock, SummaryBlock, RealCardBlock],
+            },
+          ],
         },
-      ],
-    },
-    {
-      name: 'articleSections',
-      type: 'array',
-      label: 'Category article sections',
-      admin: { description: 'Titled rows on the homepage sourced from a blog category.' },
-      fields: [
-        { name: 'label', type: 'text', required: true },
         {
-          name: 'category',
-          type: 'relationship',
-          relationTo: 'categories',
-          required: true,
+          label: 'Main content',
+          description: 'Blocks shown in the main (right) column of the home page.',
+          fields: [
+            {
+              name: 'categorySwitcherHeader',
+              type: 'group',
+              label: 'Category switcher header (mobile only)',
+              fields: [
+                {
+                  name: 'title',
+                  type: 'text',
+                  required: true,
+                  defaultValue: 'Explore by Category',
+                },
+                {
+                  name: 'subtitle',
+                  type: 'text',
+                  defaultValue:
+                    'The latest articles from our most-followed prediction market topics.',
+                },
+              ],
+            },
+            {
+              name: 'mainBlocks',
+              type: 'blocks',
+              labels: { singular: 'Main block', plural: 'Main blocks' },
+              admin: { description: 'Analysis, Live Feed, Category sections.' },
+              blocks: [AnalysisBlock, LiveFeedBlock, CategorySectionBlock],
+            },
+          ],
         },
       ],
     },
