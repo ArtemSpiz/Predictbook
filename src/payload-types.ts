@@ -2679,6 +2679,7 @@ export interface ContactPage {
     | (
         | {
             heading?: string | null;
+            socialsHeading?: string | null;
             methods?:
               | {
                   icon?: (string | null) | Media;
@@ -3160,6 +3161,7 @@ export interface ContactPageSelect<T extends boolean = true> {
           | T
           | {
               heading?: T;
+              socialsHeading?: T;
               methods?:
                 | T
                 | {

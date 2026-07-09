@@ -21,9 +21,10 @@ interface Props {
   heading?: string
   methods?: ContactMethod[] | null
   socials?: ContactSocial[] | null
+  socialsHeading?: string
 }
 
-export default function ContactOther({ heading = '', methods, socials }: Props) {
+export default function ContactOther({ heading = '', methods, socials, socialsHeading }: Props) {
   return (
     <div className="bg-sand border-line p-6 flex flex-col gap-4">
       <div className="font-medium">{heading}</div>
@@ -48,7 +49,7 @@ export default function ContactOther({ heading = '', methods, socials }: Props) 
 
       {socials && socials.length > 0 && (
         <div className="border-t border-muted-a16 pt-4 flex items-center justify-between">
-          <div className="font-medium">Follow Us</div>
+          <div className="font-medium">{socialsHeading}</div>
 
           <div className="flex items-center gap-3">
             {socials.map((item) => (

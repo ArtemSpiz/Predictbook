@@ -507,6 +507,7 @@ async function main() {
         {
           blockType: 'contact-methods',
           heading: 'Other ways to reach us',
+          socialsHeading: 'Follow Us',
           methods: [
             {
               title: 'Email',

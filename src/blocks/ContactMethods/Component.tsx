@@ -19,6 +19,7 @@ type ContactMethodsBlockProps = {
   heading?: string | null
   methods?: Method[] | null
   socials?: Social[] | null
+  socialsHeading?: string | null
 }
 
 export function ContactMethodsBlockComponent({ block }: { block: ContactMethodsBlockProps }) {
@@ -27,6 +28,7 @@ export function ContactMethodsBlockComponent({ block }: { block: ContactMethodsB
       heading={block.heading ?? undefined}
       methods={block.methods ?? undefined}
       socials={block.socials ?? undefined}
+      socialsHeading={block.socialsHeading ?? undefined}
     />
   )
 }

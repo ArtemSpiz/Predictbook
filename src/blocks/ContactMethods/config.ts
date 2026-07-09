@@ -6,6 +6,7 @@ export const ContactMethodsBlock: Block = {
   labels: { singular: 'Contact Methods', plural: 'Contact Methods' },
   fields: [
     { name: 'heading', type: 'text', defaultValue: 'Other ways to reach us' },
+    { name: 'socialsHeading', type: 'text', defaultValue: 'Follow Us' },
     {
       name: 'methods',
       type: 'array',
