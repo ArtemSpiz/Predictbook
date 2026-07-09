@@ -311,30 +311,122 @@ async function main() {
 
   // ---------- globals ----------
   console.log('[seed] globals...')
-  const summaryInfo = [
-    'Fed cut odds hit 63¢ — 6pt jump from Friday close',
-    'Nvidia arb window opened briefly, now closed at 48¢',
-    'Kalshi recession market surges on PMI miss',
-  ]
+
+  // promo images for the Real Card block
+  const promoImg = async (alt: string, file: string): Promise<string | undefined> => {
+    const found = await payload.find({ collection: 'media', where: { alt: { equals: alt } }, limit: 1 })
+    if (found.docs.length) return found.docs[0].id
+    try {
+      const m = await payload.create({ collection: 'media', data: { alt } as any, filePath: path.join(PUBLIC, file) })
+      return m.id
+    } catch (e) {
+      console.warn(` ! ${file} upload failed:`, (e as Error).message)
+      return coverId // fallback so the required field is still populated
+    }
+  }
+  const lightningId = await promoImg('Real-time alerts badge', 'Lightning.png')
+  const graphId = await promoImg('Real-time alerts graph', 'Graph.png')
+
   await payload.updateGlobal({
     slug: 'home-page',
     data: {
-      summaries: [
+      signalsMobileHeader: {
+        title: 'Signals',
+        subtitle: 'Track emerging trends before they become headlines',
+      },
+      categorySwitcherHeader: {
+        title: 'Explore by Category',
+        subtitle: 'The latest articles from our most-followed prediction market topics.',
+      },
+      sidebarBlocks: [
         {
-          title: 'Daily summary',
-          infoTitle: 'Daily Market Pulse — Monday June 9',
-          info: summaryInfo.map((text) => ({ text })),
+          blockType: 'signal-feed',
+          heading: 'Whale Alert',
+          kind: 'whale',
+          delayLabel: '30-min delay',
+          limit: 3,
+          viewAllText: 'View all whale alerts',
+          viewAllUrl: '/signals',
+          hidden: false,
         },
         {
-          title: 'Weekly summary',
-          infoTitle: 'Weekly Market Pulse — Monday June 9',
-          info: summaryInfo.map((text) => ({ text })),
+          blockType: 'signal-feed',
+          heading: 'Arbitrage Alert',
+          kind: 'arbitrage',
+          delayLabel: '30-min delay',
+          limit: 3,
+          viewAllText: 'View all arbitrage alerts',
+          viewAllUrl: '/signals',
+          hidden: false,
+        },
+        {
+          blockType: 'summary',
+          tabs: [
+            {
+              title: 'Daily',
+              infoTitle: 'Market pulse',
+              day: 'Today',
+              time: '20:00',
+              info: [{ text: 'Markets stayed range-bound ahead of the data print.' }],
+            },
+          ],
+          hidden: false,
+        },
+        {
+          blockType: 'real-card',
+          badgeIcon: lightningId,
+          badgeText: 'Real-time alerts',
+          showLiveDot: true,
+          title: 'Want signals in real time?',
+          description: 'Get instant alerts with advanced filtering tailored to your interests.',
+          buttonText: 'Join Real-time Alerts',
+          buttonUrl: '/signals',
+          backgroundImage: graphId,
+          hidden: false,
         },
       ],
-      articleSections: [
-        { label: 'Politics', category: catId['politics'] },
-        { label: 'Sports', category: catId['sports'] },
-        { label: 'Crypto', category: catId['crypto'] },
+      mainBlocks: [
+        {
+          blockType: 'analysis',
+          heading: 'Analysis',
+          subtitle: 'Expert perspectives behind market movements.',
+          limit: 5,
+          viewAllText: 'All articles',
+          viewAllUrl: '/blog',
+          hidden: false,
+        },
+        {
+          blockType: 'live-feed-block',
+          heading: 'Live Feed',
+          limit: 1,
+          viewAllText: 'All threads',
+          viewAllUrl: '/live-feed',
+          hidden: false,
+        },
+        {
+          blockType: 'category-section',
+          label: 'Politics',
+          category: catId['politics'],
+          accent: 'politics',
+          limit: 3,
+          hidden: false,
+        },
+        {
+          blockType: 'category-section',
+          label: 'Sports',
+          category: catId['sports'],
+          accent: 'sports',
+          limit: 3,
+          hidden: false,
+        },
+        {
+          blockType: 'category-section',
+          label: 'Crypto',
+          category: catId['crypto'],
+          accent: 'crypto',
+          limit: 3,
+          hidden: false,
+        },
       ],
     } as any,
   })
