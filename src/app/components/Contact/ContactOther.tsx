@@ -1,17 +1,32 @@
 import Image from 'next/image'
 import BtnArrow from '@/../public/BtnArrow.png'
 import { PayloadImage } from '@/app/components/PayloadImage'
-import type { ContactPage } from '@/payload-types'
+import type { Media } from '@/payload-types'
 
-interface Props {
-  methods?: ContactPage['methods']
-  socials?: ContactPage['socials']
+export interface ContactMethod {
+  id?: string | null
+  icon?: Media | number | string | null
+  title: string
+  linkText: string
+  link?: string | null
 }
 
-export default function ContactOther({ methods, socials }: Props) {
+export interface ContactSocial {
+  id?: string | null
+  icon?: Media | number | string | null
+  link: string
+}
+
+interface Props {
+  heading?: string
+  methods?: ContactMethod[] | null
+  socials?: ContactSocial[] | null
+}
+
+export default function ContactOther({ heading = '', methods, socials }: Props) {
   return (
     <div className="bg-sand border-line p-6 flex flex-col gap-4">
-      <div className="font-medium">Other ways to reach us</div>
+      <div className="font-medium">{heading}</div>
 
       <div className="flex flex-col gap-4">
         {methods?.map((card) => (

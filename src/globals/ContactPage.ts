@@ -1,6 +1,9 @@
 import type { GlobalConfig } from 'payload'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { revalidateGlobalHooks } from '@/hooks/revalidateFrontCache'
+import { ContactFormFieldsBlock } from '@/blocks/ContactFormFields/config'
+import { ContactMethodsBlock } from '@/blocks/ContactMethods/config'
+import { ContactValueBlock } from '@/blocks/ContactValue/config'
 
 export const ContactPage: GlobalConfig = {
   slug: 'contact-page',
@@ -8,46 +11,31 @@ export const ContactPage: GlobalConfig = {
   access: { read: () => true, update: isAdminOrEditor },
   hooks: revalidateGlobalHooks,
   fields: [
-    { name: 'title', type: 'text', defaultValue: 'Contact Us' },
     {
-      name: 'subtitle',
-      type: 'textarea',
-      defaultValue:
-        "Have a question, feedback, or partnership inquiry? We'd love to hear from you. Fill out the form below and our team will get back to you as soon as possible.",
-    },
-    {
-      name: 'methods',
-      type: 'array',
-      label: 'Contact methods',
-      fields: [
-        { name: 'icon', type: 'upload', relationTo: 'media' },
-        { name: 'title', type: 'text', required: true },
-        { name: 'linkText', type: 'text', required: true },
-        { name: 'link', type: 'text' },
-      ],
-    },
-    {
-      name: 'socials',
-      type: 'array',
-      label: 'Social links',
-      fields: [
-        { name: 'icon', type: 'upload', relationTo: 'media' },
-        { name: 'link', type: 'text', required: true },
-      ],
-    },
-    {
-      name: 'valueCard',
-      type: 'group',
-      label: 'Suggest a topic card',
-      fields: [
-        { name: 'title', type: 'text', defaultValue: 'Other ways to reach us' },
+      type: 'tabs',
+      tabs: [
         {
-          name: 'text',
-          type: 'textarea',
-          defaultValue:
-            'Your input helps us improve Predictbook and deliver better analysis.',
+          label: 'Main content',
+          fields: [
+            {
+              name: 'mainBlocks',
+              type: 'blocks',
+              labels: { singular: 'Main block', plural: 'Main blocks' },
+              blocks: [ContactFormFieldsBlock],
+            },
+          ],
         },
-        { name: 'buttonText', type: 'text', defaultValue: 'Suggest a topic' },
+        {
+          label: 'Right sidebar',
+          fields: [
+            {
+              name: 'sidebarBlocks',
+              type: 'blocks',
+              labels: { singular: 'Sidebar block', plural: 'Sidebar blocks' },
+              blocks: [ContactMethodsBlock, ContactValueBlock],
+            },
+          ],
+        },
       ],
     },
   ],

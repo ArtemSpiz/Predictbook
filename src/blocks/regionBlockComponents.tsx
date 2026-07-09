@@ -6,6 +6,9 @@ import { LiveFeedBlockComponent } from './LiveFeedBlock/Component'
 import { SignalsListBlockComponent } from './SignalsList/Component'
 import { LiveFeedListBlockComponent } from './LiveFeedList/Component'
 import { BlogListBlockComponent } from './BlogList/Component'
+import { ContactFormFieldsBlockComponent } from './ContactFormFields/Component'
+import { ContactMethodsBlockComponent } from './ContactMethods/Component'
+import { ContactValueBlockComponent } from './ContactValue/Component'
 
 // Single-block renderers shared by home and other pages. Grouped block types
 // (signal-feed, category-section) are handled specially in RenderHomeBlocks and
@@ -18,4 +21,7 @@ export const regionBlockComponents: Record<string, React.ComponentType<{ block: 
   'signals-list': SignalsListBlockComponent,
   'live-feed-list': LiveFeedListBlockComponent,
   'blog-list': BlogListBlockComponent,
+  'contact-form-fields': ContactFormFieldsBlockComponent,
+  'contact-methods': ContactMethodsBlockComponent,
+  'contact-value': ContactValueBlockComponent,
 }

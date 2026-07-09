@@ -7,7 +7,7 @@ import Captcha from '@/../public/captcha.png'
 
 import Image from 'next/image'
 
-type Subject = '' | 'general' | 'support' | 'feedback' | 'other'
+type Subject = string
 
 interface FormState {
   fullName: string
@@ -24,14 +24,27 @@ interface FormErrors {
   captcha?: string
 }
 
-const SUBJECT_OPTIONS: { value: Subject; label: string }[] = [
-  { value: 'general', label: 'General inquiry' },
-  { value: 'support', label: 'Support' },
-  { value: 'feedback', label: 'Feedback' },
-  { value: 'other', label: 'Other' },
+export interface SubjectOption {
+  label: string
+}
+
+const DEFAULT_SUBJECT_OPTIONS: SubjectOption[] = [
+  { label: 'General inquiry' },
+  { label: 'Support' },
+  { label: 'Feedback' },
+  { label: 'Other' },
 ]
 
 const MIN_MESSAGE_LENGTH = 10
+
+interface Props {
+  nameLabel?: string
+  emailLabel?: string
+  subjectLabel?: string
+  messageLabel?: string
+  subjectOptions?: SubjectOption[]
+  buttonText?: string
+}
 
 function LockIcon() {
   return <Image src={Lock} alt="" className="w-4 h-4" />
@@ -41,7 +54,14 @@ function ChevronIcon() {
   return <Image src={Chevron} alt="" className="w-4 h-4" />
 }
 
-export default function ContactCard() {
+export default function ContactCard({
+  nameLabel = 'Full name',
+  emailLabel = 'Email address',
+  subjectLabel = 'Subject',
+  messageLabel = 'Message',
+  subjectOptions = DEFAULT_SUBJECT_OPTIONS,
+  buttonText = 'Send message',
+}: Props) {
   const [form, setForm] = useState<FormState>({
     fullName: '',
     email: '',
@@ -59,13 +79,13 @@ export default function ContactCard() {
 
   function validate(): FormErrors {
     const next: FormErrors = {}
-    if (!form.fullName.trim()) next.fullName = 'Full name is required'
+    if (!form.fullName.trim()) next.fullName = `${nameLabel} is required`
     if (!form.email.trim()) {
-      next.email = 'Email address is required'
+      next.email = `${emailLabel} is required`
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
       next.email = 'Enter a valid email address'
     }
-    if (!form.subject) next.subject = 'Please select a subject'
+    if (!form.subject) next.subject = `Please select a ${subjectLabel.toLowerCase()}`
     if (form.message.trim().length < MIN_MESSAGE_LENGTH) {
       next.message = `Message must be at least ${MIN_MESSAGE_LENGTH} characters`
     }
@@ -117,7 +137,7 @@ export default function ContactCard() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
             <label htmlFor="fullName" className="block text-sm font-semibold text-gray-900 mb-2">
-              Full name <span className="text-gray-900">*</span>
+              {nameLabel} <span className="text-gray-900">*</span>
             </label>
             <input
               id="fullName"
@@ -132,7 +152,7 @@ export default function ContactCard() {
 
           <div>
             <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">
-              Email address <span className="text-gray-900">*</span>
+              {emailLabel} <span className="text-gray-900">*</span>
             </label>
             <input
               id="email"
@@ -148,7 +168,7 @@ export default function ContactCard() {
 
         <div>
           <label htmlFor="subject" className="block text-sm font-semibold text-gray-900 mb-2">
-            Subject <span className="text-gray-900">*</span>
+            {subjectLabel} <span className="text-gray-900">*</span>
           </label>
           <div className="relative">
             <select
@@ -158,10 +178,10 @@ export default function ContactCard() {
               className="w-full appearance-none rounded-lg border border-gray-200 px-4 py-3 pr-10 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400 transition bg-white"
             >
               <option value="" disabled hidden className="text-gray-400">
-                Select a subject
+                Select a {subjectLabel.toLowerCase()}
               </option>
-              {SUBJECT_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value}>
+              {subjectOptions.map((opt) => (
+                <option key={opt.label} value={opt.label}>
                   {opt.label}
                 </option>
               ))}
@@ -175,7 +195,7 @@ export default function ContactCard() {
 
         <div>
           <label htmlFor="message" className="block text-sm font-semibold text-gray-900 mb-2">
-            Message <span className="text-gray-900">*</span>
+            {messageLabel} <span className="text-gray-900">*</span>
           </label>
           <textarea
             id="message"
@@ -234,7 +254,7 @@ export default function ContactCard() {
           disabled={status === 'submitting'}
           className="w-full rounded-lg bg-gray-900 text-white font-medium py-3.5 text-sm hover:bg-gray-800 transition disabled:opacity-60"
         >
-          {status === 'submitting' ? 'Sending...' : 'Send message'}
+          {status === 'submitting' ? 'Sending...' : buttonText}
         </button>
 
         <p className="flex items-center gap-2 text-xs text-gray-400">

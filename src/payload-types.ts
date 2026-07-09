@@ -2651,29 +2651,72 @@ export interface AboutPage {
  */
 export interface ContactPage {
   id: string;
-  title?: string | null;
-  subtitle?: string | null;
-  methods?:
+  mainBlocks?:
     | {
-        icon?: (string | null) | Media;
-        title: string;
-        linkText: string;
-        link?: string | null;
+        heading?: string | null;
+        subtitle?: string | null;
+        subjectOptions?:
+          | {
+              label: string;
+              id?: string | null;
+            }[]
+          | null;
+        nameLabel?: string | null;
+        emailLabel?: string | null;
+        subjectLabel?: string | null;
+        messageLabel?: string | null;
+        buttonText?: string | null;
+        /**
+         * Temporarily hide this block without deleting it.
+         */
+        hidden?: boolean | null;
         id?: string | null;
+        blockName?: string | null;
+        blockType: 'contact-form-fields';
       }[]
     | null;
-  socials?:
-    | {
-        icon?: (string | null) | Media;
-        link: string;
-        id?: string | null;
-      }[]
+  sidebarBlocks?:
+    | (
+        | {
+            heading?: string | null;
+            methods?:
+              | {
+                  icon?: (string | null) | Media;
+                  title: string;
+                  linkText: string;
+                  link?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            socials?:
+              | {
+                  icon?: (string | null) | Media;
+                  link: string;
+                  id?: string | null;
+                }[]
+              | null;
+            /**
+             * Temporarily hide this block without deleting it.
+             */
+            hidden?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contact-methods';
+          }
+        | {
+            title?: string | null;
+            text?: string | null;
+            buttonText?: string | null;
+            /**
+             * Temporarily hide this block without deleting it.
+             */
+            hidden?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contact-value';
+          }
+      )[]
     | null;
-  valueCard?: {
-    title?: string | null;
-    text?: string | null;
-    buttonText?: string | null;
-  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -3086,30 +3129,67 @@ export interface AboutPageSelect<T extends boolean = true> {
  * via the `definition` "contact-page_select".
  */
 export interface ContactPageSelect<T extends boolean = true> {
-  title?: T;
-  subtitle?: T;
-  methods?:
+  mainBlocks?:
     | T
     | {
-        icon?: T;
-        title?: T;
-        linkText?: T;
-        link?: T;
-        id?: T;
+        'contact-form-fields'?:
+          | T
+          | {
+              heading?: T;
+              subtitle?: T;
+              subjectOptions?:
+                | T
+                | {
+                    label?: T;
+                    id?: T;
+                  };
+              nameLabel?: T;
+              emailLabel?: T;
+              subjectLabel?: T;
+              messageLabel?: T;
+              buttonText?: T;
+              hidden?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
-  socials?:
+  sidebarBlocks?:
     | T
     | {
-        icon?: T;
-        link?: T;
-        id?: T;
-      };
-  valueCard?:
-    | T
-    | {
-        title?: T;
-        text?: T;
-        buttonText?: T;
+        'contact-methods'?:
+          | T
+          | {
+              heading?: T;
+              methods?:
+                | T
+                | {
+                    icon?: T;
+                    title?: T;
+                    linkText?: T;
+                    link?: T;
+                    id?: T;
+                  };
+              socials?:
+                | T
+                | {
+                    icon?: T;
+                    link?: T;
+                    id?: T;
+                  };
+              hidden?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'contact-value'?:
+          | T
+          | {
+              title?: T;
+              text?: T;
+              buttonText?: T;
+              hidden?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;

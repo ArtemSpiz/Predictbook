@@ -314,10 +314,18 @@ async function main() {
 
   // promo images for the Real Card block
   const promoImg = async (alt: string, file: string): Promise<string | undefined> => {
-    const found = await payload.find({ collection: 'media', where: { alt: { equals: alt } }, limit: 1 })
+    const found = await payload.find({
+      collection: 'media',
+      where: { alt: { equals: alt } },
+      limit: 1,
+    })
     if (found.docs.length) return found.docs[0].id
     try {
-      const m = await payload.create({ collection: 'media', data: { alt } as any, filePath: path.join(PUBLIC, file) })
+      const m = await payload.create({
+        collection: 'media',
+        data: { alt } as any,
+        filePath: path.join(PUBLIC, file),
+      })
       return m.id
     } catch (e) {
       console.warn(` ! ${file} upload failed:`, (e as Error).message)
@@ -475,24 +483,54 @@ async function main() {
   await payload.updateGlobal({
     slug: 'contact-page',
     data: {
-      title: 'Contact Us',
-      subtitle:
-        "Have a question, feedback, or partnership inquiry? We'd love to hear from you. Fill out the form below and our team will get back to you as soon as possible.",
-      methods: [
-        { title: 'Email', linkText: 'hello@predictbook.io', link: 'mailto:hello@predictbook.io' },
-        { title: 'Telegram', linkText: '@predictbook', link: 'https://t.me/predictbook' },
+      mainBlocks: [
         {
-          title: 'Advertising & partnerships',
-          linkText: 'partnerships@predictbook.io',
-          link: 'mailto:partnerships@predictbook.io',
+          blockType: 'contact-form-fields',
+          heading: 'Contact Us',
+          subtitle:
+            "Have a question, feedback, or partnership inquiry? We'd love to hear from you. Fill out the form below and our team will get back to you as soon as possible.",
+          subjectOptions: [
+            { label: 'General inquiry' },
+            { label: 'Support' },
+            { label: 'Feedback' },
+            { label: 'Other' },
+          ],
+          nameLabel: 'Full name',
+          emailLabel: 'Email address',
+          subjectLabel: 'Subject',
+          messageLabel: 'Message',
+          buttonText: 'Send message',
+          hidden: false,
         },
       ],
-      socials: [{ link: 'https://t.me/predictbook' }, { link: 'https://x.com/predictbook' }],
-      valueCard: {
-        title: 'Other ways to reach us',
-        text: 'Your input helps us improve Predictbook and deliver better analysis.',
-        buttonText: 'Suggest a topic',
-      },
+      sidebarBlocks: [
+        {
+          blockType: 'contact-methods',
+          heading: 'Other ways to reach us',
+          methods: [
+            {
+              title: 'Email',
+              linkText: 'hello@predictbook.io',
+              link: 'mailto:hello@predictbook.io',
+            },
+            { title: 'Telegram', linkText: '@predictbook', link: 'https://t.me/predictbook' },
+            {
+              title: 'Advertising & partnerships',
+              linkText: 'partnerships@predictbook.io',
+              link: 'mailto:partnerships@predictbook.io',
+            },
+          ],
+          socials: [{ link: 'https://t.me/predictbook' }, { link: 'https://x.com/predictbook' }],
+          hidden: false,
+        },
+        {
+          blockType: 'contact-value',
+          title: 'Other ways to reach us',
+          text: 'Your input helps us improve Predictbook and deliver better analysis.',
+          buttonText: 'Suggest a topic',
+          hidden: false,
+        },
+      ],
     } as any,
   })
 
