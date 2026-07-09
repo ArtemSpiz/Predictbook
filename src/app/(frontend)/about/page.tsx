@@ -26,7 +26,12 @@ export default async function About() {
         </div>
         <div className="w-full h-px bg-line md:hidden" />
         <div className="flex flex-col gap-4 md:max-w-[300px]">
-          <Feed items={feedItems} />
+          <Feed
+            heading="Live Feed"
+            viewAllText="All threads"
+            viewAllUrl="/live-feed"
+            items={feedItems}
+          />
           <RealCard />
         </div>
       </div>

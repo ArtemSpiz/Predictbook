@@ -75,7 +75,12 @@ export default async function Main() {
             articles={articles.slice(0, 5)}
           />
           <div className="w-full h-px bg-line " />
-          <Feed items={feedItems} />
+          <Feed
+            heading="Live Feed"
+            viewAllText="All threads"
+            viewAllUrl="/live-feed"
+            items={feedItems.slice(0, 1)}
+          />
           <div className="w-full h-px bg-line " />
           <ArticleTypeMobileSwitcher
             politicsCards={articles}
