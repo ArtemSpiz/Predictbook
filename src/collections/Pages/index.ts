@@ -17,6 +17,7 @@ import { Stats } from '@/blocks/Stats/config'
 import { StatsChart } from '@/blocks/StatsChart/config'
 import { ContactFormBlock } from '@/blocks/ContactForm/config'
 import { pagesReadAccess, pagesWriteAccess } from './access'
+import { SummaryBlock } from '@/blocks/Summary/config'
 
 const allBlocks = [
   Hero,
@@ -30,6 +31,7 @@ const allBlocks = [
   LogoCloud,
   FAQ,
   Stats,
+  SummaryBlock,
   ...(starterConfig.features.swiper ? [Testimonials] : []),
   ...(starterConfig.features.charts ? [StatsChart] : []),
   ...(starterConfig.features.formBuilder ? [ContactFormBlock] : []),

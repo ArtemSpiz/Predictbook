@@ -542,6 +542,29 @@ export interface Page {
             blockType: 'stats';
           }
         | {
+            /**
+             * If there is only one, the tabs are not displayed on the site.
+             */
+            tabs?:
+              | {
+                  title: string;
+                  infoTitle: string;
+                  day?: string | null;
+                  time?: string | null;
+                  info?:
+                    | {
+                        text: string;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'summary';
+          }
+        | {
             heading?: string | null;
             items?:
               | {
@@ -1640,6 +1663,27 @@ export interface PagesSelect<T extends boolean = true> {
                     label?: T;
                     description?: T;
                     animateCounter?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        summary?:
+          | T
+          | {
+              tabs?:
+                | T
+                | {
+                    title?: T;
+                    infoTitle?: T;
+                    day?: T;
+                    time?: T;
+                    info?:
+                      | T
+                      | {
+                          text?: T;
+                          id?: T;
+                        };
                     id?: T;
                   };
               id?: T;

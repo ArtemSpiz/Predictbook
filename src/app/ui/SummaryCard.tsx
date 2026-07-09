@@ -23,7 +23,7 @@ export default function SummaryCard({
   time = '20:00',
 }: SummaryCardProps) {
   return (
-    <div className="overflow-hidden border border-solid border-line">
+    <div className="overflow-hidden border border-solid border-line ">
       <div className="flex items-center justify-between border-b border-line bg-white p-4">
         <div className="text-xs uppercase text-black">{title}</div>
         <div className="text-xs text-muted">
@@ -40,8 +40,8 @@ export default function SummaryCard({
           <div className="text-lg font-semibold">{infoTitle}</div>
 
           <ul className="space-y-2 pl-0 text-sm text-muted">
-            {info.map((item) => (
-              <li key={item} className="flex gap-2">
+            {info.map((item, index) => (
+              <li key={index} className="flex gap-2">
                 <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-ink" />
                 <span>{item}</span>
               </li>
