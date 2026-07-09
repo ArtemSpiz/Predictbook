@@ -72,7 +72,7 @@ export default async function Main() {
             subtitle="Expert perspectives behind market movements."
             viewAllText="All articles"
             viewAllUrl="/blog"
-            articles={articles}
+            articles={articles.slice(0, 5)}
           />
           <div className="w-full h-px bg-line " />
           <Feed items={feedItems} />
