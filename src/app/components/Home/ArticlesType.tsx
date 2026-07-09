@@ -7,22 +7,21 @@ import type { ArticleView } from '@/app/lib/viewModels'
 interface ArticleTypeProps {
   title: string
   accent: string
+  viewAllText: string
   viewAllUrl: string
   cards: ArticleView[]
 }
 
-export default function ArticleType({ title, accent, viewAllUrl, cards }: ArticleTypeProps) {
-  const filteredCards = cards.slice(0, 3)
-
+export default function ArticleType({ title, accent, viewAllText, viewAllUrl, cards }: ArticleTypeProps) {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between gap-3">
         <div className="font-semibold text-2xl max-md:text-base">{title}</div>
-        <AllBtn text="All articles" link={viewAllUrl} />
+        <AllBtn text={viewAllText} link={viewAllUrl} />
       </div>
 
       <div className="grid xl:grid-cols-3 gap-2">
-        {filteredCards.map((card) => (
+        {cards.map((card) => (
           <Link
             href={`/blog/${card.slug}`}
             key={card.slug}

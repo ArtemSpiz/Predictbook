@@ -409,6 +409,7 @@ async function main() {
           category: catId['politics'],
           accent: 'politics',
           limit: 3,
+          viewAllText: 'All articles',
           hidden: false,
         },
         {
@@ -417,6 +418,7 @@ async function main() {
           category: catId['sports'],
           accent: 'sports',
           limit: 3,
+          viewAllText: 'All articles',
           hidden: false,
         },
         {
@@ -425,6 +427,7 @@ async function main() {
           category: catId['crypto'],
           accent: 'crypto',
           limit: 3,
+          viewAllText: 'All articles',
           hidden: false,
         },
       ],

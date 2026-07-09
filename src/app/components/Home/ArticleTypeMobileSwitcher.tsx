@@ -62,6 +62,7 @@ export default function ArticleTypeMobileSwitcher({
       <ArticleType
         title={current.label}
         accent={current.accent}
+        viewAllText={current.viewAllText}
         viewAllUrl={current.viewAllUrl}
         cards={current.cards}
       />

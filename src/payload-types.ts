@@ -2526,6 +2526,7 @@ export interface HomePage {
              */
             accent: 'politics' | 'sports' | 'crypto' | 'tech' | 'science';
             limit?: number | null;
+            viewAllText: string;
             /**
              * Temporarily hide this block without deleting it.
              */
@@ -2826,6 +2827,7 @@ export interface HomePageSelect<T extends boolean = true> {
               category?: T;
               accent?: T;
               limit?: T;
+              viewAllText?: T;
               hidden?: T;
               id?: T;
               blockName?: T;

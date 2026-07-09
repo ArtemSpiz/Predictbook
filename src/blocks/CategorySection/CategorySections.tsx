@@ -7,6 +7,7 @@ import type { Category } from '@/payload-types'
 export type CategorySectionData = {
   label: string
   accent: string
+  viewAllText: string
   viewAllUrl: string
   cards: ArticleView[]
 }
@@ -16,6 +17,7 @@ export type CategoryBlock = {
   category: number | string | Category
   accent: string
   limit?: number | null
+  viewAllText: string
 }
 
 function categorySlug(category: number | string | Category): string {
@@ -32,10 +34,20 @@ export async function CategorySections({
   const sections: CategorySectionData[] = await Promise.all(
     blocks.map(async (b) => {
       const slug = categorySlug(b.category)
+      if (!slug) {
+        return {
+          label: b.label,
+          accent: b.accent,
+          viewAllText: b.viewAllText,
+          viewAllUrl: `/blog/category/${slug}`,
+          cards: [],
+        }
+      }
       const res = await findBlogPosts({ categorySlug: slug, limit: b.limit ?? 3 })
       return {
         label: b.label,
         accent: b.accent,
+        viewAllText: b.viewAllText,
         viewAllUrl: `/blog/category/${slug}`,
         cards: res.docs.map(blogToArticleView),
       }
@@ -48,7 +60,13 @@ export async function CategorySections({
       <div className="max-xl:hidden flex flex-col gap-5">
         {sections.map((s, i) => (
           <div key={s.label} className="flex flex-col gap-5">
-            <ArticleType title={s.label} accent={s.accent} viewAllUrl={s.viewAllUrl} cards={s.cards} />
+            <ArticleType
+              title={s.label}
+              accent={s.accent}
+              viewAllText={s.viewAllText}
+              viewAllUrl={s.viewAllUrl}
+              cards={s.cards}
+            />
             {i < sections.length - 1 && <div className="w-full h-px bg-line" />}
           </div>
         ))}

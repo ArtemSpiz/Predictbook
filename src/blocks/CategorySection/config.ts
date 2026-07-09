@@ -17,6 +17,7 @@ export const CategorySectionBlock: Block = {
       options: ACCENT_VALUES.map((v) => ({ label: v[0].toUpperCase() + v.slice(1), value: v })),
     },
     { name: 'limit', type: 'number', defaultValue: 3, min: 1, max: 9 },
+    { name: 'viewAllText', type: 'text', required: true, defaultValue: 'All articles' },
     hiddenField,
   ],
 }
