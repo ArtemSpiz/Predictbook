@@ -156,3 +156,36 @@ not part of this implementation:
 
 For each: list on-site blocks per region, mark which are hardcoded vs. collection-driven,
 and queue migration in the confirmed layout order.
+
+---
+
+## Phase 2: Migrate other sidebar+main pages (approved 2026-07-10)
+
+Apply the region+blocks pattern to the five other pages that share the two-column
+layout. Case-studies (single column) stays out of scope. Blog sub-routes
+(`/blog/[slug]`, `/blog/category/*`, author) stay in the backlog.
+
+**Renderer:** Generalize `RenderHomeBlocks` into a shared `RenderRegion` + a
+`blockType → async component` registry so every page renders through one path. The
+signal-feed→Signals-collapse and category-section→switcher groupings remain but only
+fire where those block types appear (home).
+
+**Per page:**
+- **About** — rail becomes blocks `[live-feed-block, real-card]` (removes the temp Feed
+  stopgap and the old hardcoded `Home/RealCard`); main content (title/body/cta) stays in
+  its existing editable global fields under a Content tab.
+- **Signals** — new `signals-list` block (heading/subtitle/delayText/limit) in main;
+  `real-card` in rail.
+- **Live Feed** — new `live-feed-list` block (heading/subtitle/limit) in main; `real-card` in rail.
+- **Blog** — new `blog-list` block (heading/subtitle/category source/limit) in main;
+  reuse `summary` block in rail (replaces hardcoded TypeSummary array + "Summary" header).
+- **Contact** — new `contact-form`, `contact-methods`, `contact-value` blocks wrapping the
+  existing components; fix the hardcoded "Other ways to reach us" heading.
+
+**Contact form persistence (approved):** the contact form must actually save. Add a new
+Payload collection `contact-submissions` (name, email, subject, message; admin-readable,
+not publicly listable) and a server route `POST /api/contact` that creates a submission via
+the local Payload API. Wire `ContactCard` to POST to it (replacing the fake `setTimeout`).
+
+**No hardcoded content** rule continues to apply to every migrated page. Each page's global
+is seeded with its default block layout.
