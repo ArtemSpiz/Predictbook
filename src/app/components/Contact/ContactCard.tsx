@@ -50,7 +50,7 @@ export default function ContactCard() {
   })
   const [isVerified, setIsVerified] = useState(false)
   const [errors, setErrors] = useState<FormErrors>({})
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'sent'>('idle')
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'sent' | 'error'>('idle')
 
   function updateField<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }))
@@ -80,8 +80,21 @@ export default function ContactCard() {
     if (Object.keys(validationErrors).length > 0) return
 
     setStatus('submitting')
-    await new Promise((resolve) => setTimeout(resolve, 800))
-    setStatus('sent')
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.fullName,
+          email: form.email,
+          subject: form.subject,
+          message: form.message,
+        }),
+      })
+      setStatus(res.ok ? 'sent' : 'error')
+    } catch {
+      setStatus('error')
+    }
     setTimeout(() => {
       setStatus('idle')
     }, 1500)
@@ -92,6 +105,11 @@ export default function ContactCard() {
       {status === 'sent' && (
         <div className="fixed top-5 right-5 z-10 rounded-lg border border-green-200 bg-green-50 px-4 py-3 shadow">
           <p className="text-sm font-semibold text-green-700">Message sent successfully</p>
+        </div>
+      )}
+      {status === 'error' && (
+        <div className="fixed top-5 right-5 z-10 rounded-lg border border-red-200 bg-red-50 px-4 py-3 shadow">
+          <p className="text-sm font-semibold text-red-700">Failed to send message</p>
         </div>
       )}
 

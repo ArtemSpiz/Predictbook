@@ -76,6 +76,7 @@ export interface Config {
     tags: Tag;
     signals: Signal;
     'live-feed': LiveFeed;
+    'contact-submissions': ContactSubmission;
     redirects: Redirect;
     search: Search;
     forms: Form;
@@ -99,6 +100,7 @@ export interface Config {
     tags: TagsSelect<false> | TagsSelect<true>;
     signals: SignalsSelect<false> | SignalsSelect<true>;
     'live-feed': LiveFeedSelect<false> | LiveFeedSelect<true>;
+    'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
@@ -1071,6 +1073,19 @@ export interface LiveFeed {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-submissions".
+ */
+export interface ContactSubmission {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1372,6 +1387,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'live-feed';
         value: string | LiveFeed;
+      } | null)
+    | ({
+        relationTo: 'contact-submissions';
+        value: string | ContactSubmission;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1964,6 +1983,18 @@ export interface LiveFeedSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-submissions_select".
+ */
+export interface ContactSubmissionsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  subject?: T;
+  message?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3253,6 +3284,7 @@ export interface TaskCreateCollectionExport {
       | 'tags'
       | 'signals'
       | 'live-feed'
+      | 'contact-submissions'
       | 'redirects'
       | 'search'
       | 'forms'

@@ -21,6 +21,7 @@ import { Categories } from './collections/Categories'
 import { Tags } from './collections/Tags'
 import { Signals } from './collections/Signals'
 import { LiveFeed } from './collections/LiveFeed'
+import { ContactSubmissions } from './collections/ContactSubmissions'
 import { Header } from './globals/Header'
 import { Footer } from './globals/Footer'
 import { Translations } from './globals/Translations'
@@ -42,6 +43,7 @@ const collections = [
   ),
   Signals,
   LiveFeed,
+  ContactSubmissions,
 ]
 
 const storagePlugin = resolveStorageAdapter(starterConfig.storage)
