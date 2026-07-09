@@ -1,60 +1,28 @@
-import Locked from '@/../public/Locked.png'
-import ContactEmail from '@/../public/ContactEmail.png'
-import ContactTg from '@/../public/ContactTg.png'
-import ContactAdvert from '@/../public/ContactAdvert.png'
-import Timer from '@/../public/Timer.png'
 import Image from 'next/image'
 import BtnArrow from '@/../public/BtnArrow.png'
-import Tg from '@/../public/tg.png'
-import X from '@/../public/x.png'
+import { PayloadImage } from '@/app/components/PayloadImage'
+import type { ContactPage } from '@/payload-types'
 
-const ContactOtherContent = [
-  {
-    icon: ContactEmail,
-    title: 'Email',
-    linkText: 'hello@predictbook.io',
-    link: '',
-  },
-  {
-    icon: ContactTg,
-    title: 'Telegram',
-    linkText: '@predictbook',
-    link: '',
-  },
-  {
-    icon: ContactAdvert,
-    title: 'Advertising & partnerships',
-    linkText: 'partnerships@predictbook.io',
-    link: '',
-  },
-]
+interface Props {
+  methods?: ContactPage['methods']
+  socials?: ContactPage['socials']
+}
 
-const Links = [
-  {
-    icon: Tg,
-    link: '',
-  },
-  {
-    icon: X,
-    link: '',
-  },
-]
-
-export default function ContactOther() {
+export default function ContactOther({ methods, socials }: Props) {
   return (
-    <div className="bg-[#E8DFD8] border-[#E1DDD5] p-6 flex flex-col gap-4">
+    <div className="bg-sand border-line p-6 flex flex-col gap-4">
       <div className="font-medium">Other ways to reach us</div>
 
       <div className="flex flex-col gap-4">
-        {ContactOtherContent.map((card, i) => (
-          <div key={i} className="flex items-center gap-3">
+        {methods?.map((card) => (
+          <div key={card.id} className="flex items-center gap-3">
             <div className="w-8 h-8">
-              <Image src={card.icon} alt="" />
+              <PayloadImage media={card.icon} className="w-8 h-8 object-contain" alt="" />
             </div>
 
             <div>
-              <div className="text-[#5D554F] text-sm">{card.title}</div>
-              <a className="text-sm cursor-pointer flex items-center">
+              <div className="text-muted text-sm">{card.title}</div>
+              <a href={card.link || undefined} className="text-sm cursor-pointer flex items-center">
                 <span className="underline">{card.linkText}</span>
                 <Image src={BtnArrow} alt="" className="w-4 h-4" />
               </a>
@@ -63,17 +31,19 @@ export default function ContactOther() {
         ))}
       </div>
 
-      <div className="border-t border-[#5D554F29] pt-4 flex items-center justify-between">
-        <div className="font-medium">Follow Us</div>
+      {socials && socials.length > 0 && (
+        <div className="border-t border-muted-a16 pt-4 flex items-center justify-between">
+          <div className="font-medium">Follow Us</div>
 
-        <div className="flex items-center gap-3">
-          {Links.map((item, i) => (
-            <div className="w-8 h-8" key={i}>
-              <Image src={item.icon} alt="" />
-            </div>
-          ))}
+          <div className="flex items-center gap-3">
+            {socials.map((item) => (
+              <a className="w-8 h-8" key={item.id} href={item.link || undefined}>
+                <PayloadImage media={item.icon} className="w-8 h-8 object-contain" alt="" />
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

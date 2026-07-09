@@ -1,23 +1,21 @@
 import type { Metadata } from 'next'
-import { getPageBySlug } from '@/utilities/getPageBySlug'
-import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { localeAlternates } from '@/utilities/metadataAlternates'
+import { getLiveFeedPageContent } from '@/utilities/getPageContent'
 import LiveFeedMain from '@/app/components/LiveFeed/LiveFeedMain'
 
-export const metadata: Metadata = { ...localeAlternates('') }
-
-export default async function Signals() {
-  const page = await getPageBySlug('live-feed')
-  if (!page) {
-    return (
-      <div>
-        <LiveFeedMain />
-      </div>
-    )
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getLiveFeedPageContent()
+  return {
+    title: content?.title ?? 'Live Feed',
+    description: content?.subtitle ?? undefined,
+    ...localeAlternates('live-feed'),
   }
+}
+
+export default async function LiveFeedPageRoute() {
   return (
     <main>
-      <RenderBlocks blocks={page.blocks ?? []} />
+      <LiveFeedMain />
     </main>
   )
 }

@@ -12,7 +12,7 @@ export function buildPlugins(features: FeaturesConfig) {
   if (features.seo) {
     plugins.push(
       seoPlugin({
-        collections: ['pages', 'blog', 'case-studies'],
+        collections: ['pages', 'blog', 'case-studies', 'signals', 'live-feed'],
         uploadsCollection: 'media',
         generateTitle: ({ doc }: { doc?: { title?: string } }) => `${doc?.title ?? 'Untitled'}`,
       }),
@@ -30,8 +30,14 @@ export function buildPlugins(features: FeaturesConfig) {
   if (features.search) {
     plugins.push(
       searchPlugin({
-        collections: ['pages', 'blog', 'case-studies'],
-        defaultPriorities: { pages: 10, blog: 20, 'case-studies': 30 },
+        collections: ['pages', 'blog', 'case-studies', 'signals', 'live-feed'],
+        defaultPriorities: {
+          pages: 10,
+          blog: 20,
+          'case-studies': 30,
+          signals: 40,
+          'live-feed': 50,
+        },
       }),
     )
   }
@@ -61,6 +67,8 @@ export function buildPlugins(features: FeaturesConfig) {
           { slug: 'pages' },
           { slug: 'blog' },
           { slug: 'case-studies' },
+          { slug: 'signals' },
+          { slug: 'live-feed' },
           { slug: 'media' },
         ],
       }),

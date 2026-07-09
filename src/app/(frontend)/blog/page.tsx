@@ -1,20 +1,23 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import { findBlogPosts } from '@/utilities/getBlogPosts'
 import { localeAlternates } from '@/utilities/metadataAlternates'
+import { getBlogPageContent } from '@/utilities/getPageContent'
 import BlogMain from '@/app/components/Blog/BlogMain'
 
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getBlogPageContent()
+  const title = content?.title ?? 'Analysis'
+  return {
+    title,
+    description: content?.subtitle ?? undefined,
+    ...localeAlternates('blog'),
+    openGraph: { type: 'website', title, url: '/blog' },
+  }
+}
+
 export default async function BlogList() {
-  const { docs } = await findBlogPosts({ limit: 20 })
   return (
     <main>
       <BlogMain />
     </main>
   )
-}
-
-export const metadata: Metadata = {
-  title: 'Blog',
-  ...localeAlternates('/blog'),
-  openGraph: { type: 'website', title: 'Blog', url: '/blog' },
 }

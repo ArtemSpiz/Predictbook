@@ -1,12 +1,15 @@
+import { Suspense } from 'react'
 import BlockTitle from '@/app/ui/BlockTitle'
 import SummaryCard from '@/app/ui/SummaryCard'
 import BlogCol from './BlogsCol'
-import { Suspense } from 'react'
+import { findBlogPosts } from '@/utilities/getBlogPosts'
+import { getBlogPageContent } from '@/utilities/getPageContent'
+import { blogToArticleView } from '@/app/lib/viewModels'
 
 const TypeSummary = [
   {
     title: 'Daily summary',
-    infoTitle: 'Daily Market Pulse — Monday June 9',
+    infoTitle: 'Daily Market Pulse',
     info: [
       'Fed cut odds hit 63¢ — 6pt jump from Friday close',
       'Nvidia arb window opened briefly, now closed at 48¢',
@@ -15,7 +18,7 @@ const TypeSummary = [
   },
   {
     title: 'Weekly summary',
-    infoTitle: 'Weekly Market Pulse — Monday June 9',
+    infoTitle: 'Weekly Market Pulse',
     info: [
       'Fed cut odds hit 63¢ — 6pt jump from Friday close',
       'Nvidia arb window opened briefly, now closed at 48¢',
@@ -24,13 +27,22 @@ const TypeSummary = [
   },
 ]
 
-export default function BlogMain() {
+export default async function BlogMain() {
+  const [posts, content] = await Promise.all([findBlogPosts({ limit: 30 }), getBlogPageContent()])
+  const articles = posts.docs.map(blogToArticleView)
+  const categories = (content?.categories ?? []).map((c) => c.title)
+
   return (
     <div className="container-custom">
-      <div className="md:border-l md:border-r border-[#E1DDD5] p-6 flex gap-5 max-md:flex-col max-lg:p-0 max-lg:py-5">
-        <div className=" flex flex-col gap-5 flex-1 md:border-r border-[#E1DDD5] md:pr-5 max-lg:pl-5 max-md:pl-0">
+      <div className="md:border-l md:border-r border-line p-6 flex gap-5 max-md:flex-col max-lg:p-0 max-lg:py-5">
+        <div className=" flex flex-col gap-5 flex-1 md:border-r border-line md:pr-5 max-lg:pl-5 max-md:pl-0">
           <Suspense fallback={<div>Loading...</div>}>
-            <BlogCol />
+            <BlogCol
+              articles={articles}
+              categories={categories}
+              title={content?.title ?? undefined}
+              subtitle={content?.subtitle ?? undefined}
+            />
           </Suspense>
         </div>
 

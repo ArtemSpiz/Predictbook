@@ -1,12 +1,11 @@
-import gridImg from '../../../../public/gridImg.png'
 import AllBtn from '@/app/ui/AllBtn'
 import BlockTitle from '@/app/ui/BlockTitle'
 import ArticleCard from '@/app/ui/ArticleCard'
-import { ArticlesContent } from '@/app/Mock/BlogMockData'
 import Link from 'next/link'
+import type { ArticleView } from '@/app/lib/viewModels'
 
-export default async function GridArticles() {
-  const sortedCards = [...ArticlesContent]
+export default function GridArticles({ articles }: { articles: ArticleView[] }) {
+  const sortedCards = [...articles]
     .sort((a, b) => Number(!!b.featured) - Number(!!a.featured))
     .slice(0, 5)
 
@@ -19,13 +18,13 @@ export default async function GridArticles() {
       </div>
 
       <div className="grid gap-2 xl:grid-cols-2">
-        {sortedCards.map((card, i) => (
+        {sortedCards.map((card) => (
           <Link
             key={card.slug}
             href={`/blog/${card.slug}`}
             className={`${card.featured ? 'xl:col-span-2' : ''}`}
           >
-            <ArticleCard key={i} card={card} />
+            <ArticleCard card={card} />
           </Link>
         ))}
       </div>

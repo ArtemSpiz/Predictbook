@@ -1,52 +1,81 @@
-import { arbitrageCards, whaleCards } from '@/app/Mock/HomeMockData'
-import Alert, { AlertCard } from './Alert'
+import Alert from './Alert'
 import ArticleType from './ArticlesType'
 import Feed from './Feed'
 import GridArticles from './GridArticles'
 import RealCard from './RealCard'
 import Summary from './Summary'
 import ArticleTypeMobileSwitcher from './ArticleTypeMobileSwitcher'
-import Signals from './Signals' 
-import { ArticlesContent } from '@/app/Mock/BlogMockData' 
+import Signals from './Signals'
+import type { SummaryItem } from './Summary'
+import { findSignals } from '@/utilities/getSignals'
+import { findBlogPosts } from '@/utilities/getBlogPosts'
+import { findLiveFeed } from '@/utilities/getLiveFeed'
+import { getHomePageContent } from '@/utilities/getPageContent'
+import { blogToArticleView, liveFeedToView, signalToAlert } from '@/app/lib/viewModels'
+
+const DEFAULT_SECTIONS = ['Politics', 'Sports', 'Crypto']
 
 export default async function Main() {
+  const [whale, arbitrage, posts, feed, content] = await Promise.all([
+    findSignals({ kind: 'whale', limit: 3 }),
+    findSignals({ kind: 'arbitrage', limit: 3 }),
+    findBlogPosts({ limit: 30 }),
+    findLiveFeed({ limit: 5 }),
+    getHomePageContent(),
+  ])
+
+  const articles = posts.docs.map(blogToArticleView)
+  const feedItems = feed.docs.map(liveFeedToView)
+  const whaleAlerts = whale.docs.map(signalToAlert)
+  const arbitrageAlerts = arbitrage.docs.map(signalToAlert)
+  const summaries = (content?.summaries ?? []).map((s) => ({
+    title: s.title,
+    infoTitle: s.infoTitle,
+    info: (s.info ?? []).map((i) => i.text),
+  })) as SummaryItem[]
+  const sections =
+    content?.articleSections && content.articleSections.length > 0
+      ? content.articleSections.map((s) => s.label)
+      : DEFAULT_SECTIONS
+
   return (
     <div className="container-custom">
-      <div className="md:border-l md:border-r border-[#E1DDD5] p-6 flex gap-5 max-md:flex-col max-lg:p-0 max-lg:py-5">
+      <div className="md:border-l md:border-r border-line p-6 flex gap-5 max-md:flex-col max-lg:p-0 max-lg:py-5">
         <div className="flex flex-col gap-5 w-full  md:max-w-[300px]">
           <Signals>
-            <Alert title="Whale Alert" cards={whaleCards} />
-            <div className="w-full h-px bg-[#E1DDD5]" />
-            <Alert title="Arbitrage Alert" cards={arbitrageCards} />
-            <div className="w-full h-px bg-[#E1DDD5]" />
+            <Alert title="Whale Alert" cards={whaleAlerts} />
+            <div className="w-full h-px bg-line" />
+            <Alert title="Arbitrage Alert" cards={arbitrageAlerts} />
+            <div className="w-full h-px bg-line" />
           </Signals>
 
-          <Summary />
-          <div className="w-full h-px bg-[#E1DDD5] " />
+          <Summary summaries={summaries} />
+          <div className="w-full h-px bg-line " />
           <RealCard />
 
-          <div className="w-full h-px bg-[#E1DDD5] mt-3 md:hidden" />
+          <div className="w-full h-px bg-line mt-3 md:hidden" />
         </div>
 
-        <div className="md:border-l border-[#E1DDD5] flex flex-col gap-5 md:pl-5 flex-1">
-          <GridArticles />
-          <div className="w-full h-px bg-[#E1DDD5] " />
-          <Feed />
-          <div className="w-full h-px bg-[#E1DDD5] " />
+        <div className="md:border-l border-line flex flex-col gap-5 md:pl-5 flex-1">
+          <GridArticles articles={articles} />
+          <div className="w-full h-px bg-line " />
+          <Feed items={feedItems} />
+          <div className="w-full h-px bg-line " />
           <ArticleTypeMobileSwitcher
-            politicsCards={ArticlesContent}
-            sportsCards={ArticlesContent}
-            cryptoCards={ArticlesContent}
+            politicsCards={articles}
+            sportsCards={articles}
+            cryptoCards={articles}
           />
 
           <div className="max-xl:hidden flex flex-col gap-5">
-            <ArticleType title="Politics" cards={ArticlesContent} />
-            <div className="w-full h-px bg-[#E1DDD5] " />
-            <ArticleType title="Sports" cards={ArticlesContent} />
-            <div className="w-full h-px bg-[#E1DDD5] " />
-            <ArticleType title="Crypto" cards={ArticlesContent} />
+            {sections.map((title, i) => (
+              <div key={title} className="flex flex-col gap-5">
+                <ArticleType title={title} cards={articles} />
+                {i < sections.length - 1 && <div className="w-full h-px bg-line " />}
+              </div>
+            ))}
           </div>
-          <div className="w-full h-px bg-[#E1DDD5] " />
+          <div className="w-full h-px bg-line " />
         </div>
       </div>
     </div>

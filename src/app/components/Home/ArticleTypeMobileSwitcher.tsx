@@ -2,13 +2,13 @@
 
 import { useEffect, useRef, useState } from 'react'
 import ArticleType from './ArticlesType'
-import { Article } from '@/app/Mock/BlogMockData'
+import type { ArticleView } from '@/app/lib/viewModels'
 
 interface ArticleTypeMobileSwitcherProps {
-  politicsCards: Article[]
-  sportsCards: Article[]
-  cryptoCards: Article[]
-} 
+  politicsCards: ArticleView[]
+  sportsCards: ArticleView[]
+  cryptoCards: ArticleView[]
+}
 
 const tabs = ['Politics', 'Sports', 'Crypto']
 
@@ -44,13 +44,13 @@ export default function ArticleTypeMobileSwitcher({
     <div className="xl:hidden flex flex-col gap-3 w-full">
       <div>
         <div className="font-semibold text-base">Explore by Category</div>
-        <div className="text-sm text-[#5D554F]">
+        <div className="text-sm text-muted">
           The latest articles from our most-followed prediction market topics.
         </div>
       </div>
-      <div className="relative mx-auto w-full justify-between flex rounded-xl bg-white p-1 gap-2 border border-[#E1DDD5]">
+      <div className="relative mx-auto w-full justify-between flex rounded-xl bg-white p-1 gap-2 border border-line">
         <span
-          className="absolute top-1 bottom-1 rounded-lg bg-[#221E1D] shadow-sm transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)]"
+          className="absolute top-1 bottom-1 rounded-lg bg-ink shadow-sm transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)]"
           style={{ left: sliderStyle.left, width: sliderStyle.width }}
         />
         {tabs.map((title, i) => (
@@ -61,7 +61,7 @@ export default function ArticleTypeMobileSwitcher({
             }}
             onClick={() => handleSwitch(i)}
             className={`relative z-10 flex-1 px-4 py-2 rounded-lg text-sm bg-transparent transition-colors duration-300 ${
-              active === i ? 'text-[#F7F6F5]' : 'text-[#5D554F]'
+              active === i ? 'text-paper-2' : 'text-muted'
             }`}
           >
             {title}

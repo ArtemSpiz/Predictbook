@@ -74,6 +74,8 @@ export interface Config {
     'case-studies': CaseStudy;
     categories: Category;
     tags: Tag;
+    signals: Signal;
+    'live-feed': LiveFeed;
     redirects: Redirect;
     search: Search;
     forms: Form;
@@ -95,6 +97,8 @@ export interface Config {
     'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
+    signals: SignalsSelect<false> | SignalsSelect<true>;
+    'live-feed': LiveFeedSelect<false> | LiveFeedSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
@@ -115,11 +119,23 @@ export interface Config {
     header: Header;
     footer: Footer;
     'site-settings': SiteSetting;
+    'home-page': HomePage;
+    'about-page': AboutPage;
+    'contact-page': ContactPage;
+    'signals-page': SignalsPage;
+    'live-feed-page': LiveFeedPage;
+    'blog-page': BlogPage;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    'home-page': HomePageSelect<false> | HomePageSelect<true>;
+    'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
+    'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
+    'signals-page': SignalsPageSelect<false> | SignalsPageSelect<true>;
+    'live-feed-page': LiveFeedPageSelect<false> | LiveFeedPageSelect<true>;
+    'blog-page': BlogPageSelect<false> | BlogPageSelect<true>;
   };
   locale: null;
   widgets: {
@@ -622,6 +638,14 @@ export interface Blog {
   title: string;
   excerpt?: string | null;
   coverImage?: (string | null) | Media;
+  /**
+   * Surface in featured/grid slots.
+   */
+  featured?: boolean | null;
+  /**
+   * Show the live badge.
+   */
+  live?: boolean | null;
   content: {
     root: {
       type: string;
@@ -916,6 +940,84 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "signals".
+ */
+export interface Signal {
+  id: string;
+  title: string;
+  subtitle?: string | null;
+  kind: 'arbitrage' | 'whale';
+  featured?: boolean | null;
+  coverImage?: (string | null) | Media;
+  yesPrice?: string | null;
+  noPrice?: string | null;
+  poly?: string | null;
+  kalshi?: string | null;
+  size?: string | null;
+  odds?: string | null;
+  spread?: string | null;
+  volume?: string | null;
+  profitablyPP?: string | null;
+  profitably?: boolean | null;
+  categories?: (string | Category)[] | null;
+  publishedAt?: string | null;
+  /**
+   * URL-friendly identifier (auto-generated from title if blank)
+   */
+  slug: string;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "live-feed".
+ */
+export interface LiveFeed {
+  id: string;
+  title: string;
+  subtitle?: string | null;
+  coverImage?: (string | null) | Media;
+  timeline?:
+    | {
+        time: string;
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  live?: boolean | null;
+  /**
+   * Update count badge.
+   */
+  updates?: number | null;
+  categories?: (string | Category)[] | null;
+  publishedAt?: string | null;
+  /**
+   * URL-friendly identifier (auto-generated from title if blank)
+   */
+  slug: string;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -963,6 +1065,14 @@ export interface Search {
     | {
         relationTo: 'case-studies';
         value: string | CaseStudy;
+      }
+    | {
+        relationTo: 'signals';
+        value: string | Signal;
+      }
+    | {
+        relationTo: 'live-feed';
+        value: string | LiveFeed;
       };
   updatedAt: string;
   createdAt: string;
@@ -1201,6 +1311,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tags';
         value: string | Tag;
+      } | null)
+    | ({
+        relationTo: 'signals';
+        value: string | Signal;
+      } | null)
+    | ({
+        relationTo: 'live-feed';
+        value: string | LiveFeed;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1620,6 +1738,8 @@ export interface BlogSelect<T extends boolean = true> {
   title?: T;
   excerpt?: T;
   coverImage?: T;
+  featured?: T;
+  live?: T;
   content?: T;
   author?: T;
   categories?: T;
@@ -1689,6 +1809,71 @@ export interface TagsSelect<T extends boolean = true> {
   slug?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "signals_select".
+ */
+export interface SignalsSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  kind?: T;
+  featured?: T;
+  coverImage?: T;
+  yesPrice?: T;
+  noPrice?: T;
+  poly?: T;
+  kalshi?: T;
+  size?: T;
+  odds?: T;
+  spread?: T;
+  volume?: T;
+  profitablyPP?: T;
+  profitably?: T;
+  categories?: T;
+  publishedAt?: T;
+  slug?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "live-feed_select".
+ */
+export interface LiveFeedSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  coverImage?: T;
+  timeline?:
+    | T
+    | {
+        time?: T;
+        text?: T;
+        id?: T;
+      };
+  live?: T;
+  updates?: T;
+  categories?: T;
+  publishedAt?: T;
+  slug?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2091,6 +2276,14 @@ export interface SiteSetting {
    */
   sitemapIncludeCaseStudies?: boolean | null;
   /**
+   * Include published signals in sitemap.xml.
+   */
+  sitemapIncludeSignals?: boolean | null;
+  /**
+   * Include published live feed threads in sitemap.xml.
+   */
+  sitemapIncludeLiveFeed?: boolean | null;
+  /**
    * Block all crawlers (robots.txt Disallow: /). Use for staging.
    */
   robotsDisallowAll?: boolean | null;
@@ -2102,6 +2295,147 @@ export interface SiteSetting {
    * GA4 Measurement ID (G-XXXXXXXXXX).
    */
   ga4Id?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page".
+ */
+export interface HomePage {
+  id: string;
+  /**
+   * Daily / weekly summary tabs.
+   */
+  summaries?:
+    | {
+        title: string;
+        infoTitle: string;
+        info?:
+          | {
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Titled rows on the homepage sourced from a blog category.
+   */
+  articleSections?:
+    | {
+        label: string;
+        category: string | Category;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page".
+ */
+export interface AboutPage {
+  id: string;
+  title?: string | null;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  cta?: {
+    heading?: string | null;
+    text?: string | null;
+    placeholder?: string | null;
+    buttonText?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-page".
+ */
+export interface ContactPage {
+  id: string;
+  title?: string | null;
+  subtitle?: string | null;
+  methods?:
+    | {
+        icon?: (string | null) | Media;
+        title: string;
+        linkText: string;
+        link?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  socials?:
+    | {
+        icon?: (string | null) | Media;
+        link: string;
+        id?: string | null;
+      }[]
+    | null;
+  valueCard?: {
+    title?: string | null;
+    text?: string | null;
+    buttonText?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "signals-page".
+ */
+export interface SignalsPage {
+  id: string;
+  title?: string | null;
+  subtitle?: string | null;
+  delayText?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "live-feed-page".
+ */
+export interface LiveFeedPage {
+  id: string;
+  title?: string | null;
+  subtitle?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-page".
+ */
+export interface BlogPage {
+  id: string;
+  title?: string | null;
+  subtitle?: string | null;
+  /**
+   * Category filter buttons shown above the list.
+   */
+  categories?:
+    | {
+        title: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2173,9 +2507,133 @@ export interface FooterSelect<T extends boolean = true> {
 export interface SiteSettingsSelect<T extends boolean = true> {
   sitemapIncludeBlog?: T;
   sitemapIncludeCaseStudies?: T;
+  sitemapIncludeSignals?: T;
+  sitemapIncludeLiveFeed?: T;
   robotsDisallowAll?: T;
   gtmId?: T;
   ga4Id?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page_select".
+ */
+export interface HomePageSelect<T extends boolean = true> {
+  summaries?:
+    | T
+    | {
+        title?: T;
+        infoTitle?: T;
+        info?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  articleSections?:
+    | T
+    | {
+        label?: T;
+        category?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page_select".
+ */
+export interface AboutPageSelect<T extends boolean = true> {
+  title?: T;
+  body?: T;
+  cta?:
+    | T
+    | {
+        heading?: T;
+        text?: T;
+        placeholder?: T;
+        buttonText?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-page_select".
+ */
+export interface ContactPageSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  methods?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        linkText?: T;
+        link?: T;
+        id?: T;
+      };
+  socials?:
+    | T
+    | {
+        icon?: T;
+        link?: T;
+        id?: T;
+      };
+  valueCard?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        buttonText?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "signals-page_select".
+ */
+export interface SignalsPageSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  delayText?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "live-feed-page_select".
+ */
+export interface LiveFeedPageSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-page_select".
+ */
+export interface BlogPageSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  categories?:
+    | T
+    | {
+        title?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -2207,6 +2665,8 @@ export interface TaskCreateCollectionExport {
       | 'case-studies'
       | 'categories'
       | 'tags'
+      | 'signals'
+      | 'live-feed'
       | 'redirects'
       | 'search'
       | 'forms'

@@ -19,18 +19,30 @@ import { Blog } from './collections/Blog'
 import { CaseStudies } from './collections/CaseStudies'
 import { Categories } from './collections/Categories'
 import { Tags } from './collections/Tags'
+import { Signals } from './collections/Signals'
+import { LiveFeed } from './collections/LiveFeed'
 import { Header } from './globals/Header'
 import { Footer } from './globals/Footer'
 import { Translations } from './globals/Translations'
 import { SiteSettings } from './globals/SiteSettings'
+import { HomePage } from './globals/HomePage'
+import { AboutPage } from './globals/AboutPage'
+import { ContactPage } from './globals/ContactPage'
+import { SignalsPage } from './globals/SignalsPage'
+import { LiveFeedPage } from './globals/LiveFeedPage'
+import { BlogPage } from './globals/BlogPage'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-const collections = buildCollections(
-  { Users, Media, Pages, Blog, CaseStudies, Categories, Tags },
-  starterConfig.collections,
-)
+const collections = [
+  ...buildCollections(
+    { Users, Media, Pages, Blog, CaseStudies, Categories, Tags },
+    starterConfig.collections,
+  ),
+  Signals,
+  LiveFeed,
+]
 
 const storagePlugin = resolveStorageAdapter(starterConfig.storage)
 const featurePlugins = buildPlugins(starterConfig.features)
@@ -62,10 +74,18 @@ export default buildConfig({
   },
   editor: wideMarkupLexical,
   collections,
-  globals:
-    starterConfig.i18n.locales.length > 1
-      ? [Header, Footer, SiteSettings, Translations]
-      : [Header, Footer, SiteSettings],
+  globals: [
+    Header,
+    Footer,
+    SiteSettings,
+    HomePage,
+    AboutPage,
+    ContactPage,
+    SignalsPage,
+    LiveFeedPage,
+    BlogPage,
+    ...(starterConfig.i18n.locales.length > 1 ? [Translations] : []),
+  ],
   plugins,
   db: await resolveDbAdapter(starterConfig.database),
   sharp,

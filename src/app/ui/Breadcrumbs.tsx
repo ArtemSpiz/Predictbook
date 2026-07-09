@@ -74,7 +74,7 @@ export function Breadcrumbs({
                   </Link>
                 ) : (
                   <div
-                    className={`truncate max-w-[250px] ${isLast ? 'text-[#948E89]' : ' font-medium'}`}
+                    className={`truncate max-w-[250px] ${isLast ? 'text-muted-2' : ' font-medium'}`}
                   >
                     {item.label}
                   </div>
@@ -82,7 +82,7 @@ export function Breadcrumbs({
               </li>
 
               {!isLast && (
-                <div aria-hidden="true" className="text-[#E1DDD5] select-none">
+                <div aria-hidden="true" className="text-line select-none">
                   {separator}
                 </div>
               )}

@@ -11,12 +11,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date()
   const settings = await getSiteSettings()
 
-  const [pageRows, blogRows, caseRows] = await Promise.all([
+  const [pageRows, blogRows, caseRows, liveFeedRows] = await Promise.all([
     getPublishedSitemapRows('pages'),
     settings.sitemapIncludeBlog ? getPublishedSitemapRows('blog') : Promise.resolve([]),
     settings.sitemapIncludeCaseStudies
       ? getPublishedSitemapRows('case-studies')
       : Promise.resolve([]),
+    settings.sitemapIncludeLiveFeed ? getPublishedSitemapRows('live-feed') : Promise.resolve([]),
   ])
 
   const byUrl = new Map<string, MetadataRoute.Sitemap[number]>()
@@ -35,6 +36,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     })
   }
+  if (settings.sitemapIncludeSignals) {
+    add({ url: `${base}/signals`, lastModified: now, changeFrequency: 'daily', priority: 0.8 })
+  }
+  if (settings.sitemapIncludeLiveFeed) {
+    add({ url: `${base}/live-feed`, lastModified: now, changeFrequency: 'hourly', priority: 0.8 })
+  }
+  // Static content pages
+  add({ url: `${base}/about`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 })
+  add({ url: `${base}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 })
 
   // CMS pages (skip a page literally slugged "home" — it maps to `/`)
   for (const row of pageRows) {
@@ -62,6 +72,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: row.updatedAt ? new Date(row.updatedAt) : now,
       changeFrequency: 'monthly',
       priority: 0.7,
+    })
+  }
+
+  for (const row of liveFeedRows) {
+    add({
+      url: `${base}/live-feed/${row.slug}`,
+      lastModified: row.updatedAt ? new Date(row.updatedAt) : now,
+      changeFrequency: 'daily',
+      priority: 0.6,
     })
   }
 

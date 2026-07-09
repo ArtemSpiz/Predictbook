@@ -1,7 +1,18 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { findBlogPosts } from '@/utilities/getBlogPosts'
+import { localeAlternates } from '@/utilities/metadataAlternates'
 
 type Props = { params: Promise<{ slug: string }> }
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
+  return {
+    title: `#${slug} — Analysis`,
+    description: `Articles tagged "${slug}".`,
+    ...localeAlternates(`blog/tag/${slug}`),
+  }
+}
 
 export default async function BlogByTag({ params }: Props) {
   const { slug } = await params

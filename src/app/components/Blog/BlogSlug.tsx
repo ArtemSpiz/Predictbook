@@ -1,4 +1,3 @@
-import { Article } from '@/app/Mock/BlogMockData'
 import Image from 'next/image'
 import Live from '../../../../public/live.png'
 import Facebook from '../../../../public/Facebook.png'
@@ -7,70 +6,60 @@ import Copy from '../../../../public/Copy.png'
 import AnotherBlogs from './AnotherBlogs'
 import { Breadcrumbs } from '@/app/ui/Breadcrumbs'
 import { getCategoryStyle } from '@/app/lib/getCategoryStyle'
+import { PayloadImage } from '@/app/components/PayloadImage'
+import { categoryNames, fmtDay, fmtTime, type ArticleView } from '@/app/lib/viewModels'
+import { RichText } from '@payloadcms/richtext-lexical/react'
 import Link from 'next/link'
+import type { Blog, Media } from '@/payload-types'
 
 interface Props {
-  article: Article
+  post: Blog
+  related: ArticleView[]
 }
 
-const Contacts = [
-  {
-    icon: X,
-    link: '',
-  },
-  {
-    icon: Facebook,
-    link: '',
-  },
-  {
-    icon: Copy,
-    link: '',
-  },
-]
+const Contacts = [{ icon: X }, { icon: Facebook }, { icon: Copy }]
 
-export default function BlogSlug({ article }: Props) {
+export default function BlogSlug({ post, related }: Props) {
+  const categories = categoryNames(post.categories)
+  const author = post.author && typeof post.author === 'object' ? post.author : null
+  const cover = post.coverImage && typeof post.coverImage === 'object' ? (post.coverImage as Media) : null
+
   return (
-    <div className="flex flex-col gap-6 flex-1 md:border-r border-[#E1DDD5] md:p-5">
-      <Breadcrumbs items={[{ label: 'Analysis', href: '/blog' }, { label: article.title }]} />
+    <div className="flex flex-col gap-6 flex-1 md:border-r border-line md:p-5">
+      <Breadcrumbs items={[{ label: 'Analysis', href: '/blog' }, { label: post.title }]} />
       <div className="flex items-center gap-2">
-        {article.underTitle && (
-          <div className=" bg-[#F7F4F2] px-1.5 py-1 text-xs font-bold uppercase text-[#6B42D9]">
-            {article.underTitle}
-          </div>
-        )}
-
-        {article.live && (
-          <div className="flex h-[-webkit-fill-available] gap-2 items-center bg-[#F7DDDC] px-1.5 py-1 text-xs font-medium uppercase text-[#CF372F]">
+        {post.live && (
+          <div className="flex h-[-webkit-fill-available] gap-2 items-center bg-live-soft px-1.5 py-1 text-xs font-medium uppercase text-danger">
             <Image src={Live} alt="" className="w-4 h-4" />
             LIVE
           </div>
         )}
 
-        {article.categories.map((category) => {
-          return (
-            <Link
-              key={category}
-              href={`/blog/category/${category.toLowerCase()}`}
-              className={`border border-solid px-1.5 py-1 text-xs uppercase max-md:text-xs transition-opacity hover:opacity-80 ${getCategoryStyle(category)}`}
-            >
-              {category}
-            </Link>
-          )
-        })}
+        {categories.map((category) => (
+          <Link
+            key={category}
+            href={`/blog/category/${category.toLowerCase()}`}
+            className={`border border-solid px-1.5 py-1 text-xs uppercase max-md:text-xs transition-opacity hover:opacity-80 ${getCategoryStyle(category)}`}
+          >
+            {category}
+          </Link>
+        ))}
       </div>
 
-      <div className="text-2xl font-bold">{article.title}</div>
+      <h1 className="text-2xl font-bold">{post.title}</h1>
 
       <div className="flex items-center justify-between">
         <div>
-          <Link
-            href={`/blog/${article.slug}/${encodeURIComponent(article.name.replace(/\s+/g, '-'))}`}
-            className="text-[#5D554F] mb-1 text-base hover:underline"
-          >
-            {article.name}
-          </Link>
-          <div className="text-[#5D554F] text-base">
-            {article.day} • {article.time}
+          {author?.name && (
+            <Link
+              href={`/blog/${post.slug}/${encodeURIComponent(author.name.replace(/\s+/g, '-'))}`}
+              className="text-muted mb-1 text-base hover:underline"
+            >
+              {author.name}
+            </Link>
+          )}
+          <div className="text-muted text-base">
+            {fmtDay(post.publishedAt)} • {fmtTime(post.publishedAt)}
           </div>
         </div>
 
@@ -78,28 +67,26 @@ export default function BlogSlug({ article }: Props) {
           {Contacts.map((card, i) => (
             <div
               key={i}
-              className="border border-[#E1DDD5] cursor-pointer rounded-md w-10 h-10 flex justify-center items-center"
+              className="border border-line cursor-pointer rounded-md w-10 h-10 flex justify-center items-center"
             >
-              {' '}
               <Image src={card.icon} alt="" className="w-4 h-4" />
             </div>
           ))}
         </div>
       </div>
-      <div className="w-full h-px bg-[#E1DDD5]" />
+      <div className="w-full h-px bg-line" />
 
-      {/* one richText*/}
       <div className="flex flex-col gap-6">
-        {article.image && (
-          <img src={article.image.src} alt={article.title} className="w-full rounded-xl" />
-        )}
+        {cover && <PayloadImage media={cover} alt={post.title} className="w-full rounded-xl" />}
 
-        <p>{article.text}</p>
+        <div className="prose max-w-none">
+          <RichText data={post.content} />
+        </div>
       </div>
 
-      <div className="w-full h-px bg-[#E1DDD5]" />
+      <div className="w-full h-px bg-line" />
 
-      <AnotherBlogs currentSlug={article.slug} />
+      <AnotherBlogs currentSlug={post.slug} articles={related} />
     </div>
   )
 }

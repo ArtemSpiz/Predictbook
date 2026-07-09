@@ -14,7 +14,7 @@ const Sponsors = [
 
 export default function SponsoredCard() {
   return (
-    <div className="p-6 flex flex-col gap-3 border border-[#E1DDD5]">
+    <div className="p-6 flex flex-col gap-3 border border-line">
       <div className="flex items-center justify-between">
         <div className="text-xs font-medium">Sponsored by</div>
 
@@ -25,13 +25,13 @@ export default function SponsoredCard() {
 
       <div className="grid grid-cols-2 gap-3 mx-auto self-stretch">
         {Sponsors.map((card, i) => (
-          <div key={i} className="bg-white border border-[#EEE9E7] px-2 py-4 rounded-s flex justify-center items-center">
+          <div key={i} className="bg-white border border-line-2 px-2 py-4 rounded-s flex justify-center items-center">
             <Image src={card.icon} alt="" className='max-h-5 w-auto' />
           </div>
         ))}
       </div>
 
-      <div className="text-xs text-[#605D5C]">
+      <div className="text-xs text-muted-5">
         Trusted by the leading companies shaping prediction markets.
       </div>
     </div>

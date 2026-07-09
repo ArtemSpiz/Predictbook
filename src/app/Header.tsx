@@ -62,8 +62,8 @@ export function Header() {
     <>
       <InfiniteScroll />
       <header className="md:container-custom">
-        <div className="border-[#E1DDD5]  md:border-r md:border-l">
-          <div className=" mx-auto md:px-6 py-3 flex items-center justify-between border-b border-[#E1DDD5] max-md:px-5">
+        <div className="border-line  md:border-r md:border-l">
+          <div className=" mx-auto md:px-6 py-3 flex items-center justify-between border-b border-line max-md:px-5">
             <div className="flex gap-2 items-center">
               <button
                 onClick={() => setIsOpen(true)}
@@ -90,18 +90,18 @@ export function Header() {
                 ))}
               </div>
 
-              <button className="bg-[#221E1D] border-none text-[#F7F4F2] py-3 px-4 rounded-lg text-base">
+              <button className="bg-ink border-none text-paper py-3 px-4 rounded-lg text-base">
                 Real-time alerts
               </button>
             </div>
           </div>
-          <div className="mx-auto md:pr-6 max-xl:pr-2 flex items-center justify-between  border-b border-[#E1DDD5] max-md:px-5">
+          <div className="mx-auto md:pr-6 max-xl:pr-2 flex items-center justify-between  border-b border-line max-md:px-5">
             <div className="flex max-lg:hidden">
               {MenuItems.map((item, i) => (
-                <div key={item.label} className="relative group  border-r border-[#E1DDD5]">
+                <div key={item.label} className="relative group  border-r border-line">
                   <a
                     href={item.link}
-                    className="flex items-center gap-2 p-4 max-xl:p-3 hover:bg-[#F2ECE6] group-hover:bg-[#F2ECE6]"
+                    className="flex items-center gap-2 p-4 max-xl:p-3 hover:bg-shell group-hover:bg-shell"
                   >
                     <span className={`text-sm ${isActive(item) ? 'font-bold' : 'font-normal'}`}>
                       {item.label}
@@ -117,12 +117,12 @@ export function Header() {
                   </a>
 
                   {item.links && (
-                    <div className="absolute left-0 mx-auto top-full hidden group-hover:block bg-[#F2ECE6] min-w-[105px] z-20 ">
+                    <div className="absolute left-0 mx-auto top-full hidden group-hover:block bg-shell min-w-[105px] z-20 ">
                       {item.links.map((link) => (
                         <a
                           key={link.text}
                           href={link.link}
-                          className="block p-4 text-sm text-center  border-t border-[#F7F4F2] hover:bg-[#E8E1DA]"
+                          className="block p-4 text-sm text-center  border-t border-paper hover:bg-sand-2"
                         >
                           {link.text}
                         </a>
@@ -133,12 +133,12 @@ export function Header() {
               ))}
             </div>
             <div className="flex items-center gap-4 max-lg:w-full max-lg:justify-between max-lg:py-3 max-lg:px-5 max-md:px-0">
-              <div className="text-[#5D554F] text-sm">Tuesday, June 23 · 2026</div>
+              <div className="text-muted text-sm">Tuesday, June 23 · 2026</div>
               <div className="flex items-center gap-1">
-                <div className="w-2 h-2 rounded-full p-0.5  bg-[#357B463D] ">
-                  <div className="w-1 h-1 rounded-full bg-[#357B46]" />
+                <div className="w-2 h-2 rounded-full p-0.5  bg-success-a24 ">
+                  <div className="w-1 h-1 rounded-full bg-success" />
                 </div>
-                <div className="text-[#357B46] text-sm">8 signals today</div>
+                <div className="text-success text-sm">8 signals today</div>
               </div>
             </div>
           </div>
@@ -153,11 +153,11 @@ export function Header() {
       />
 
       <div
-        className={`fixed top-0 right-0 z-50 h-screen w-[320px] bg-[#F7F4F2] shadow-2xl transition-transform duration-300 ${
+        className={`fixed top-0 right-0 z-50 h-screen w-[320px] bg-paper shadow-2xl transition-transform duration-300 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <div className="flex items-center justify-between border-b border-[#E1DDD5] p-6">
+        <div className="flex items-center justify-between border-b border-line p-6">
           <h2 className="text-xl font-semibold">Menu</h2>
 
           <button onClick={() => setIsOpen(false)} className="text-3xl bg-transparent leading-none">
@@ -172,7 +172,7 @@ export function Header() {
                 <Link
                   href={item.link}
                   onClick={() => setIsOpen(false)}
-                  className={`block border-b border-[#E1DDD5] px-6 py-5 text-lg ${
+                  className={`block border-b border-line px-6 py-5 text-lg ${
                     isActive(item) ? 'font-bold' : ''
                   }`}
                 >
@@ -182,7 +182,7 @@ export function Header() {
                 <>
                   <a
                     onClick={() => setAnalysisOpen(!analysisOpen)}
-                    className="flex w-full bg-transparent items-center justify-between border-b border-[#E1DDD5] px-6 py-5 text-lg"
+                    className="flex w-full bg-transparent items-center justify-between border-b border-line px-6 py-5 text-lg"
                   >
                     <span className={isActive(item) ? 'font-bold' : ''}>{item.label}</span>
 
@@ -203,7 +203,7 @@ export function Header() {
                         key={link.text}
                         href={link.link}
                         onClick={() => setIsOpen(false)}
-                        className="block bg-[#EFE8E1] px-10 py-4 text-[#5D554F]"
+                        className="block bg-shell-2 px-10 py-4 text-muted"
                       >
                         {link.text}
                       </Link>
@@ -216,7 +216,7 @@ export function Header() {
         </div>
 
         <div className=" p-6">
-          <button className="w-full rounded-lg bg-[#221E1D] py-3 text-white">
+          <button className="w-full rounded-lg bg-ink py-3 text-white">
             Real-time alerts
           </button>
 

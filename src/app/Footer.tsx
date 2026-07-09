@@ -51,13 +51,13 @@ const footerLinks = {
 
 export async function Footer() {
   return (
-    <footer className="bg-[#221E1D]">
+    <footer className="bg-ink">
       <div className="container-custom ">
-        <div className="border-l border-r border-[#E1DDD514] px-6 py-12 md:px-12">
+        <div className="border-l border-r border-line-a08 px-6 py-12 md:px-12">
           <div className="flex items-start justify-between">
             <div>
               <h2 className="text-3xl m-0 font-bold text-white">Predictbook</h2>
-              <div className="mt-2 text-sm text-[#FFFFFFCC]">
+              <div className="mt-2 text-sm text-white-a80">
                 AI-powered newsroom covering prediction markets
               </div>
             </div>
@@ -77,19 +77,19 @@ export async function Footer() {
             </div>
           </div>
 
-          <div className="mt-10 grid grid-cols-1 gap-8 border-t border-[#E1DDD514] pt-10 md:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-8 border-t border-line-a08 pt-10 md:grid-cols-3">
             {Object.values(footerLinks).map((col) => (
               <div key={col.title}>
-                <div className="text-xs tracking-wider font-medium text-[#8A8683] font-mono">
+                <div className="text-xs tracking-wider font-medium text-muted-3 font-mono">
                   {col.title}
                 </div>
                 <ul className="mt-4 space-y-2.5 pl-0">
                   {col.links.map((link) => (
                     <li key={link.href}>
                       <Link href={link.href} className="group inline-block">
-                        <span className="text-sm text-[#F4F0ED]">{link.label}</span>
+                        <span className="text-sm text-cream">{link.label}</span>
 
-                        <span className="block h-px w-full scale-x-0 bg-[#F4F0ED] origin-left transition-transform duration-300 group-hover:scale-x-100" />
+                        <span className="block h-px w-full scale-x-0 bg-cream origin-left transition-transform duration-300 group-hover:scale-x-100" />
                       </Link>
                     </li>
                   ))}
@@ -98,13 +98,13 @@ export async function Footer() {
             ))}
           </div>
 
-          <div className="mt-10 flex flex-col-reverse gap-4 border-t border-[#E1DDD514] pt-6 text-xs text-[#6E6A67] md:flex-row md:items-center md:justify-between">
+          <div className="mt-10 flex flex-col-reverse gap-4 border-t border-line-a08 pt-6 text-xs text-muted-4 md:flex-row md:items-center md:justify-between">
             <div className="max-w-xl">
               This website does not constitute investing advice. Prediction markets and/or gambling
               may result in loss of funds. You are advised to conduct your own due diligence before
               taking any action
             </div>
-            <div className="whitespace-nowrap text-[#FFFFFFCC]">
+            <div className="whitespace-nowrap text-white-a80">
               © {new Date().getFullYear()} Predicook. All rights reserved.
             </div>
           </div>

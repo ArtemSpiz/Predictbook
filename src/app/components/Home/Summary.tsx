@@ -1,13 +1,18 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import CustomBtn from '@/app/ui/CustomBtn'
 import SummaryCard from '@/app/ui/SummaryCard'
 
-const TypeSummary = [
+export interface SummaryItem {
+  title: string
+  infoTitle: string
+  info: string[]
+}
+
+const FALLBACK: SummaryItem[] = [
   {
     title: 'Daily summary',
-    infoTitle: 'Daily Market Pulse — Monday June 9',
+    infoTitle: 'Daily Market Pulse',
     info: [
       'Fed cut odds hit 63¢ — 6pt jump from Friday close',
       'Nvidia arb window opened briefly, now closed at 48¢',
@@ -16,7 +21,7 @@ const TypeSummary = [
   },
   {
     title: 'Weekly summary',
-    infoTitle: 'Weekly Market Pulse — Monday June 9',
+    infoTitle: 'Weekly Market Pulse',
     info: [
       'Fed cut odds hit 63¢ — 6pt jump from Friday close',
       'Nvidia arb window opened briefly, now closed at 48¢',
@@ -25,7 +30,8 @@ const TypeSummary = [
   },
 ]
 
-export default function Summary() {
+export default function Summary({ summaries }: { summaries?: SummaryItem[] }) {
+  const TypeSummary = summaries && summaries.length > 0 ? summaries : FALLBACK
   const [active, setActive] = useState(0)
   const [direction, setDirection] = useState(1)
   const [sliderStyle, setSliderStyle] = useState({ left: 0, width: 0 })
@@ -50,7 +56,7 @@ export default function Summary() {
     <div className="flex flex-col gap-5">
       <div className="relative mx-auto w-full justify-between flex rounded-xl bg-white p-1 gap-2">
         <span
-          className="absolute top-1 bottom-1 rounded-lg bg-[#221E1D] shadow-sm transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)]"
+          className="absolute top-1 bottom-1 rounded-lg bg-ink shadow-sm transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)]"
           style={{ left: sliderStyle.left, width: sliderStyle.width }}
         />
         {TypeSummary.map((item, i) => (
@@ -61,7 +67,7 @@ export default function Summary() {
             }}
             onClick={() => handleSwitch(i)}
             className={`relative z-10 px-4 py-2 w-[48%] rounded-lg text-sm bg-transparent transition-colors duration-300 ${
-              active === i ? 'text-[#F7F6F5]' : 'text-[#5D554F] '
+              active === i ? 'text-paper-2' : 'text-muted '
             }`}
           >
             {item.title}

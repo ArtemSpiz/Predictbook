@@ -72,6 +72,23 @@ export const Blog: CollectionConfig = {
             { name: 'excerpt', type: 'textarea' },
             { name: 'coverImage', type: 'upload', relationTo: 'media' },
             {
+              type: 'row',
+              fields: [
+                {
+                  name: 'featured',
+                  type: 'checkbox',
+                  defaultValue: false,
+                  admin: { width: '50%', description: 'Surface in featured/grid slots.' },
+                },
+                {
+                  name: 'live',
+                  type: 'checkbox',
+                  defaultValue: false,
+                  admin: { width: '50%', description: 'Show the live badge.' },
+                },
+              ],
+            },
+            {
               name: 'content',
               type: 'richText',
               editor: wideMarkupLexical,

@@ -1,66 +1,60 @@
 import Image from 'next/image'
 import Live from '../../../../public/live.png'
-
 import { Breadcrumbs } from '@/app/ui/Breadcrumbs'
 import { getCategoryStyle } from '@/app/lib/getCategoryStyle'
-import { FeedArticle } from '@/app/Mock/HomeMockData'
+import { categoryNames, fmtDay, fmtTime } from '@/app/lib/viewModels'
 import Timeline from '../../../../public/timeline.png'
+import type { LiveFeed } from '@/payload-types'
 
-interface Props {
-  article: FeedArticle
-}
-
-export default function LiveFeedSlug({ article }: Props) {
+export default function LiveFeedSlug({ item }: { item: LiveFeed }) {
+  const categories = categoryNames(item.categories)
   return (
-    <div className="flex flex-col gap-6 flex-1 md:border-r border-[#E1DDD5] md:p-5">
-      <Breadcrumbs items={[{ label: 'Live Feed', href: '/live-feed' }, { label: article.title }]} />
+    <div className="flex flex-col gap-6 flex-1 md:border-r border-line md:p-5">
+      <Breadcrumbs items={[{ label: 'Live Feed', href: '/live-feed' }, { label: item.title }]} />
       <div className="flex items-center gap-2">
-        {article.live && (
-          <div className="flex h-[-webkit-fill-available] gap-2 items-center bg-[#F7DDDC] px-1.5 py-1 text-xs font-medium uppercase text-[#CF372F]">
+        {item.live && (
+          <div className="flex h-[-webkit-fill-available] gap-2 items-center bg-live-soft px-1.5 py-1 text-xs font-medium uppercase text-danger">
             <Image src={Live} alt="" className="w-4 h-4" />
             LIVE
           </div>
         )}
 
-        {article.categories.map((category) => {
-          return (
-            <div
-              key={category}
-              className={`border border-solid px-1.5 py-1 text-xs uppercase max-md:text-xs ${getCategoryStyle(category)}`}
-            >
-              {category}
-            </div>
-          )
-        })}
+        {categories.map((category) => (
+          <div
+            key={category}
+            className={`border border-solid px-1.5 py-1 text-xs uppercase max-md:text-xs ${getCategoryStyle(category)}`}
+          >
+            {category}
+          </div>
+        ))}
       </div>
 
       <div>
-        <div className="text-2xl font-bold mb-1">{article.title}</div>
-        <div className="text-[#5D554F] text-sm">{article.subtitle}</div>
+        <h1 className="text-2xl font-bold mb-1">{item.title}</h1>
+        <div className="text-muted text-sm">{item.subtitle}</div>
       </div>
 
       <div className="flex items-center justify-between">
-        <div className="text-[#5D554F] text-sm">
-          Started {article.day} • {article.time}
+        <div className="text-muted text-sm">
+          Started {fmtDay(item.publishedAt)} • {fmtTime(item.publishedAt)}
         </div>
       </div>
-      <div className="w-full h-px bg-[#E1DDD5]" />
+      <div className="w-full h-px bg-line" />
 
       <div className="p-4 bg-white">
-        {/* багато richText*/}
-        {article.timeline.map((item, index) => (
+        {(item.timeline ?? []).map((entry, index) => (
           <div key={index} className="flex gap-4 items-start">
             <div
-              className={`text-sm ${item.time.toLowerCase() === 'latest' ? 'text-[#D7564F]' : 'text-[#5D554F]'}`}
+              className={`text-sm ${entry.time.toLowerCase() === 'latest' ? 'text-live' : 'text-muted'}`}
             >
-              {item.time}
+              {entry.time}
             </div>
 
             <div className="w-3 h-auto">
               <Image src={Timeline} alt="" />
             </div>
 
-            <div className="flex-1 pb-6 text-sm text-[#5D554F]">{item.text}</div>
+            <div className="flex-1 pb-6 text-sm text-muted">{entry.text}</div>
           </div>
         ))}
       </div>

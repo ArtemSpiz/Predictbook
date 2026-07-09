@@ -1,22 +1,22 @@
 import Link from 'next/link'
 import BlockTitle from '@/app/ui/BlockTitle'
-import { ArticlesContent } from '@/app/Mock/BlogMockData'
 import ArticleCard from '@/app/ui/ArticleCard'
 import Image from 'next/image'
 import ArrowBack from '../../../../public/ArrowBack.png'
+import type { ArticleView } from '@/app/lib/viewModels'
 
 interface AnotherBlogsProps {
   currentSlug: string
+  articles: ArticleView[]
 }
 
-export default function AnotherBlogs({ currentSlug }: AnotherBlogsProps) {
-  const anotherArticles = ArticlesContent.filter((article) => article.slug !== currentSlug && !article.featured).slice(
-    0,
-    2,
-  )
+export default function AnotherBlogs({ currentSlug, articles }: AnotherBlogsProps) {
+  const anotherArticles = articles
+    .filter((article) => article.slug !== currentSlug && !article.featured)
+    .slice(0, 2)
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className="flex flex-col gap-4">
       <Link href="/blog" className="flex gap-1 items-center">
         <div className="w-3 h-3">
           <Image src={ArrowBack} alt="" />

@@ -32,6 +32,18 @@ export const SiteSettings: GlobalConfig = {
               admin: { description: 'Include published case studies in sitemap.xml.' },
             },
             {
+              name: 'sitemapIncludeSignals',
+              type: 'checkbox',
+              defaultValue: true,
+              admin: { description: 'Include published signals in sitemap.xml.' },
+            },
+            {
+              name: 'sitemapIncludeLiveFeed',
+              type: 'checkbox',
+              defaultValue: true,
+              admin: { description: 'Include published live feed threads in sitemap.xml.' },
+            },
+            {
               name: 'robotsDisallowAll',
               type: 'checkbox',
               defaultValue: false,

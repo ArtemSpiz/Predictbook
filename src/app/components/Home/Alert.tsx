@@ -25,11 +25,11 @@ type AlertProps = {
 export default function Alert({ title, cards }: AlertProps) {
   return (
     <div>
-      <div className="bg-[#FFFFFF] border border-solid border-[#E1DDD5] mb-3">
+      <div className="bg-white border border-solid border-line mb-3">
         <div className="flex items-center p-3 justify-between ">
           <div className="font-semibold text-lg">{title}</div>
 
-          <div className="flex items-center gap-2 text-[#5D554F]">
+          <div className="flex items-center gap-2 text-muted">
             <Image src={Clock} alt="" className="w-3 h-3" />
             <span>30-min delay</span>
           </div>
@@ -37,19 +37,19 @@ export default function Alert({ title, cards }: AlertProps) {
 
         <div className="flex flex-col">
           {cards.map((card, i) => (
-            <div key={i} className="border-t border-[#E1DDD5] p-4">
+            <div key={i} className="border-t border-line p-4">
               <div className="flex items-center justify-between mb-3">
                 <div
                   className={`py-1 px-1.5 border border-solid text-xs uppercase ${
                     card.underTitle === 'whale alert'
-                      ? 'border-[#ADABE7] text-[#3C3985] bg-[#E8E0F2]'
-                      : 'border-[#C6DB9E] bg-[#ECF2E0] text-[#36581E]'
+                      ? 'border-cat-whale-border text-cat-whale-text bg-cat-whale-bg'
+                      : 'border-cat-arb-border bg-cat-arb-bg text-cat-arb-text'
                   }`}
                 >
                   {card.underTitle}
                 </div>
 
-                <div className="text-[#5D554F] text-xs">{card.time} UTC</div>
+                <div className="text-muted text-xs">{card.time} UTC</div>
               </div>
 
               <div className="font-medium text-base mb-4">{card.title}</div>
@@ -57,30 +57,30 @@ export default function Alert({ title, cards }: AlertProps) {
               {card.type === 'arbitrage' ? (
                 <div className="flex  items-center gap-2 text-sm uppercase font-medium">
                   <div>
-                    <span className="mr-2 text-[#7E7873] ">POLY</span>
+                    <span className="mr-2 text-meta ">POLY</span>
                     <span>{card.poly}</span>
                   </div>
 
                   <div>
-                    <span className="mr-2 text-[#7E7873]">KALSHI</span>
-                    <span className="text-[#D7564F]">{card.kalshi}</span>
+                    <span className="mr-2 text-meta">KALSHI</span>
+                    <span className="text-live">{card.kalshi}</span>
                   </div>
 
                   <div>
-                    <span className="mr-2 text-[#7E7873]">SPREAD</span>
-                    <span className="text-[#357B46]">{card.spread}</span>
+                    <span className="mr-2 text-meta">SPREAD</span>
+                    <span className="text-success">{card.spread}</span>
                   </div>
                 </div>
               ) : (
                 <div className="flex items-center gap-8 text-sm uppercase font-medium">
                   <div>
-                    <span className="mr-2 text-[#7E7873]">SIZE</span>
+                    <span className="mr-2 text-meta">SIZE</span>
                     {card.size}
                   </div>
 
                   <div>
-                    <span className="mr-2 text-[#7E7873]">ODDS</span>
-                    <span className="text-[#357B46]">{card.odds}</span>
+                    <span className="mr-2 text-meta">ODDS</span>
+                    <span className="text-success">{card.odds}</span>
                   </div>
                 </div>
               )}

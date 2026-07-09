@@ -16,9 +16,9 @@ export default function CustomBtn({
 }: CustomBtnProps) {
   return (
     <button
-      className={`bg-[#E8DFD8] group w-full border-none flex items-center gap-2 px-3 py-2.5 rounded-lg ${
+      className={`bg-sand group w-full border-none flex items-center gap-2 px-3 py-2.5 rounded-lg ${
         center ? 'justify-center' : 'justify-between'
-      } ${light ? 'bg-[#F4F0ED]' : 'bg-[#E8DFD8]'}`}
+      } ${light ? 'bg-cream' : 'bg-sand'}`}
     >
       <span>{text}</span>
 

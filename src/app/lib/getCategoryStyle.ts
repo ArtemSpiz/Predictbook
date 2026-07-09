@@ -1,27 +1,27 @@
 export function getCategoryStyle(category: string) {
   switch (category.toLowerCase()) {
     case 'arbitrage':
-      return 'bg-[#ECF2E0] border-[#C6DB9E] text-[#36581E]'
+      return 'bg-cat-arb-bg border-cat-arb-border text-cat-arb-text'
 
     case 'crypto':
-      return 'bg-[#FEFDF2] border-[#E9E9D1] text-[#655E4A]'
+      return 'bg-cat-crypto-bg border-cat-crypto-border text-cat-crypto-text'
 
     case 'whale alert':
-      return 'bg-[#E8E0F2] border-[#ADABE7] text-[#3C3985]'
+      return 'bg-cat-whale-bg border-cat-whale-border text-cat-whale-text'
 
     case 'politics':
-      return 'bg-[#F0EFFE] border-[#D4D2EA] text-[#444263]'
+      return 'bg-cat-politics-bg border-cat-politics-border text-cat-politics-text'
 
     case 'technology':
-      return 'bg-[#FEF2F2] border-[#E9D1D1] text-[#654A4A]'
+      return 'bg-cat-tech-bg border-cat-tech-border text-cat-tech-text'
 
     case 'sports':
-      return 'bg-[#F2FEF3] border-[#D1E9D4] text-[#4A654F]'
+      return 'bg-cat-sports-bg border-cat-sports-border text-cat-sports-text'
 
     case 'science':
-      return 'bg-[#EBF5FF] border-[#C7DBEC] text-[#3B586F]'
+      return 'bg-cat-science-bg border-cat-science-border text-cat-science-text'
 
     default:
-      return 'bg-[#F4F0ED] border-[#E1DDD5] text-[#5D554F]'
+      return 'bg-cream border-line text-muted'
   }
 }

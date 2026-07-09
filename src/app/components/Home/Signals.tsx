@@ -29,14 +29,14 @@ export default function Signals({ children }: SignalsProps) {
         <div className="flex items-start justify-between gap-4 mb-3">
           <div>
             <div className="font-semibold text-lg mb-1">Signals</div>
-            <div className="text-[#5D554F] text-sm">
+            <div className="text-muted text-sm">
               Track emerging trends before they become headlines
             </div>
           </div>
 
-          <div className="relative flex rounded-xl bg-white border border-solid border-[#E1DDD5] gap-1 shrink-0 h-fit">
+          <div className="relative flex rounded-xl bg-white border border-solid border-line gap-1 shrink-0 h-fit">
             <span
-              className="absolute top-0 bottom-1 h-full rounded-lg bg-[#221E1D] shadow-sm transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)]"
+              className="absolute top-0 bottom-1 h-full rounded-lg bg-ink shadow-sm transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)]"
               style={{ left: sliderStyle.left, width: sliderStyle.width }}
             />
             {options.map((label, i) => (
@@ -48,7 +48,7 @@ export default function Signals({ children }: SignalsProps) {
                 type="button"
                 onClick={() => setShow(i === 0)}
                 className={`relative z-10 px-4 py-2 rounded-lg text-sm bg-transparent transition-colors duration-300 ${
-                  active === i ? 'text-[#F7F6F5]' : 'text-[#5D554F]'
+                  active === i ? 'text-paper-2' : 'text-muted'
                 }`}
               >
                 {label}

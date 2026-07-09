@@ -6,7 +6,6 @@
   "type": "module",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
-    "postbuild": "next-sitemap --config next-sitemap.config.cjs",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
@@ -20,6 +19,7 @@
     "migrate:status": "cross-env NODE_OPTIONS=--no-deprecation payload migrate:status",
     "starter:sync": "tsx scripts/starter-sync.ts",
     "seed": "tsx scripts/seed.ts",
+    "seed:predictbook": "cross-env NODE_OPTIONS=--no-deprecation tsx --env-file=.env scripts/seed-predictbook.ts",
     "seed:reset": "tsx scripts/seed.ts --reset",
     "db:reset": "tsx scripts/reset-db.ts",
     "test": "pnpm run test:unit && pnpm run test:e2e",

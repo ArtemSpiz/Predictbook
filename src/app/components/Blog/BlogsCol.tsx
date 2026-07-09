@@ -6,23 +6,30 @@ import BlockTitle from '@/app/ui/BlockTitle'
 import Search from '../../../../public/Search.png'
 import Image from 'next/image'
 import ArticleCard from '@/app/ui/ArticleCard'
-import gridImg from '../../../../public/gridImg.png'
 import Arrow from '../../../../public/down.png'
 import Link from 'next/link'
-import { ArticlesContent } from '@/app/Mock/BlogMockData'
+import type { ArticleView } from '@/app/lib/viewModels'
 
-const Categories = [
-  { title: 'All' },
-  { title: 'Politics' },
-  { title: 'Economics' },
-  { title: 'Crypto' },
-  { title: 'Technology' },
-  { title: 'Sports' },
-  { title: 'Science' },
+interface Props {
+  articles: ArticleView[]
+  categories: string[]
+  title?: string
+  subtitle?: string
+}
+
+const DEFAULT_CATEGORIES = [
+  'All',
+  'Politics',
+  'Economics',
+  'Crypto',
+  'Technology',
+  'Sports',
+  'Science',
 ]
 
-export default function BlogCol() {
+export default function BlogCol({ articles, categories, title, subtitle }: Props) {
   const searchParams = useSearchParams()
+  const categoryList = categories.length > 0 ? categories : DEFAULT_CATEGORIES
 
   const initialCategory = searchParams.get('category') || 'All'
 
@@ -30,8 +37,8 @@ export default function BlogCol() {
   const [searchQuery, setSearchQuery] = useState('')
 
   const sortedCards = useMemo(
-    () => [...ArticlesContent].sort((a, b) => Number(!!b.featured) - Number(!!a.featured)),
-    [],
+    () => [...articles].sort((a, b) => Number(!!b.featured) - Number(!!a.featured)),
+    [articles],
   )
 
   const filteredCards = useMemo(() => {
@@ -54,8 +61,11 @@ export default function BlogCol() {
     <div className="flex flex-col gap-6 pb-4">
       <div className="flex flex-col gap-3">
         <BlockTitle
-          title="Analysis"
-          subtitle="Short-form market analysis — 3 pieces per day, ~300 words each. Our writers take live prediction market signals and give context and directional reasoning."
+          title={title ?? 'Analysis'}
+          subtitle={
+            subtitle ??
+            'Short-form market analysis — 3 pieces per day, ~300 words each. Our writers take live prediction market signals and give context and directional reasoning.'
+          }
         />
 
         <div className="relative w-full p-3 pl-7 overflow-hidden bg-white rounded-lg">
@@ -63,7 +73,7 @@ export default function BlogCol() {
             <Image src={Search} alt="" />
           </div>
           <input
-            className="relative h-full border-none outline-none w-full text-sm placeholder:text-[#BAB2AD]"
+            className="relative h-full border-none outline-none w-full text-sm placeholder:text-placeholder"
             placeholder="Search analysis..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -72,17 +82,17 @@ export default function BlogCol() {
       </div>
 
       <div className="flex flex-wrap gap-2">
-        {Categories.map((item, i) => {
-          const isActive = activeCategory === item.title
+        {categoryList.map((cat) => {
+          const isActive = activeCategory === cat
           return (
             <button
-              key={i}
+              key={cat}
               type="button"
-              onClick={() => setActiveCategory(item.title)}
+              onClick={() => setActiveCategory(cat)}
               className={`py-2.5 px-4 rounded-lg text-sm transition-colors
-                ${isActive ? 'text-[#221E1D] bg-[#E8DFD8]' : 'text-[#5D554F] bg-white'}`}
+                ${isActive ? 'text-ink bg-sand' : 'text-muted bg-white'}`}
             >
-              {item.title}
+              {cat}
             </button>
           )
         })}
@@ -90,18 +100,18 @@ export default function BlogCol() {
 
       <div className="flex flex-col gap-2">
         {filteredCards.length > 0 ? (
-          filteredCards.map((card, i) => (
+          filteredCards.map((card) => (
             <Link key={card.slug} href={`/blog/${card.slug}`}>
               <ArticleCard card={card} />
             </Link>
           ))
         ) : (
-          <div className="text-sm text-[#5D554F] text-center py-6">Nothing found</div>
+          <div className="text-sm text-muted text-center py-6">Nothing found</div>
         )}
       </div>
 
       <button
-        className={`bg-[#E8DFD8] justify-center group w-max mx-auto border-none flex items-center gap-2 px-3 py-2.5 rounded-lg`}
+        className={`bg-sand justify-center group w-max mx-auto border-none flex items-center gap-2 px-3 py-2.5 rounded-lg`}
       >
         <span>Load more</span>
         <Image src={Arrow} alt="Arrow" className="w-4 h-4 relative " />

@@ -1,6 +1,7 @@
 import type { Media } from '@/payload-types'
 import type { PageBlock } from '@/blocks/types'
 import { RichText } from '@payloadcms/richtext-lexical/react'
+import { PayloadImage } from '@/app/components/PayloadImage'
 
 type Block = Extract<PageBlock, { blockType: 'media-with-text' }>
 
@@ -18,7 +19,7 @@ export function MediaWithTextBlock({ block }: { block: Block }) {
         }`}
       >
         <div>
-          {img?.url && <img src={img.url} alt={img.alt ?? ''} className="w-full rounded" />}
+          {img?.url && <PayloadImage media={img} alt={img.alt ?? ''} className="w-full rounded" />}
           {vid?.url && <video src={vid.url} controls className="w-full rounded" />}
         </div>
         <div>

@@ -19,13 +19,13 @@ export default function SummaryCard({
   active = 0,
 }: SummaryCardProps) {
   return (
-    <div className="overflow-hidden border border-solid border-[#E1DDD5]">
-      <div className="flex items-center justify-between border-b border-[#E1DDD5] bg-white p-4">
+    <div className="overflow-hidden border border-solid border-line">
+      <div className="flex items-center justify-between border-b border-line bg-white p-4">
         <div className="text-xs uppercase text-black">{title}</div>
-        <div className="text-xs text-[#5D554F]">Today · 20:00</div>
+        <div className="text-xs text-muted">Today · 20:00</div>
       </div>
 
-      <div className="flex flex-col gap-4 overflow-hidden bg-[#E8E0D8] p-4">
+      <div className="flex flex-col gap-4 overflow-hidden bg-sand-3 p-4">
         <div
           key={active}
           style={{ '--dir': direction } as React.CSSProperties}
@@ -33,10 +33,10 @@ export default function SummaryCard({
         >
           <div className="text-lg font-semibold">{infoTitle}</div>
 
-          <ul className="space-y-2 pl-0 text-sm text-[#5D554F]">
+          <ul className="space-y-2 pl-0 text-sm text-muted">
             {info.map((item) => (
               <li key={item} className="flex gap-2">
-                <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#221E1D]" />
+                <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-ink" />
                 <span>{item}</span>
               </li>
             ))}

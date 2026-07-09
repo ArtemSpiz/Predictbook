@@ -5,6 +5,8 @@ import config from '@payload-config'
 export type SiteSettings = {
   sitemapIncludeBlog: boolean
   sitemapIncludeCaseStudies: boolean
+  sitemapIncludeSignals: boolean
+  sitemapIncludeLiveFeed: boolean
   robotsDisallowAll: boolean
   gtmId?: string
   ga4Id?: string
@@ -13,6 +15,8 @@ export type SiteSettings = {
 const DEFAULTS: SiteSettings = {
   sitemapIncludeBlog: true,
   sitemapIncludeCaseStudies: true,
+  sitemapIncludeSignals: true,
+  sitemapIncludeLiveFeed: true,
   robotsDisallowAll: false,
 }
 
@@ -25,6 +29,8 @@ async function fetchSiteSettings(): Promise<SiteSettings> {
     return {
       sitemapIncludeBlog: data.sitemapIncludeBlog !== false,
       sitemapIncludeCaseStudies: data.sitemapIncludeCaseStudies !== false,
+      sitemapIncludeSignals: data.sitemapIncludeSignals !== false,
+      sitemapIncludeLiveFeed: data.sitemapIncludeLiveFeed !== false,
       robotsDisallowAll: data.robotsDisallowAll === true,
       gtmId: typeof data.gtmId === 'string' && data.gtmId ? data.gtmId : undefined,
       ga4Id: typeof data.ga4Id === 'string' && data.ga4Id ? data.ga4Id : undefined,

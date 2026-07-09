@@ -178,7 +178,7 @@ export default function ContactCard() {
               setIsVerified((v) => !v)
               setErrors((prev) => ({ ...prev, captcha: undefined }))
             }}
-            className="w-full sm:w-auto inline-flex items-center gap-4 rounded-s border border-[#E5E7EB] bg-[#F9F9F9] px-5 border-solid py-4"
+            className="w-full sm:w-auto inline-flex items-center gap-4 rounded-s border border-gray-border bg-gray-softer px-5 border-solid py-4"
           >
             <span
               className={`h-5 w-5 shrink-0 rounded-[2px] border-2 flex items-center justify-center transition ${
