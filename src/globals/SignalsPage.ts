@@ -1,6 +1,8 @@
 import type { GlobalConfig } from 'payload'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { revalidateGlobalHooks } from '@/hooks/revalidateFrontCache'
+import { SignalsListBlock } from '@/blocks/SignalsList/config'
+import { RealCardBlock } from '@/blocks/RealCard/config'
 
 export const SignalsPage: GlobalConfig = {
   slug: 'signals-page',
@@ -8,13 +10,32 @@ export const SignalsPage: GlobalConfig = {
   access: { read: () => true, update: isAdminOrEditor },
   hooks: revalidateGlobalHooks,
   fields: [
-    { name: 'title', type: 'text', defaultValue: 'Signals' },
     {
-      name: 'subtitle',
-      type: 'textarea',
-      defaultValue:
-        'Hand-picked prediction market opportunities — up to 5 per day, curated from our live alerts system. Arbitrage spreads, whale moves, and value plays.',
+      type: 'tabs',
+      tabs: [
+        {
+          label: 'Main content',
+          fields: [
+            {
+              name: 'mainBlocks',
+              type: 'blocks',
+              labels: { singular: 'Main block', plural: 'Main blocks' },
+              blocks: [SignalsListBlock],
+            },
+          ],
+        },
+        {
+          label: 'Right sidebar',
+          fields: [
+            {
+              name: 'sidebarBlocks',
+              type: 'blocks',
+              labels: { singular: 'Sidebar block', plural: 'Sidebar blocks' },
+              blocks: [RealCardBlock],
+            },
+          ],
+        },
+      ],
     },
-    { name: 'delayText', type: 'text', defaultValue: '10-min delay' },
   ],
 }

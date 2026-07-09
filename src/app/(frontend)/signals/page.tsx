@@ -5,9 +5,10 @@ import SignalsMain from '@/app/components/Signals/SignalsMain'
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await getSignalsPageContent()
+  const block = content?.mainBlocks?.find((b) => b.blockType === 'signals-list')
   return {
-    title: content?.title ?? 'Signals',
-    description: content?.subtitle ?? undefined,
+    title: block?.heading ?? 'Signals',
+    description: block?.subtitle ?? undefined,
     ...localeAlternates('signals'),
   }
 }

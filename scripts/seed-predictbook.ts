@@ -499,10 +499,31 @@ async function main() {
   await payload.updateGlobal({
     slug: 'signals-page',
     data: {
-      title: 'Signals',
-      subtitle:
-        'Hand-picked prediction market opportunities — up to 5 per day, curated from our live alerts system. Arbitrage spreads, whale moves, and value plays.',
-      delayText: '10-min delay',
+      mainBlocks: [
+        {
+          blockType: 'signals-list',
+          heading: 'Signals',
+          subtitle:
+            'Hand-picked prediction market opportunities — up to 5 per day, curated from our live alerts system. Arbitrage spreads, whale moves, and value plays.',
+          delayText: '10-min delay',
+          limit: 20,
+          hidden: false,
+        },
+      ],
+      sidebarBlocks: [
+        {
+          blockType: 'real-card',
+          badgeIcon: lightningId,
+          badgeText: 'Real-time alerts',
+          showLiveDot: true,
+          title: 'Want signals in real time?',
+          description: 'Get instant alerts with advanced filtering tailored to your interests.',
+          buttonText: 'Join Real-time Alerts',
+          buttonUrl: '/signals',
+          backgroundImage: graphId,
+          hidden: false,
+        },
+      ],
     } as any,
   })
 
