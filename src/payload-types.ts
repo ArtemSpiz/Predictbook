@@ -2704,8 +2704,48 @@ export interface SignalsPage {
  */
 export interface LiveFeedPage {
   id: string;
-  title?: string | null;
-  subtitle?: string | null;
+  mainBlocks?:
+    | {
+        heading: string;
+        subtitle?: string | null;
+        limit?: number | null;
+        /**
+         * Temporarily hide this block without deleting it.
+         */
+        hidden?: boolean | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'live-feed-list';
+      }[]
+    | null;
+  sidebarBlocks?:
+    | {
+        /**
+         * Icon in the badge (e.g., Lightning)
+         */
+        badgeIcon: string | Media;
+        badgeText: string;
+        showLiveDot?: boolean | null;
+        title: string;
+        description: string;
+        buttonText: string;
+        /**
+         * Where the button leads (optional; if left blank, there is no link)
+         */
+        buttonUrl?: string | null;
+        /**
+         * Decorative image (e.g., Graph)
+         */
+        backgroundImage: string | Media;
+        /**
+         * Temporarily hide this block without deleting it.
+         */
+        hidden?: boolean | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'real-card';
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -3051,8 +3091,39 @@ export interface SignalsPageSelect<T extends boolean = true> {
  * via the `definition` "live-feed-page_select".
  */
 export interface LiveFeedPageSelect<T extends boolean = true> {
-  title?: T;
-  subtitle?: T;
+  mainBlocks?:
+    | T
+    | {
+        'live-feed-list'?:
+          | T
+          | {
+              heading?: T;
+              subtitle?: T;
+              limit?: T;
+              hidden?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  sidebarBlocks?:
+    | T
+    | {
+        'real-card'?:
+          | T
+          | {
+              badgeIcon?: T;
+              badgeText?: T;
+              showLiveDot?: T;
+              title?: T;
+              description?: T;
+              buttonText?: T;
+              buttonUrl?: T;
+              backgroundImage?: T;
+              hidden?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

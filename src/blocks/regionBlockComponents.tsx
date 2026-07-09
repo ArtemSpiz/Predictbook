@@ -4,6 +4,7 @@ import { RealCardBlockComponent } from './RealCard/Component'
 import { AnalysisBlockComponent } from './Analysis/Component'
 import { LiveFeedBlockComponent } from './LiveFeedBlock/Component'
 import { SignalsListBlockComponent } from './SignalsList/Component'
+import { LiveFeedListBlockComponent } from './LiveFeedList/Component'
 
 // Single-block renderers shared by home and other pages. Grouped block types
 // (signal-feed, category-section) are handled specially in RenderHomeBlocks and
@@ -14,4 +15,5 @@ export const regionBlockComponents: Record<string, React.ComponentType<{ block: 
   analysis: AnalysisBlockComponent,
   'live-feed-block': LiveFeedBlockComponent,
   'signals-list': SignalsListBlockComponent,
+  'live-feed-list': LiveFeedListBlockComponent,
 }

@@ -1,6 +1,8 @@
 import type { GlobalConfig } from 'payload'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { revalidateGlobalHooks } from '@/hooks/revalidateFrontCache'
+import { LiveFeedListBlock } from '@/blocks/LiveFeedList/config'
+import { RealCardBlock } from '@/blocks/RealCard/config'
 
 export const LiveFeedPage: GlobalConfig = {
   slug: 'live-feed-page',
@@ -8,12 +10,32 @@ export const LiveFeedPage: GlobalConfig = {
   access: { read: () => true, update: isAdminOrEditor },
   hooks: revalidateGlobalHooks,
   fields: [
-    { name: 'title', type: 'text', defaultValue: 'Live Feed' },
     {
-      name: 'subtitle',
-      type: 'textarea',
-      defaultValue:
-        'Real-time liveblog threads on trending prediction market topics — one carefully selected event per day.',
+      type: 'tabs',
+      tabs: [
+        {
+          label: 'Main content',
+          fields: [
+            {
+              name: 'mainBlocks',
+              type: 'blocks',
+              labels: { singular: 'Main block', plural: 'Main blocks' },
+              blocks: [LiveFeedListBlock],
+            },
+          ],
+        },
+        {
+          label: 'Right sidebar',
+          fields: [
+            {
+              name: 'sidebarBlocks',
+              type: 'blocks',
+              labels: { singular: 'Sidebar block', plural: 'Sidebar blocks' },
+              blocks: [RealCardBlock],
+            },
+          ],
+        },
+      ],
     },
   ],
 }

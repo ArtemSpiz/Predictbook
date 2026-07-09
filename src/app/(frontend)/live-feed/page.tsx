@@ -5,9 +5,10 @@ import LiveFeedMain from '@/app/components/LiveFeed/LiveFeedMain'
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await getLiveFeedPageContent()
+  const block = content?.mainBlocks?.find((b) => b.blockType === 'live-feed-list')
   return {
-    title: content?.title ?? 'Live Feed',
-    description: content?.subtitle ?? undefined,
+    title: block?.heading ?? 'Live Feed',
+    description: block?.subtitle ?? undefined,
     ...localeAlternates('live-feed'),
   }
 }

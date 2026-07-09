@@ -530,9 +530,30 @@ async function main() {
   await payload.updateGlobal({
     slug: 'live-feed-page',
     data: {
-      title: 'Live Feed',
-      subtitle:
-        'Real-time liveblog threads on trending prediction market topics — one carefully selected event per day.',
+      mainBlocks: [
+        {
+          blockType: 'live-feed-list',
+          heading: 'Live Feed',
+          subtitle:
+            'Real-time liveblog threads on trending prediction market topics — one carefully selected event per day.',
+          limit: 20,
+          hidden: false,
+        },
+      ],
+      sidebarBlocks: [
+        {
+          blockType: 'real-card',
+          badgeIcon: lightningId,
+          badgeText: 'Real-time alerts',
+          showLiveDot: true,
+          title: 'Want signals in real time?',
+          description: 'Get instant alerts with advanced filtering tailored to your interests.',
+          buttonText: 'Join Real-time Alerts',
+          buttonUrl: '/signals',
+          backgroundImage: graphId,
+          hidden: false,
+        },
+      ],
     } as any,
   })
 
