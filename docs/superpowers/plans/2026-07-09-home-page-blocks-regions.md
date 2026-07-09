@@ -978,12 +978,12 @@ export type CategorySectionData = {
 
 export type CategoryBlock = {
   label: string
-  category: number | Category
+  category: number | string | Category
   accent: string
   limit?: number | null
 }
 
-function categorySlug(category: number | Category): string {
+function categorySlug(category: number | string | Category): string {
   return typeof category === 'object' && category !== null ? category.slug : ''
 }
 
@@ -1333,7 +1333,7 @@ export function MainRegion({
 }
 ```
 
-> If TypeScript complains that a generated block prop (e.g. `blockName`, `id`) is incompatible with a Component's hand-written prop type, widen the cast on that `block={...}` to the Component's local prop type — the runtime data is correct; only structural typing needs the hint.
+> If TypeScript complains that a generated block prop (e.g. `blockName`, `id`) is incompatible with a Component's hand-written prop type, widen the cast on that `block={...}` to the Component's local prop type — the runtime data is correct; only structural typing needs the hint. Relationship IDs in generated types are `string` (mongo adapter), so hand-written prop types that touch relationships must accept `number | string | Category`, not just `number`.
 
 - [ ] **Step 3: Rewrite Main.tsx**
 
@@ -1383,9 +1383,10 @@ git commit -m "feat(home): render home page from region block arrays"
 ### Task 10: Seed the default layout + schema migration + remove dead code
 
 **Files:**
-- Modify: `scripts/seed-predictbook.ts` (replace the `home-page` global seeding)
-- Run: `pnpm payload migrate:create home_page_blocks` (generates a schema migration under `src/migrations/`)
+- Modify: `scripts/seed-predictbook.ts` (replace the `home-page` global seeding; upload promo images)
 - Grep-check: no remaining references to removed fields.
+
+> **DB is MongoDB Atlas (`mongodb+srv://…`).** Mongo is schemaless — there is **no** SQL schema migration to create, so the `payload migrate:create` step from the original plan is dropped. Removed config fields simply stop being read; documents keep (ignored) old data until overwritten by the seed. Running the seed and the e2e suite hit the **remote** Atlas DB and are **user-gated**: make and commit the code changes here, but do not execute `pnpm seed:predictbook` against the remote DB without explicit confirmation.
 
 **Interfaces:**
 - Consumes: category IDs/slugs already created earlier in the seed; the `home-page` global slug.
@@ -1398,7 +1399,27 @@ Read that section to find the existing `updateGlobal({ slug: 'home-page', ... })
 
 - [ ] **Step 2: Replace the home-page global data**
 
-Replace the existing `home-page` `updateGlobal` `data` with the block structure below. Wire `category` values to the real category IDs created earlier in the seed, and `badgeIcon`/`backgroundImage` to existing seeded media IDs (reuse whatever the seed already uploads for the promo/graph images; if none exist, upload `public/Lightning.png` and `public/Graph.png` the same way other media are seeded and use those IDs).
+Concrete wiring for THIS seed (`scripts/seed-predictbook.ts`):
+- Category IDs come from the existing `catId` map: `catId['politics']`, `catId['sports']`, `catId['crypto']`.
+- The promo card needs two media IDs. Right before the `home-page` `updateGlobal`, upload the two promo images following the exact `coverId` try/catch pattern already in the file (find-by-alt, else `payload.create({ collection: 'media', data: { alt }, filePath })`), then use the resulting IDs:
+  ```ts
+  // promo images for the Real Card block
+  const promoImg = async (alt: string, file: string): Promise<string | undefined> => {
+    const found = await payload.find({ collection: 'media', where: { alt: { equals: alt } }, limit: 1 })
+    if (found.docs.length) return found.docs[0].id
+    try {
+      const m = await payload.create({ collection: 'media', data: { alt } as any, filePath: path.join(PUBLIC, file) })
+      return m.id
+    } catch (e) {
+      console.warn(` ! ${file} upload failed:`, (e as Error).message)
+      return coverId // fallback so the required field is still populated
+    }
+  }
+  const lightningId = await promoImg('Real-time alerts badge', 'Lightning.png')
+  const graphId = await promoImg('Real-time alerts graph', 'Graph.png')
+  ```
+
+Then replace the existing `home-page` `updateGlobal` `data` (the `summaries`/`articleSections` object) with the block structure below, keeping the surrounding `await payload.updateGlobal({ slug: 'home-page', data: { ... } as any })` call. Use `catId[...]` for `category`, `lightningId` for `badgeIcon`, `graphId` for `backgroundImage`.
 
 ```ts
 await payload.updateGlobal({
@@ -1448,14 +1469,14 @@ await payload.updateGlobal({
       },
       {
         blockType: 'real-card',
-        badgeIcon: LIGHTNING_MEDIA_ID, // replace with seeded media id
+        badgeIcon: lightningId,
         badgeText: 'Real-time alerts',
         showLiveDot: true,
         title: 'Want signals in real time?',
         description: 'Get instant alerts with advanced filtering tailored to your interests.',
         buttonText: 'Join Real-time Alerts',
         buttonUrl: '/signals',
-        backgroundImage: GRAPH_MEDIA_ID, // replace with seeded media id
+        backgroundImage: graphId,
         hidden: false,
       },
     ],
@@ -1480,7 +1501,7 @@ await payload.updateGlobal({
       {
         blockType: 'category-section',
         label: 'Politics',
-        category: POLITICS_CATEGORY_ID, // replace with seeded category id
+        category: catId['politics'],
         accent: 'politics',
         limit: 3,
         hidden: false,
@@ -1488,7 +1509,7 @@ await payload.updateGlobal({
       {
         blockType: 'category-section',
         label: 'Sports',
-        category: SPORTS_CATEGORY_ID, // replace with seeded category id
+        category: catId['sports'],
         accent: 'sports',
         limit: 3,
         hidden: false,
@@ -1496,7 +1517,7 @@ await payload.updateGlobal({
       {
         blockType: 'category-section',
         label: 'Crypto',
-        category: CRYPTO_CATEGORY_ID, // replace with seeded category id
+        category: catId['crypto'],
         accent: 'crypto',
         limit: 3,
         hidden: false,
@@ -1506,15 +1527,9 @@ await payload.updateGlobal({
 })
 ```
 
-- [ ] **Step 3: Run the seed and confirm no errors**
+- [ ] **Step 3: Validate the seed compiles (running it is user-gated)**
 
-Run: `pnpm seed:predictbook`
-Expected: completes without validation errors; the `home-page` global saves with the blocks above.
-
-- [ ] **Step 4: Generate the schema migration**
-
-Run: `pnpm payload migrate:create home_page_blocks`
-Expected: a new file under `src/migrations/` capturing the schema change (new block tables, dropped `summaries`/`articleSections`). Review it for obvious destructive statements, then keep it.
+Run: `pnpm typecheck` — the seed is included in tsconfig, so it must not introduce new type errors (baseline is 5). Do NOT run `pnpm seed:predictbook` against the remote Atlas DB here; that is a separate user-confirmed step.
 
 - [ ] **Step 5: Confirm no dead references remain**
 
