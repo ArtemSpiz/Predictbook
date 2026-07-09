@@ -67,7 +67,13 @@ export default async function Main() {
         </div>
 
         <div className="md:border-l border-line flex flex-col gap-5 md:pl-5 flex-1">
-          <GridArticles articles={articles} />
+          <GridArticles
+            heading="Analysis"
+            subtitle="Expert perspectives behind market movements."
+            viewAllText="All articles"
+            viewAllUrl="/blog"
+            articles={articles}
+          />
           <div className="w-full h-px bg-line " />
           <Feed items={feedItems} />
           <div className="w-full h-px bg-line " />

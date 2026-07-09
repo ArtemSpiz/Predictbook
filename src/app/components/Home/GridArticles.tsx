@@ -4,17 +4,28 @@ import ArticleCard from '@/app/ui/ArticleCard'
 import Link from 'next/link'
 import type { ArticleView } from '@/app/lib/viewModels'
 
-export default function GridArticles({ articles }: { articles: ArticleView[] }) {
-  const sortedCards = [...articles]
-    .sort((a, b) => Number(!!b.featured) - Number(!!a.featured))
-    .slice(0, 5)
+interface GridArticlesProps {
+  heading: string
+  subtitle?: string
+  viewAllText: string
+  viewAllUrl: string
+  articles: ArticleView[]
+}
+
+export default function GridArticles({
+  heading,
+  subtitle,
+  viewAllText,
+  viewAllUrl,
+  articles,
+}: GridArticlesProps) {
+  const sortedCards = [...articles].sort((a, b) => Number(!!b.featured) - Number(!!a.featured))
 
   return (
     <div className="flex flex-col gap-3">
       <div className="flex justify-between items-center gap-3 pr-5">
-        <BlockTitle title="Analysis" subtitle="Expert perspectives behind market movements." />
-
-        <AllBtn text="All articles" link="/blog" />
+        <BlockTitle title={heading} subtitle={subtitle} />
+        <AllBtn text={viewAllText} link={viewAllUrl} />
       </div>
 
       <div className="grid gap-2 xl:grid-cols-2">
