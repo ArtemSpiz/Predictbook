@@ -12,6 +12,7 @@ import X from '@/../public/XNews.png'
 import { findNewsPosts } from '@/utilities/getNewsPosts'
 import { newsToArticleView } from '@/app/lib/viewModels'
 import { localeAlternates } from '@/utilities/metadataAlternates'
+import type { Media } from '@/payload-types' 
 
 type Props = {
   params: Promise<{ slug: string; name: string }>
@@ -38,12 +39,23 @@ export default async function AuthorPage({ params }: Props) {
   const author = authorFromParam(name)
 
   const { docs } = await findNewsPosts({ limit: 100 })
-  const articles = docs
-    .filter((post) => {
-      const a = post.author && typeof post.author === 'object' ? post.author : null
-      return a?.name?.toLowerCase() === author.toLowerCase()
-    })
-    .map(newsToArticleView)
+
+  const matchingPosts = docs.filter((post) => {
+    const a = post.author && typeof post.author === 'object' ? post.author : null
+    return a?.name?.toLowerCase() === author.toLowerCase()
+  })
+
+  const articles = matchingPosts.map(newsToArticleView)
+
+  const firstPost = matchingPosts[0] as
+    { ['author photo']?: Media | string | null; ['author job']?: string | null } | undefined
+
+  const authorPhoto =
+    firstPost?.['author photo'] && typeof firstPost['author photo'] === 'object'
+      ? (firstPost['author photo'] as Media)
+      : null
+  const authorJob = firstPost?.['author job'] ?? ''
+
   const sidebar = await getSiteSidebar()
 
   return (
@@ -53,7 +65,20 @@ export default async function AuthorPage({ params }: Props) {
           <Breadcrumbs items={[{ label: 'Analysis', href: '/news' }, { label: author }]} />
 
           <div className="flex justify-between gap-3 lg:items-center max-lg:flex-col">
-            <BlockTitle title={author} />
+            <div className="flex items-center gap-4">
+              {authorPhoto?.url && (
+                <div className="relative w-16 h-16 rounded-full overflow-hidden shrink-0">
+                  <Image
+                    src={authorPhoto.url}
+                    alt={authorPhoto.alt || author}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              )}
+
+              <BlockTitle title={author} subtitle={authorJob} />
+            </div>
 
             <div className="flex items-center lg:justify-end flex-wrap gap-1">
               {Content.map((item, i) => (

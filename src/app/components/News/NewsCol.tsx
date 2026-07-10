@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useTransition } from 'react'
 import { useSearchParams } from 'next/navigation'
 import BlockTitle from '@/app/ui/BlockTitle'
 import Search from '../../../../public/Search.png'
@@ -9,25 +9,42 @@ import ArticleCard from '@/app/ui/ArticleCard'
 import Arrow from '../../../../public/down.png'
 import Link from 'next/link'
 import type { ArticleView } from '@/app/lib/viewModels'
+import { loadMoreNews } from '@/app/actions/news'
 
 interface Props {
   articles: ArticleView[]
   categories: string[]
   title: string
   subtitle?: string
+  limit: number
+  totalDocs: number
 }
 
-export default function NewsCol({ articles, categories, title, subtitle }: Props) {
+export default function NewsCol({
+  articles,
+  categories,
+  title,
+  subtitle,
+  limit,
+  totalDocs,
+}: Props) {
   const searchParams = useSearchParams()
 
+  const fullCategories = ['All', ...categories]
   const initialCategory = searchParams.get('category') || 'All'
 
   const [activeCategory, setActiveCategory] = useState(initialCategory)
   const [searchQuery, setSearchQuery] = useState('')
 
+  const [allArticles, setAllArticles] = useState(articles)
+  const [page, setPage] = useState(1)
+  const [isPending, startTransition] = useTransition()
+
+  const hasMore = allArticles.length < totalDocs
+
   const sortedCards = useMemo(
-    () => [...articles].sort((a, b) => Number(!!b.featured) - Number(!!a.featured)),
-    [articles],
+    () => [...allArticles].sort((a, b) => Number(!!b.featured) - Number(!!a.featured)),
+    [allArticles],
   )
 
   const filteredCards = useMemo(() => {
@@ -45,6 +62,15 @@ export default function NewsCol({ articles, categories, title, subtitle }: Props
   useEffect(() => {
     setActiveCategory(searchParams.get('category') || 'All')
   }, [searchParams])
+
+  const handleLoadMore = () => {
+    startTransition(async () => {
+      const nextPage = page + 1
+      const res = await loadMoreNews({ page: nextPage, limit })
+      setAllArticles((prev) => [...prev, ...res.articles])
+      setPage(nextPage)
+    })
+  }
 
   return (
     <div className="flex flex-col gap-6 pb-4">
@@ -65,7 +91,7 @@ export default function NewsCol({ articles, categories, title, subtitle }: Props
       </div>
 
       <div className="flex flex-wrap gap-2">
-        {categories.map((cat) => {
+        {fullCategories.map((cat) => {
           const isActive = activeCategory === cat
           return (
             <button
@@ -93,12 +119,17 @@ export default function NewsCol({ articles, categories, title, subtitle }: Props
         )}
       </div>
 
-      <button
-        className={`bg-sand justify-center group w-max mx-auto border-none flex items-center gap-2 px-3 py-2.5 rounded-lg`}
-      >
-        <span>Load more</span>
-        <Image src={Arrow} alt="Arrow" className="w-4 h-4 relative " />
-      </button>
+      {hasMore && (
+        <button
+          type="button"
+          onClick={handleLoadMore}
+          disabled={isPending}
+          className="bg-sand justify-center group w-max mx-auto border-none flex items-center gap-2 px-3 py-2.5 rounded-lg disabled:opacity-60"
+        >
+          <span>{isPending ? 'Loading...' : 'Load more'}</span>
+          <Image src={Arrow} alt="Arrow" className="w-4 h-4 relative" />
+        </button>
+      )}
     </div>
   )
 }

@@ -1,6 +1,9 @@
 import Summary, { SummaryItem } from '@/app/components/Home/Summary'
+import BlockTitle from '@/app/ui/BlockTitle'
 
 type SummaryBlock = {
+  title?: string | null
+  subtitle?: string | null
   tabs: {
     title: string
     infoTitle: string
@@ -21,5 +24,11 @@ export function SummaryBlockComponent({ block }: { block: SummaryBlock }) {
     info: tab.info.map((i) => i.text),
   }))
 
-  return <Summary summaries={summaries} />
+  return (
+    <div className="flex flex-col gap-3">
+      <BlockTitle title={block?.title ?? ''} subtitle={block?.subtitle ?? undefined} />
+
+      <Summary summaries={summaries} />
+    </div>
+  )
 }

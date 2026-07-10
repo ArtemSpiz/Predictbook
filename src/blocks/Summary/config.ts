@@ -10,6 +10,20 @@ export const SummaryBlock: Block = {
   },
   fields: [
     {
+      name: 'title',
+      type: 'text',
+      admin: {
+        description: 'Optional heading above the block, e.g. "Summary". Leave empty to hide.',
+      },
+    },
+    {
+      name: 'subtitle',
+      type: 'textarea',
+      admin: {
+        description: 'Optional description text below the title.',
+      },
+    },
+    {
       name: 'tabs',
       type: 'array',
       label: 'Summary Tabs',

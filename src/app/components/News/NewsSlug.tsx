@@ -22,7 +22,8 @@ const Contacts = [{ icon: X }, { icon: Facebook }, { icon: Copy }]
 export default function NewsSlug({ post, related }: Props) {
   const categories = categoryNames(post.categories)
   const author = post.author && typeof post.author === 'object' ? post.author : null
-  const cover = post.coverImage && typeof post.coverImage === 'object' ? (post.coverImage as Media) : null
+  const cover =
+    post.coverImage && typeof post.coverImage === 'object' ? (post.coverImage as Media) : null
 
   return (
     <div className="flex flex-col gap-6 flex-1 md:border-r border-line md:p-5">

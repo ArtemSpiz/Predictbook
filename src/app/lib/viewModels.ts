@@ -45,7 +45,7 @@ export interface SignalView {
 const mediaObj = (v: unknown): Media | null =>
   v && typeof v === 'object' && 'url' in (v as object) ? (v as Media) : null
 
-const categoryTitles = (cats: (number | Category)[] | null | undefined): string[] =>
+const categoryTitles = (cats: (string | Category)[] | null | undefined): string[] =>
   (cats ?? [])
     .filter((c): c is Category => typeof c === 'object' && c !== null)
     .map((c) => c.title)

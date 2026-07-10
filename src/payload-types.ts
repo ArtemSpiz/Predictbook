@@ -531,6 +531,14 @@ export interface Page {
           }
         | {
             /**
+             * Optional heading above the block, e.g. "Summary". Leave empty to hide.
+             */
+            title?: string | null;
+            /**
+             * Optional description text below the title.
+             */
+            subtitle?: string | null;
+            /**
              * If there is only one, the tabs are not displayed on the site.
              */
             tabs?:
@@ -695,6 +703,8 @@ export interface News {
     [k: string]: unknown;
   };
   author?: (string | null) | User;
+  'author photo'?: (string | null) | Media;
+  'author job'?: string | null;
   categories?: (string | Category)[] | null;
   tags?: (string | Tag)[] | null;
   publishedAt?: string | null;
@@ -1433,6 +1443,8 @@ export interface PagesSelect<T extends boolean = true> {
         summary?:
           | T
           | {
+              title?: T;
+              subtitle?: T;
               tabs?:
                 | T
                 | {
@@ -1555,6 +1567,8 @@ export interface NewsSelect<T extends boolean = true> {
   live?: T;
   content?: T;
   author?: T;
+  'author photo'?: T;
+  'author job'?: T;
   categories?: T;
   tags?: T;
   publishedAt?: T;
@@ -2022,6 +2036,14 @@ export interface HomePage {
           }
         | {
             /**
+             * Optional heading above the block, e.g. "Summary". Leave empty to hide.
+             */
+            title?: string | null;
+            /**
+             * Optional description text below the title.
+             */
+            subtitle?: string | null;
+            /**
              * If there is only one, the tabs are not displayed on the site.
              */
             tabs?:
@@ -2421,6 +2443,14 @@ export interface NewsPage {
   sidebarBlocks?:
     | {
         /**
+         * Optional heading above the block, e.g. "Summary". Leave empty to hide.
+         */
+        title?: string | null;
+        /**
+         * Optional description text below the title.
+         */
+        subtitle?: string | null;
+        /**
          * If there is only one, the tabs are not displayed on the site.
          */
         tabs?:
@@ -2595,6 +2625,8 @@ export interface HomePageSelect<T extends boolean = true> {
         summary?:
           | T
           | {
+              title?: T;
+              subtitle?: T;
               tabs?:
                 | T
                 | {
@@ -2916,6 +2948,8 @@ export interface NewsPageSelect<T extends boolean = true> {
         summary?:
           | T
           | {
+              title?: T;
+              subtitle?: T;
               tabs?:
                 | T
                 | {

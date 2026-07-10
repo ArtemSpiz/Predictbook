@@ -12,7 +12,13 @@ interface ArticleTypeProps {
   cards: ArticleView[]
 }
 
-export default function ArticleType({ title, accent, viewAllText, viewAllUrl, cards }: ArticleTypeProps) {
+export default function ArticleType({
+  title,
+  accent,
+  viewAllText,
+  viewAllUrl,
+  cards,
+}: ArticleTypeProps) {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between gap-3">
@@ -35,7 +41,9 @@ export default function ArticleType({ title, accent, viewAllText, viewAllUrl, ca
 
             <div className="p-3 flex flex-col gap-3">
               <div className="flex justify-between items-center">
-                <div className={`py-1 px-1.5 border border-solid text-xs uppercase ${accentClasses(accent)}`}>
+                <div
+                  className={`py-1 px-1.5 border border-solid text-xs uppercase ${accentClasses(accent)}`}
+                >
                   {title}
                 </div>
                 <div className="text-xs text-date flex-nowrap text-nowrap">

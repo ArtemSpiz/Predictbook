@@ -11,6 +11,8 @@ const enableTags = starterConfig.collections.tags
 
 const metaFields: Field[] = [
   { name: 'author', type: 'relationship', relationTo: 'users' },
+  { name: 'author photo', type: 'upload', relationTo: 'media' },
+  { name: 'author job', type: 'text' },
   ...(enableCategories
     ? ([
         {

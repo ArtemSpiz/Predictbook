@@ -11,7 +11,8 @@ type NewsListBlockProps = {
 }
 
 export async function NewsListBlockComponent({ block }: { block: NewsListBlockProps }) {
-  const res = await findNewsPosts({ limit: block.limit ?? 30 })
+  const limit = block.limit ?? 30
+  const res = await findNewsPosts({ limit })
   const articles = res.docs.map(newsToArticleView)
 
   return (
@@ -21,6 +22,8 @@ export async function NewsListBlockComponent({ block }: { block: NewsListBlockPr
         subtitle={block.subtitle ?? undefined}
         categories={(block.categories ?? []).map((c) => c.title)}
         articles={articles}
+        limit={limit}
+        totalDocs={res.totalDocs}
       />
     </Suspense>
   )
