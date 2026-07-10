@@ -1845,7 +1845,8 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface Header {
   id: string;
   logo?: (string | null) | Media;
-  items?:
+  brandName?: string | null;
+  nav?:
     | {
         link: {
           type?: ('reference' | 'custom') | null;
@@ -1862,9 +1863,40 @@ export interface Header {
           label: string;
           newTab?: boolean | null;
         };
+        children?:
+          | {
+              link: {
+                type?: ('reference' | 'custom') | null;
+                reference?:
+                  | ({
+                      relationTo: 'pages';
+                      value: string | Page;
+                    } | null)
+                  | ({
+                      relationTo: 'news';
+                      value: string | News;
+                    } | null);
+                url?: string | null;
+                label: string;
+                newTab?: boolean | null;
+              };
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;
+  social?:
+    | {
+        icon: string | Media;
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  cta?: {
+    label?: string | null;
+    href?: string | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1874,6 +1906,15 @@ export interface Header {
  */
 export interface Footer {
   id: string;
+  brandName?: string | null;
+  tagline?: string | null;
+  social?:
+    | {
+        icon: string | Media;
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   columns?:
     | {
         title?: string | null;
@@ -1900,13 +1941,7 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
-  social?:
-    | {
-        platform: string;
-        url: string;
-        id?: string | null;
-      }[]
-    | null;
+  disclaimer?: string | null;
   copyright?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -2486,7 +2521,8 @@ export interface NewsPage {
  */
 export interface HeaderSelect<T extends boolean = true> {
   logo?: T;
-  items?:
+  brandName?: T;
+  nav?:
     | T
     | {
         link?:
@@ -2498,7 +2534,34 @@ export interface HeaderSelect<T extends boolean = true> {
               label?: T;
               newTab?: T;
             };
+        children?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                    newTab?: T;
+                  };
+              id?: T;
+            };
         id?: T;
+      };
+  social?:
+    | T
+    | {
+        icon?: T;
+        url?: T;
+        id?: T;
+      };
+  cta?:
+    | T
+    | {
+        label?: T;
+        href?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -2509,6 +2572,15 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
+  brandName?: T;
+  tagline?: T;
+  social?:
+    | T
+    | {
+        icon?: T;
+        url?: T;
+        id?: T;
+      };
   columns?:
     | T
     | {
@@ -2529,13 +2601,7 @@ export interface FooterSelect<T extends boolean = true> {
             };
         id?: T;
       };
-  social?:
-    | T
-    | {
-        platform?: T;
-        url?: T;
-        id?: T;
-      };
+  disclaimer?: T;
   copyright?: T;
   updatedAt?: T;
   createdAt?: T;

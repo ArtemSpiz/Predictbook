@@ -10,11 +10,28 @@ export const Header: GlobalConfig = {
   hooks: revalidateGlobalHooks,
   fields: [
     { name: 'logo', type: 'upload', relationTo: 'media' },
+    { name: 'brandName', type: 'text' },
     {
-      name: 'items',
+      name: 'nav',
       type: 'array',
       maxRows: 10,
-      fields: [linkField()],
+      fields: [linkField(), { name: 'children', type: 'array', fields: [linkField()] }],
+    },
+    {
+      name: 'social',
+      type: 'array',
+      fields: [
+        { name: 'icon', type: 'upload', relationTo: 'media', required: true },
+        { name: 'url', type: 'text' },
+      ],
+    },
+    {
+      name: 'cta',
+      type: 'group',
+      fields: [
+        { name: 'label', type: 'text' },
+        { name: 'href', type: 'text' },
+      ],
     },
   ],
 }
