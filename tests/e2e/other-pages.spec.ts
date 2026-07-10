@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test'
 const pages: [string, string][] = [
   ['/signals', 'Signals'],
   ['/live-feed', 'Live Feed'],
-  ['/blog', 'Analysis'],
+  ['/news', 'Analysis'],
   ['/about', 'About Predictbook'],
   ['/contact', 'Contact'],
 ]

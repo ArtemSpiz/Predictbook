@@ -125,11 +125,11 @@ async function main() {
     return doc.id
   }
 
-  // ---------- blog posts (from BlogMockData.ArticlesContent) ----------
-  console.log('[seed] blog posts...')
+  // ---------- news posts (from NewsMockData.ArticlesContent) ----------
+  console.log('[seed] news posts...')
   const text =
     '90 days of trading data reveals a systematic bias — and how to trade against it. 90 days of trading data reveals a systematic bias — and how to trade against it.'
-  const blogSpecs = [
+  const newsSpecs = [
     { n: '', c: ['Markets', 'Elections'], featured: true, live: true },
     { n: '-2', c: ['AI', 'Regulation'] },
     { n: '-3', c: ['Markets', 'Elections'], title3: true },
@@ -142,12 +142,12 @@ async function main() {
     { n: '-10', c: ['Science'] },
   ]
   let i = 0
-  for (const spec of blogSpecs) {
+  for (const spec of newsSpecs) {
     const slug = `why-kalshi-consistently-underprices-third-party-candidates${spec.n}`
     const title = spec.title3
       ? 'Why Kalshi consistently underprices third-party candidates 3'
       : 'Why Kalshi consistently underprices third-party candidates'
-    await upsert('blog', slug, {
+    await upsert('news', slug, {
       slug,
       title,
       excerpt: text,
@@ -403,7 +403,7 @@ async function main() {
           subtitle: 'Expert perspectives behind market movements.',
           limit: 5,
           viewAllText: 'All articles',
-          viewAllUrl: '/blog',
+          viewAllUrl: '/news',
           hidden: false,
         },
         {
@@ -600,11 +600,11 @@ async function main() {
   })
 
   await payload.updateGlobal({
-    slug: 'blog-page',
+    slug: 'news-page',
     data: {
       mainBlocks: [
         {
-          blockType: 'blog-list',
+          blockType: 'news-list',
           heading: 'Analysis',
           subtitle:
             'Short-form market analysis — 3 pieces per day, ~300 words each. Our writers take live prediction market signals and give context and directional reasoning.',

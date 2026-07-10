@@ -5,7 +5,7 @@ export interface CollectionRegistry {
   Users: CollectionConfig
   Media: CollectionConfig
   Pages: CollectionConfig
-  Blog: CollectionConfig
+  News: CollectionConfig
   Categories: CollectionConfig
   Tags: CollectionConfig
 }
@@ -15,8 +15,8 @@ export function buildCollections(
   toggles: CollectionsConfig,
 ): CollectionConfig[] {
   const list: CollectionConfig[] = [registry.Users, registry.Media, registry.Pages]
-  if (toggles.blog) list.push(registry.Blog)
-  if (toggles.categories && toggles.blog) list.push(registry.Categories)
-  if (toggles.tags && toggles.blog) list.push(registry.Tags)
+  if (toggles.news) list.push(registry.News)
+  if (toggles.categories && toggles.news) list.push(registry.Categories)
+  if (toggles.tags && toggles.news) list.push(registry.Tags)
   return list
 }

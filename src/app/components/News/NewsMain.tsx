@@ -1,8 +1,8 @@
 import { RenderBlockList } from '@/blocks/RenderBlockList'
-import { getBlogPageContent } from '@/utilities/getPageContent'
+import { getNewsPageContent } from '@/utilities/getPageContent'
 
-export default async function BlogMain() {
-  const content = await getBlogPageContent()
+export default async function NewsMain() {
+  const content = await getNewsPageContent()
 
   return (
     <div className="container-custom">

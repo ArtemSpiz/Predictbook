@@ -1,32 +1,32 @@
 import Image from 'next/image'
 import Live from '../../../../public/live.png'
 import Facebook from '../../../../public/Facebook.png'
-import X from '../../../../public/XBlog.png'
+import X from '../../../../public/XNews.png'
 import Copy from '../../../../public/Copy.png'
-import AnotherBlogs from './AnotherBlogs'
+import AnotherNews from './AnotherNews'
 import { Breadcrumbs } from '@/app/ui/Breadcrumbs'
 import { getCategoryStyle } from '@/app/lib/getCategoryStyle'
 import { PayloadImage } from '@/app/components/PayloadImage'
 import { categoryNames, fmtDay, fmtTime, type ArticleView } from '@/app/lib/viewModels'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import Link from 'next/link'
-import type { Blog, Media } from '@/payload-types'
+import type { News, Media } from '@/payload-types'
 
 interface Props {
-  post: Blog
+  post: News
   related: ArticleView[]
 }
 
 const Contacts = [{ icon: X }, { icon: Facebook }, { icon: Copy }]
 
-export default function BlogSlug({ post, related }: Props) {
+export default function NewsSlug({ post, related }: Props) {
   const categories = categoryNames(post.categories)
   const author = post.author && typeof post.author === 'object' ? post.author : null
   const cover = post.coverImage && typeof post.coverImage === 'object' ? (post.coverImage as Media) : null
 
   return (
     <div className="flex flex-col gap-6 flex-1 md:border-r border-line md:p-5">
-      <Breadcrumbs items={[{ label: 'Analysis', href: '/blog' }, { label: post.title }]} />
+      <Breadcrumbs items={[{ label: 'Analysis', href: '/news' }, { label: post.title }]} />
       <div className="flex items-center gap-2">
         {post.live && (
           <div className="flex h-[-webkit-fill-available] gap-2 items-center bg-live-soft px-1.5 py-1 text-xs font-medium uppercase text-danger">
@@ -38,7 +38,7 @@ export default function BlogSlug({ post, related }: Props) {
         {categories.map((category) => (
           <Link
             key={category}
-            href={`/blog/category/${category.toLowerCase()}`}
+            href={`/news/category/${category.toLowerCase()}`}
             className={`border border-solid px-1.5 py-1 text-xs uppercase max-md:text-xs transition-opacity hover:opacity-80 ${getCategoryStyle(category)}`}
           >
             {category}
@@ -52,7 +52,7 @@ export default function BlogSlug({ post, related }: Props) {
         <div>
           {author?.name && (
             <Link
-              href={`/blog/${post.slug}/${encodeURIComponent(author.name.replace(/\s+/g, '-'))}`}
+              href={`/news/${post.slug}/${encodeURIComponent(author.name.replace(/\s+/g, '-'))}`}
               className="text-muted mb-1 text-base hover:underline"
             >
               {author.name}
@@ -86,7 +86,7 @@ export default function BlogSlug({ post, related }: Props) {
 
       <div className="w-full h-px bg-line" />
 
-      <AnotherBlogs currentSlug={post.slug} articles={related} />
+      <AnotherNews currentSlug={post.slug} articles={related} />
     </div>
   )
 }

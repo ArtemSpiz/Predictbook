@@ -70,7 +70,7 @@ export interface Config {
     users: User;
     media: Media;
     pages: Page;
-    blog: Blog;
+    news: News;
     categories: Category;
     tags: Tag;
     signals: Signal;
@@ -91,7 +91,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
-    blog: BlogSelect<false> | BlogSelect<true>;
+    news: NewsSelect<false> | NewsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
     signals: SignalsSelect<false> | SignalsSelect<true>;
@@ -120,7 +120,7 @@ export interface Config {
     'contact-page': ContactPage;
     'signals-page': SignalsPage;
     'live-feed-page': LiveFeedPage;
-    'blog-page': BlogPage;
+    'news-page': NewsPage;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
@@ -131,7 +131,7 @@ export interface Config {
     'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
     'signals-page': SignalsPageSelect<false> | SignalsPageSelect<true>;
     'live-feed-page': LiveFeedPageSelect<false> | LiveFeedPageSelect<true>;
-    'blog-page': BlogPageSelect<false> | BlogPageSelect<true>;
+    'news-page': NewsPageSelect<false> | NewsPageSelect<true>;
   };
   locale: null;
   widgets: {
@@ -277,8 +277,8 @@ export interface Page {
                           value: string | Page;
                         } | null)
                       | ({
-                          relationTo: 'blog';
-                          value: string | Blog;
+                          relationTo: 'news';
+                          value: string | News;
                         } | null);
                     url?: string | null;
                     label: string;
@@ -323,8 +323,8 @@ export interface Page {
                           value: string | Page;
                         } | null)
                       | ({
-                          relationTo: 'blog';
-                          value: string | Blog;
+                          relationTo: 'news';
+                          value: string | News;
                         } | null);
                     url?: string | null;
                     label: string;
@@ -664,9 +664,9 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog".
+ * via the `definition` "news".
  */
-export interface Blog {
+export interface News {
   id: string;
   title: string;
   excerpt?: string | null;
@@ -849,8 +849,8 @@ export interface Redirect {
           value: string | Page;
         } | null)
       | ({
-          relationTo: 'blog';
-          value: string | Blog;
+          relationTo: 'news';
+          value: string | News;
         } | null);
     url?: string | null;
   };
@@ -873,8 +873,8 @@ export interface Search {
         value: string | Page;
       }
     | {
-        relationTo: 'blog';
-        value: string | Blog;
+        relationTo: 'news';
+        value: string | News;
       }
     | {
         relationTo: 'signals';
@@ -1090,8 +1090,8 @@ export interface PayloadLockedDocument {
         value: string | Page;
       } | null)
     | ({
-        relationTo: 'blog';
-        value: string | Blog;
+        relationTo: 'news';
+        value: string | News;
       } | null)
     | ({
         relationTo: 'categories';
@@ -1545,9 +1545,9 @@ export interface PagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog_select".
+ * via the `definition` "news_select".
  */
-export interface BlogSelect<T extends boolean = true> {
+export interface NewsSelect<T extends boolean = true> {
   title?: T;
   excerpt?: T;
   coverImage?: T;
@@ -1841,8 +1841,8 @@ export interface Header {
                 value: string | Page;
               } | null)
             | ({
-                relationTo: 'blog';
-                value: string | Blog;
+                relationTo: 'news';
+                value: string | News;
               } | null);
           url?: string | null;
           label: string;
@@ -1873,8 +1873,8 @@ export interface Footer {
                       value: string | Page;
                     } | null)
                   | ({
-                      relationTo: 'blog';
-                      value: string | Blog;
+                      relationTo: 'news';
+                      value: string | News;
                     } | null);
                 url?: string | null;
                 label: string;
@@ -1904,9 +1904,9 @@ export interface Footer {
 export interface SiteSetting {
   id: string;
   /**
-   * Include published blog posts in sitemap.xml.
+   * Include published news posts in sitemap.xml.
    */
-  sitemapIncludeBlog?: boolean | null;
+  sitemapIncludeNews?: boolean | null;
   /**
    * Include published signals in sitemap.xml.
    */
@@ -1928,7 +1928,7 @@ export interface SiteSetting {
    */
   ga4Id?: string | null;
   /**
-   * Promo card shown on all blog sub-pages.
+   * Promo card shown on all news sub-pages.
    */
   promoBlocks?:
     | {
@@ -1959,7 +1959,7 @@ export interface SiteSetting {
       }[]
     | null;
   /**
-   * Sponsored logos card shown on blog article pages only.
+   * Sponsored logos card shown on news article pages only.
    */
   sponsoredBlocks?:
     | {
@@ -2391,9 +2391,9 @@ export interface LiveFeedPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-page".
+ * via the `definition` "news-page".
  */
-export interface BlogPage {
+export interface NewsPage {
   id: string;
   mainBlocks?:
     | {
@@ -2415,7 +2415,7 @@ export interface BlogPage {
         hidden?: boolean | null;
         id?: string | null;
         blockName?: string | null;
-        blockType: 'blog-list';
+        blockType: 'news-list';
       }[]
     | null;
   sidebarBlocks?:
@@ -2516,7 +2516,7 @@ export interface FooterSelect<T extends boolean = true> {
  * via the `definition` "site-settings_select".
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
-  sitemapIncludeBlog?: T;
+  sitemapIncludeNews?: T;
   sitemapIncludeSignals?: T;
   sitemapIncludeLiveFeed?: T;
   robotsDisallowAll?: T;
@@ -2887,13 +2887,13 @@ export interface LiveFeedPageSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-page_select".
+ * via the `definition` "news-page_select".
  */
-export interface BlogPageSelect<T extends boolean = true> {
+export interface NewsPageSelect<T extends boolean = true> {
   mainBlocks?:
     | T
     | {
-        'blog-list'?:
+        'news-list'?:
           | T
           | {
               heading?: T;
@@ -2963,7 +2963,7 @@ export interface TaskCreateCollectionExport {
       | 'users'
       | 'media'
       | 'pages'
-      | 'blog'
+      | 'news'
       | 'categories'
       | 'tags'
       | 'signals'

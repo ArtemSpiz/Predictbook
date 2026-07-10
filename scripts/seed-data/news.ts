@@ -6,7 +6,7 @@ const richText = (text: string) => ({
   },
 })
 
-export const sampleBlogPosts: any[] = [
+export const sampleNewsPosts: any[] = [
   {
     slug: 'welcome',
     title: 'Welcome to the starter',

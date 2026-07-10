@@ -1,9 +1,9 @@
 import type { Block } from 'payload'
 import { hiddenField } from '../_shared/fields'
 
-export const BlogListBlock: Block = {
-  slug: 'blog-list',
-  labels: { singular: 'Blog List', plural: 'Blog Lists' },
+export const NewsListBlock: Block = {
+  slug: 'news-list',
+  labels: { singular: 'News List', plural: 'News Lists' },
   fields: [
     { name: 'heading', type: 'text', required: true, defaultValue: 'Analysis' },
     { name: 'subtitle', type: 'textarea' },

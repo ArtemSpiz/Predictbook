@@ -7,7 +7,14 @@
       "Read(//Users/silentfox/**)",
       "Read(//Users/silentfox/node_modules/**)",
       "Bash(gh auth *)",
-      "Bash(ssh -T -o StrictHostKeyChecking=accept-new git@github.com)"
+      "Bash(ssh -T -o StrictHostKeyChecking=accept-new git@github.com)",
+      "Bash(find node_modules/@payloadcms/plugin-cloud-storage/dist -name *.d.ts)",
+      "Bash(pnpm typecheck *)",
+      "Bash(set -e)",
+      "Bash(timeout 180 pnpm generate:types)",
+      "Bash(pnpm generate:types)",
+      "Bash(pnpm test:unit)",
+      "Bash(pnpm exec *)"
     ]
   }
 }

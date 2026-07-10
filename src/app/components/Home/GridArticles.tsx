@@ -32,7 +32,7 @@ export default function GridArticles({
         {sortedCards.map((card) => (
           <Link
             key={card.slug}
-            href={`/blog/${card.slug}`}
+            href={`/news/${card.slug}`}
             className={`${card.featured ? 'xl:col-span-2' : ''}`}
           >
             <ArticleCard card={card} />

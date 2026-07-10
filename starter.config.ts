@@ -30,7 +30,7 @@ export default defineStarterConfig({
     auditLog: false,
   },
   collections: {
-    blog: true,
+    news: true,
     categories: true,
     tags: true,
   },

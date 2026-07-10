@@ -4,7 +4,7 @@ import { wideMarkupLexical } from '@/fields/wideMarkupLexical'
 import { slugField } from '@/fields/slug'
 import { revalidateCollectionHooks } from '@/hooks/revalidateFrontCache'
 import { pingIndexNowOnPublish } from '@/utilities/indexNow'
-import { blogReadAccess, blogWriteAccess } from './access'
+import { newsReadAccess, newsWriteAccess } from './access'
 
 const enableCategories = starterConfig.collections.categories
 const enableTags = starterConfig.collections.tags
@@ -38,18 +38,18 @@ const metaFields: Field[] = [
   },
 ]
 
-export const Blog: CollectionConfig = {
-  slug: 'blog',
+export const News: CollectionConfig = {
+  slug: 'news',
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'publishedAt', '_status'],
     group: 'Content',
   },
   access: {
-    read: blogReadAccess,
-    create: blogWriteAccess,
-    update: blogWriteAccess,
-    delete: blogWriteAccess,
+    read: newsReadAccess,
+    create: newsWriteAccess,
+    update: newsWriteAccess,
+    delete: newsWriteAccess,
   },
   versions: {
     drafts: { autosave: { interval: 2000 } },
@@ -58,7 +58,7 @@ export const Blog: CollectionConfig = {
   hooks: {
     afterChange: [
       ...revalidateCollectionHooks.afterChange,
-      pingIndexNowOnPublish((slug) => `/blog/${slug}`),
+      pingIndexNowOnPublish((slug) => `/news/${slug}`),
     ],
     afterDelete: revalidateCollectionHooks.afterDelete,
   },

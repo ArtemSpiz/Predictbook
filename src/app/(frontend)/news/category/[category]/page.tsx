@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import { findBlogPosts } from '@/utilities/getBlogPosts'
-import { blogToArticleView } from '@/app/lib/viewModels'
+import { findNewsPosts } from '@/utilities/getNewsPosts'
+import { newsToArticleView } from '@/app/lib/viewModels'
 import { RenderBlockList } from '@/blocks/RenderBlockList'
 import { getSiteSidebar } from '@/utilities/getSiteSettings'
 import ArticleCard from '@/app/ui/ArticleCard'
@@ -23,14 +23,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category } = await params
   return {
     title: `${label(category)} — Analysis`,
-    ...localeAlternates(`blog/category/${category}`),
+    ...localeAlternates(`news/category/${category}`),
   }
 }
 
 export default async function CategoryPage({ params }: Props) {
   const { category } = await params
-  const { docs } = await findBlogPosts({ categorySlug: category, limit: 30 })
-  const articles = docs.map(blogToArticleView)
+  const { docs } = await findNewsPosts({ categorySlug: category, limit: 30 })
+  const articles = docs.map(newsToArticleView)
   const formattedCategoryLabel = label(category)
   const sidebar = await getSiteSidebar()
 
@@ -39,7 +39,7 @@ export default async function CategoryPage({ params }: Props) {
       <div className="md:border-l md:border-r border-line p-6 flex gap-5 max-md:flex-col max-lg:p-0 max-lg:py-5">
         <div className="flex flex-col gap-6 flex-1 md:border-r border-line md:p-5">
           <Breadcrumbs
-            items={[{ label: 'Analysis', href: '/blog' }, { label: formattedCategoryLabel }]}
+            items={[{ label: 'Analysis', href: '/news' }, { label: formattedCategoryLabel }]}
           />
 
           <BlockTitle title={formattedCategoryLabel} />
@@ -52,7 +52,7 @@ export default async function CategoryPage({ params }: Props) {
               </p>
 
               <Link
-                href="/blog"
+                href="/news"
                 className="bg-ink border-none text-paper py-3 px-4 rounded-lg text-base mt-3 inline-flex"
               >
                 Back to all articles
@@ -61,7 +61,7 @@ export default async function CategoryPage({ params }: Props) {
           ) : (
             <div className="flex flex-col gap-4">
               {articles.map((article, index) => (
-                <Link key={article.slug} href={`/blog/${article.slug}`}>
+                <Link key={article.slug} href={`/news/${article.slug}`}>
                   <ArticleCard card={{ ...article, featured: index === 0 }} />
                 </Link>
               ))}

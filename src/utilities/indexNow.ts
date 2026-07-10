@@ -51,7 +51,7 @@ export async function pingIndexNow(urls: string[]): Promise<void> {
 
 /**
  * Collection `afterChange` hook that pings IndexNow when a doc is published.
- * `pathFor(slug)` returns the site-relative path, e.g. `/blog/${slug}`.
+ * `pathFor(slug)` returns the site-relative path, e.g. `/news/${slug}`.
  */
 export function pingIndexNowOnPublish(pathFor: (slug: string) => string): CollectionAfterChangeHook {
   return ({ doc }) => {

@@ -8,9 +8,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Notification from '@/../public/Notification.png'
 import Rss from '@/../public/Rss.png'
-import X from '@/../public/XBlog.png'
-import { findBlogPosts } from '@/utilities/getBlogPosts'
-import { blogToArticleView } from '@/app/lib/viewModels'
+import X from '@/../public/XNews.png'
+import { findNewsPosts } from '@/utilities/getNewsPosts'
+import { newsToArticleView } from '@/app/lib/viewModels'
 import { localeAlternates } from '@/utilities/metadataAlternates'
 
 type Props = {
@@ -30,27 +30,27 @@ function authorFromParam(name: string) {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { name } = await params
   const author = authorFromParam(name)
-  return { title: author, ...localeAlternates(`blog`) }
+  return { title: author, ...localeAlternates(`news`) }
 }
 
 export default async function AuthorPage({ params }: Props) {
   const { name } = await params
   const author = authorFromParam(name)
 
-  const { docs } = await findBlogPosts({ limit: 100 })
+  const { docs } = await findNewsPosts({ limit: 100 })
   const articles = docs
     .filter((post) => {
       const a = post.author && typeof post.author === 'object' ? post.author : null
       return a?.name?.toLowerCase() === author.toLowerCase()
     })
-    .map(blogToArticleView)
+    .map(newsToArticleView)
   const sidebar = await getSiteSidebar()
 
   return (
     <main className="container-custom">
       <div className="md:border-l md:border-r border-line p-6 flex gap-5 max-md:flex-col max-lg:p-0 max-lg:py-5">
         <div className="flex flex-col gap-6 flex-1 md:border-r border-line md:p-5">
-          <Breadcrumbs items={[{ label: 'Analysis', href: '/blog' }, { label: author }]} />
+          <Breadcrumbs items={[{ label: 'Analysis', href: '/news' }, { label: author }]} />
 
           <div className="flex justify-between gap-3 lg:items-center max-lg:flex-col">
             <BlockTitle title={author} />
@@ -77,7 +77,7 @@ export default async function AuthorPage({ params }: Props) {
               <p className="mt-2 text-gray-text">There are currently no articles by this author.</p>
 
               <Link
-                href="/blog"
+                href="/news"
                 className="bg-ink border-none text-paper py-3 px-4 rounded-lg text-base mt-3 inline-flex"
               >
                 Back to all articles
@@ -86,7 +86,7 @@ export default async function AuthorPage({ params }: Props) {
           ) : (
             <div className="flex flex-col gap-4">
               {articles.map((article, index) => (
-                <Link key={article.slug} href={`/blog/${article.slug}`}>
+                <Link key={article.slug} href={`/news/${article.slug}`}>
                   <ArticleCard card={{ ...article, featured: index === 0 }} />
                 </Link>
               ))}

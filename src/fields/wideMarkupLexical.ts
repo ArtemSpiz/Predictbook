@@ -56,7 +56,7 @@ export const wideMarkupLexical = lexicalEditor({
       AlignFeature(),
       IndentFeature(),
       LinkFeature({
-        enabledCollections: ['pages', 'blog'],
+        enabledCollections: ['pages', 'news'],
         fields: ({ defaultFields }) => {
           const withoutUrl = defaultFields.filter((f) => !('name' in f && f.name === 'url'))
           return [
@@ -75,7 +75,7 @@ export const wideMarkupLexical = lexicalEditor({
           ]
         },
       }),
-      RelationshipFeature({ enabledCollections: ['pages', 'blog'] }),
+      RelationshipFeature({ enabledCollections: ['pages', 'news'] }),
       UploadFeature({
         collections: {
           media: {

@@ -23,10 +23,10 @@ export const SiteSettings: GlobalConfig = {
           label: 'SEO',
           fields: [
             {
-              name: 'sitemapIncludeBlog',
+              name: 'sitemapIncludeNews',
               type: 'checkbox',
               defaultValue: true,
-              admin: { description: 'Include published blog posts in sitemap.xml.' },
+              admin: { description: 'Include published news posts in sitemap.xml.' },
             },
             {
               name: 'sitemapIncludeSignals',
@@ -65,20 +65,20 @@ export const SiteSettings: GlobalConfig = {
         },
         {
           label: 'Sidebar',
-          description: 'Widgets shown in the right column of blog article/category/author pages.',
+          description: 'Widgets shown in the right column of news article/category/author pages.',
           fields: [
             {
               name: 'promoBlocks',
               type: 'blocks',
               labels: { singular: 'Promo block', plural: 'Promo blocks' },
-              admin: { description: 'Promo card shown on all blog sub-pages.' },
+              admin: { description: 'Promo card shown on all news sub-pages.' },
               blocks: [RealCardBlock],
             },
             {
               name: 'sponsoredBlocks',
               type: 'blocks',
               labels: { singular: 'Sponsored block', plural: 'Sponsored blocks' },
-              admin: { description: 'Sponsored logos card shown on blog article pages only.' },
+              admin: { description: 'Sponsored logos card shown on news article pages only.' },
               blocks: [SponsoredCardBlock],
             },
           ],

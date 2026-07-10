@@ -4,7 +4,7 @@ import { getPayload } from 'payload'
 import config from '../src/payload.config'
 import starterConfig from '../starter.config'
 import { samplePages } from './seed-data/pages'
-import { sampleBlogPosts, sampleCategories, sampleTags } from './seed-data/blog'
+import { sampleNewsPosts, sampleCategories, sampleTags } from './seed-data/news'
 
 const RESET = process.argv.includes('--reset')
 
@@ -29,7 +29,7 @@ async function ensureAdmin(payload: Awaited<ReturnType<typeof getPayload>>) {
   }
 }
 
-async function clear<T extends 'pages' | 'blog' | 'categories' | 'tags'>(
+async function clear<T extends 'pages' | 'news' | 'categories' | 'tags'>(
   payload: Awaited<ReturnType<typeof getPayload>>,
   slug: T,
 ) {
@@ -44,7 +44,7 @@ async function main() {
     console.log('[seed:reset] clearing collections...')
     if (starterConfig.collections.tags) await clear(payload, 'tags')
     if (starterConfig.collections.categories) await clear(payload, 'categories')
-    if (starterConfig.collections.blog) await clear(payload, 'blog')
+    if (starterConfig.collections.news) await clear(payload, 'news')
     await clear(payload, 'pages')
   }
 
@@ -65,10 +65,10 @@ async function main() {
     for (const t of sampleTags) await payload.create({ collection: 'tags', data: t })
   }
 
-  if (starterConfig.collections.blog) {
-    console.log('[seed] blog posts...')
-    for (const post of sampleBlogPosts)
-      await payload.create({ collection: 'blog', data: post })
+  if (starterConfig.collections.news) {
+    console.log('[seed] news posts...')
+    for (const post of sampleNewsPosts)
+      await payload.create({ collection: 'news', data: post })
   }
 
   console.log('\n[seed] done.')

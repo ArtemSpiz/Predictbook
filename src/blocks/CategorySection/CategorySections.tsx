@@ -1,7 +1,7 @@
 import ArticleType from '@/app/components/Home/ArticlesType'
 import ArticleTypeMobileSwitcher from '@/app/components/Home/ArticleTypeMobileSwitcher'
-import { findBlogPosts } from '@/utilities/getBlogPosts'
-import { blogToArticleView, type ArticleView } from '@/app/lib/viewModels'
+import { findNewsPosts } from '@/utilities/getNewsPosts'
+import { newsToArticleView, type ArticleView } from '@/app/lib/viewModels'
 import type { Category } from '@/payload-types'
 
 export type CategorySectionData = {
@@ -39,17 +39,17 @@ export async function CategorySections({
           label: b.label,
           accent: b.accent,
           viewAllText: b.viewAllText,
-          viewAllUrl: `/blog/category/${slug}`,
+          viewAllUrl: `/news/category/${slug}`,
           cards: [],
         }
       }
-      const res = await findBlogPosts({ categorySlug: slug, limit: b.limit ?? 3 })
+      const res = await findNewsPosts({ categorySlug: slug, limit: b.limit ?? 3 })
       return {
         label: b.label,
         accent: b.accent,
         viewAllText: b.viewAllText,
-        viewAllUrl: `/blog/category/${slug}`,
-        cards: res.docs.map(blogToArticleView),
+        viewAllUrl: `/news/category/${slug}`,
+        cards: res.docs.map(newsToArticleView),
       }
     }),
   )

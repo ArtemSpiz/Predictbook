@@ -5,7 +5,7 @@ test('home renders', async ({ page }) => {
   await expect(page.locator('main')).toBeVisible()
 })
 
-test('blog list renders', async ({ page }) => {
-  await page.goto('/blog')
-  await expect(page.getByRole('heading', { name: 'Blog' })).toBeVisible()
+test('news list renders', async ({ page }) => {
+  await page.goto('/news')
+  await expect(page.getByRole('heading', { name: 'News' })).toBeVisible()
 })

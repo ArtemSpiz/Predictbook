@@ -4,7 +4,7 @@ import config from '@payload-config'
 import type { SiteSetting as SiteSettingsDoc } from '@/payload-types'
 
 export type SiteSettings = {
-  sitemapIncludeBlog: boolean
+  sitemapIncludeNews: boolean
   sitemapIncludeSignals: boolean
   sitemapIncludeLiveFeed: boolean
   robotsDisallowAll: boolean
@@ -13,7 +13,7 @@ export type SiteSettings = {
 }
 
 const DEFAULTS: SiteSettings = {
-  sitemapIncludeBlog: true,
+  sitemapIncludeNews: true,
   sitemapIncludeSignals: true,
   sitemapIncludeLiveFeed: true,
   robotsDisallowAll: false,
@@ -26,7 +26,7 @@ async function fetchSiteSettings(): Promise<SiteSettings> {
       slug: 'site-settings',
     })) as unknown as Record<string, unknown>
     return {
-      sitemapIncludeBlog: data.sitemapIncludeBlog !== false,
+      sitemapIncludeNews: data.sitemapIncludeNews !== false,
       sitemapIncludeSignals: data.sitemapIncludeSignals !== false,
       sitemapIncludeLiveFeed: data.sitemapIncludeLiveFeed !== false,
       robotsDisallowAll: data.robotsDisallowAll === true,
@@ -55,6 +55,6 @@ async function fetchSiteSidebar(): Promise<Pick<SiteSettingsDoc, 'promoBlocks' |
   }
 }
 
-/** Cached site-wide sidebar blocks (promo + sponsored) for blog sub-routes, depth:1 for populated media. */
+/** Cached site-wide sidebar blocks (promo + sponsored) for news sub-routes, depth:1 for populated media. */
 export const getSiteSidebar = () =>
   unstable_cache(fetchSiteSidebar, ['site-sidebar'], { tags: ['payload'] })()

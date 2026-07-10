@@ -1,12 +1,12 @@
 import type { GlobalConfig } from 'payload'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { revalidateGlobalHooks } from '@/hooks/revalidateFrontCache'
-import { BlogListBlock } from '@/blocks/BlogList/config'
+import { NewsListBlock } from '@/blocks/NewsList/config'
 import { SummaryBlock } from '@/blocks/Summary/config'
 
-export const BlogPage: GlobalConfig = {
-  slug: 'blog-page',
-  label: 'Blog Page',
+export const NewsPage: GlobalConfig = {
+  slug: 'news-page',
+  label: 'News Page',
   admin: { group: 'Pages' },
   access: { read: () => true, update: isAdminOrEditor },
   hooks: revalidateGlobalHooks,
@@ -21,7 +21,7 @@ export const BlogPage: GlobalConfig = {
               name: 'mainBlocks',
               type: 'blocks',
               labels: { singular: 'Main block', plural: 'Main blocks' },
-              blocks: [BlogListBlock],
+              blocks: [NewsListBlock],
             },
           ],
         },

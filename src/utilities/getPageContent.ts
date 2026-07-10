@@ -7,7 +7,7 @@ import type {
   ContactPage,
   SignalsPage,
   LiveFeedPage,
-  BlogPage,
+  NewsPage,
 } from '@/payload-types'
 
 type PageGlobalSlug =
@@ -16,7 +16,7 @@ type PageGlobalSlug =
   | 'contact-page'
   | 'signals-page'
   | 'live-feed-page'
-  | 'blog-page'
+  | 'news-page'
 
 async function fetchGlobal<T>(slug: PageGlobalSlug): Promise<T | null> {
   try {
@@ -35,4 +35,4 @@ export const getAboutPageContent = () => cachedGlobal<AboutPage>('about-page')
 export const getContactPageContent = () => cachedGlobal<ContactPage>('contact-page')
 export const getSignalsPageContent = () => cachedGlobal<SignalsPage>('signals-page')
 export const getLiveFeedPageContent = () => cachedGlobal<LiveFeedPage>('live-feed-page')
-export const getBlogPageContent = () => cachedGlobal<BlogPage>('blog-page')
+export const getNewsPageContent = () => cachedGlobal<NewsPage>('news-page')

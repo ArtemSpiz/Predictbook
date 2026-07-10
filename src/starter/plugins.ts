@@ -12,7 +12,7 @@ export function buildPlugins(features: FeaturesConfig) {
   if (features.seo) {
     plugins.push(
       seoPlugin({
-        collections: ['pages', 'blog', 'signals', 'live-feed'],
+        collections: ['pages', 'news', 'signals', 'live-feed'],
         uploadsCollection: 'media',
         generateTitle: ({ doc }: { doc?: { title?: string } }) => `${doc?.title ?? 'Untitled'}`,
       }),
@@ -22,7 +22,7 @@ export function buildPlugins(features: FeaturesConfig) {
   if (features.redirects) {
     plugins.push(
       redirectsPlugin({
-        collections: ['pages', 'blog'],
+        collections: ['pages', 'news'],
       }),
     )
   }
@@ -30,10 +30,10 @@ export function buildPlugins(features: FeaturesConfig) {
   if (features.search) {
     plugins.push(
       searchPlugin({
-        collections: ['pages', 'blog', 'signals', 'live-feed'],
+        collections: ['pages', 'news', 'signals', 'live-feed'],
         defaultPriorities: {
           pages: 10,
-          blog: 20,
+          news: 20,
           signals: 40,
           'live-feed': 50,
         },
@@ -64,7 +64,7 @@ export function buildPlugins(features: FeaturesConfig) {
       importExportPlugin({
         collections: [
           { slug: 'pages' },
-          { slug: 'blog' },
+          { slug: 'news' },
           { slug: 'signals' },
           { slug: 'live-feed' },
           { slug: 'media' },

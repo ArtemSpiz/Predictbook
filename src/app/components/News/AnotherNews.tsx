@@ -5,19 +5,19 @@ import Image from 'next/image'
 import ArrowBack from '../../../../public/ArrowBack.png'
 import type { ArticleView } from '@/app/lib/viewModels'
 
-interface AnotherBlogsProps {
+interface AnotherNewsProps {
   currentSlug: string
   articles: ArticleView[]
 }
 
-export default function AnotherBlogs({ currentSlug, articles }: AnotherBlogsProps) {
+export default function AnotherNews({ currentSlug, articles }: AnotherNewsProps) {
   const anotherArticles = articles
     .filter((article) => article.slug !== currentSlug && !article.featured)
     .slice(0, 2)
 
   return (
     <div className="flex flex-col gap-4">
-      <Link href="/blog" className="flex gap-1 items-center">
+      <Link href="/news" className="flex gap-1 items-center">
         <div className="w-3 h-3">
           <Image src={ArrowBack} alt="" />
         </div>
@@ -28,7 +28,7 @@ export default function AnotherBlogs({ currentSlug, articles }: AnotherBlogsProp
 
       <div className="flex flex-col gap-2">
         {anotherArticles.map((card) => (
-          <Link key={card.slug} href={`/blog/${card.slug}`}>
+          <Link key={card.slug} href={`/news/${card.slug}`}>
             <ArticleCard card={card} />
           </Link>
         ))}

@@ -17,7 +17,7 @@ interface Props {
   subtitle?: string
 }
 
-export default function BlogCol({ articles, categories, title, subtitle }: Props) {
+export default function NewsCol({ articles, categories, title, subtitle }: Props) {
   const searchParams = useSearchParams()
 
   const initialCategory = searchParams.get('category') || 'All'
@@ -84,7 +84,7 @@ export default function BlogCol({ articles, categories, title, subtitle }: Props
       <div className="flex flex-col gap-2">
         {filteredCards.length > 0 ? (
           filteredCards.map((card) => (
-            <Link key={card.slug} href={`/blog/${card.slug}`}>
+            <Link key={card.slug} href={`/news/${card.slug}`}>
               <ArticleCard card={card} />
             </Link>
           ))

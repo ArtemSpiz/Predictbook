@@ -1,4 +1,4 @@
-import type { Blog, Signal, LiveFeed, Media, Category } from '@/payload-types'
+import type { News, Signal, LiveFeed, Media, Category } from '@/payload-types'
 import type { AlertCard } from '@/app/components/Home/Alert'
 
 /** Normalized shapes the presentational cards/sections consume. */
@@ -60,7 +60,7 @@ export const fmtTime = (iso?: string | null): string =>
 
 export const categoryNames = categoryTitles
 
-export function blogToArticleView(b: Blog): ArticleView {
+export function newsToArticleView(b: News): ArticleView {
   const author = b.author && typeof b.author === 'object' ? b.author : null
   return {
     slug: b.slug,

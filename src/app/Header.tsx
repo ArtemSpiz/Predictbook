@@ -29,11 +29,11 @@ const MenuItems = [
   {
     label: 'Analysis',
     links: [
-      { text: 'All analysis', link: '/blog' },
-      { text: 'Sports', link: '/blog/category/sports' },
-      { text: 'Politics', link: '/blog/category/politics' },
-      { text: 'Economics', link: '/blog/category/economics' },
-      { text: 'Crypto', link: '/blog/category/crypto' },
+      { text: 'All analysis', link: '/news' },
+      { text: 'Sports', link: '/news/category/sports' },
+      { text: 'Politics', link: '/news/category/politics' },
+      { text: 'Economics', link: '/news/category/economics' },
+      { text: 'Crypto', link: '/news/category/crypto' },
     ],
   },
   {
@@ -53,7 +53,7 @@ export function Header() {
 
   const isActive = (item: (typeof MenuItems)[number]) => {
     if (item.label === 'Analysis') {
-      return pathname.startsWith('/blog')
+      return pathname.startsWith('/news')
     }
     return pathname === item.link
   }

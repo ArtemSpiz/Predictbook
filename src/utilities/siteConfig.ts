@@ -11,7 +11,7 @@ export const siteConfig = {
   name: process.env.NEXT_PUBLIC_SITE_NAME || 'Payload Starter',
   description:
     process.env.NEXT_PUBLIC_SITE_DESCRIPTION ||
-    'A blog built with Payload CMS and Next.js.',
+    'A news built with Payload CMS and Next.js.',
   /** BCP-47 language tag for the default locale, e.g. `en`. */
   locale: defaultLocale,
   /** Open Graph locale form, e.g. `en_US`. */

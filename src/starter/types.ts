@@ -45,7 +45,7 @@ export interface FeaturesConfig {
 }
 
 export interface CollectionsConfig {
-  blog: boolean
+  news: boolean
   categories: boolean
   tags: boolean
 }

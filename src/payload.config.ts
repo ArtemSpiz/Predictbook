@@ -15,7 +15,7 @@ import { resolveLocalization } from './starter/i18n'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
-import { Blog } from './collections/Blog'
+import { News } from './collections/News'
 import { Categories } from './collections/Categories'
 import { Tags } from './collections/Tags'
 import { Signals } from './collections/Signals'
@@ -30,14 +30,14 @@ import { AboutPage } from './globals/AboutPage'
 import { ContactPage } from './globals/ContactPage'
 import { SignalsPage } from './globals/SignalsPage'
 import { LiveFeedPage } from './globals/LiveFeedPage'
-import { BlogPage } from './globals/BlogPage'
+import { NewsPage } from './globals/NewsPage'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 const collections = [
   ...buildCollections(
-    { Users, Media, Pages, Blog, Categories, Tags },
+    { Users, Media, Pages, News, Categories, Tags },
     starterConfig.collections,
   ),
   Signals,
@@ -84,7 +84,7 @@ export default buildConfig({
     ContactPage,
     SignalsPage,
     LiveFeedPage,
-    BlogPage,
+    NewsPage,
     ...(starterConfig.i18n.locales.length > 1 ? [Translations] : []),
   ],
   plugins,
