@@ -35,7 +35,7 @@ export default function FeedCard({ card, home = false }: FeedCardProps) {
 
         {!home &&
           (card.live ? (
-            <LiveBadge className="flex gap-2 w-max h-max items-center bg-live-a20 px-1.5 py-1 text-xs font-medium uppercase text-danger" />
+            <LiveBadge className="w-max h-max bg-live-a20" />
           ) : (
             <div className="px-1.5 py-1 text-sm font-medium uppercase text-gray-strong">Closed</div>
           ))}

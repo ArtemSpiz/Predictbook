@@ -12,11 +12,19 @@ import { HeaderMeta } from '@/app/components/Header/HeaderMeta'
 import { CtaButton } from '@/app/components/Header/CtaButton'
 import { MobileMenu } from '@/app/components/Header/MobileMenu'
 import { resolveLinkHref } from '@/utilities/resolveLinkHref'
-import type { Header as HeaderData } from '@/payload-types'
+import type { Header as HeaderData, Ticker } from '@/payload-types'
 
 type NavEntry = NonNullable<HeaderData['nav']>[number]
 
-export function Header({ data, signalsToday }: { data: HeaderData; signalsToday: number }) {
+export function Header({
+  data,
+  signalsToday,
+  ticker,
+}: {
+  data: HeaderData
+  signalsToday: number
+  ticker: Ticker[]
+}) {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const nav = data.nav ?? []
@@ -29,7 +37,7 @@ export function Header({ data, signalsToday }: { data: HeaderData; signalsToday:
 
   return (
     <>
-      <InfiniteScroll />
+      <InfiniteScroll items={ticker} />
       <header className="md:container-custom">
         <div className="border-line  md:border-r md:border-l">
           <div className=" mx-auto md:px-6 py-3 flex items-center justify-between border-b border-line max-md:px-5">

@@ -30,7 +30,7 @@ export default function NewsSlug({ post, related }: Props) {
       <Breadcrumbs items={[{ label: 'Analysis', href: '/news' }, { label: post.title }]} />
       <div className="flex items-center gap-2">
         {post.live && (
-          <LiveBadge className="flex h-[-webkit-fill-available] gap-2 items-center bg-live-soft px-1.5 py-1 text-xs font-medium uppercase text-danger" />
+          <LiveBadge className="h-[-webkit-fill-available] bg-live-soft" />
         )}
 
         {categories.map((category) => (

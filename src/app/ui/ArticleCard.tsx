@@ -14,7 +14,7 @@ export default function ArticleCard({ card }: { card: ArticleView }) {
 
           {card.live && (
             <div className="absolute top-3.5 left-4 flex items-center gap-2">
-              <LiveBadge className="flex gap-2 items-center bg-live-soft px-1.5 py-1 text-xs font-medium uppercase text-danger" />
+              <LiveBadge className="bg-live-soft" />
             </div>
           )}
         </div>
@@ -22,7 +22,7 @@ export default function ArticleCard({ card }: { card: ArticleView }) {
 
       <div className="border-b border-line p-4">
         {card.live && !card.image && (
-          <LiveBadge className="flex gap-2 w-max mb-2 items-center bg-live-soft px-1.5 py-1 text-xs font-medium uppercase text-danger" />
+          <LiveBadge className="w-max mb-2 bg-live-soft" />
         )}
         <div className="inline-block mb-1 ">
           <div className="text-base font-medium">{card.title}</div>

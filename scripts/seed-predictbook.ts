@@ -1,5 +1,6 @@
 #!/usr/bin/env tsx
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { getPayload } from 'payload'
@@ -8,6 +9,13 @@ import config from '../src/payload.config'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const PUBLIC = path.resolve(__dirname, '../public')
+// Must match Media.ts `upload.staticDir`.
+const MEDIA_DIR = path.join(PUBLIC, 'media')
+// A media doc can survive in the DB while its file was removed from disk (e.g. a
+// cleaned public/media without a DB reset), which then 500s on request. Treat such
+// a doc as needing re-upload rather than trusting the DB record alone.
+const fileOnDisk = (filename?: string | null) =>
+  !!filename && fs.existsSync(path.join(MEDIA_DIR, filename))
 
 const slugify = (s: string) =>
   s
@@ -28,8 +36,9 @@ const richText = (text: string) => ({
   },
 })
 
-// base publish time; stagger posts backwards from here
-const BASE = new Date('2026-06-09T12:00:00Z').getTime()
+// base publish time; stagger posts backwards from here. Anchored to seed time so
+// the freshest items count as "today" (see getSignalsToday).
+const BASE = Date.now()
 const at = (hoursAgo: number) => new Date(BASE - hoursAgo * 3600_000).toISOString()
 
 // ---------- category catalogue (title -> slug) ----------
@@ -56,17 +65,21 @@ async function uploadIconWebp(payload: any, pngName: string, alt: string) {
     where: { filename: { equals: webpName } },
     limit: 1,
   })
-  if (found.docs.length) return found.docs[0].id
-  const buf = await sharp(path.join(PUBLIC, pngName)).webp().toBuffer()
+  if (found.docs.length) {
+    const existing = found.docs[0]
+    // Record is intact; just restore the physical file if it went missing.
+    // Re-uploading via payload would rename (filename-1) and break idempotency.
+    if (!fileOnDisk(existing.filename)) {
+      const buf = await sharp(path.join(PUBLIC, pngName)).webp().toBuffer()
+      fs.writeFileSync(path.join(MEDIA_DIR, existing.filename), new Uint8Array(buf))
+    }
+    return existing.id
+  }
+  const data = await sharp(path.join(PUBLIC, pngName)).webp().toBuffer()
   const doc = await payload.create({
     collection: 'media',
     data: { alt },
-    file: {
-      data: buf,
-      mimetype: 'image/webp',
-      name: webpName,
-      size: buf.length,
-    },
+    file: { data, mimetype: 'image/webp', name: webpName, size: data.length },
   })
   return doc.id
 }
@@ -119,8 +132,12 @@ async function main() {
       where: { alt: { equals: 'Predictbook article cover' } },
       limit: 1,
     })
-    if (found.docs.length) coverId = found.docs[0].id
-    else {
+    if (found.docs.length) {
+      const fn = found.docs[0].filename
+      if (fn && !fileOnDisk(fn))
+        fs.copyFileSync(path.join(PUBLIC, 'gridImg.png'), path.join(MEDIA_DIR, fn))
+      coverId = found.docs[0].id
+    } else {
       try {
         const m = await payload.create({
           collection: 'media',
@@ -188,6 +205,37 @@ async function main() {
   // ---------- signals ----------
   console.log('[seed] signals...')
   const signals = [
+    {
+      slug: 'arb-sol-250-kalshi-polymarket-today',
+      kind: 'arbitrage',
+      featured: true,
+      categories: cats('Arbitrage', 'Crypto', 'KALSHI VS POLYMARKET'),
+      title: 'Arb opportunity: SOL >$250 between Kalshi & Polymarket',
+      subtitle:
+        'A 6.4% spread just opened between Kalshi (58¢ YES) and Polymarket (51¢ YES) on SOL breaking $250 this quarter. Fresh window — likely to close within the hour.',
+      profitably: true,
+      yesPrice: '58¢',
+      noPrice: '42¢',
+      spread: '+6.4pp',
+      poly: '51¢',
+      kalshi: '58¢',
+      profitablyPP: '+6PP',
+    },
+    {
+      slug: 'whale-320k-fed-rate-cut-today',
+      kind: 'whale',
+      categories: cats('Whale Alert', 'Economics'),
+      title: '$320K on a Fed rate cut at the next meeting',
+      subtitle:
+        'Single wallet stacked $320K on YES minutes after the latest CPI print. Odds moved 5pp in under 20 minutes.',
+      profitably: true,
+      yesPrice: '47¢',
+      noPrice: '53¢',
+      size: '$320K',
+      odds: '2.1×',
+      volume: '$1.9M',
+      profitablyPP: '+5PP',
+    },
     {
       slug: 'arb-eth-4k-kalshi-polymarket',
       kind: 'arbitrage',
@@ -332,6 +380,28 @@ async function main() {
     await upsert('live-feed', item.slug, { ...item, _status: 'published', publishedAt: at(f++) })
   }
 
+  // ---------- ticker (header marquee) ----------
+  console.log('[seed] ticker...')
+  const ticker = [
+    { venue: 'Kalshi', market: 'Czechia vs Mexico Winner?', price: '61¢' },
+    { venue: 'Polymarket', market: 'Czechia vs Mexico Winner?', price: '12¢' },
+    { venue: 'Kalshi', market: 'ETH > $4K by year-end?', price: '62¢' },
+    { venue: 'Polymarket', market: 'ETH > $4K by year-end?', price: '54¢' },
+    { venue: 'Kalshi', market: 'Fed rate cut next meeting?', price: '47¢' },
+    { venue: 'Polymarket', market: 'BTC > $120K by year-end?', price: '29¢' },
+  ]
+  let t = 0
+  for (const row of ticker) {
+    const found = await payload.find({
+      collection: 'ticker',
+      where: { and: [{ venue: { equals: row.venue } }, { market: { equals: row.market } }] },
+      limit: 1,
+    })
+    const data = { ...row, order: t++ } as any
+    if (found.docs.length) await payload.update({ collection: 'ticker', id: found.docs[0].id, data })
+    else await payload.create({ collection: 'ticker', data })
+  }
+
   // ---------- globals ----------
   console.log('[seed] globals...')
 
@@ -342,7 +412,11 @@ async function main() {
       where: { alt: { equals: alt } },
       limit: 1,
     })
-    if (found.docs.length) return found.docs[0].id
+    if (found.docs.length) {
+      const fn = found.docs[0].filename
+      if (fn && !fileOnDisk(fn)) fs.copyFileSync(path.join(PUBLIC, file), path.join(MEDIA_DIR, fn))
+      return found.docs[0].id
+    }
     try {
       const m = await payload.create({
         collection: 'media',
