@@ -19,7 +19,7 @@ export default function CustomBtn({
 }: CustomBtnProps) {
   const className = `group w-full border-none flex items-center gap-2 px-3 py-2.5 rounded-lg ${
     center ? 'justify-center' : 'justify-between'
-  } ${light ? 'bg-[#F4F0ED] ' : 'bg-sand'}`
+  } ${light ? 'bg-cream ' : 'bg-sand'}`
 
   const inner = (
     <>

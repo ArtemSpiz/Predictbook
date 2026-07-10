@@ -22,6 +22,6 @@ export function getCategoryStyle(category: string) {
       return 'bg-cat-science-bg border-cat-science-border text-cat-science-text'
 
     default:
-      return 'bg-[#F4F0ED] border-line text-muted'
+      return 'bg-cream border-line text-muted'
   }
 }

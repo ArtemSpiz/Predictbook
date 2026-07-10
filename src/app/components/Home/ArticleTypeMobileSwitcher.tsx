@@ -16,6 +16,7 @@ export default function ArticleTypeMobileSwitcher({
   const [active, setActive] = useState(0)
   const btnRefs = useRef<(HTMLButtonElement | null)[]>([])
   const [sliderStyle, setSliderStyle] = useState({ left: 0, width: 0 })
+  const activeRef = useRef(0)
 
   const updateSlider = (index: number) => {
     const btn = btnRefs.current[index]
@@ -23,11 +24,15 @@ export default function ArticleTypeMobileSwitcher({
   }
 
   useEffect(() => {
+    activeRef.current = active
     updateSlider(active)
-    const handleResize = () => updateSlider(active)
+  }, [active])
+
+  useEffect(() => {
+    const handleResize = () => updateSlider(activeRef.current)
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
-  }, [active])
+  }, [])
 
   if (sections.length === 0) return null
   const current = sections[Math.min(active, sections.length - 1)]

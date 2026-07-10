@@ -2,7 +2,7 @@ import AllBtn from '@/app/ui/AllBtn'
 import BlockTitle from '@/app/ui/BlockTitle'
 import ArticleCard from '@/app/ui/ArticleCard'
 import Link from 'next/link'
-import type { ArticleView } from '@/app/lib/viewModels'
+import { sortByFeatured, type ArticleView } from '@/app/lib/viewModels'
 
 interface GridArticlesProps {
   heading: string
@@ -19,7 +19,7 @@ export default function GridArticles({
   viewAllUrl,
   articles,
 }: GridArticlesProps) {
-  const sortedCards = [...articles].sort((a, b) => Number(!!b.featured) - Number(!!a.featured))
+  const sortedCards = sortByFeatured(articles)
 
   return (
     <div className="flex flex-col gap-3">

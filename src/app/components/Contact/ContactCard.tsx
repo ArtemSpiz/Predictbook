@@ -1,26 +1,10 @@
 'use client'
 
-import { useState, FormEvent } from 'react'
 import Lock from '@/../public/Locked.png'
 import Chevron from '@/../public/down.png'
 
 import Image from 'next/image'
-
-type Subject = string
-
-interface FormState {
-  fullName: string
-  email: string
-  subject: Subject
-  message: string
-}
-
-interface FormErrors {
-  fullName?: string
-  email?: string
-  subject?: string
-  message?: string
-}
+import { useContactForm, MIN_MESSAGE_LENGTH } from '@/app/hooks/useContactForm'
 
 export interface SubjectOption {
   label: string
@@ -32,8 +16,6 @@ const DEFAULT_SUBJECT_OPTIONS: SubjectOption[] = [
   { label: 'Feedback' },
   { label: 'Other' },
 ]
-
-const MIN_MESSAGE_LENGTH = 10
 
 interface Props {
   nameLabel?: string
@@ -60,61 +42,11 @@ export default function ContactCard({
   subjectOptions = DEFAULT_SUBJECT_OPTIONS,
   buttonText = 'Send message',
 }: Props) {
-  const [form, setForm] = useState<FormState>({
-    fullName: '',
-    email: '',
-    subject: '',
-    message: '',
+  const { form, errors, status, updateField, handleSubmit } = useContactForm({
+    nameLabel,
+    emailLabel,
+    subjectLabel,
   })
-  const [errors, setErrors] = useState<FormErrors>({})
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'sent' | 'error'>('idle')
-
-  function updateField<K extends keyof FormState>(key: K, value: FormState[K]) {
-    setForm((prev) => ({ ...prev, [key]: value }))
-    setErrors((prev) => ({ ...prev, [key]: undefined }))
-  }
-
-  function validate(): FormErrors {
-    const next: FormErrors = {}
-    if (!form.fullName.trim()) next.fullName = `${nameLabel} is required`
-    if (!form.email.trim()) {
-      next.email = `${emailLabel} is required`
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      next.email = 'Enter a valid email address'
-    }
-    if (!form.subject) next.subject = `Please select a ${subjectLabel.toLowerCase()}`
-    if (form.message.trim().length < MIN_MESSAGE_LENGTH) {
-      next.message = `Message must be at least ${MIN_MESSAGE_LENGTH} characters`
-    }
-    return next
-  }
-
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault()
-    const validationErrors = validate()
-    setErrors(validationErrors)
-    if (Object.keys(validationErrors).length > 0) return
-
-    setStatus('submitting')
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: form.fullName,
-          email: form.email,
-          subject: form.subject,
-          message: form.message,
-        }),
-      })
-      setStatus(res.ok ? 'sent' : 'error')
-    } catch {
-      setStatus('error')
-    }
-    setTimeout(() => {
-      setStatus('idle')
-    }, 1500)
-  }
 
   return (
     <div className="relative w-full max-w-2xl bg-white border border-gray-100 overflow-hidden">
@@ -170,7 +102,7 @@ export default function ContactCard({
             <select
               id="subject"
               value={form.subject}
-              onChange={(e) => updateField('subject', e.target.value as Subject)}
+              onChange={(e) => updateField('subject', e.target.value)}
               className="w-full appearance-none rounded-lg border border-gray-200 px-4 py-3 pr-10 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400 transition bg-white"
             >
               <option value="" disabled hidden className="text-gray-400">

@@ -1,18 +1,17 @@
 import type { Metadata } from 'next'
 import { RenderBlockList } from '@/blocks/RenderBlockList'
 import { getSiteSidebar } from '@/utilities/getSiteSettings'
-import ArticleCard from '@/app/ui/ArticleCard'
 import BlockTitle from '@/app/ui/BlockTitle'
 import { Breadcrumbs } from '@/app/ui/Breadcrumbs'
+import { ArticleList } from '@/app/ui/ArticleList'
+import { EmptyArticles } from '@/app/ui/EmptyArticles'
 import Image from 'next/image'
-import Link from 'next/link'
 import Notification from '@/../public/Notification.png'
 import Rss from '@/../public/Rss.png'
 import X from '@/../public/XNews.png'
 import { findNewsPosts } from '@/utilities/getNewsPosts'
 import { newsToArticleView } from '@/app/lib/viewModels'
 import { localeAlternates } from '@/utilities/metadataAlternates'
-import type { Media } from '@/payload-types' 
 
 type Props = {
   params: Promise<{ slug: string; name: string }>
@@ -38,25 +37,19 @@ export default async function AuthorPage({ params }: Props) {
   const { name } = await params
   const author = authorFromParam(name)
 
-  const { docs } = await findNewsPosts({ limit: 100 })
+  const [{ docs }, sidebar] = await Promise.all([
+    findNewsPosts({ authorName: author, limit: 100 }),
+    getSiteSidebar(),
+  ])
 
-  const matchingPosts = docs.filter((post) => {
-    const a = post.author && typeof post.author === 'object' ? post.author : null
-    return a?.name?.toLowerCase() === author.toLowerCase()
-  })
+  const articles = docs.map(newsToArticleView)
 
-  const articles = matchingPosts.map(newsToArticleView)
-
-  const firstPost = matchingPosts[0] as
-    { ['author photo']?: Media | string | null; ['author job']?: string | null } | undefined
-
+  const firstPost = docs[0]
   const authorPhoto =
     firstPost?.['author photo'] && typeof firstPost['author photo'] === 'object'
-      ? (firstPost['author photo'] as Media)
+      ? firstPost['author photo']
       : null
   const authorJob = firstPost?.['author job'] ?? ''
-
-  const sidebar = await getSiteSidebar()
 
   return (
     <main className="container-custom">
@@ -97,25 +90,9 @@ export default async function AuthorPage({ params }: Props) {
           </div>
 
           {articles.length === 0 ? (
-            <div className=" border-t border-b border-line py-20 text-center">
-              <h2 className="text-2xl font-semibold">No articles found</h2>
-              <p className="mt-2 text-gray-text">There are currently no articles by this author.</p>
-
-              <Link
-                href="/news"
-                className="bg-ink border-none text-paper py-3 px-4 rounded-lg text-base mt-3 inline-flex"
-              >
-                Back to all articles
-              </Link>
-            </div>
+            <EmptyArticles message="There are currently no articles by this author." />
           ) : (
-            <div className="flex flex-col gap-4">
-              {articles.map((article, index) => (
-                <Link key={article.slug} href={`/news/${article.slug}`}>
-                  <ArticleCard card={{ ...article, featured: index === 0 }} />
-                </Link>
-              ))}
-            </div>
+            <ArticleList articles={articles} />
           )}
         </div>
         <div className="flex flex-col gap-4 md:max-w-[300px]">

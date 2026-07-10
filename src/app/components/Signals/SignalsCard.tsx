@@ -1,10 +1,10 @@
 import Image from 'next/image'
 import Star from '../../../../public/StarFeatured.png'
-import { getCategoryStyle } from '@/app/lib/getCategoryStyle'
-import type { SignalView } from '@/app/lib/viewModels'
+import { CategoryChip } from '@/app/ui/CategoryChips'
+import { sortByFeatured, type SignalView } from '@/app/lib/viewModels'
 
 export default function SignalsCard({ cards }: { cards: SignalView[] }) {
-  const sortedCards = [...cards].sort((a, b) => Number(b.featured) - Number(a.featured))
+  const sortedCards = sortByFeatured(cards)
 
   return (
     <div className="flex flex-col gap-5">
@@ -25,12 +25,11 @@ export default function SignalsCard({ cards }: { cards: SignalView[] }) {
               )}
 
               {card.categories.map((item) => (
-                <div
+                <CategoryChip
                   key={item}
-                  className={`px-1.5 py-1 flex items-center gap-2 text-xs uppercase ${getCategoryStyle(item)}`}
-                >
-                  {item}
-                </div>
+                  category={item}
+                  className="px-1.5 py-1 flex items-center gap-2 text-xs uppercase"
+                />
               ))}
             </div>
             <div className="text-muted text-xs flex-nowrap text-nowrap">

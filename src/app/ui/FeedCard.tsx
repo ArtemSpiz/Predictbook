@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import CustomBtn from '@/app/ui/CustomBtn'
 import Timeline from '../../../public/timeline.png'
-import { getCategoryStyle } from '../lib/getCategoryStyle'
-import Live from '../../../public/live.png'
+import { LiveBadge } from '@/app/ui/LiveBadge'
+import { CategoryChips } from '@/app/ui/CategoryChips'
 import type { FeedView } from '../lib/viewModels'
 
 interface FeedCardProps {
@@ -25,25 +25,17 @@ export default function FeedCard({ card, home = false }: FeedCardProps) {
           </div>
 
           {!home && card.categories.length > 0 && (
-            <div className="flex gap-1 items-center">
-              {card.categories.map((item) => (
-                <div
-                  key={item}
-                  className={`border border-solid px-1.5 py-1 text-xs uppercase max-md:text-xs ${getCategoryStyle(item)}`}
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
+            <CategoryChips
+              categories={card.categories}
+              className="flex gap-1 items-center"
+              chipClassName="border border-solid px-1.5 py-1 text-xs uppercase max-md:text-xs"
+            />
           )}
         </div>
 
         {!home &&
           (card.live ? (
-            <div className="flex gap-2 w-max h-max items-center bg-live-a20 px-1.5 py-1 text-xs font-medium uppercase text-danger">
-              <Image src={Live} alt="" className="w-4 h-4" />
-              LIVE
-            </div>
+            <LiveBadge className="flex gap-2 w-max h-max items-center bg-live-a20 px-1.5 py-1 text-xs font-medium uppercase text-danger" />
           ) : (
             <div className="px-1.5 py-1 text-sm font-medium uppercase text-gray-strong">Closed</div>
           ))}

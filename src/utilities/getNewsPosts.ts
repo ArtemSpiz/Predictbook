@@ -10,13 +10,15 @@ interface FindArgs {
   limit?: number
   categorySlug?: string
   tagSlug?: string
+  authorName?: string
 }
 
-async function fetchNewsPosts({ page = 1, limit = 10, categorySlug, tagSlug }: FindArgs) {
+async function fetchNewsPosts({ page = 1, limit = 10, categorySlug, tagSlug, authorName }: FindArgs) {
   const payload = await getPayload({ config })
   const where: Where = { _status: { equals: 'published' } }
   if (categorySlug) where['categories.slug'] = { equals: categorySlug }
   if (tagSlug) where['tags.slug'] = { equals: tagSlug }
+  if (authorName) where['author.name'] = { equals: authorName }
   const result = await payload.find({
     collection: 'news',
     where,
@@ -29,10 +31,10 @@ async function fetchNewsPosts({ page = 1, limit = 10, categorySlug, tagSlug }: F
 }
 
 export const findNewsPosts = cache((args: FindArgs = {}) => {
-  const { page = 1, limit = 10, categorySlug = '', tagSlug = '' } = args
+  const { page = 1, limit = 10, categorySlug = '', tagSlug = '', authorName = '' } = args
   return unstable_cache(
-    () => fetchNewsPosts({ page, limit, categorySlug, tagSlug }),
-    ['news-posts', String(page), String(limit), categorySlug, tagSlug],
+    () => fetchNewsPosts({ page, limit, categorySlug, tagSlug, authorName }),
+    ['news-posts', String(page), String(limit), categorySlug, tagSlug, authorName],
     { tags: ['payload'] },
   )()
 })

@@ -60,6 +60,10 @@ export const fmtTime = (iso?: string | null): string =>
 
 export const categoryNames = categoryTitles
 
+/** Stable sort that floats featured items to the top; preserves original order otherwise. */
+export const sortByFeatured = <T extends { featured?: boolean }>(items: T[]): T[] =>
+  [...items].sort((a, b) => Number(!!b.featured) - Number(!!a.featured))
+
 export function newsToArticleView(b: News): ArticleView {
   const author = b.author && typeof b.author === 'object' ? b.author : null
   return {

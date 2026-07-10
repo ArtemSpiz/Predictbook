@@ -1,7 +1,7 @@
 import Image from 'next/image'
-import Live from '../../../../public/live.png'
+import { LiveBadge } from '@/app/ui/LiveBadge'
+import { CategoryChip } from '@/app/ui/CategoryChips'
 import { Breadcrumbs } from '@/app/ui/Breadcrumbs'
-import { getCategoryStyle } from '@/app/lib/getCategoryStyle'
 import { categoryNames, fmtDay, fmtTime } from '@/app/lib/viewModels'
 import Timeline from '../../../../public/timeline.png'
 import type { LiveFeed } from '@/payload-types'
@@ -13,19 +13,15 @@ export default function LiveFeedSlug({ item }: { item: LiveFeed }) {
       <Breadcrumbs items={[{ label: 'Live Feed', href: '/live-feed' }, { label: item.title }]} />
       <div className="flex items-center gap-2">
         {item.live && (
-          <div className="flex h-[-webkit-fill-available] gap-2 items-center bg-live-soft px-1.5 py-1 text-xs font-medium uppercase text-danger">
-            <Image src={Live} alt="" className="w-4 h-4" />
-            LIVE
-          </div>
+          <LiveBadge className="flex h-[-webkit-fill-available] gap-2 items-center bg-live-soft px-1.5 py-1 text-xs font-medium uppercase text-danger" />
         )}
 
         {categories.map((category) => (
-          <div
+          <CategoryChip
             key={category}
-            className={`border border-solid px-1.5 py-1 text-xs uppercase max-md:text-xs ${getCategoryStyle(category)}`}
-          >
-            {category}
-          </div>
+            category={category}
+            className="border border-solid px-1.5 py-1 text-xs uppercase max-md:text-xs"
+          />
         ))}
       </div>
 

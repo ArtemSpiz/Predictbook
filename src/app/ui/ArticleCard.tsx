@@ -1,6 +1,5 @@
-import Image from 'next/image'
-import Live from '../../../public/live.png'
-import { getCategoryStyle } from '../lib/getCategoryStyle'
+import { LiveBadge } from '@/app/ui/LiveBadge'
+import { CategoryChips } from '@/app/ui/CategoryChips'
 import { PayloadImage } from '@/app/components/PayloadImage'
 import type { ArticleView } from '../lib/viewModels'
 
@@ -15,10 +14,7 @@ export default function ArticleCard({ card }: { card: ArticleView }) {
 
           {card.live && (
             <div className="absolute top-3.5 left-4 flex items-center gap-2">
-              <div className="flex gap-2 items-center bg-live-soft px-1.5 py-1 text-xs font-medium uppercase text-danger">
-                <Image src={Live} alt="" className="w-4 h-4" />
-                LIVE
-              </div>
+              <LiveBadge className="flex gap-2 items-center bg-live-soft px-1.5 py-1 text-xs font-medium uppercase text-danger" />
             </div>
           )}
         </div>
@@ -26,10 +22,7 @@ export default function ArticleCard({ card }: { card: ArticleView }) {
 
       <div className="border-b border-line p-4">
         {card.live && !card.image && (
-          <div className="flex gap-2 w-max mb-2 items-center bg-live-soft px-1.5 py-1 text-xs font-medium uppercase text-danger">
-            <Image src={Live} alt="" className="w-4 h-4" />
-            LIVE
-          </div>
+          <LiveBadge className="flex gap-2 w-max mb-2 items-center bg-live-soft px-1.5 py-1 text-xs font-medium uppercase text-danger" />
         )}
         <div className="inline-block mb-1 ">
           <div className="text-base font-medium">{card.title}</div>
@@ -43,16 +36,10 @@ export default function ArticleCard({ card }: { card: ArticleView }) {
           {card.day} · {card.time}
         </div>
 
-        <div className="flex items-center gap-1">
-          {card.categories.map((category) => (
-            <div
-              key={category}
-              className={`border border-solid p-1.5 text-sm uppercase max-md:text-xs ${getCategoryStyle(category)}`}
-            >
-              {category}
-            </div>
-          ))}
-        </div>
+        <CategoryChips
+          categories={card.categories}
+          chipClassName="border border-solid p-1.5 text-sm uppercase max-md:text-xs"
+        />
       </div>
     </div>
   )

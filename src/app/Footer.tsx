@@ -89,7 +89,7 @@ export async function Footer() {
                       <Link href={link.href} className="group inline-block">
                         <span className="text-sm text-cream">{link.label}</span>
 
-                        <span className="block h-px w-full scale-x-0 bg-[#F4F0ED] origin-left transition-transform duration-300 group-hover:scale-x-100" />
+                        <span className="block h-px w-full scale-x-0 bg-cream origin-left transition-transform duration-300 group-hover:scale-x-100" />
                       </Link>
                     </li>
                   ))}

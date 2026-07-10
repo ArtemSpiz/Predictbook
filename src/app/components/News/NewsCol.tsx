@@ -6,9 +6,9 @@ import BlockTitle from '@/app/ui/BlockTitle'
 import Search from '../../../../public/Search.png'
 import Image from 'next/image'
 import ArticleCard from '@/app/ui/ArticleCard'
-import Arrow from '../../../../public/down.png'
+import { LoadMoreButton } from '@/app/ui/LoadMoreButton'
 import Link from 'next/link'
-import type { ArticleView } from '@/app/lib/viewModels'
+import { sortByFeatured, type ArticleView } from '@/app/lib/viewModels'
 import { loadMoreNews } from '@/app/actions/news'
 
 interface Props {
@@ -30,7 +30,7 @@ export default function NewsCol({
 }: Props) {
   const searchParams = useSearchParams()
 
-  const fullCategories = ['All', ...categories]
+  const fullCategories = useMemo(() => ['All', ...categories], [categories])
   const initialCategory = searchParams.get('category') || 'All'
 
   const [activeCategory, setActiveCategory] = useState(initialCategory)
@@ -42,10 +42,7 @@ export default function NewsCol({
 
   const hasMore = allArticles.length < totalDocs
 
-  const sortedCards = useMemo(
-    () => [...allArticles].sort((a, b) => Number(!!b.featured) - Number(!!a.featured)),
-    [allArticles],
-  )
+  const sortedCards = useMemo(() => sortByFeatured(allArticles), [allArticles])
 
   const filteredCards = useMemo(() => {
     return sortedCards.filter((card) => {
@@ -119,17 +116,7 @@ export default function NewsCol({
         )}
       </div>
 
-      {hasMore && (
-        <button
-          type="button"
-          onClick={handleLoadMore}
-          disabled={isPending}
-          className="bg-sand justify-center group w-max mx-auto border-none flex items-center gap-2 px-3 py-2.5 rounded-lg disabled:opacity-60"
-        >
-          <span>{isPending ? 'Loading...' : 'Load more'}</span>
-          <Image src={Arrow} alt="Arrow" className="w-4 h-4 relative" />
-        </button>
-      )}
+      {hasMore && <LoadMoreButton onClick={handleLoadMore} isPending={isPending} />}
     </div>
   )
 }

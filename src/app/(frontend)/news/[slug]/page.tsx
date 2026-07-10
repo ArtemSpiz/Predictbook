@@ -29,8 +29,10 @@ export default async function NewsPost({ params }: Props) {
   if (!post) notFound()
   if (!draft && post._status !== 'published') notFound()
 
-  const related = (await findNewsPosts({ limit: 6 })).docs.map(newsToArticleView)
-  const sidebar = await getSiteSidebar()
+  const [related, sidebar] = await Promise.all([
+    findNewsPosts({ limit: 6 }).then((r) => r.docs.map(newsToArticleView)),
+    getSiteSidebar(),
+  ])
 
   const base = getSiteUrl()
   const structuredData = generatePageStructuredData({

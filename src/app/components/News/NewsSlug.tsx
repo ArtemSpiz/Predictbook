@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import Live from '../../../../public/live.png'
+import { LiveBadge } from '@/app/ui/LiveBadge'
 import Facebook from '../../../../public/Facebook.png'
 import X from '../../../../public/XNews.png'
 import Copy from '../../../../public/Copy.png'
@@ -30,10 +30,7 @@ export default function NewsSlug({ post, related }: Props) {
       <Breadcrumbs items={[{ label: 'Analysis', href: '/news' }, { label: post.title }]} />
       <div className="flex items-center gap-2">
         {post.live && (
-          <div className="flex h-[-webkit-fill-available] gap-2 items-center bg-live-soft px-1.5 py-1 text-xs font-medium uppercase text-danger">
-            <Image src={Live} alt="" className="w-4 h-4" />
-            LIVE
-          </div>
+          <LiveBadge className="flex h-[-webkit-fill-available] gap-2 items-center bg-live-soft px-1.5 py-1 text-xs font-medium uppercase text-danger" />
         )}
 
         {categories.map((category) => (
