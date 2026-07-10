@@ -10,8 +10,8 @@ import { getSiteUrl } from '@/utilities/getSiteUrl'
 import { generatePageStructuredData, jsonLdScriptContent } from '@/utilities/structuredData'
 import { LivePreviewListener } from '@/app/components/LivePreviewListener'
 import BlogSlug from '@/app/components/Blog/BlogSlug'
-import RealCard from '@/app/components/Home/RealCard'
-import SponsoredCard from '@/app/components/Home/SponsoredCard'
+import { RenderBlockList } from '@/blocks/RenderBlockList'
+import { getSiteSidebar } from '@/utilities/getSiteSettings'
 import { blogToArticleView } from '@/app/lib/viewModels'
 
 type Props = { params: Promise<{ slug: string }> }
@@ -30,6 +30,7 @@ export default async function BlogPost({ params }: Props) {
   if (!draft && post._status !== 'published') notFound()
 
   const related = (await findBlogPosts({ limit: 6 })).docs.map(blogToArticleView)
+  const sidebar = await getSiteSidebar()
 
   const base = getSiteUrl()
   const structuredData = generatePageStructuredData({
@@ -52,9 +53,8 @@ export default async function BlogPost({ params }: Props) {
       <div className="md:border-l md:border-r border-line p-6 flex gap-5 max-md:flex-col max-lg:p-0 max-lg:py-5">
         <BlogSlug post={post} related={related} />
         <div className="flex flex-col gap-4 md:max-w-[300px]">
-          <RealCard />
-          {/* TODO(S2): wire from getSiteSidebar() */}
-          <SponsoredCard heading="Sponsored by" sponsors={[]} />
+          <RenderBlockList blocks={sidebar.promoBlocks} />
+          <RenderBlockList blocks={sidebar.sponsoredBlocks} />
         </div>
       </div>
     </main>

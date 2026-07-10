@@ -3,7 +3,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { findBlogPosts } from '@/utilities/getBlogPosts'
 import { blogToArticleView } from '@/app/lib/viewModels'
-import RealCard from '@/app/components/Home/RealCard'
+import { RenderBlockList } from '@/blocks/RenderBlockList'
+import { getSiteSidebar } from '@/utilities/getSiteSettings'
 import ArticleCard from '@/app/ui/ArticleCard'
 import BlockTitle from '@/app/ui/BlockTitle'
 import { Breadcrumbs } from '@/app/ui/Breadcrumbs'
@@ -31,6 +32,7 @@ export default async function CategoryPage({ params }: Props) {
   const { docs } = await findBlogPosts({ categorySlug: category, limit: 30 })
   const articles = docs.map(blogToArticleView)
   const formattedCategoryLabel = label(category)
+  const sidebar = await getSiteSidebar()
 
   return (
     <main className="container-custom">
@@ -76,7 +78,7 @@ export default async function CategoryPage({ params }: Props) {
           )}
         </div>
         <div className="flex flex-col gap-4 md:max-w-[300px]">
-          <RealCard />
+          <RenderBlockList blocks={sidebar.promoBlocks} />
         </div>
       </div>
     </main>

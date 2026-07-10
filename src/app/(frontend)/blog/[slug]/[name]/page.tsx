@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import RealCard from '@/app/components/Home/RealCard'
+import { RenderBlockList } from '@/blocks/RenderBlockList'
+import { getSiteSidebar } from '@/utilities/getSiteSettings'
 import ArticleCard from '@/app/ui/ArticleCard'
 import BlockTitle from '@/app/ui/BlockTitle'
 import { Breadcrumbs } from '@/app/ui/Breadcrumbs'
@@ -43,6 +44,7 @@ export default async function AuthorPage({ params }: Props) {
       return a?.name?.toLowerCase() === author.toLowerCase()
     })
     .map(blogToArticleView)
+  const sidebar = await getSiteSidebar()
 
   return (
     <main className="container-custom">
@@ -92,7 +94,7 @@ export default async function AuthorPage({ params }: Props) {
           )}
         </div>
         <div className="flex flex-col gap-4 md:max-w-[300px]">
-          <RealCard />
+          <RenderBlockList blocks={sidebar.promoBlocks} />
         </div>
       </div>
     </main>
