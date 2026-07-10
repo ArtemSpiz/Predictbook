@@ -2,6 +2,7 @@ import type { Media } from '@/payload-types'
 import type { PageBlock } from '@/blocks/types'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import Link from 'next/link'
+import { resolveLinkHref } from '@/utilities/resolveLinkHref'
 
 type HeroBlock = Extract<PageBlock, { blockType: 'hero' }>
 
@@ -44,10 +45,7 @@ export function HeroBlock({ block }: { block: HeroBlock }) {
           <div className="flex gap-4 justify-center flex-wrap">
             {block.ctas.map((cta: { link?: any }, i: number) => {
               const link = cta.link
-              const href =
-                link?.type === 'reference' && typeof link.reference?.value === 'object'
-                  ? `/${link.reference.value.slug ?? ''}`
-                  : link?.url ?? '#'
+              const href = resolveLinkHref(link)
               return (
                 <Link
                   key={i}
