@@ -38,7 +38,6 @@ export const metadata: Metadata = {
     locale: siteConfig.ogLocale,
     title: siteConfig.name,
     description: siteConfig.description,
-    images: [siteConfig.defaultOgImage],
   },
   twitter: {
     card: 'summary_large_image',

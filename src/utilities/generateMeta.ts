@@ -43,8 +43,7 @@ export function generateMeta(args: {
 
   const title = doc?.meta?.title || doc?.title || siteConfig.name
   const description = doc?.meta?.description || doc?.excerpt || siteConfig.description
-  const image =
-    mediaUrl(doc?.meta?.image) || mediaUrl(doc?.coverImage) || siteConfig.defaultOgImage
+  const customImage = mediaUrl(doc?.meta?.image) || mediaUrl(doc?.coverImage)
   const url = `${base}${pathSuffix.startsWith('/') || pathSuffix === '' ? pathSuffix : `/${pathSuffix}`}` || base
 
   return {
@@ -58,7 +57,7 @@ export function generateMeta(args: {
       description,
       siteName: siteConfig.name,
       locale: siteConfig.ogLocale,
-      images: [image],
+      ...(customImage ? { images: [customImage] } : {}),
       ...(type === 'article'
         ? {
             publishedTime: doc?.publishedAt || undefined,
@@ -70,7 +69,7 @@ export function generateMeta(args: {
       card: 'summary_large_image',
       title,
       description,
-      images: [image],
+      ...(customImage ? { images: [customImage] } : {}),
     },
   }
 }
