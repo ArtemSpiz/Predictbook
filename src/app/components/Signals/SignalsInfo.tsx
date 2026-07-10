@@ -4,6 +4,7 @@ import Time from '../../../../public/time.png'
 import Image from 'next/image'
 import SignalsCard from './SignalsCard'
 import type { SignalView } from '@/app/lib/viewModels'
+import { PulseDot } from '@/app/ui/PulseDot'
 
 interface Props {
   title: string
@@ -23,9 +24,7 @@ export default function SignalsInfo({ title, subtitle, delayText, count, items }
 
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-1">
-          <div className="w-2 h-2 rounded-full p-0.5  bg-success-a24 ">
-            <div className="w-1 h-1 rounded-full bg-success" />
-          </div>
+          <PulseDot />
           <div className="text-success text-sm">{count} signals today</div>
         </div>
 

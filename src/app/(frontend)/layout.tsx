@@ -5,11 +5,13 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Header } from '@/app/Header'
 import { Footer } from '@/app/Footer'
 import { AnalyticsScripts } from '@/app/components/AnalyticsScripts'
+import { PageTransition } from '@/app/components/PageTransition'
 import { getSiteUrl } from '@/utilities/getSiteUrl'
 import { getSiteSettings } from '@/utilities/getSiteSettings'
 import { getHeaderData } from '@/utilities/getHeaderData'
 import { getFooterData } from '@/utilities/getFooterData'
 import { getSignalsToday } from '@/utilities/getSignalsToday'
+import { getTicker } from '@/utilities/getTicker'
 import { siteConfig } from '@/utilities/siteConfig'
 import { generateStructuredData, jsonLdScriptContent } from '@/utilities/structuredData'
 import { fontMono, fontSans } from './fonts'
@@ -52,11 +54,12 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled: draft } = await draftMode()
-  const [settings, headerData, footerData, signalsToday] = await Promise.all([
+  const [settings, headerData, footerData, signalsToday, ticker] = await Promise.all([
     getSiteSettings(),
     getHeaderData(),
     getFooterData(),
     getSignalsToday(),
+    getTicker(),
   ])
 
   return (
@@ -68,8 +71,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
         {/* No analytics in draft/preview so editor sessions don't skew metrics. */}
         {!draft && <AnalyticsScripts gtmId={settings.gtmId} ga4Id={settings.ga4Id} />}
-        <Header data={headerData} signalsToday={signalsToday} />
-        {children}
+        <Header data={headerData} signalsToday={signalsToday} ticker={ticker} />
+        <PageTransition>{children}</PageTransition>
         <Footer data={footerData} />
         <Analytics />
         <SpeedInsights />

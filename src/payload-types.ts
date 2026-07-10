@@ -75,6 +75,7 @@ export interface Config {
     tags: Tag;
     signals: Signal;
     'live-feed': LiveFeed;
+    ticker: Ticker;
     'contact-submissions': ContactSubmission;
     redirects: Redirect;
     search: Search;
@@ -96,6 +97,7 @@ export interface Config {
     tags: TagsSelect<false> | TagsSelect<true>;
     signals: SignalsSelect<false> | SignalsSelect<true>;
     'live-feed': LiveFeedSelect<false> | LiveFeedSelect<true>;
+    ticker: TickerSelect<false> | TickerSelect<true>;
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
@@ -833,6 +835,19 @@ export interface LiveFeed {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ticker".
+ */
+export interface Ticker {
+  id: string;
+  venue: 'Kalshi' | 'Polymarket';
+  market: string;
+  price: string;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "contact-submissions".
  */
 export interface ContactSubmission {
@@ -1118,6 +1133,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'live-feed';
         value: string | LiveFeed;
+      } | null)
+    | ({
+        relationTo: 'ticker';
+        value: string | Ticker;
       } | null)
     | ({
         relationTo: 'contact-submissions';
@@ -1669,6 +1688,18 @@ export interface LiveFeedSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ticker_select".
+ */
+export interface TickerSelect<T extends boolean = true> {
+  venue?: T;
+  market?: T;
+  price?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3068,6 +3099,7 @@ export interface TaskCreateCollectionExport {
       | 'tags'
       | 'signals'
       | 'live-feed'
+      | 'ticker'
       | 'contact-submissions'
       | 'redirects'
       | 'search'

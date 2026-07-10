@@ -2,6 +2,7 @@ import AllBtn from '@/app/ui/AllBtn'
 import FeedCard from '@/app/ui/FeedCard'
 import Link from 'next/link'
 import type { FeedView } from '@/app/lib/viewModels'
+import { PulseDot } from '@/app/ui/PulseDot'
 
 interface FeedProps {
   heading: string
@@ -15,9 +16,7 @@ export default function Feed({ heading, viewAllText, viewAllUrl, items }: FeedPr
     <div className="flex flex-col gap-3">
       <div className="flex justify-between gap-3">
         <div className="flex items-center gap-1">
-          <div className="w-2 h-2 rounded-full p-0.5 bg-live-a24">
-            <div className="w-1 h-1 rounded-full bg-live" />
-          </div>
+          <PulseDot variant="live" />
           <div className="text-live text-2xl font-extrabold max-md:text-lg">{heading}</div>
         </div>
 
