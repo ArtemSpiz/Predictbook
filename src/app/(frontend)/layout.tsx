@@ -7,6 +7,7 @@ import { Footer } from '@/app/Footer'
 import { AnalyticsScripts } from '@/app/components/AnalyticsScripts'
 import { getSiteUrl } from '@/utilities/getSiteUrl'
 import { getSiteSettings } from '@/utilities/getSiteSettings'
+import { getFooterData } from '@/utilities/getFooterData'
 import { siteConfig } from '@/utilities/siteConfig'
 import { generateStructuredData, jsonLdScriptContent } from '@/utilities/structuredData'
 import { fontMono, fontSans } from './fonts'
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled: draft } = await draftMode()
-  const settings = await getSiteSettings()
+  const [settings, footerData] = await Promise.all([getSiteSettings(), getFooterData()])
 
   return (
     <html lang={siteConfig.locale} className={`${fontSans.variable} ${fontMono.variable}`}>
@@ -63,7 +64,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         {!draft && <AnalyticsScripts gtmId={settings.gtmId} ga4Id={settings.ga4Id} />}
         <Header />
         {children}
-        <Footer />
+        <Footer data={footerData} />
         <Analytics />
         <SpeedInsights />
       </body>

@@ -1,6 +1,6 @@
 export type LinkValue =
   | {
-      type?: 'reference' | 'custom'
+      type?: 'reference' | 'custom' | null
       reference?: { relationTo?: string; value?: unknown } | null
       url?: string | null
       label?: string | null
