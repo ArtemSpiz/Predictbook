@@ -59,7 +59,33 @@ export const getPublishedSitemapRows = (
   unstable_cache(
     () => fetchPublishedRows(collection, page, limit),
     ['sitemap-rows', collection, String(page), String(limit)],
-    { tags: [cacheTags.collection(collection)] },
+    { tags: [cacheTags.all, cacheTags.collection(collection)] },
+  )()
+
+async function fetchAllPublishedRows(
+  collection: CollectionSlug,
+  pageSize: number,
+  max: number,
+): Promise<SitemapRow[]> {
+  const all: SitemapRow[] = []
+  for (let page = 1; all.length < max; page++) {
+    const rows = await fetchPublishedRows(collection, page, pageSize)
+    all.push(...rows)
+    if (rows.length < pageSize) break
+  }
+  return all.slice(0, max)
+}
+
+/** Cached ALL published rows for a collection (paginated internally, capped at
+ * the sitemap URL limit). For the core sitemap shard where the set is unsharded. */
+export const getAllPublishedSitemapRows = (
+  collection: CollectionSlug,
+  { pageSize = 1000, max = 45000 }: { pageSize?: number; max?: number } = {},
+) =>
+  unstable_cache(
+    () => fetchAllPublishedRows(collection, pageSize, max),
+    ['sitemap-rows-all', collection, String(pageSize), String(max)],
+    { tags: [cacheTags.all, cacheTags.collection(collection)] },
   )()
 
 /** Cached count of published docs in a collection (for shard planning). */
@@ -67,5 +93,5 @@ export const getPublishedSitemapCount = (collection: CollectionSlug) =>
   unstable_cache(
     () => fetchPublishedCount(collection),
     ['sitemap-count', collection],
-    { tags: [cacheTags.collection(collection)] },
+    { tags: [cacheTags.all, cacheTags.collection(collection)] },
   )()

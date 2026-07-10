@@ -43,6 +43,7 @@ export const revalidateCollectionHooks: {
 } = {
   afterChange: [
     ({ collection, doc }) => {
+      // Payload's generic hook doc type has no `slug`; the runtime typeof guard below makes this safe.
       void flush(collectionRevalidationTags(collection.slug, doc as { slug?: unknown }))
       return doc
     },

@@ -28,7 +28,7 @@ export const findLiveFeed = cache((args: FindArgs = {}) => {
   return unstable_cache(
     () => fetchLiveFeed({ page, limit }),
     ['live-feed', String(page), String(limit)],
-    { tags: [cacheTags.collection('live-feed')] },
+    { tags: [cacheTags.all, cacheTags.collection('live-feed')] },
   )()
 })
 
@@ -45,6 +45,6 @@ async function fetchLiveFeedBySlug(slug: string): Promise<LiveFeed | null> {
 
 export const getLiveFeedBySlug = cache((slug: string) =>
   unstable_cache(() => fetchLiveFeedBySlug(slug), ['live-feed-item', slug], {
-    tags: [cacheTags.collection('live-feed'), cacheTags.docSlug('live-feed', slug)],
+    tags: [cacheTags.all, cacheTags.collection('live-feed'), cacheTags.docSlug('live-feed', slug)],
   })(),
 )

@@ -34,7 +34,7 @@ export const findSignals = cache((args: FindArgs = {}) => {
   return unstable_cache(
     () => fetchSignals({ page, limit, kind: (kind || undefined) as Signal['kind'], featured }),
     ['signals', String(page), String(limit), String(kind), String(featured)],
-    { tags: [cacheTags.collection('signals')] },
+    { tags: [cacheTags.all, cacheTags.collection('signals')] },
   )()
 })
 
@@ -51,6 +51,6 @@ async function fetchSignalBySlug(slug: string): Promise<Signal | null> {
 
 export const getSignalBySlug = cache((slug: string) =>
   unstable_cache(() => fetchSignalBySlug(slug), ['signal', slug], {
-    tags: [cacheTags.collection('signals'), cacheTags.docSlug('signals', slug)],
+    tags: [cacheTags.all, cacheTags.collection('signals'), cacheTags.docSlug('signals', slug)],
   })(),
 )

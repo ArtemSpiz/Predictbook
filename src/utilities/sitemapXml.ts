@@ -1,6 +1,10 @@
 import { getSiteUrl } from '@/utilities/getSiteUrl'
 import { getSiteSettings } from '@/utilities/getSiteSettings'
-import { getPublishedSitemapRows, getPublishedSitemapCount } from '@/utilities/sitemapData'
+import {
+  getPublishedSitemapRows,
+  getPublishedSitemapCount,
+  getAllPublishedSitemapRows,
+} from '@/utilities/sitemapData'
 import { SITEMAP_SHARD_SIZE } from '@/utilities/sitemapShards'
 
 export type SitemapEntry = {
@@ -49,8 +53,8 @@ export async function buildSitemapShardEntries(id: number): Promise<SitemapEntry
   }
 
   const [pageRows, liveFeedRows] = await Promise.all([
-    getPublishedSitemapRows('pages'),
-    settings.sitemapIncludeLiveFeed ? getPublishedSitemapRows('live-feed') : Promise.resolve([]),
+    getAllPublishedSitemapRows('pages'),
+    settings.sitemapIncludeLiveFeed ? getAllPublishedSitemapRows('live-feed') : Promise.resolve([]),
   ])
 
   const byUrl = new Map<string, SitemapEntry>()

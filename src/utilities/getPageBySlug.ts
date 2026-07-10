@@ -18,12 +18,12 @@ async function fetchPageBySlug(slug: string): Promise<Page | null> {
 
 /**
  * Cached page fetch. `unstable_cache` persists across requests (invalidated by
- * the shared `payload` tag on any content change); React `cache` dedupes calls
- * within a single request/render.
+ * scoped collection/doc tags on matching edits, or by the coarse `payload`
+ * fallback); React `cache` dedupes calls within a single request/render.
  */
 export const getPageBySlug = cache((slug: string) =>
   unstable_cache(() => fetchPageBySlug(slug), ['page', slug], {
-    tags: [cacheTags.collection('pages'), cacheTags.docSlug('pages', slug)],
+    tags: [cacheTags.all, cacheTags.collection('pages'), cacheTags.docSlug('pages', slug)],
   })(),
 )
 

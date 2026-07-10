@@ -26,5 +26,5 @@ async function fetchTranslations(locale: string): Promise<Translations> {
 
 export const getTranslations = (locale: string) =>
   unstable_cache(() => fetchTranslations(locale), ['translations', locale], {
-    tags: [cacheTags.global('translations')],
+    tags: [cacheTags.all, cacheTags.global('translations')],
   })()

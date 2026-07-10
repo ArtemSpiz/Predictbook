@@ -9,6 +9,11 @@ describe('entriesToUrlset', () => {
     expect(xml).toContain('<changefreq>daily</changefreq>')
     expect(xml).toContain('<priority>0.8</priority>')
   })
+
+  it('escapes <, >, and " in loc', () => {
+    const xml = entriesToUrlset([{ loc: 'https://x.test/a<b>"c"' }])
+    expect(xml).toContain('<loc>https://x.test/a&lt;b&gt;&quot;c&quot;</loc>')
+  })
 })
 
 describe('shardIndexXml', () => {

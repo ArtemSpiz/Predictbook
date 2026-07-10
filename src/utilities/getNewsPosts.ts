@@ -36,7 +36,7 @@ export const findNewsPosts = cache((args: FindArgs = {}) => {
   return unstable_cache(
     () => fetchNewsPosts({ page, limit, categorySlug, tagSlug, authorName }),
     ['news-posts', String(page), String(limit), categorySlug, tagSlug, authorName],
-    { tags: [cacheTags.collection('news')] },
+    { tags: [cacheTags.all, cacheTags.collection('news')] },
   )()
 })
 
@@ -53,7 +53,7 @@ async function fetchNewsPostBySlug(slug: string): Promise<News | null> {
 
 export const getNewsPostBySlug = cache((slug: string) =>
   unstable_cache(() => fetchNewsPostBySlug(slug), ['news-post', slug], {
-    tags: [cacheTags.collection('news'), cacheTags.docSlug('news', slug)],
+    tags: [cacheTags.all, cacheTags.collection('news'), cacheTags.docSlug('news', slug)],
   })(),
 )
 

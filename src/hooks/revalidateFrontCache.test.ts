@@ -13,6 +13,10 @@ describe('collectionRevalidationTags', () => {
     expect(collectionRevalidationTags('news', {})).toEqual(['payload:col:news'])
   })
 
+  it('returns only the collection tag when doc is undefined', () => {
+    expect(collectionRevalidationTags('news', undefined)).toEqual(['payload:col:news'])
+  })
+
   it('coarse-flushes for media (embedded across many docs)', () => {
     expect(collectionRevalidationTags('media', { slug: 'x' })).toEqual(['payload'])
   })

@@ -39,10 +39,10 @@ async function fetchSiteSettings(): Promise<SiteSettings> {
   }
 }
 
-/** Cached SiteSettings global, invalidated by the shared `payload` tag. */
+/** Cached SiteSettings global, invalidated by its scoped tag or the coarse `payload` fallback. */
 export const getSiteSettings = () =>
   unstable_cache(fetchSiteSettings, ['site-settings'], {
-    tags: [cacheTags.global('site-settings')],
+    tags: [cacheTags.all, cacheTags.global('site-settings')],
   })()
 
 async function fetchSiteSidebar(): Promise<Pick<SiteSettingsDoc, 'promoBlocks' | 'sponsoredBlocks'>> {
@@ -61,5 +61,5 @@ async function fetchSiteSidebar(): Promise<Pick<SiteSettingsDoc, 'promoBlocks' |
 /** Cached site-wide sidebar blocks (promo + sponsored) for news sub-routes, depth:1 for populated media. */
 export const getSiteSidebar = () =>
   unstable_cache(fetchSiteSidebar, ['site-sidebar'], {
-    tags: [cacheTags.global('site-settings')],
+    tags: [cacheTags.all, cacheTags.global('site-settings')],
   })()

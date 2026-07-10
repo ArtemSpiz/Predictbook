@@ -29,7 +29,7 @@ async function fetchGlobal<T>(slug: PageGlobalSlug): Promise<T | null> {
 }
 
 const cachedGlobal = <T>(slug: PageGlobalSlug) =>
-  unstable_cache(() => fetchGlobal<T>(slug), [slug], { tags: [cacheTags.global(slug)] })()
+  unstable_cache(() => fetchGlobal<T>(slug), [slug], { tags: [cacheTags.all, cacheTags.global(slug)] })()
 
 export const getHomePageContent = () => cachedGlobal<HomePage>('home-page')
 export const getAboutPageContent = () => cachedGlobal<AboutPage>('about-page')
