@@ -11,7 +11,7 @@ export function NavItem({ item, active }: { item: NavEntry; active: boolean }) {
   return (
     <div className="relative group  border-r border-line">
       <a
-        href={resolveLinkHref(item.link)}
+        href={hasChildren ? undefined : resolveLinkHref(item.link)}
         className="flex items-center gap-2 p-4 max-xl:p-3 hover:bg-shell group-hover:bg-shell"
       >
         <span className={`text-sm ${active ? 'font-bold' : 'font-normal'}`}>{item.link?.label}</span>

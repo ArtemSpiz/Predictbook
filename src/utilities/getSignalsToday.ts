@@ -9,7 +9,10 @@ async function fetchSignalsToday(): Promise<number> {
     const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate())
     const res = await payload.count({
       collection: 'signals',
-      where: { publishedAt: { greater_than_equal: startOfDay.toISOString() } },
+      where: {
+        _status: { equals: 'published' },
+        publishedAt: { greater_than_equal: startOfDay.toISOString() },
+      },
     })
     return res.totalDocs
   } catch {
