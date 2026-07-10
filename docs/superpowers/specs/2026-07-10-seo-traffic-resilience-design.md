@@ -1,7 +1,7 @@
 # SEO & Traffic-Resilience Hardening — Design
 
 **Date:** 2026-07-10
-**Status:** Approved for planning
+**Status:** Implemented
 **Scope:** H1, H2, M1, M2, M3 (full recommended set)
 
 ## Context
