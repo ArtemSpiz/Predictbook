@@ -14,7 +14,6 @@ import { TestimonialsBlock } from './Testimonials/Component'
 import { FAQBlock } from './FAQ/Component'
 import { StatsBlock } from './Stats/Component'
 import { StatsChartBlock } from './StatsChart/Component'
-import { ContactFormBlockComponent } from './ContactForm/Component'
 import { SummaryBlockComponent } from './Summary/Component'
 import { RealCardBlockComponent } from './RealCard/Component'
 
@@ -38,9 +37,6 @@ const components: Record<string, React.ComponentType<{ block: any }>> = {
   ...baseComponents,
   ...(starterConfig.features.swiper ? { testimonials: TestimonialsBlock } : {}),
   ...(starterConfig.features.charts ? { 'stats-chart': StatsChartBlock } : {}),
-  ...(starterConfig.features.formBuilder
-    ? { 'contact-form-block': ContactFormBlockComponent }
-    : {}),
 }
 
 export function RenderBlocks({ blocks }: { blocks: PageBlock[] | null | undefined }) {

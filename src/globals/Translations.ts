@@ -3,6 +3,7 @@ import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 
 export const Translations: GlobalConfig = {
   slug: 'translations',
+  admin: { group: 'Settings' },
   access: { read: () => true, update: isAdminOrEditor },
   fields: [
     {

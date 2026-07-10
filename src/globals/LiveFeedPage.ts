@@ -7,6 +7,7 @@ import { RealCardBlock } from '@/blocks/RealCard/config'
 export const LiveFeedPage: GlobalConfig = {
   slug: 'live-feed-page',
   label: 'Live Feed Page',
+  admin: { group: 'Pages' },
   access: { read: () => true, update: isAdminOrEditor },
   hooks: revalidateGlobalHooks,
   fields: [

@@ -3,7 +3,6 @@
 import { useState, FormEvent } from 'react'
 import Lock from '@/../public/Locked.png'
 import Chevron from '@/../public/down.png'
-import Captcha from '@/../public/captcha.png'
 
 import Image from 'next/image'
 
@@ -21,7 +20,6 @@ interface FormErrors {
   email?: string
   subject?: string
   message?: string
-  captcha?: string
 }
 
 export interface SubjectOption {
@@ -68,7 +66,6 @@ export default function ContactCard({
     subject: '',
     message: '',
   })
-  const [isVerified, setIsVerified] = useState(false)
   const [errors, setErrors] = useState<FormErrors>({})
   const [status, setStatus] = useState<'idle' | 'submitting' | 'sent' | 'error'>('idle')
 
@@ -89,7 +86,6 @@ export default function ContactCard({
     if (form.message.trim().length < MIN_MESSAGE_LENGTH) {
       next.message = `Message must be at least ${MIN_MESSAGE_LENGTH} characters`
     }
-    if (!isVerified) next.captcha = 'Please confirm you are not a robot'
     return next
   }
 
@@ -207,46 +203,6 @@ export default function ContactCard({
           />
           <p className="mt-1.5 text-xs text-gray-400">Minimum {MIN_MESSAGE_LENGTH} characters</p>
           {errors.message && <p className="mt-1 text-xs text-red-500">{errors.message}</p>}
-        </div>
-
-        <div>
-          <button
-            type="button"
-            onClick={() => {
-              setIsVerified((v) => !v)
-              setErrors((prev) => ({ ...prev, captcha: undefined }))
-            }}
-            className="w-full sm:w-auto inline-flex items-center gap-4 rounded-s border border-gray-border bg-gray-softer px-5 border-solid py-4"
-          >
-            <span
-              className={`h-5 w-5 shrink-0 rounded-[2px] border-2 flex items-center justify-center transition ${
-                isVerified ? 'bg-blue-500 border-blue-500' : 'bg-white border-gray-300'
-              }`}
-            >
-              {isVerified && (
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="3"
-                >
-                  <path d="M5 13l4 4L19 7" />
-                </svg>
-              )}
-            </span>
-            <span className="text-sm text-gray-700">I'm not a robot</span>
-            <span className="ml-auto flex flex-col items-center text-[9px] text-gray-400 leading-tight pl-6">
-              <Image src={Captcha} alt="" className="w-10 h-10" />
-              <span className="space-x-1">
-                <span className="underline">Privacy</span>
-                <span>-</span>
-                <span className="underline">Terms</span>
-              </span>
-            </span>
-          </button>
-          {errors.captcha && <p className="mt-1.5 text-xs text-red-500">{errors.captcha}</p>}
         </div>
 
         <button

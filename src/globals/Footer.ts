@@ -5,6 +5,7 @@ import { revalidateGlobalHooks } from '@/hooks/revalidateFrontCache'
 
 export const Footer: GlobalConfig = {
   slug: 'footer',
+  admin: { group: 'Settings' },
   access: { read: () => true, update: isAdminOrEditor },
   hooks: revalidateGlobalHooks,
   fields: [

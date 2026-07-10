@@ -7,6 +7,7 @@ import { RealCardBlock } from '@/blocks/RealCard/config'
 export const SignalsPage: GlobalConfig = {
   slug: 'signals-page',
   label: 'Signals Page',
+  admin: { group: 'Pages' },
   access: { read: () => true, update: isAdminOrEditor },
   hooks: revalidateGlobalHooks,
   fields: [

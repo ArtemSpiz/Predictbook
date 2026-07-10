@@ -11,6 +11,7 @@ import { CategorySectionBlock } from '@/blocks/CategorySection/config'
 export const HomePage: GlobalConfig = {
   slug: 'home-page',
   label: 'Home Page',
+  admin: { group: 'Pages' },
   access: { read: () => true, update: isAdminOrEditor },
   hooks: revalidateGlobalHooks,
   fields: [

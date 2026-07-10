@@ -15,6 +15,7 @@ export const LiveFeed: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'live', 'publishedAt', '_status'],
+    group: 'Content',
   },
   access: {
     read: readAccess,

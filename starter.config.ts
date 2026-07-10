@@ -24,7 +24,7 @@ export default defineStarterConfig({
     seo: true,
     redirects: true,
     search: true,
-    formBuilder: true,
+    formBuilder: false,
     nestedDocs: true,
     importExport: true,
     auditLog: false,

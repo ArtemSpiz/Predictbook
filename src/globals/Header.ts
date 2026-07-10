@@ -5,6 +5,7 @@ import { revalidateGlobalHooks } from '@/hooks/revalidateFrontCache'
 
 export const Header: GlobalConfig = {
   slug: 'header',
+  admin: { group: 'Settings' },
   access: { read: () => true, update: isAdminOrEditor },
   hooks: revalidateGlobalHooks,
   fields: [

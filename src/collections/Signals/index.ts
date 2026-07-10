@@ -14,6 +14,7 @@ export const Signals: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'kind', 'publishedAt', '_status'],
+    group: 'Content',
   },
   access: {
     read: readAccess,

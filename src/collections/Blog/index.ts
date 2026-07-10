@@ -43,6 +43,7 @@ export const Blog: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'publishedAt', '_status'],
+    group: 'Content',
   },
   access: {
     read: blogReadAccess,

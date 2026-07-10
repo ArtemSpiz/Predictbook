@@ -7,6 +7,7 @@ import { SummaryBlock } from '@/blocks/Summary/config'
 export const BlogPage: GlobalConfig = {
   slug: 'blog-page',
   label: 'Blog Page',
+  admin: { group: 'Pages' },
   access: { read: () => true, update: isAdminOrEditor },
   hooks: revalidateGlobalHooks,
   fields: [

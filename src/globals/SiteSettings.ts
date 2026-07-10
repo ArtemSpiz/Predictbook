@@ -12,6 +12,7 @@ import { SponsoredCardBlock } from '@/blocks/SponsoredCard/config'
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   label: 'Site Settings',
+  admin: { group: 'Settings' },
   access: { read: () => true, update: isAdminOrEditor },
   hooks: revalidateGlobalHooks,
   fields: [

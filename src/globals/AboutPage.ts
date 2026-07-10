@@ -8,6 +8,7 @@ import { RealCardBlock } from '@/blocks/RealCard/config'
 export const AboutPage: GlobalConfig = {
   slug: 'about-page',
   label: 'About Page',
+  admin: { group: 'Pages' },
   access: { read: () => true, update: isAdminOrEditor },
   hooks: revalidateGlobalHooks,
   fields: [

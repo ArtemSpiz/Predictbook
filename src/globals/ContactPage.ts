@@ -8,6 +8,7 @@ import { ContactValueBlock } from '@/blocks/ContactValue/config'
 export const ContactPage: GlobalConfig = {
   slug: 'contact-page',
   label: 'Contact Page',
+  admin: { group: 'Pages' },
   access: { read: () => true, update: isAdminOrEditor },
   hooks: revalidateGlobalHooks,
   fields: [

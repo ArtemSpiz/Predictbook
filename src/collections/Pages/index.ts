@@ -15,7 +15,6 @@ import { Testimonials } from '@/blocks/Testimonials/config'
 import { FAQ } from '@/blocks/FAQ/config'
 import { Stats } from '@/blocks/Stats/config'
 import { StatsChart } from '@/blocks/StatsChart/config'
-import { ContactFormBlock } from '@/blocks/ContactForm/config'
 import { pagesReadAccess, pagesWriteAccess } from './access'
 import { SummaryBlock } from '@/blocks/Summary/config'
 import { RealCardBlock } from '@/blocks/RealCard/config'
@@ -36,7 +35,6 @@ const allBlocks = [
   RealCardBlock,
   ...(starterConfig.features.swiper ? [Testimonials] : []),
   ...(starterConfig.features.charts ? [StatsChart] : []),
-  ...(starterConfig.features.formBuilder ? [ContactFormBlock] : []),
 ]
 
 export const Pages: CollectionConfig = {
@@ -44,6 +42,7 @@ export const Pages: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', '_status', 'updatedAt'],
+    group: 'Pages',
   },
   access: {
     read: pagesReadAccess,
