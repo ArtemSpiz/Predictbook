@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
 import type { Page } from '@/payload-types'
+import { cacheTags } from '@/utilities/cacheTags'
 
 async function fetchPageBySlug(slug: string): Promise<Page | null> {
   const payload = await getPayload({ config })
@@ -21,7 +22,9 @@ async function fetchPageBySlug(slug: string): Promise<Page | null> {
  * within a single request/render.
  */
 export const getPageBySlug = cache((slug: string) =>
-  unstable_cache(() => fetchPageBySlug(slug), ['page', slug], { tags: ['payload'] })(),
+  unstable_cache(() => fetchPageBySlug(slug), ['page', slug], {
+    tags: [cacheTags.collection('pages'), cacheTags.docSlug('pages', slug)],
+  })(),
 )
 
 /** Uncached draft fetch (includes unpublished) for live preview / draft mode. */

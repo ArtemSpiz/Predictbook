@@ -3,6 +3,7 @@ import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
 import enFallback from '@/i18n/locales/en.json'
 import { isMultiLocale } from '@/i18n/config'
+import { cacheTags } from '@/utilities/cacheTags'
 
 type Translations = typeof enFallback
 
@@ -25,5 +26,5 @@ async function fetchTranslations(locale: string): Promise<Translations> {
 
 export const getTranslations = (locale: string) =>
   unstable_cache(() => fetchTranslations(locale), ['translations', locale], {
-    tags: ['payload'],
+    tags: [cacheTags.global('translations')],
   })()

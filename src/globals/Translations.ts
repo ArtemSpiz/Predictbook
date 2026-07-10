@@ -1,10 +1,12 @@
 import type { GlobalConfig } from 'payload'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
+import { revalidateGlobalHooks } from '@/hooks/revalidateFrontCache'
 
 export const Translations: GlobalConfig = {
   slug: 'translations',
   admin: { group: 'Settings' },
   access: { read: () => true, update: isAdminOrEditor },
+  hooks: revalidateGlobalHooks,
   fields: [
     {
       name: 'navigation',

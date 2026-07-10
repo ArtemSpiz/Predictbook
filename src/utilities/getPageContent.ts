@@ -9,6 +9,7 @@ import type {
   LiveFeedPage,
   NewsPage,
 } from '@/payload-types'
+import { cacheTags } from '@/utilities/cacheTags'
 
 type PageGlobalSlug =
   | 'home-page'
@@ -28,7 +29,7 @@ async function fetchGlobal<T>(slug: PageGlobalSlug): Promise<T | null> {
 }
 
 const cachedGlobal = <T>(slug: PageGlobalSlug) =>
-  unstable_cache(() => fetchGlobal<T>(slug), [slug], { tags: ['payload'] })()
+  unstable_cache(() => fetchGlobal<T>(slug), [slug], { tags: [cacheTags.global(slug)] })()
 
 export const getHomePageContent = () => cachedGlobal<HomePage>('home-page')
 export const getAboutPageContent = () => cachedGlobal<AboutPage>('about-page')

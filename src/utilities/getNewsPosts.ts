@@ -4,6 +4,7 @@ import type { Where } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
 import type { News } from '@/payload-types'
+import { cacheTags } from '@/utilities/cacheTags'
 
 interface FindArgs {
   page?: number
@@ -35,7 +36,7 @@ export const findNewsPosts = cache((args: FindArgs = {}) => {
   return unstable_cache(
     () => fetchNewsPosts({ page, limit, categorySlug, tagSlug, authorName }),
     ['news-posts', String(page), String(limit), categorySlug, tagSlug, authorName],
-    { tags: ['payload'] },
+    { tags: [cacheTags.collection('news')] },
   )()
 })
 
@@ -51,7 +52,9 @@ async function fetchNewsPostBySlug(slug: string): Promise<News | null> {
 }
 
 export const getNewsPostBySlug = cache((slug: string) =>
-  unstable_cache(() => fetchNewsPostBySlug(slug), ['news-post', slug], { tags: ['payload'] })(),
+  unstable_cache(() => fetchNewsPostBySlug(slug), ['news-post', slug], {
+    tags: [cacheTags.collection('news'), cacheTags.docSlug('news', slug)],
+  })(),
 )
 
 /** Uncached draft fetch (includes unpublished) for live preview / draft mode. */

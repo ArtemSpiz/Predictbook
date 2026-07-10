@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
 import type { LiveFeed } from '@/payload-types'
+import { cacheTags } from '@/utilities/cacheTags'
 
 interface FindArgs {
   page?: number
@@ -27,7 +28,7 @@ export const findLiveFeed = cache((args: FindArgs = {}) => {
   return unstable_cache(
     () => fetchLiveFeed({ page, limit }),
     ['live-feed', String(page), String(limit)],
-    { tags: ['payload'] },
+    { tags: [cacheTags.collection('live-feed')] },
   )()
 })
 
@@ -43,5 +44,7 @@ async function fetchLiveFeedBySlug(slug: string): Promise<LiveFeed | null> {
 }
 
 export const getLiveFeedBySlug = cache((slug: string) =>
-  unstable_cache(() => fetchLiveFeedBySlug(slug), ['live-feed-item', slug], { tags: ['payload'] })(),
+  unstable_cache(() => fetchLiveFeedBySlug(slug), ['live-feed-item', slug], {
+    tags: [cacheTags.collection('live-feed'), cacheTags.docSlug('live-feed', slug)],
+  })(),
 )

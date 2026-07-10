@@ -4,6 +4,7 @@ import type { Where } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
 import type { Signal } from '@/payload-types'
+import { cacheTags } from '@/utilities/cacheTags'
 
 interface FindArgs {
   page?: number
@@ -33,7 +34,7 @@ export const findSignals = cache((args: FindArgs = {}) => {
   return unstable_cache(
     () => fetchSignals({ page, limit, kind: (kind || undefined) as Signal['kind'], featured }),
     ['signals', String(page), String(limit), String(kind), String(featured)],
-    { tags: ['payload'] },
+    { tags: [cacheTags.collection('signals')] },
   )()
 })
 
@@ -49,5 +50,7 @@ async function fetchSignalBySlug(slug: string): Promise<Signal | null> {
 }
 
 export const getSignalBySlug = cache((slug: string) =>
-  unstable_cache(() => fetchSignalBySlug(slug), ['signal', slug], { tags: ['payload'] })(),
+  unstable_cache(() => fetchSignalBySlug(slug), ['signal', slug], {
+    tags: [cacheTags.collection('signals'), cacheTags.docSlug('signals', slug)],
+  })(),
 )

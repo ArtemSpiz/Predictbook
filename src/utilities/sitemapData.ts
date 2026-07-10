@@ -1,6 +1,7 @@
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import type { CollectionSlug } from 'payload'
+import { cacheTags } from '@/utilities/cacheTags'
 
 export type SitemapRow = { slug: string; updatedAt: string | null }
 
@@ -34,5 +35,5 @@ async function fetchPublishedRows(collection: CollectionSlug): Promise<SitemapRo
 /** Cached published slug + updatedAt rows for a collection (sitemap `lastmod`). */
 export const getPublishedSitemapRows = (collection: CollectionSlug) =>
   unstable_cache(() => fetchPublishedRows(collection), ['sitemap-rows', collection], {
-    tags: ['payload'],
+    tags: [cacheTags.collection(collection)],
   })()
