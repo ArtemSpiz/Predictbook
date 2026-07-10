@@ -1,61 +1,30 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
-import Tg from '../../public/tg.png'
-import X from '../../public/x.png'
-import Down from '../../public/down.png'
-import Burger from '../../public/menu.png'
+import Burger from '@/../public/menu.png'
 import { InfiniteScroll } from './InfiniteScroll'
+import { PayloadImage } from '@/app/components/PayloadImage'
+import { SocialLinks } from '@/app/ui/SocialLinks'
+import { DesktopNav } from '@/app/components/Header/DesktopNav'
+import { HeaderMeta } from '@/app/components/Header/HeaderMeta'
+import { CtaButton } from '@/app/components/Header/CtaButton'
+import { MobileMenu } from '@/app/components/Header/MobileMenu'
+import { resolveLinkHref } from '@/utilities/resolveLinkHref'
+import type { Header as HeaderData } from '@/payload-types'
 
-const Icons = [
-  {
-    icon: Tg,
-    href: '',
-  },
-  { 
-    icon: X,
-    href: '',
-  },
-]
+type NavEntry = NonNullable<HeaderData['nav']>[number]
 
-const MenuItems = [
-  {
-    label: 'Home',
-    link: '/',
-  },
-  {
-    label: 'Analysis',
-    links: [
-      { text: 'All analysis', link: '/news' },
-      { text: 'Sports', link: '/news/category/sports' },
-      { text: 'Politics', link: '/news/category/politics' },
-      { text: 'Economics', link: '/news/category/economics' },
-      { text: 'Crypto', link: '/news/category/crypto' },
-    ],
-  },
-  {
-    label: 'Signals',
-    link: '/signals',
-  },
-  {
-    label: 'Live Feed',
-    link: '/live-feed',
-  },
-]
-
-export function Header() {
+export function Header({ data, signalsToday }: { data: HeaderData; signalsToday: number }) {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
-  const [analysisOpen, setAnalysisOpen] = useState(false)
+  const nav = data.nav ?? []
+  const social = data.social ?? []
 
-  const isActive = (item: (typeof MenuItems)[number]) => {
-    if (item.label === 'Analysis') {
-      return pathname.startsWith('/news')
-    }
-    return pathname === item.link
+  const isActive = (item: NavEntry) => {
+    if ((item.children ?? []).length > 0) return pathname.startsWith('/news')
+    return pathname === resolveLinkHref(item.link)
   }
 
   return (
@@ -65,174 +34,37 @@ export function Header() {
         <div className="border-line  md:border-r md:border-l">
           <div className=" mx-auto md:px-6 py-3 flex items-center justify-between border-b border-line max-md:px-5">
             <div className="flex gap-2 items-center">
-              <button
-                onClick={() => setIsOpen(true)}
-                className="lg:hidden bg-transparent border-none"
-              >
+              <button onClick={() => setIsOpen(true)} className="lg:hidden bg-transparent border-none">
                 <Image src={Burger} alt="Menu" className="w-6 h-6" />
               </button>
               <div className="font-bold text-3xl max-lg:text-2xl max-md:text-xl ">
-                Predictbook
+                {data.logo ? <PayloadImage media={data.logo} alt={data.brandName ?? ''} /> : data.brandName}
               </div>{' '}
             </div>
             <div className="flex items-center gap-6">
-              <div className="flex items-center gap-3 max-lg:hidden">
-                {Icons.map((icon, i) => (
-                  <a
-                    href={icon.href}
-                    target="_black"
-                    rel="noopener noreferrer"
-                    key={i}
-                    className="w-8 h-8"
-                  >
-                    <Image src={icon.icon} alt={icon.href} />
-                  </a>
-                ))}
-              </div>
-
-              <button className="bg-ink border-none text-paper py-3 px-4 rounded-lg text-base">
-                Real-time alerts
-              </button>
+              <SocialLinks items={social} className="flex items-center gap-3 max-lg:hidden" linkClassName="w-8 h-8" />
+              <CtaButton
+                label={data.cta?.label}
+                href={data.cta?.href}
+                className="bg-ink border-none text-paper py-3 px-4 rounded-lg text-base"
+              />
             </div>
           </div>
           <div className="mx-auto md:pr-6 max-xl:pr-2 flex items-center justify-between  border-b border-line max-md:px-5">
-            <div className="flex max-lg:hidden">
-              {MenuItems.map((item, i) => (
-                <div key={item.label} className="relative group  border-r border-line">
-                  <a
-                    href={item.link}
-                    className="flex items-center gap-2 p-4 max-xl:p-3 hover:bg-shell group-hover:bg-shell"
-                  >
-                    <span className={`text-sm ${isActive(item) ? 'font-bold' : 'font-normal'}`}>
-                      {item.label}
-                    </span>
-
-                    {item.links && (
-                      <Image
-                        src={Down}
-                        alt=""
-                        className="w-3 transition-transform group-hover:-rotate-180"
-                      />
-                    )}
-                  </a>
-
-                  {item.links && (
-                    <div className="absolute left-0 mx-auto top-full hidden group-hover:block bg-shell min-w-[105px] z-20 ">
-                      {item.links.map((link) => (
-                        <a
-                          key={link.text}
-                          href={link.link}
-                          className="block p-4 text-sm text-center  border-t border-paper hover:bg-sand-2"
-                        >
-                          {link.text}
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-            <div className="flex items-center gap-4 max-lg:w-full max-lg:justify-between max-lg:py-3 max-lg:px-5 max-md:px-0">
-              <div className="text-muted text-sm">Tuesday, June 23 · 2026</div>
-              <div className="flex items-center gap-1">
-                <div className="w-2 h-2 rounded-full p-0.5  bg-success-a24 ">
-                  <div className="w-1 h-1 rounded-full bg-success" />
-                </div>
-                <div className="text-success text-sm">8 signals today</div>
-              </div>
-            </div>
+            <DesktopNav nav={nav} isActive={isActive} />
+            <HeaderMeta signalsToday={signalsToday} />
           </div>
         </div>
       </header>
 
-      <div
-        className={`fixed inset-0 z-40 bg-black/50 transition-opacity duration-300 ${
-          isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-        }`}
-        onClick={() => setIsOpen(false)}
+      <MobileMenu
+        nav={nav}
+        social={social}
+        cta={data.cta}
+        isActive={isActive}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
       />
-
-      <div
-        className={`fixed top-0 right-0 z-50 h-screen w-[320px] bg-paper shadow-2xl transition-transform duration-300 ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-      >
-        <div className="flex items-center justify-between border-b border-line p-6">
-          <h2 className="text-xl font-semibold">Menu</h2>
-
-          <button onClick={() => setIsOpen(false)} className="text-3xl bg-transparent leading-none">
-            ×
-          </button>
-        </div>
-
-        <div className="py-2">
-          {MenuItems.map((item) => (
-            <div key={item.label}>
-              {!item.links ? (
-                <Link
-                  href={item.link}
-                  onClick={() => setIsOpen(false)}
-                  className={`block border-b border-line px-6 py-5 text-lg ${
-                    isActive(item) ? 'font-bold' : ''
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              ) : (
-                <>
-                  <a
-                    onClick={() => setAnalysisOpen(!analysisOpen)}
-                    className="flex w-full bg-transparent items-center justify-between border-b border-line px-6 py-5 text-lg"
-                  >
-                    <span className={isActive(item) ? 'font-bold' : ''}>{item.label}</span>
-
-                    <Image
-                      src={Down}
-                      alt=""
-                      className={`w-3 transition-transform ${analysisOpen ? 'rotate-180' : ''}`}
-                    />
-                  </a>
-
-                  <div
-                    className={`overflow-hidden transition-all duration-300 ${
-                      analysisOpen ? 'max-h-96' : 'max-h-0'
-                    }`}
-                  >
-                    {item.links.map((link) => (
-                      <Link
-                        key={link.text}
-                        href={link.link}
-                        onClick={() => setIsOpen(false)}
-                        className="block bg-shell-2 px-10 py-4 text-muted"
-                      >
-                        {link.text}
-                      </Link>
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-          ))}
-        </div>
-
-        <div className=" p-6">
-          <button className="w-full rounded-lg bg-ink py-3 text-white">
-            Real-time alerts
-          </button>
-
-          <div className="mt-6 items-center justify-center flex gap-4">
-            {Icons.map((icon, i) => (
-              <a
-                key={i}
-                href={icon.href}
-                className="flex h-10 w-10 items-center justify-center rounded-lg bg-white shadow"
-              >
-                <Image src={icon.icon} alt="" className="w-5" />
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
     </>
   )
 }
