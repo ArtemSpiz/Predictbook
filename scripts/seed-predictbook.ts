@@ -50,6 +50,13 @@ const CATEGORY_TITLES = [
 ]
 
 async function uploadIconWebp(payload: any, pngName: string, alt: string) {
+  const webpName = pngName.replace(/\.png$/, '.webp')
+  const found = await payload.find({
+    collection: 'media',
+    where: { filename: { equals: webpName } },
+    limit: 1,
+  })
+  if (found.docs.length) return found.docs[0].id
   const buf = await sharp(path.join(PUBLIC, pngName)).webp().toBuffer()
   const doc = await payload.create({
     collection: 'media',
@@ -57,7 +64,7 @@ async function uploadIconWebp(payload: any, pngName: string, alt: string) {
     file: {
       data: buf,
       mimetype: 'image/webp',
-      name: pngName.replace(/\.png$/, '.webp'),
+      name: webpName,
       size: buf.length,
     },
   })
