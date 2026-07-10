@@ -35,7 +35,7 @@ export default function Signals({ children, header }: SignalsProps) {
 
           <div className="relative flex rounded-xl bg-white border border-solid border-line gap-1 shrink-0 h-fit">
             <span
-              className="absolute top-0 bottom-1 h-full rounded-lg bg-ink shadow-sm transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)]"
+              className="absolute top-0 bottom-1 h-full rounded-lg bg-ink shadow-sm transition-all duration-350 ease-smooth"
               style={{ left: sliderStyle.left, width: sliderStyle.width }}
             />
             {options.map((label, i) => (

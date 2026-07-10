@@ -40,7 +40,7 @@ export default function ArticleTypeMobileSwitcher({
       </div>
       <div className="relative mx-auto w-full justify-between flex rounded-xl bg-white p-1 gap-2 border border-line">
         <span
-          className="absolute top-1 bottom-1 rounded-lg bg-ink shadow-sm transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)]"
+          className="absolute top-1 bottom-1 rounded-lg bg-ink shadow-sm transition-all duration-350 ease-smooth"
           style={{ left: sliderStyle.left, width: sliderStyle.width }}
         />
         {sections.map((s, i) => (

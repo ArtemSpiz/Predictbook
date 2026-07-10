@@ -52,7 +52,7 @@ export default function Summary({ summaries }: { summaries?: SummaryItem[] }) {
       {hasTabs && (
         <div className="relative flex rounded-lg bg-sand-4 p-1 ">
           <span
-            className="absolute top-1 bottom-1 rounded-lg bg-ink shadow-sm transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)]"
+            className="absolute top-1 bottom-1 rounded-lg bg-ink shadow-sm transition-all duration-350 ease-smooth"
             style={{ left: sliderStyle.left, width: sliderStyle.width }}
           />
           {TypeSummary.map((item, i) => (

@@ -90,6 +90,12 @@ export default {
       fontFamily: {
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
       },
+      transitionTimingFunction: {
+        smooth: 'cubic-bezier(0.16, 1, 0.3, 1)',
+      },
+      transitionDuration: {
+        350: '350ms',
+      },
     },
   },
   plugins: [typography, animate],
