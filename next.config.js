@@ -1,6 +1,7 @@
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { withPayload } from '@payloadcms/next/withPayload'
+import { buildImageRemotePatterns } from './src/starter/imageHosts.mjs'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -11,13 +12,7 @@ const nextConfig = {
   poweredByHeader: false,
   images: {
     formats: ['image/avif', 'image/webp'],
-    remotePatterns: [
-      { protocol: 'https', hostname: '**' },
-      // Local dev: Payload serves media with an absolute URL derived from
-      // NEXT_PUBLIC_SERVER_URL (http://localhost:3000).
-      { protocol: 'http', hostname: 'localhost' },
-      { protocol: 'http', hostname: '127.0.0.1' },
-    ],
+    remotePatterns: buildImageRemotePatterns(),
   },
   experimental: {
     optimizePackageImports: ['lucide-react', 'swiper', 'recharts'],
