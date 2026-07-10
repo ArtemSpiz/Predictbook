@@ -71,7 +71,6 @@ export interface Config {
     media: Media;
     pages: Page;
     blog: Blog;
-    'case-studies': CaseStudy;
     categories: Category;
     tags: Tag;
     signals: Signal;
@@ -95,7 +94,6 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     blog: BlogSelect<false> | BlogSelect<true>;
-    'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
     signals: SignalsSelect<false> | SignalsSelect<true>;
@@ -285,10 +283,6 @@ export interface Page {
                       | ({
                           relationTo: 'blog';
                           value: string | Blog;
-                        } | null)
-                      | ({
-                          relationTo: 'case-studies';
-                          value: string | CaseStudy;
                         } | null);
                     url?: string | null;
                     label: string;
@@ -335,10 +329,6 @@ export interface Page {
                       | ({
                           relationTo: 'blog';
                           value: string | Blog;
-                        } | null)
-                      | ({
-                          relationTo: 'case-studies';
-                          value: string | CaseStudy;
                         } | null);
                     url?: string | null;
                     label: string;
@@ -767,60 +757,6 @@ export interface Tag {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "case-studies".
- */
-export interface CaseStudy {
-  id: string;
-  title: string;
-  excerpt?: string | null;
-  coverImage?: (string | null) | Media;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  client?: string | null;
-  industry?: string | null;
-  services?:
-    | {
-        name: string;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * e.g. "3 months", "Q1 2024"
-   */
-  duration?: string | null;
-  relatedCaseStudies?: (string | CaseStudy)[] | null;
-  publishedAt?: string | null;
-  /**
-   * URL-friendly identifier (auto-generated from title if blank)
-   */
-  slug: string;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (string | null) | Media;
-  };
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms".
  */
 export interface Form {
@@ -1101,10 +1037,6 @@ export interface Redirect {
       | ({
           relationTo: 'blog';
           value: string | Blog;
-        } | null)
-      | ({
-          relationTo: 'case-studies';
-          value: string | CaseStudy;
         } | null);
     url?: string | null;
   };
@@ -1129,10 +1061,6 @@ export interface Search {
     | {
         relationTo: 'blog';
         value: string | Blog;
-      }
-    | {
-        relationTo: 'case-studies';
-        value: string | CaseStudy;
       }
     | {
         relationTo: 'signals';
@@ -1367,10 +1295,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'blog';
         value: string | Blog;
-      } | null)
-    | ({
-        relationTo: 'case-studies';
-        value: string | CaseStudy;
       } | null)
     | ({
         relationTo: 'categories';
@@ -1868,38 +1792,6 @@ export interface BlogSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "case-studies_select".
- */
-export interface CaseStudiesSelect<T extends boolean = true> {
-  title?: T;
-  excerpt?: T;
-  coverImage?: T;
-  content?: T;
-  client?: T;
-  industry?: T;
-  services?:
-    | T
-    | {
-        name?: T;
-        id?: T;
-      };
-  duration?: T;
-  relatedCaseStudies?: T;
-  publishedAt?: T;
-  slug?: T;
-  meta?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        image?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories_select".
  */
 export interface CategoriesSelect<T extends boolean = true> {
@@ -2320,10 +2212,6 @@ export interface Header {
             | ({
                 relationTo: 'blog';
                 value: string | Blog;
-              } | null)
-            | ({
-                relationTo: 'case-studies';
-                value: string | CaseStudy;
               } | null);
           url?: string | null;
           label: string;
@@ -2356,10 +2244,6 @@ export interface Footer {
                   | ({
                       relationTo: 'blog';
                       value: string | Blog;
-                    } | null)
-                  | ({
-                      relationTo: 'case-studies';
-                      value: string | CaseStudy;
                     } | null);
                 url?: string | null;
                 label: string;
@@ -2392,10 +2276,6 @@ export interface SiteSetting {
    * Include published blog posts in sitemap.xml.
    */
   sitemapIncludeBlog?: boolean | null;
-  /**
-   * Include published case studies in sitemap.xml.
-   */
-  sitemapIncludeCaseStudies?: boolean | null;
   /**
    * Include published signals in sitemap.xml.
    */
@@ -3006,7 +2886,6 @@ export interface FooterSelect<T extends boolean = true> {
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
   sitemapIncludeBlog?: T;
-  sitemapIncludeCaseStudies?: T;
   sitemapIncludeSignals?: T;
   sitemapIncludeLiveFeed?: T;
   robotsDisallowAll?: T;
@@ -3454,7 +3333,6 @@ export interface TaskCreateCollectionExport {
       | 'media'
       | 'pages'
       | 'blog'
-      | 'case-studies'
       | 'categories'
       | 'tags'
       | 'signals'

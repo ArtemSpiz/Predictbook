@@ -5,7 +5,6 @@ import config from '../src/payload.config'
 import starterConfig from '../starter.config'
 import { samplePages } from './seed-data/pages'
 import { sampleBlogPosts, sampleCategories, sampleTags } from './seed-data/blog'
-import { sampleCaseStudies } from './seed-data/case-studies'
 
 const RESET = process.argv.includes('--reset')
 
@@ -30,7 +29,7 @@ async function ensureAdmin(payload: Awaited<ReturnType<typeof getPayload>>) {
   }
 }
 
-async function clear<T extends 'pages' | 'blog' | 'case-studies' | 'categories' | 'tags'>(
+async function clear<T extends 'pages' | 'blog' | 'categories' | 'tags'>(
   payload: Awaited<ReturnType<typeof getPayload>>,
   slug: T,
 ) {
@@ -46,7 +45,6 @@ async function main() {
     if (starterConfig.collections.tags) await clear(payload, 'tags')
     if (starterConfig.collections.categories) await clear(payload, 'categories')
     if (starterConfig.collections.blog) await clear(payload, 'blog')
-    if (starterConfig.collections.caseStudies) await clear(payload, 'case-studies')
     await clear(payload, 'pages')
   }
 
@@ -71,12 +69,6 @@ async function main() {
     console.log('[seed] blog posts...')
     for (const post of sampleBlogPosts)
       await payload.create({ collection: 'blog', data: post })
-  }
-
-  if (starterConfig.collections.caseStudies) {
-    console.log('[seed] case studies...')
-    for (const cs of sampleCaseStudies)
-      await payload.create({ collection: 'case-studies', data: cs })
   }
 
   console.log('\n[seed] done.')

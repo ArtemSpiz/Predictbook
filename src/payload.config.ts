@@ -16,7 +16,6 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Blog } from './collections/Blog'
-import { CaseStudies } from './collections/CaseStudies'
 import { Categories } from './collections/Categories'
 import { Tags } from './collections/Tags'
 import { Signals } from './collections/Signals'
@@ -38,7 +37,7 @@ const dirname = path.dirname(filename)
 
 const collections = [
   ...buildCollections(
-    { Users, Media, Pages, Blog, CaseStudies, Categories, Tags },
+    { Users, Media, Pages, Blog, Categories, Tags },
     starterConfig.collections,
   ),
   Signals,

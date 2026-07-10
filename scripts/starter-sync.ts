@@ -13,7 +13,6 @@ const ROOT = path.resolve(__dirname, '..')
 const COLLECTION_FILES: { slug: string; file: string }[] = [
   { slug: 'pages', file: 'src/collections/Pages/index.ts' },
   { slug: 'blog', file: 'src/collections/Blog/index.ts' },
-  { slug: 'case-studies', file: 'src/collections/CaseStudies/index.ts' },
   { slug: 'categories', file: 'src/collections/Categories.ts' },
   { slug: 'tags', file: 'src/collections/Tags.ts' },
   { slug: 'media', file: 'src/collections/Media.ts' },

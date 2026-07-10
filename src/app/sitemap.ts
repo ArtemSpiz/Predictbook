@@ -11,12 +11,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date()
   const settings = await getSiteSettings()
 
-  const [pageRows, blogRows, caseRows, liveFeedRows] = await Promise.all([
+  const [pageRows, blogRows, liveFeedRows] = await Promise.all([
     getPublishedSitemapRows('pages'),
     settings.sitemapIncludeBlog ? getPublishedSitemapRows('blog') : Promise.resolve([]),
-    settings.sitemapIncludeCaseStudies
-      ? getPublishedSitemapRows('case-studies')
-      : Promise.resolve([]),
     settings.sitemapIncludeLiveFeed ? getPublishedSitemapRows('live-feed') : Promise.resolve([]),
   ])
 
@@ -27,14 +24,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   add({ url: `${base}/`, lastModified: now, changeFrequency: 'weekly', priority: 1 })
   if (settings.sitemapIncludeBlog) {
     add({ url: `${base}/blog`, lastModified: now, changeFrequency: 'daily', priority: 0.8 })
-  }
-  if (settings.sitemapIncludeCaseStudies) {
-    add({
-      url: `${base}/case-studies`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    })
   }
   if (settings.sitemapIncludeSignals) {
     add({ url: `${base}/signals`, lastModified: now, changeFrequency: 'daily', priority: 0.8 })
@@ -60,15 +49,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const row of blogRows) {
     add({
       url: `${base}/blog/${row.slug}`,
-      lastModified: row.updatedAt ? new Date(row.updatedAt) : now,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    })
-  }
-
-  for (const row of caseRows) {
-    add({
-      url: `${base}/case-studies/${row.slug}`,
       lastModified: row.updatedAt ? new Date(row.updatedAt) : now,
       changeFrequency: 'monthly',
       priority: 0.7,

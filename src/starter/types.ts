@@ -46,7 +46,6 @@ export interface FeaturesConfig {
 
 export interface CollectionsConfig {
   blog: boolean
-  caseStudies: boolean
   categories: boolean
   tags: boolean
 }

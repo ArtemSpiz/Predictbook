@@ -28,12 +28,6 @@ export const SiteSettings: GlobalConfig = {
               admin: { description: 'Include published blog posts in sitemap.xml.' },
             },
             {
-              name: 'sitemapIncludeCaseStudies',
-              type: 'checkbox',
-              defaultValue: true,
-              admin: { description: 'Include published case studies in sitemap.xml.' },
-            },
-            {
               name: 'sitemapIncludeSignals',
               type: 'checkbox',
               defaultValue: true,

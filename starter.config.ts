@@ -31,7 +31,6 @@ export default defineStarterConfig({
   },
   collections: {
     blog: true,
-    caseStudies: true,
     categories: true,
     tags: true,
   },

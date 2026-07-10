@@ -13,7 +13,6 @@ export const Translations: GlobalConfig = {
         { name: 'about', type: 'text', localized: true },
         { name: 'contact', type: 'text', localized: true },
         { name: 'blog', type: 'text', localized: true },
-        { name: 'caseStudies', type: 'text', localized: true },
       ],
     },
     {

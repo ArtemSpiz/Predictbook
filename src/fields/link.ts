@@ -18,7 +18,7 @@ export const linkField = (overrides?: Partial<GroupField>): Field => ({
     {
       name: 'reference',
       type: 'relationship',
-      relationTo: ['pages', 'blog', 'case-studies'],
+      relationTo: ['pages', 'blog'],
       required: true,
       admin: { condition: (_d, sib) => sib?.type === 'reference' },
     },

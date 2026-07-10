@@ -16,7 +16,7 @@ import { promisify } from 'node:util'
 const run = promisify(execFile)
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000'
-const PATHS = (process.env.LH_PATHS || '/,/blog,/case-studies').split(',').map((p) => p.trim())
+const PATHS = (process.env.LH_PATHS || '/,/blog').split(',').map((p) => p.trim())
 
 type Summary = {
   path: string

@@ -22,7 +22,7 @@ describe('defineStarterConfig', () => {
         importExport: true,
         auditLog: false,
       },
-      collections: { blog: true, caseStudies: true, categories: true, tags: true },
+      collections: { blog: true, categories: true, tags: true },
     })
     expect(config.database.provider).toBe('sqlite')
     expectTypeOf(config).toEqualTypeOf<StarterConfig>()
