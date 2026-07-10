@@ -37,6 +37,7 @@
 // }
 
 import type { DatabaseConfig } from '../types'
+import { mongoConnectOptions } from '../mongoConnectOptions'
 
 export async function resolveDbAdapter(config: DatabaseConfig) {
   const url = process.env.DATABASE_URL
@@ -75,7 +76,7 @@ export async function resolveDbAdapter(config: DatabaseConfig) {
 
   if (config.provider === 'mongodb') {
     const { mongooseAdapter } = await import('@payloadcms/db-mongodb')
-    return mongooseAdapter({ url })
+    return mongooseAdapter({ url, connectOptions: mongoConnectOptions() })
   }
 
   throw new Error(`Unsupported database provider: ${(config as { provider: string }).provider}`)
