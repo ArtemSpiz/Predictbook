@@ -5,7 +5,11 @@ import { cacheTags } from '@/utilities/cacheTags'
 
 export type SitemapRow = { slug: string; updatedAt: string | null }
 
-async function fetchPublishedRows(collection: CollectionSlug): Promise<SitemapRow[]> {
+async function fetchPublishedRows(
+  collection: CollectionSlug,
+  page: number,
+  limit: number,
+): Promise<SitemapRow[]> {
   try {
     const { default: config } = await import('@payload-config')
     const payload = await getPayload({ config })
@@ -13,8 +17,8 @@ async function fetchPublishedRows(collection: CollectionSlug): Promise<SitemapRo
       collection,
       where: { _status: { equals: 'published' } },
       depth: 0,
-      limit: 1000,
-      pagination: false,
+      page,
+      limit,
       overrideAccess: true,
       select: { slug: true, updatedAt: true },
     })
@@ -32,8 +36,36 @@ async function fetchPublishedRows(collection: CollectionSlug): Promise<SitemapRo
   }
 }
 
-/** Cached published slug + updatedAt rows for a collection (sitemap `lastmod`). */
-export const getPublishedSitemapRows = (collection: CollectionSlug) =>
-  unstable_cache(() => fetchPublishedRows(collection), ['sitemap-rows', collection], {
-    tags: [cacheTags.collection(collection)],
-  })()
+async function fetchPublishedCount(collection: CollectionSlug): Promise<number> {
+  try {
+    const { default: config } = await import('@payload-config')
+    const payload = await getPayload({ config })
+    const { totalDocs } = await payload.count({
+      collection,
+      where: { _status: { equals: 'published' } },
+      overrideAccess: true,
+    })
+    return totalDocs
+  } catch {
+    return 0
+  }
+}
+
+/** Cached published slug + updatedAt rows for one page of a collection. */
+export const getPublishedSitemapRows = (
+  collection: CollectionSlug,
+  { page = 1, limit = 1000 }: { page?: number; limit?: number } = {},
+) =>
+  unstable_cache(
+    () => fetchPublishedRows(collection, page, limit),
+    ['sitemap-rows', collection, String(page), String(limit)],
+    { tags: [cacheTags.collection(collection)] },
+  )()
+
+/** Cached count of published docs in a collection (for shard planning). */
+export const getPublishedSitemapCount = (collection: CollectionSlug) =>
+  unstable_cache(
+    () => fetchPublishedCount(collection),
+    ['sitemap-count', collection],
+    { tags: [cacheTags.collection(collection)] },
+  )()
