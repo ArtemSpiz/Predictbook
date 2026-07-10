@@ -34,7 +34,7 @@ Visit:
 After admin is created:
 
 ```bash
-pnpm seed       # populate sample pages, blog posts, case studies
+pnpm seed       # populate sample pages, blog posts
 ```
 
 Generate a `PAYLOAD_SECRET`:
@@ -80,7 +80,6 @@ export default defineStarterConfig({
 
   collections: {
     blog: true,
-    caseStudies: true,
     categories: true,
     tags: true,
   },
@@ -235,7 +234,7 @@ E2E tests require a running database; `pnpm dev` is auto-started by Playwright.
 starter.config.ts            # Source of truth for project-level choices
 src/
 ├── starter/                 # Config types + adapter resolvers
-├── collections/             # Users, Media, Pages, Blog, CaseStudies, Categories, Tags
+├── collections/             # Users, Media, Pages, Blog, Categories, Tags
 ├── globals/                 # Header, Footer, (Translations when multi-locale)
 ├── blocks/                  # 13 generic blocks + RenderBlocks
 ├── fields/                  # defaultLexical, wideMarkupLexical, slug, link
