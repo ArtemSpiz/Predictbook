@@ -1,6 +1,8 @@
 import type { GlobalConfig } from 'payload'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { revalidateGlobalHooks } from '@/hooks/revalidateFrontCache'
+import { RealCardBlock } from '@/blocks/RealCard/config'
+import { SponsoredCardBlock } from '@/blocks/SponsoredCard/config'
 
 /**
  * Site-wide SEO / analytics backbone. Sitemap and robots route handlers read
@@ -63,6 +65,26 @@ export const SiteSettings: GlobalConfig = {
               name: 'ga4Id',
               type: 'text',
               admin: { description: 'GA4 Measurement ID (G-XXXXXXXXXX).' },
+            },
+          ],
+        },
+        {
+          label: 'Sidebar',
+          description: 'Widgets shown in the right column of blog article/category/author pages.',
+          fields: [
+            {
+              name: 'promoBlocks',
+              type: 'blocks',
+              labels: { singular: 'Promo block', plural: 'Promo blocks' },
+              admin: { description: 'Promo card shown on all blog sub-pages.' },
+              blocks: [RealCardBlock],
+            },
+            {
+              name: 'sponsoredBlocks',
+              type: 'blocks',
+              labels: { singular: 'Sponsored block', plural: 'Sponsored blocks' },
+              admin: { description: 'Sponsored logos card shown on blog article pages only.' },
+              blocks: [SponsoredCardBlock],
             },
           ],
         },

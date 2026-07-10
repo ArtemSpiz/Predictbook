@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SummaryBlockComponent } from './Summary/Component'
 import { RealCardBlockComponent } from './RealCard/Component'
+import { SponsoredCardBlockComponent } from './SponsoredCard/Component'
 import { AnalysisBlockComponent } from './Analysis/Component'
 import { LiveFeedBlockComponent } from './LiveFeedBlock/Component'
 import { SignalsListBlockComponent } from './SignalsList/Component'
@@ -16,6 +17,7 @@ import { ContactValueBlockComponent } from './ContactValue/Component'
 export const regionBlockComponents: Record<string, React.ComponentType<{ block: any }>> = {
   summary: SummaryBlockComponent,
   'real-card': RealCardBlockComponent,
+  'sponsored-card': SponsoredCardBlockComponent,
   analysis: AnalysisBlockComponent,
   'live-feed-block': LiveFeedBlockComponent,
   'signals-list': SignalsListBlockComponent,

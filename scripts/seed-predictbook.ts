@@ -334,6 +334,9 @@ async function main() {
   }
   const lightningId = await promoImg('Real-time alerts badge', 'Lightning.png')
   const graphId = await promoImg('Real-time alerts graph', 'Graph.png')
+  const infoIconId = await promoImg('Sponsored info', 'Information.png')
+  const polymarketId = await promoImg('Polymarket logo', 'Polymarket.png')
+  const kalshiId = await promoImg('Kalshi logo', 'Kalshi.png')
 
   await payload.updateGlobal({
     slug: 'home-page',
@@ -643,6 +646,36 @@ async function main() {
               ],
             },
           ],
+          hidden: false,
+        },
+      ],
+    } as any,
+  })
+
+  await payload.updateGlobal({
+    slug: 'site-settings',
+    data: {
+      promoBlocks: [
+        {
+          blockType: 'real-card',
+          badgeIcon: lightningId,
+          badgeText: 'Real-time alerts',
+          showLiveDot: true,
+          title: 'Want signals in real time?',
+          description: 'Get instant alerts with advanced filtering tailored to your interests.',
+          buttonText: 'Join Real-time Alerts',
+          buttonUrl: '/signals',
+          backgroundImage: graphId,
+          hidden: false,
+        },
+      ],
+      sponsoredBlocks: [
+        {
+          blockType: 'sponsored-card',
+          heading: 'Sponsored by',
+          infoIcon: infoIconId,
+          sponsors: [{ logo: polymarketId }, { logo: kalshiId }],
+          footerText: 'Trusted by the leading companies shaping prediction markets.',
           hidden: false,
         },
       ],

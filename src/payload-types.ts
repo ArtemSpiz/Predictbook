@@ -2416,6 +2416,60 @@ export interface SiteSetting {
    * GA4 Measurement ID (G-XXXXXXXXXX).
    */
   ga4Id?: string | null;
+  /**
+   * Promo card shown on all blog sub-pages.
+   */
+  promoBlocks?:
+    | {
+        /**
+         * Icon in the badge (e.g., Lightning)
+         */
+        badgeIcon: string | Media;
+        badgeText: string;
+        showLiveDot?: boolean | null;
+        title: string;
+        description: string;
+        buttonText: string;
+        /**
+         * Where the button leads (optional; if left blank, there is no link)
+         */
+        buttonUrl?: string | null;
+        /**
+         * Decorative image (e.g., Graph)
+         */
+        backgroundImage: string | Media;
+        /**
+         * Temporarily hide this block without deleting it.
+         */
+        hidden?: boolean | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'real-card';
+      }[]
+    | null;
+  /**
+   * Sponsored logos card shown on blog article pages only.
+   */
+  sponsoredBlocks?:
+    | {
+        heading: string;
+        infoIcon?: (string | null) | Media;
+        sponsors?:
+          | {
+              logo: string | Media;
+              id?: string | null;
+            }[]
+          | null;
+        footerText?: string | null;
+        /**
+         * Temporarily hide this block without deleting it.
+         */
+        hidden?: boolean | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'sponsored-card';
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2958,6 +3012,45 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   robotsDisallowAll?: T;
   gtmId?: T;
   ga4Id?: T;
+  promoBlocks?:
+    | T
+    | {
+        'real-card'?:
+          | T
+          | {
+              badgeIcon?: T;
+              badgeText?: T;
+              showLiveDot?: T;
+              title?: T;
+              description?: T;
+              buttonText?: T;
+              buttonUrl?: T;
+              backgroundImage?: T;
+              hidden?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  sponsoredBlocks?:
+    | T
+    | {
+        'sponsored-card'?:
+          | T
+          | {
+              heading?: T;
+              infoIcon?: T;
+              sponsors?:
+                | T
+                | {
+                    logo?: T;
+                    id?: T;
+                  };
+              footerText?: T;
+              hidden?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

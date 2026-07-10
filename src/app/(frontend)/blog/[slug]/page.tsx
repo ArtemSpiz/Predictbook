@@ -53,7 +53,8 @@ export default async function BlogPost({ params }: Props) {
         <BlogSlug post={post} related={related} />
         <div className="flex flex-col gap-4 md:max-w-[300px]">
           <RealCard />
-          <SponsoredCard />
+          {/* TODO(S2): wire from getSiteSidebar() */}
+          <SponsoredCard heading="Sponsored by" sponsors={[]} />
         </div>
       </div>
     </main>

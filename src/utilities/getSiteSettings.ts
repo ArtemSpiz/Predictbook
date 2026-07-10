@@ -1,6 +1,7 @@
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import type { SiteSetting as SiteSettingsDoc } from '@/payload-types'
 
 export type SiteSettings = {
   sitemapIncludeBlog: boolean
@@ -43,3 +44,20 @@ async function fetchSiteSettings(): Promise<SiteSettings> {
 /** Cached SiteSettings global, invalidated by the shared `payload` tag. */
 export const getSiteSettings = () =>
   unstable_cache(fetchSiteSettings, ['site-settings'], { tags: ['payload'] })()
+
+async function fetchSiteSidebar(): Promise<Pick<SiteSettingsDoc, 'promoBlocks' | 'sponsoredBlocks'>> {
+  try {
+    const payload = await getPayload({ config })
+    const data = (await payload.findGlobal({
+      slug: 'site-settings',
+      depth: 1,
+    })) as unknown as SiteSettingsDoc
+    return { promoBlocks: data.promoBlocks ?? [], sponsoredBlocks: data.sponsoredBlocks ?? [] }
+  } catch {
+    return { promoBlocks: [], sponsoredBlocks: [] }
+  }
+}
+
+/** Cached site-wide sidebar blocks (promo + sponsored) for blog sub-routes, depth:1 for populated media. */
+export const getSiteSidebar = () =>
+  unstable_cache(fetchSiteSidebar, ['site-sidebar'], { tags: ['payload'] })()
