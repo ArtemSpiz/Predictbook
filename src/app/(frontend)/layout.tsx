@@ -7,6 +7,9 @@ import { Footer } from '@/app/Footer'
 import { AnalyticsScripts } from '@/app/components/AnalyticsScripts'
 import { getSiteUrl } from '@/utilities/getSiteUrl'
 import { getSiteSettings } from '@/utilities/getSiteSettings'
+import { getHeaderData } from '@/utilities/getHeaderData'
+import { getFooterData } from '@/utilities/getFooterData'
+import { getSignalsToday } from '@/utilities/getSignalsToday'
 import { siteConfig } from '@/utilities/siteConfig'
 import { generateStructuredData, jsonLdScriptContent } from '@/utilities/structuredData'
 import { fontMono, fontSans } from './fonts'
@@ -50,7 +53,12 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled: draft } = await draftMode()
-  const settings = await getSiteSettings()
+  const [settings, headerData, footerData, signalsToday] = await Promise.all([
+    getSiteSettings(),
+    getHeaderData(),
+    getFooterData(),
+    getSignalsToday(),
+  ])
 
   return (
     <html lang={siteConfig.locale} className={`${fontSans.variable} ${fontMono.variable}`}>
@@ -61,9 +69,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
         {/* No analytics in draft/preview so editor sessions don't skew metrics. */}
         {!draft && <AnalyticsScripts gtmId={settings.gtmId} ga4Id={settings.ga4Id} />}
-        <Header />
+        <Header data={headerData} signalsToday={signalsToday} />
         {children}
-        <Footer />
+        <Footer data={footerData} />
         <Analytics />
         <SpeedInsights />
       </body>

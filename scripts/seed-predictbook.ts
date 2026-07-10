@@ -3,6 +3,7 @@
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { getPayload } from 'payload'
+import sharp from 'sharp'
 import config from '../src/payload.config'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -47,6 +48,28 @@ const CATEGORY_TITLES = [
   'Whale Alert',
   'KALSHI VS POLYMARKET',
 ]
+
+async function uploadIconWebp(payload: any, pngName: string, alt: string) {
+  const webpName = pngName.replace(/\.png$/, '.webp')
+  const found = await payload.find({
+    collection: 'media',
+    where: { filename: { equals: webpName } },
+    limit: 1,
+  })
+  if (found.docs.length) return found.docs[0].id
+  const buf = await sharp(path.join(PUBLIC, pngName)).webp().toBuffer()
+  const doc = await payload.create({
+    collection: 'media',
+    data: { alt },
+    file: {
+      data: buf,
+      mimetype: 'image/webp',
+      name: webpName,
+      size: buf.length,
+    },
+  })
+  return doc.id
+}
 
 async function main() {
   const payload = await getPayload({ config })
@@ -679,6 +702,91 @@ async function main() {
           hidden: false,
         },
       ],
+    } as any,
+  })
+
+  // ---------- header/footer ----------
+  console.log('[seed] header/footer...')
+  const headerTg = await uploadIconWebp(payload, 'tg.png', 'Telegram')
+  const headerX = await uploadIconWebp(payload, 'x.png', 'X')
+  const footerTg = await uploadIconWebp(payload, 'footerTg.png', 'Telegram')
+  const footerX = await uploadIconWebp(payload, 'footerX.png', 'X')
+
+  const link = (url: string, label: string) => ({ link: { type: 'custom' as const, url, label } })
+
+  await payload.updateGlobal({
+    slug: 'header',
+    data: {
+      brandName: 'Predictbook',
+      nav: [
+        link('/', 'Home'),
+        {
+          link: { type: 'custom' as const, url: '/news', label: 'Analysis' },
+          children: [
+            link('/news', 'All analysis'),
+            link('/news/category/sports', 'Sports'),
+            link('/news/category/politics', 'Politics'),
+            link('/news/category/economics', 'Economics'),
+            link('/news/category/crypto', 'Crypto'),
+          ],
+        },
+        link('/signals', 'Signals'),
+        link('/live-feed', 'Live Feed'),
+      ],
+      social: [
+        { icon: headerTg, url: '' },
+        { icon: headerX, url: '' },
+      ],
+      cta: { label: 'Real-time alerts', href: '' },
+    } as any,
+  })
+
+  await payload.updateGlobal({
+    slug: 'footer',
+    data: {
+      brandName: 'Predictbook',
+      tagline: 'AI-powered newsroom covering prediction markets',
+      social: [
+        { icon: footerTg, url: '' },
+        { icon: footerX, url: '' },
+      ],
+      columns: [
+        {
+          title: 'HOME',
+          items: [
+            link('/whale-alerts', 'Whale Alerts'),
+            link('/arbitrage-opportunities', 'Arbitrage Opportunities'),
+            link('/live-analysis', 'Live analysis'),
+            link('/daily-recap', 'Daily Recap'),
+            link('/weekly-series', 'Weekly series'),
+            link('/newsletter', 'Newsletter (Substack)'),
+          ],
+        },
+        {
+          title: 'ANALYSIS',
+          items: [
+            link('/news/category/politics', 'Politics'),
+            link('/news/category/economics', 'Economics'),
+            link('/news/category/crypto', 'Crypto'),
+            link('/news/category/technology', 'Technology'),
+            link('/news/category/sports', 'Sports'),
+            link('/news/category/science', 'Science'),
+          ],
+        },
+        {
+          title: 'ABOUT',
+          items: [
+            link('/about', 'About us'),
+            link('/contact', 'Contact us'),
+            link('/advertise', 'Advertise'),
+            link('/privacy-policy', 'Privacy Policy'),
+            link('/terms-of-service', 'Terms of Service'),
+          ],
+        },
+      ],
+      disclaimer:
+        'This website does not constitute investing advice. Prediction markets and/or gambling may result in loss of funds. You are advised to conduct your own due diligence before taking any action',
+      copyright: '© {year} Predicook. All rights reserved.',
     } as any,
   })
 

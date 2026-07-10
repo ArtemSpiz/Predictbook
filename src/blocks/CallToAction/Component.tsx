@@ -1,6 +1,7 @@
 import type { PageBlock } from '@/blocks/types'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import Link from 'next/link'
+import { resolveLinkHref } from '@/utilities/resolveLinkHref'
 
 type Block = Extract<PageBlock, { blockType: 'call-to-action' }>
 
@@ -18,10 +19,7 @@ export function CallToActionBlock({ block }: { block: Block }) {
           <div className="flex gap-4 justify-center flex-wrap">
             {block.buttons.map((btn: { link?: any }, i: number) => {
               const link = btn.link
-              const href =
-                link?.type === 'reference' && typeof link.reference?.value === 'object'
-                  ? `/${link.reference.value.slug ?? ''}`
-                  : link?.url ?? '#'
+              const href = resolveLinkHref(link)
               return (
                 <Link
                   key={i}
