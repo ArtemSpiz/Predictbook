@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 const HOVER =
-  'transition duration-200 ease-out hover:brightness-125 hover:-translate-y-px active:translate-y-0 active:brightness-100 cursor-pointer'
+  'transition duration-200 leading-none ease-out hover:brightness-125 hover:-translate-y-px active:translate-y-0 active:brightness-100 cursor-pointer'
 
 export function CtaButton({
   label,

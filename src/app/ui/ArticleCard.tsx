@@ -10,7 +10,7 @@ export default function ArticleCard({ card }: { card: ArticleView }) {
     >
       {card.featured && card.image && (
         <div className="relative h-auto w-full">
-          <PayloadImage media={card.image} alt={card.title} className="w-full h-auto" />
+          <PayloadImage media={card.image} alt={card.title} className="w-full h-auto md:max-h-[290px]" />
 
           {card.live && (
             <div className="absolute top-3.5 left-4 flex items-center gap-2">

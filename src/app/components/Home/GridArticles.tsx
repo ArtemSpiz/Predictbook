@@ -20,6 +20,7 @@ export default function GridArticles({
   articles,
 }: GridArticlesProps) {
   const sortedCards = sortByFeatured(articles)
+  let featuredUsed = false
 
   return (
     <div className="flex flex-col gap-3">
@@ -29,15 +30,28 @@ export default function GridArticles({
       </div>
 
       <div className="grid gap-2 xl:grid-cols-2">
-        {sortedCards.map((card) => (
-          <Link
-            key={card.slug}
-            href={`/news/${card.slug}`}
-            className={`${card.featured ? 'xl:col-span-2' : ''}`}
-          >
-            <ArticleCard card={card} />
-          </Link>
-        ))}
+        {sortedCards.map((card) => {
+          const isFeatured = card.featured && !featuredUsed
+
+          if (isFeatured) {
+            featuredUsed = true
+          }
+
+          return (
+            <Link
+              key={card.slug}
+              href={`/news/${card.slug}`}
+              className={isFeatured ? 'xl:col-span-2' : ''}
+            >
+              <ArticleCard
+                card={{
+                  ...card,
+                  featured: isFeatured,
+                }}
+              />
+            </Link>
+          )
+        })}
       </div>
     </div>
   )

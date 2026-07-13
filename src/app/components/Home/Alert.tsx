@@ -30,9 +30,9 @@ export default function Alert({ title, cards, delayLabel, viewAllText, viewAllUr
     <div>
       <div className="bg-white border border-solid border-line mb-3">
         <div className="flex items-center p-3 justify-between ">
-          <div className="font-semibold text-lg">{title}</div>
+          <div className="font-semibold leading-none text-lg">{title}</div>
 
-          <div className="flex items-center gap-2 text-muted">
+          <div className="flex text-xs items-center  gap-2 text-muted">
             <Image src={Clock} alt="" className="w-3 h-3" />
             {delayLabel && <span>{delayLabel}</span>}
           </div>
@@ -40,10 +40,10 @@ export default function Alert({ title, cards, delayLabel, viewAllText, viewAllUr
 
         <div className="flex flex-col">
           {cards.map((card, i) => (
-            <div key={i} className="border-t border-line p-4">
+            <div key={i} className="border-t border-line py-3 px-4">
               <div className="flex items-center justify-between mb-3">
                 <div
-                  className={`py-1 px-1.5 border border-solid text-xs uppercase ${
+                  className={`py-1 px-1.5 border border-solid text-nowrap text-xs uppercase max-h-[20px] leading-none ${
                     card.underTitle === 'whale alert'
                       ? 'border-cat-whale-border text-cat-whale-text bg-cat-whale-bg'
                       : 'border-cat-arb-border bg-cat-arb-bg text-cat-arb-text'
@@ -55,7 +55,7 @@ export default function Alert({ title, cards, delayLabel, viewAllText, viewAllUr
                 <div className="text-muted text-xs">{card.time} UTC</div>
               </div>
 
-              <div className="font-medium text-base mb-4">{card.title}</div>
+              <div className="font-medium text-base mb-3">{card.title}</div>
 
               {card.type === 'arbitrage' ? (
                 <div className="flex  items-center gap-2 text-sm uppercase font-medium">

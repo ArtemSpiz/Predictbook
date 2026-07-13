@@ -42,15 +42,26 @@ export function Header({
         <div className="border-line  md:border-r md:border-l">
           <div className=" mx-auto md:px-6 py-3 flex items-center justify-between border-b border-line max-md:px-5">
             <div className="flex gap-2 items-center">
-              <button onClick={() => setIsOpen(true)} className="lg:hidden bg-transparent border-none">
+              <button
+                onClick={() => setIsOpen(true)}
+                className="lg:hidden bg-transparent border-none"
+              >
                 <Image src={Burger} alt="Menu" className="w-6 h-6" />
               </button>
               <div className="font-bold text-3xl max-lg:text-2xl max-md:text-xl ">
-                {data.logo ? <PayloadImage media={data.logo} alt={data.brandName ?? ''} /> : data.brandName}
+                {data.logo ? (
+                  <PayloadImage media={data.logo} alt={data.brandName ?? ''} />
+                ) : (
+                  data.brandName
+                )}
               </div>{' '}
             </div>
             <div className="flex items-center gap-6">
-              <SocialLinks items={social} className="flex items-center gap-3 max-lg:hidden" linkClassName="w-8 h-8" />
+              <SocialLinks
+                items={social}
+                className="flex items-center gap-3 max-lg:hidden"
+                linkClassName="w-8 h-8"
+              />
               <CtaButton
                 label={data.cta?.label}
                 href={data.cta?.href}

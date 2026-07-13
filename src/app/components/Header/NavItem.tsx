@@ -9,7 +9,7 @@ export function NavItem({ item, active }: { item: NavEntry; active: boolean }) {
   const children = item.children ?? []
   const hasChildren = children.length > 0
   return (
-    <div className="relative group  border-r border-line">
+    <div className="relative group ">
       <a
         href={hasChildren ? undefined : resolveLinkHref(item.link)}
         className="flex items-center gap-2 p-4 max-xl:p-3 hover:bg-shell group-hover:bg-shell"

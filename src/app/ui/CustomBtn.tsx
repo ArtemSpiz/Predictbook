@@ -17,7 +17,7 @@ export default function CustomBtn({
   icon = true,
   href,
 }: CustomBtnProps) {
-  const className = `group w-full border-none flex items-center gap-2 px-3 py-2.5 rounded-lg ${
+  const className = `group w-full leading-none font-light border-none flex items-center gap-2 px-3 py-2.5 rounded-lg ${
     center ? 'justify-center' : 'justify-between'
   } ${light ? 'bg-cream ' : 'bg-sand'}`
 
