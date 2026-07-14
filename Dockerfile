@@ -9,6 +9,29 @@ RUN pnpm install --frozen-lockfile
 FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+# Build-time env: generateStaticParams queries the DB, and payload.config resolves
+# the storage adapter (requires S3_* when STORAGE_PROVIDER=s3) at module load.
+# These ARGs live only in this discarded builder stage — not in the final image.
+ARG DATABASE_URL
+ARG PAYLOAD_SECRET
+ARG NEXT_PUBLIC_SERVER_URL
+ARG NEXT_PUBLIC_CDN_URL
+ARG STORAGE_PROVIDER
+ARG S3_BUCKET
+ARG S3_REGION
+ARG S3_ACCESS_KEY_ID
+ARG S3_SECRET_ACCESS_KEY
+ARG S3_ENDPOINT
+ENV DATABASE_URL=$DATABASE_URL \
+    PAYLOAD_SECRET=$PAYLOAD_SECRET \
+    NEXT_PUBLIC_SERVER_URL=$NEXT_PUBLIC_SERVER_URL \
+    NEXT_PUBLIC_CDN_URL=$NEXT_PUBLIC_CDN_URL \
+    STORAGE_PROVIDER=$STORAGE_PROVIDER \
+    S3_BUCKET=$S3_BUCKET \
+    S3_REGION=$S3_REGION \
+    S3_ACCESS_KEY_ID=$S3_ACCESS_KEY_ID \
+    S3_SECRET_ACCESS_KEY=$S3_SECRET_ACCESS_KEY \
+    S3_ENDPOINT=$S3_ENDPOINT
 RUN pnpm build
 
 FROM base AS runner

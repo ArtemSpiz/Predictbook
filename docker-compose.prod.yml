@@ -8,7 +8,20 @@
 #   3. DOMAIN=your-domain.com docker compose -f docker-compose.prod.yml up -d --build
 services:
   app:
-    build: .
+    build:
+      context: .
+      # Compose interpolates ${...} from the project-dir .env file at build time.
+      args:
+        DATABASE_URL: ${DATABASE_URL}
+        PAYLOAD_SECRET: ${PAYLOAD_SECRET}
+        NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL}
+        NEXT_PUBLIC_CDN_URL: ${NEXT_PUBLIC_CDN_URL}
+        STORAGE_PROVIDER: ${STORAGE_PROVIDER}
+        S3_BUCKET: ${S3_BUCKET}
+        S3_REGION: ${S3_REGION}
+        S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID}
+        S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY}
+        S3_ENDPOINT: ${S3_ENDPOINT}
     env_file: .env
     environment:
       NODE_ENV: production
