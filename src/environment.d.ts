@@ -8,6 +8,8 @@ declare namespace NodeJS {
     NODE_ENV: 'development' | 'production' | 'test'
 
     STORAGE_PROVIDER?: 'local' | 's3' | 'gcs' | 'vercel-blob'
+    NEXT_PUBLIC_TURNSTILE_SITE_KEY?: string
+    TURNSTILE_SECRET_KEY?: string
     S3_BUCKET?: string
     S3_REGION?: string
     S3_ACCESS_KEY_ID?: string

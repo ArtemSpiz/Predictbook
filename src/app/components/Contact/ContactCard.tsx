@@ -5,6 +5,7 @@ import Chevron from '@/../public/down.png'
 
 import Image from 'next/image'
 import { useContactForm, MIN_MESSAGE_LENGTH } from '@/app/hooks/useContactForm'
+import { Turnstile } from '@/app/components/Contact/Turnstile'
 
 export interface SubjectOption {
   label: string
@@ -42,7 +43,7 @@ export default function ContactCard({
   subjectOptions = DEFAULT_SUBJECT_OPTIONS,
   buttonText = 'Send message',
 }: Props) {
-  const { form, errors, status, updateField, handleSubmit } = useContactForm({
+  const { form, errors, status, updateField, handleSubmit, setCaptchaToken } = useContactForm({
     nameLabel,
     emailLabel,
     subjectLabel,
@@ -135,6 +136,11 @@ export default function ContactCard({
           />
           <p className="mt-1.5 text-xs text-gray-400">Minimum {MIN_MESSAGE_LENGTH} characters</p>
           {errors.message && <p className="mt-1 text-xs text-red-500">{errors.message}</p>}
+        </div>
+
+        <div>
+          <Turnstile onToken={setCaptchaToken} />
+          {errors.captcha && <p className="mt-1.5 text-xs text-red-500">{errors.captcha}</p>}
         </div>
 
         <button

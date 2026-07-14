@@ -1,7 +1,5 @@
 import type { Metadata } from 'next'
 import { draftMode } from 'next/headers'
-import { Analytics } from '@vercel/analytics/next'
-import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Header } from '@/app/Header'
 import { Footer } from '@/app/Footer'
 import { AnalyticsScripts } from '@/app/components/AnalyticsScripts'
@@ -74,8 +72,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Header data={headerData} signalsToday={signalsToday} ticker={ticker} />
         <PageTransition>{children}</PageTransition>
         <Footer data={footerData} />
-        <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   )

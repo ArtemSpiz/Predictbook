@@ -16,6 +16,8 @@ ARG DATABASE_URL
 ARG PAYLOAD_SECRET
 ARG NEXT_PUBLIC_SERVER_URL
 ARG NEXT_PUBLIC_CDN_URL
+ARG NEXT_PUBLIC_SITE_NAME
+ARG NEXT_PUBLIC_TURNSTILE_SITE_KEY
 ARG STORAGE_PROVIDER
 ARG S3_BUCKET
 ARG S3_REGION
@@ -26,6 +28,8 @@ ENV DATABASE_URL=$DATABASE_URL \
     PAYLOAD_SECRET=$PAYLOAD_SECRET \
     NEXT_PUBLIC_SERVER_URL=$NEXT_PUBLIC_SERVER_URL \
     NEXT_PUBLIC_CDN_URL=$NEXT_PUBLIC_CDN_URL \
+    NEXT_PUBLIC_SITE_NAME=$NEXT_PUBLIC_SITE_NAME \
+    NEXT_PUBLIC_TURNSTILE_SITE_KEY=$NEXT_PUBLIC_TURNSTILE_SITE_KEY \
     STORAGE_PROVIDER=$STORAGE_PROVIDER \
     S3_BUCKET=$S3_BUCKET \
     S3_REGION=$S3_REGION \
@@ -40,6 +44,10 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
+# next start re-reads next.config.js at runtime (it imports imageHosts.mjs);
+# without these the image remotePatterns are lost and /_next/image 400s.
+COPY --from=builder /app/next.config.js ./next.config.js
+COPY --from=builder /app/src/starter/imageHosts.mjs ./src/starter/imageHosts.mjs
 COPY --from=builder /app/src/payload-types.ts ./src/payload-types.ts
 COPY --from=builder /app/starter.config.ts ./starter.config.ts
 COPY --from=builder /app/src/migrations ./src/migrations

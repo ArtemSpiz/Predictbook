@@ -12,11 +12,13 @@ interface FormErrors {
   email?: string
   subject?: string
   message?: string
+  captcha?: string
 }
 
 type Status = 'idle' | 'submitting' | 'sent' | 'error'
 
 export const MIN_MESSAGE_LENGTH = 10
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
 
 interface Options {
   nameLabel: string
@@ -33,6 +35,7 @@ export function useContactForm({ nameLabel, emailLabel, subjectLabel }: Options)
   })
   const [errors, setErrors] = useState<FormErrors>({})
   const [status, setStatus] = useState<Status>('idle')
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const resetTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   useEffect(() => () => clearTimeout(resetTimer.current), [])
@@ -54,6 +57,9 @@ export function useContactForm({ nameLabel, emailLabel, subjectLabel }: Options)
     if (form.message.trim().length < MIN_MESSAGE_LENGTH) {
       next.message = `Message must be at least ${MIN_MESSAGE_LENGTH} characters`
     }
+    if (TURNSTILE_SITE_KEY && !captchaToken) {
+      next.captcha = 'Please complete the captcha'
+    }
     return next
   }
 
@@ -73,14 +79,16 @@ export function useContactForm({ nameLabel, emailLabel, subjectLabel }: Options)
           email: form.email,
           subject: form.subject,
           message: form.message,
+          turnstileToken: captchaToken,
         }),
       })
       setStatus(res.ok ? 'sent' : 'error')
     } catch {
       setStatus('error')
     }
+    setCaptchaToken(null)
     resetTimer.current = setTimeout(() => setStatus('idle'), 1500)
   }
 
-  return { form, errors, status, updateField, handleSubmit }
+  return { form, errors, status, updateField, handleSubmit, setCaptchaToken }
 }
