@@ -38,6 +38,9 @@ ENV DATABASE_URL=$DATABASE_URL \
     S3_ACCESS_KEY_ID=$S3_ACCESS_KEY_ID \
     S3_SECRET_ACCESS_KEY=$S3_SECRET_ACCESS_KEY \
     S3_ENDPOINT=$S3_ENDPOINT
+# importMap depends on STORAGE_PROVIDER: local dev commits it without the S3
+# client component, so regenerate for the prod config or admin SSR renders empty.
+RUN pnpm generate:importmap
 RUN --mount=type=cache,target=/app/.next/cache pnpm build
 
 FROM base AS runner
