@@ -1,16 +1,27 @@
-import type { Ticker } from '@/payload-types'
+'use client'
+
+import { useLiveTicker } from '@/app/hooks/useLiveTicker'
 
 const MIN_ITEMS = 12
 
-export function InfiniteScroll({ items: source }: { items: Ticker[] }) {
+interface TickerItem {
+  venue: string
+  market: string
+  price: string
+}
+
+export function InfiniteScroll({ items: initialItems }: { items: TickerItem[] }) {
+  const { freshItems } = useLiveTicker()
+  const source = freshItems && freshItems.length ? freshItems : initialItems
   if (!source.length) return null
 
-  const base: Ticker[] = []
+  const base: TickerItem[] = []
   while (base.length < MIN_ITEMS) base.push(...source)
   const items = [...base, ...base]
 
   return (
     <div className="bg-ink py-3 gap-2 flex items-center w-full overflow-hidden">
+      {/* Positional keys keep DOM nodes stable on live updates so the marquee animation never restarts. */}
       <div className="flex gap-2 w-max animate-infinite-scroll">
         {items.map((item, i) => (
           <div key={i} className="flex items-center gap-3">

@@ -2,6 +2,7 @@ import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Ticker } from '@/payload-types'
+import { cacheTags } from '@/utilities/cacheTags'
 
 async function fetchTicker(): Promise<Ticker[]> {
   try {
@@ -18,6 +19,8 @@ async function fetchTicker(): Promise<Ticker[]> {
   }
 }
 
-/** Cached ticker rows for the header marquee; refreshed via the `payload` tag. */
+/** Cached ticker rows for the header marquee; flushed by the ticker collection hooks. */
 export const getTicker = () =>
-  unstable_cache(fetchTicker, ['ticker'], { tags: ['payload'] })()
+  unstable_cache(fetchTicker, ['ticker'], {
+    tags: [cacheTags.all, cacheTags.collection('ticker')],
+  })()

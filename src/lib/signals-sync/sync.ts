@@ -1,5 +1,6 @@
 import type { Payload } from 'payload'
 import { mapExternalToSignalData } from './mapItem'
+import { runSignalsRetention } from './retention'
 import type { ExternalFeedResponse, SignalType } from './types'
 import { SIGNAL_TYPES } from './types'
 
@@ -89,6 +90,7 @@ export async function runSignalsSyncTick(payload: Payload): Promise<SyncStats> {
     if (stats.created || stats.updated) {
       payload.logger.info(stats, 'signals-sync: ingested new signals')
     }
+    await runSignalsRetention(payload)
   } finally {
     running = false
   }

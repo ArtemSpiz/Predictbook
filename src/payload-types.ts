@@ -847,6 +847,12 @@ export interface Ticker {
   market: string;
   price: string;
   order?: number | null;
+  url?: string | null;
+  /**
+   * Set by ticker-sync; empty = manually managed row
+   */
+  externalId?: string | null;
+  volume24h?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1706,6 +1712,9 @@ export interface TickerSelect<T extends boolean = true> {
   market?: T;
   price?: T;
   order?: T;
+  url?: T;
+  externalId?: T;
+  volume24h?: T;
   updatedAt?: T;
   createdAt?: T;
 }
