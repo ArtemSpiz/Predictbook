@@ -1,6 +1,6 @@
-import SignalsInfo from '@/app/components/Signals/SignalsInfo'
+import LiveSignalsInfo from '@/app/components/Signals/LiveSignalsInfo'
 import { findSignals } from '@/utilities/getSignals'
-import { signalToView } from '@/app/lib/viewModels'
+import { signalToLiveView } from '@/app/lib/viewModels'
 
 type SignalsListBlockProps = {
   heading: string
@@ -10,15 +10,18 @@ type SignalsListBlockProps = {
 }
 
 export async function SignalsListBlockComponent({ block }: { block: SignalsListBlockProps }) {
-  const res = await findSignals({ limit: block.limit ?? 20 })
-  const items = res.docs.map(signalToView)
+  const limit = block.limit ?? 20
+  const res = await findSignals({ limit })
+  const items = res.docs.map(signalToLiveView)
   return (
-    <SignalsInfo
+    <LiveSignalsInfo
       title={block.heading}
       subtitle={block.subtitle ?? undefined}
       delayText={block.delayText ?? undefined}
-      count={res.totalDocs}
-      items={items}
+      initialCount={res.totalDocs}
+      initialItems={items}
+      initialLatest={items[0]?.publishedAt ?? null}
+      limit={limit}
     />
   )
 }

@@ -1,6 +1,7 @@
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { cacheTags } from '@/utilities/cacheTags'
 
 async function fetchSignalsToday(): Promise<number> {
   try {
@@ -20,6 +21,8 @@ async function fetchSignalsToday(): Promise<number> {
   }
 }
 
-/** Cached count of signals published today; refreshed via the `payload` tag. */
+/** Cached count of signals published today; refreshed when the signals collection changes. */
 export const getSignalsToday = () =>
-  unstable_cache(fetchSignalsToday, ['signals-today'], { tags: ['payload'] })()
+  unstable_cache(fetchSignalsToday, ['signals-today'], {
+    tags: [cacheTags.all, cacheTags.collection('signals')],
+  })()

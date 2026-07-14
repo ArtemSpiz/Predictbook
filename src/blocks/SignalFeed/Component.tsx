@@ -1,6 +1,6 @@
-import Alert from '@/app/components/Home/Alert'
+import LiveAlert from '@/app/components/Home/LiveAlert'
 import { findSignals } from '@/utilities/getSignals'
-import { signalToAlert } from '@/app/lib/viewModels'
+import { signalToLiveView } from '@/app/lib/viewModels'
 
 type SignalFeedBlockProps = {
   heading: string
@@ -12,15 +12,19 @@ type SignalFeedBlockProps = {
 }
 
 export async function SignalFeedBlockComponent({ block }: { block: SignalFeedBlockProps }) {
-  const res = await findSignals({ kind: block.kind, limit: block.limit ?? 3 })
-  const cards = res.docs.map(signalToAlert)
+  const limit = block.limit ?? 3
+  const res = await findSignals({ kind: block.kind, limit })
+  const items = res.docs.map(signalToLiveView)
   return (
-    <Alert
+    <LiveAlert
       title={block.heading}
-      cards={cards}
+      kind={block.kind}
       delayLabel={block.delayLabel ?? undefined}
       viewAllText={block.viewAllText}
       viewAllUrl={block.viewAllUrl ?? undefined}
+      limit={limit}
+      initialItems={items}
+      initialLatest={items[0]?.publishedAt ?? null}
     />
   )
 }

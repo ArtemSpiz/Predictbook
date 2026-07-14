@@ -776,6 +776,10 @@ export interface Signal {
   volume?: string | null;
   profitablyPP?: string | null;
   profitably?: boolean | null;
+  externalId?: string | null;
+  externalSource?: string | null;
+  externalCreatedMs?: number | null;
+  externalText?: string | null;
   categories?: (string | Category)[] | null;
   publishedAt?: string | null;
   /**
@@ -1644,6 +1648,10 @@ export interface SignalsSelect<T extends boolean = true> {
   volume?: T;
   profitablyPP?: T;
   profitably?: T;
+  externalId?: T;
+  externalSource?: T;
+  externalCreatedMs?: T;
+  externalText?: T;
   categories?: T;
   publishedAt?: T;
   slug?: T;

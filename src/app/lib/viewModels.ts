@@ -111,6 +111,40 @@ export function signalToView(s: Signal): SignalView {
   }
 }
 
+/** SignalView plus the Alert-card fields and a cursor, for the live polling feed. */
+export interface LiveSignalView extends SignalView {
+  size?: string
+  odds?: string
+  poly?: string
+  kalshi?: string
+  publishedAt: string
+}
+
+export function signalToLiveView(s: Signal): LiveSignalView {
+  return {
+    ...signalToView(s),
+    size: s.size ?? undefined,
+    odds: s.odds ?? undefined,
+    poly: s.poly ?? undefined,
+    kalshi: s.kalshi ?? undefined,
+    publishedAt: s.publishedAt ?? s.createdAt,
+  }
+}
+
+export function liveViewToAlert(v: LiveSignalView): AlertCard {
+  return {
+    type: v.kind,
+    underTitle: v.kind === 'whale' ? 'whale alert' : 'ARBITRAGE',
+    time: v.time,
+    title: v.title,
+    size: v.size,
+    odds: v.odds,
+    poly: v.poly,
+    kalshi: v.kalshi,
+    spread: v.spread,
+  }
+}
+
 /** Map a Signal into the Home page's compact Alert card. */
 export function signalToAlert(s: Signal): AlertCard {
   return {

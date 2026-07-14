@@ -91,6 +91,22 @@ export const Signals: CollectionConfig = {
           ],
         },
         {
+          label: 'Sync',
+          description: 'Populated automatically for signals ingested from the external Signals API.',
+          fields: [
+            {
+              name: 'externalId',
+              type: 'text',
+              unique: true,
+              index: true,
+              admin: { readOnly: true },
+            },
+            { name: 'externalSource', type: 'text', admin: { readOnly: true } },
+            { name: 'externalCreatedMs', type: 'number', index: true, admin: { readOnly: true } },
+            { name: 'externalText', type: 'textarea', admin: { readOnly: true } },
+          ],
+        },
+        {
           label: 'Meta',
           fields: [
             {

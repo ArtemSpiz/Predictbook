@@ -19,6 +19,12 @@ declare namespace NodeJS {
     GOOGLE_APPLICATION_CREDENTIALS?: string
     BLOB_READ_WRITE_TOKEN?: string
 
+    SIGNALS_SYNC_ENABLED?: string
+    SIGNALS_API_URL?: string
+    SIGNALS_SYNC_INTERVAL_MS?: string
+    SIGNALS_SYNC_BATCH_LIMIT?: string
+    SIGNALS_SYNC_SECRET?: string
+
     RESEND_API_KEY?: string
     SMTP_HOST?: string
     SMTP_PORT?: string
