@@ -4,7 +4,9 @@ WORKDIR /app
 
 FROM base AS deps
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
+    pnpm config set store-dir /root/.local/share/pnpm/store && \
+    pnpm install --frozen-lockfile
 
 FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
@@ -36,7 +38,7 @@ ENV DATABASE_URL=$DATABASE_URL \
     S3_ACCESS_KEY_ID=$S3_ACCESS_KEY_ID \
     S3_SECRET_ACCESS_KEY=$S3_SECRET_ACCESS_KEY \
     S3_ENDPOINT=$S3_ENDPOINT
-RUN pnpm build
+RUN --mount=type=cache,target=/app/.next/cache pnpm build
 
 FROM base AS runner
 ENV NODE_ENV=production
