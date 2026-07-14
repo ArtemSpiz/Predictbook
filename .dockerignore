@@ -21,3 +21,7 @@ gcs-key.json
 public/media
 Dockerfile
 docker-compose*.yml
+.github
+.pnpm-store
+.superpowers
+.claude
