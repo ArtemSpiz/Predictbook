@@ -27,6 +27,12 @@ services:
     env_file: .env
     environment:
       NODE_ENV: production
+      # Signals ingestion (runtime-only). Defaults apply out of the box;
+      # any of them can be overridden from the server .env.
+      SIGNALS_SYNC_ENABLED: ${SIGNALS_SYNC_ENABLED:-true}
+      SIGNALS_API_URL: ${SIGNALS_API_URL:-http://5.78.144.147:8790/api/signals}
+      SIGNALS_SYNC_INTERVAL_MS: ${SIGNALS_SYNC_INTERVAL_MS:-10000}
+      SIGNALS_SYNC_BATCH_LIMIT: ${SIGNALS_SYNC_BATCH_LIMIT:-50}
     restart: unless-stopped
     expose:
       - '3000'

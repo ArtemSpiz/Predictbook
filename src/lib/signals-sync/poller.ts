@@ -1,3 +1,5 @@
+import { getSyncSecret } from './secret'
+
 const globals = globalThis as { __signalsPollerStarted?: boolean }
 
 /**
@@ -22,7 +24,7 @@ export function startSignalsPoller(): void {
     try {
       const res = await fetch(url, {
         method: 'POST',
-        headers: { 'x-sync-secret': process.env.SIGNALS_SYNC_SECRET ?? '' },
+        headers: { 'x-sync-secret': getSyncSecret() },
         signal: AbortSignal.timeout(Math.max(intervalMs * 3, 30000)),
       })
       if (!res.ok) console.error(`[signals-sync] tick returned ${res.status}`)
