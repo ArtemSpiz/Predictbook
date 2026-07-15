@@ -1,10 +1,12 @@
 import type { CollectionConfig } from 'payload'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { slugField } from '@/fields/slug'
+import { revalidateCollectionHooks } from '@/hooks/revalidateFrontCache'
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
   admin: { useAsTitle: 'title', defaultColumns: ['title', 'slug'], group: 'Content' },
+  hooks: revalidateCollectionHooks,
   access: {
     read: () => true,
     create: isAdminOrEditor,
