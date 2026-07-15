@@ -13,7 +13,7 @@ export const AnalysisBlock: Block = {
     },
     { name: 'limit', type: 'number', defaultValue: 5, min: 1, max: 12 },
     { name: 'viewAllText', type: 'text', required: true, defaultValue: 'All articles' },
-    { name: 'viewAllUrl', type: 'text', defaultValue: '/news' },
+    { name: 'viewAllUrl', type: 'text', defaultValue: '/analysis' },
     hiddenField,
   ],
 }

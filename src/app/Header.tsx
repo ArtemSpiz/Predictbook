@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
+import Link from 'next/link'
 import Burger from '@/../public/menu.png'
 import { InfiniteScroll } from './InfiniteScroll'
 import { PayloadImage } from '@/app/components/PayloadImage'
@@ -31,7 +32,7 @@ export function Header({
   const social = data.social ?? []
 
   const isActive = (item: NavEntry) => {
-    if ((item.children ?? []).length > 0) return pathname.startsWith('/news')
+    if ((item.children ?? []).length > 0) return pathname.startsWith('/analysis')
     return pathname === resolveLinkHref(item.link)
   }
 
@@ -48,13 +49,13 @@ export function Header({
               >
                 <Image src={Burger} alt="Menu" className="w-6 h-6" />
               </button>
-              <div className="font-bold text-3xl max-lg:text-2xl max-md:text-xl ">
+              <Link href="/" className="font-bold text-3xl max-lg:text-2xl max-md:text-xl">
                 {data.logo ? (
                   <PayloadImage media={data.logo} alt={data.brandName ?? ''} />
                 ) : (
                   data.brandName
                 )}
-              </div>{' '}
+              </Link>{' '}
             </div>
             <div className="flex items-center gap-6">
               <SocialLinks

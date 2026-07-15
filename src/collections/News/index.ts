@@ -60,7 +60,7 @@ export const News: CollectionConfig = {
   hooks: {
     afterChange: [
       ...revalidateCollectionHooks.afterChange,
-      pingIndexNowOnPublish((slug) => `/news/${slug}`),
+      pingIndexNowOnPublish((slug) => `/analysis/${slug}`),
     ],
     afterDelete: revalidateCollectionHooks.afterDelete,
   },

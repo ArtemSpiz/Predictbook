@@ -73,6 +73,13 @@ export const fmtTime = (iso?: string | null): string =>
 
 export const categoryNames = categoryTitles
 
+export const categoryRefs = (
+  cats: (string | Category)[] | null | undefined,
+): { title: string; slug: string }[] =>
+  (cats ?? [])
+    .filter((c): c is Category => typeof c === 'object' && c !== null)
+    .map((c) => ({ title: c.title, slug: c.slug }))
+
 /** Stable sort that floats featured items to the top; preserves original order otherwise. */
 export const sortByFeatured = <T extends { featured?: boolean }>(items: T[]): T[] =>
   [...items].sort((a, b) => Number(!!b.featured) - Number(!!a.featured))

@@ -30,7 +30,7 @@ export const LiveFeed: CollectionConfig = {
   hooks: {
     afterChange: [
       ...revalidateCollectionHooks.afterChange,
-      pingIndexNowOnPublish((slug) => `/live-feed/${slug}`),
+      pingIndexNowOnPublish((slug) => `/live/${slug}`),
     ],
     afterDelete: revalidateCollectionHooks.afterDelete,
   },

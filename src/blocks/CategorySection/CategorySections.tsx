@@ -39,7 +39,7 @@ export async function CategorySections({
           label: b.label,
           accent: b.accent,
           viewAllText: b.viewAllText,
-          viewAllUrl: `/news/category/${slug}`,
+          viewAllUrl: `/analysis/${slug}`,
           cards: [],
         }
       }
@@ -48,7 +48,7 @@ export async function CategorySections({
         label: b.label,
         accent: b.accent,
         viewAllText: b.viewAllText,
-        viewAllUrl: `/news/category/${slug}`,
+        viewAllUrl: `/analysis/${slug}`,
         cards: res.docs.map(newsToArticleView),
       }
     }),

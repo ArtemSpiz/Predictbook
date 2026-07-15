@@ -9,7 +9,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: block?.heading ?? 'Live Feed',
     description: block?.subtitle ?? undefined,
-    ...localeAlternates('live-feed'),
+    ...localeAlternates('live'),
   }
 }
 

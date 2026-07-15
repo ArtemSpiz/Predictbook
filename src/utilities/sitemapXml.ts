@@ -45,7 +45,7 @@ export async function buildSitemapShardEntries(id: number): Promise<SitemapEntry
     if (!settings.sitemapIncludeNews) return []
     const rows = await getPublishedSitemapRows('news', { page: id, limit: SITEMAP_SHARD_SIZE })
     return rows.map((row) => ({
-      loc: `${base}/news/${row.slug}`,
+      loc: `${base}/analysis/${row.slug}`,
       lastmod: row.updatedAt ? new Date(row.updatedAt).toISOString() : nowIso,
       changefreq: 'monthly' as const,
       priority: 0.7,
@@ -61,9 +61,9 @@ export async function buildSitemapShardEntries(id: number): Promise<SitemapEntry
   const add = (e: SitemapEntry) => byUrl.set(e.loc, e)
 
   add({ loc: `${base}/`, lastmod: nowIso, changefreq: 'weekly', priority: 1 })
-  if (settings.sitemapIncludeNews) add({ loc: `${base}/news`, lastmod: nowIso, changefreq: 'daily', priority: 0.8 })
+  if (settings.sitemapIncludeNews) add({ loc: `${base}/analysis`, lastmod: nowIso, changefreq: 'daily', priority: 0.8 })
   if (settings.sitemapIncludeSignals) add({ loc: `${base}/signals`, lastmod: nowIso, changefreq: 'daily', priority: 0.8 })
-  if (settings.sitemapIncludeLiveFeed) add({ loc: `${base}/live-feed`, lastmod: nowIso, changefreq: 'hourly', priority: 0.8 })
+  if (settings.sitemapIncludeLiveFeed) add({ loc: `${base}/live`, lastmod: nowIso, changefreq: 'hourly', priority: 0.8 })
   add({ loc: `${base}/about`, lastmod: nowIso, changefreq: 'monthly', priority: 0.5 })
   add({ loc: `${base}/contact`, lastmod: nowIso, changefreq: 'monthly', priority: 0.5 })
 
@@ -72,7 +72,7 @@ export async function buildSitemapShardEntries(id: number): Promise<SitemapEntry
     add({ loc: `${base}/${row.slug}`, lastmod: row.updatedAt ? new Date(row.updatedAt).toISOString() : nowIso, changefreq: 'monthly', priority: 0.7 })
   }
   for (const row of liveFeedRows) {
-    add({ loc: `${base}/live-feed/${row.slug}`, lastmod: row.updatedAt ? new Date(row.updatedAt).toISOString() : nowIso, changefreq: 'daily', priority: 0.6 })
+    add({ loc: `${base}/live/${row.slug}`, lastmod: row.updatedAt ? new Date(row.updatedAt).toISOString() : nowIso, changefreq: 'daily', priority: 0.6 })
   }
   return [...byUrl.values()]
 }

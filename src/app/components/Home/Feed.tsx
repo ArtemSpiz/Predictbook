@@ -25,7 +25,7 @@ export default function Feed({ heading, viewAllText, viewAllUrl, items }: FeedPr
 
       <div className="flex flex-col gap-6">
         {items.map((card) => (
-          <Link key={card.slug} href={`/live-feed/${card.slug}`}>
+          <Link key={card.slug} href={`/live/${card.slug}`}>
             <FeedCard card={card} home />
           </Link>
         ))}

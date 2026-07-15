@@ -8,7 +8,7 @@ export const LiveFeedBlock: Block = {
     { name: 'heading', type: 'text', required: true, defaultValue: 'Live Feed' },
     { name: 'limit', type: 'number', defaultValue: 1, min: 1, max: 10 },
     { name: 'viewAllText', type: 'text', required: true, defaultValue: 'All threads' },
-    { name: 'viewAllUrl', type: 'text', defaultValue: '/live-feed' },
+    { name: 'viewAllUrl', type: 'text', defaultValue: '/live' },
     hiddenField,
   ],
 }

@@ -7,7 +7,7 @@ export function EmptyArticles({ message }: { message: string }) {
       <p className="mt-2 text-gray-text">{message}</p>
 
       <Link
-        href="/news"
+        href="/analysis"
         className="bg-ink border-none text-paper py-3 px-4 rounded-lg text-base mt-3 inline-flex"
       >
         Back to all articles

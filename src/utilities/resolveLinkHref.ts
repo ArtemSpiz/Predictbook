@@ -10,7 +10,7 @@ export type LinkValue =
   | undefined
 
 /** Resolve a `linkField` value to an href. Internal `news` refs map to
- * `/news/<slug>`, other refs to `/<slug>`; custom links use their url. */
+ * `/analysis/<slug>`, other refs to `/<slug>`; custom links use their url. */
 export function resolveLinkHref(link: LinkValue): string {
   if (
     link?.type === 'reference' &&
@@ -19,7 +19,7 @@ export function resolveLinkHref(link: LinkValue): string {
     link.reference.value !== null
   ) {
     const slug = (link.reference.value as { slug?: string }).slug ?? ''
-    return link.reference.relationTo === 'news' ? `/news/${slug}` : `/${slug}`
+    return link.reference.relationTo === 'news' ? `/analysis/${slug}` : `/${slug}`
   }
   return link?.url ?? '#'
 }

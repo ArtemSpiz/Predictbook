@@ -30,7 +30,7 @@ function authorFromParam(name: string) {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { name } = await params
   const author = authorFromParam(name)
-  return { title: author, ...localeAlternates(`news`) }
+  return { title: author, ...localeAlternates(`analysis`) }
 }
 
 export default async function AuthorPage({ params }: Props) {
@@ -55,7 +55,7 @@ export default async function AuthorPage({ params }: Props) {
     <main className="container-custom">
       <div className="md:border-l md:border-r border-line p-6 flex gap-5 max-md:flex-col max-lg:p-0 max-lg:py-5">
         <div className="flex flex-col gap-6 flex-1 md:border-r border-line md:p-5">
-          <Breadcrumbs items={[{ label: 'Analysis', href: '/news' }, { label: author }]} />
+          <Breadcrumbs items={[{ label: 'Analysis', href: '/analysis' }, { label: author }]} />
 
           <div className="flex justify-between gap-3 lg:items-center max-lg:flex-col">
             <div className="flex items-center gap-4">

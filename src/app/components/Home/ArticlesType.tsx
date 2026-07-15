@@ -29,7 +29,7 @@ export default function ArticleType({
       <div className="grid xl:grid-cols-3 gap-2">
         {cards.map((card) => (
           <Link
-            href={`/news/${card.slug}`}
+            href={`/analysis/${card.slug}`}
             key={card.slug}
             className="bg-white border border-line border-solid"
           >

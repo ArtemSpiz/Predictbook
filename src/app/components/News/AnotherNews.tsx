@@ -17,7 +17,7 @@ export default function AnotherNews({ currentSlug, articles }: AnotherNewsProps)
 
   return (
     <div className="flex flex-col gap-4">
-      <Link href="/news" className="flex gap-1 items-center">
+      <Link href="/analysis" className="flex gap-1 items-center">
         <div className="w-3 h-3">
           <Image src={ArrowBack} alt="" />
         </div>
@@ -28,7 +28,7 @@ export default function AnotherNews({ currentSlug, articles }: AnotherNewsProps)
 
       <div className="flex flex-col gap-2">
         {anotherArticles.map((card) => (
-          <Link key={card.slug} href={`/news/${card.slug}`}>
+          <Link key={card.slug} href={`/analysis/${card.slug}`}>
             <ArticleCard card={card} />
           </Link>
         ))}

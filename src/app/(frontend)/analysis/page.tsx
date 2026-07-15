@@ -10,8 +10,8 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title,
     description: block?.subtitle ?? undefined,
-    ...localeAlternates('news'),
-    openGraph: { type: 'website', title, url: '/news' },
+    ...localeAlternates('analysis'),
+    openGraph: { type: 'website', title, url: '/analysis' },
   }
 }
 

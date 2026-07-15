@@ -5,7 +5,7 @@ import { ogImageElement, ogImageSize } from '@/app/lib/ogTemplate'
 
 export const size = ogImageSize
 export const contentType = 'image/png'
-export const alt = 'News article'
+export const alt = 'Analysis article'
 export const revalidate = 3600
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
@@ -14,7 +14,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   return new ImageResponse(
     ogImageElement({
       title: post?.title ?? siteConfig.name,
-      label: 'News',
+      label: 'Analysis',
       siteName: siteConfig.name,
     }),
     ogImageSize,

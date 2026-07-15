@@ -18,7 +18,7 @@ export async function AnalysisBlockComponent({ block }: { block: AnalysisBlockPr
       heading={block.heading}
       subtitle={block.subtitle ?? undefined}
       viewAllText={block.viewAllText}
-      viewAllUrl={block.viewAllUrl ?? '/news'}
+      viewAllUrl={block.viewAllUrl ?? '/analysis'}
       articles={articles}
     />
   )

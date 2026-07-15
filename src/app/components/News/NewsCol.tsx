@@ -107,7 +107,7 @@ export default function NewsCol({
       <div className="flex flex-col gap-2">
         {filteredCards.length > 0 ? (
           filteredCards.map((card) => (
-            <Link key={card.slug} href={`/news/${card.slug}`}>
+            <Link key={card.slug} href={`/analysis/${card.slug}`}>
               <ArticleCard card={card} />
             </Link>
           ))

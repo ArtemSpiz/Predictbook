@@ -23,11 +23,11 @@ export default async function LiveFeedThread({ params }: Props) {
   const structuredData = generatePageStructuredData({
     title: item.meta?.title || item.title,
     description: item.meta?.description || item.subtitle || undefined,
-    url: `${base}/live-feed/${item.slug}`,
+    url: `${base}/live/${item.slug}`,
     type: 'article',
     datePublished: item.publishedAt || undefined,
     dateModified: item.updatedAt || undefined,
-    breadcrumbParent: { name: 'Live Feed', url: `${base}/live-feed` },
+    breadcrumbParent: { name: 'Live Feed', url: `${base}/live` },
   })
 
   return (
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: Props) {
   if (!item) return {}
   return generateMeta({
     doc: { ...item, excerpt: item.subtitle },
-    pathSuffix: `/live-feed/${item.slug}`,
+    pathSuffix: `/live/${item.slug}`,
     type: 'article',
   } as Parameters<typeof generateMeta>[0])
 }

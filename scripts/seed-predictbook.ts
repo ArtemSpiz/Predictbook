@@ -500,7 +500,7 @@ async function main() {
           subtitle: 'Expert perspectives behind market movements.',
           limit: 5,
           viewAllText: 'All articles',
-          viewAllUrl: '/news',
+          viewAllUrl: '/analysis',
           hidden: false,
         },
         {
@@ -508,7 +508,7 @@ async function main() {
           heading: 'Live Feed',
           limit: 1,
           viewAllText: 'All threads',
-          viewAllUrl: '/live-feed',
+          viewAllUrl: '/live',
           hidden: false,
         },
         {
@@ -561,7 +561,7 @@ async function main() {
           heading: 'Live Feed',
           limit: 1,
           viewAllText: 'All threads',
-          viewAllUrl: '/live-feed',
+          viewAllUrl: '/live',
           hidden: false,
         },
         {
@@ -795,17 +795,17 @@ async function main() {
       nav: [
         link('/', 'Home'),
         {
-          link: { type: 'custom' as const, url: '/news', label: 'Analysis' },
+          link: { type: 'custom' as const, url: '/analysis', label: 'Analysis' },
           children: [
-            link('/news', 'All analysis'),
-            link('/news/category/sports', 'Sports'),
-            link('/news/category/politics', 'Politics'),
-            link('/news/category/economics', 'Economics'),
-            link('/news/category/crypto', 'Crypto'),
+            link('/analysis', 'All analysis'),
+            link('/analysis/sports', 'Sports'),
+            link('/analysis/politics', 'Politics'),
+            link('/analysis/economics', 'Economics'),
+            link('/analysis/crypto', 'Crypto'),
           ],
         },
         link('/signals', 'Signals'),
-        link('/live-feed', 'Live Feed'),
+        link('/live', 'Live Feed'),
       ],
       social: [
         { icon: headerTg, url: '' },
@@ -839,12 +839,12 @@ async function main() {
         {
           title: 'ANALYSIS',
           items: [
-            link('/news/category/politics', 'Politics'),
-            link('/news/category/economics', 'Economics'),
-            link('/news/category/crypto', 'Crypto'),
-            link('/news/category/technology', 'Technology'),
-            link('/news/category/sports', 'Sports'),
-            link('/news/category/science', 'Science'),
+            link('/analysis/politics', 'Politics'),
+            link('/analysis/economics', 'Economics'),
+            link('/analysis/crypto', 'Crypto'),
+            link('/analysis/technology', 'Technology'),
+            link('/analysis/sports', 'Sports'),
+            link('/analysis/science', 'Science'),
           ],
         },
         {

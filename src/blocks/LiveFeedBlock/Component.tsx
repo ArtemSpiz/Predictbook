@@ -16,7 +16,7 @@ export async function LiveFeedBlockComponent({ block }: { block: LiveFeedBlockPr
     <Feed
       heading={block.heading}
       viewAllText={block.viewAllText}
-      viewAllUrl={block.viewAllUrl ?? '/live-feed'}
+      viewAllUrl={block.viewAllUrl ?? '/live'}
       items={items}
     />
   )

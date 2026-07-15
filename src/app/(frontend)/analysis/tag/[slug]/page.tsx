@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `#${slug} — Analysis`,
     description: `Articles tagged "${slug}".`,
-    ...localeAlternates(`news/tag/${slug}`),
+    ...localeAlternates(`analysis/tag/${slug}`),
   }
 }
 
@@ -24,7 +24,7 @@ export default async function NewsByTag({ params }: Props) {
         {docs.map((post) => (
           <article key={post.id}>
             <h2 className="text-xl font-semibold">
-              <Link href={`/news/${post.slug}`}>{post.title}</Link>
+              <Link href={`/analysis/${post.slug}`}>{post.title}</Link>
             </h2>
             {post.excerpt && <p className="text-gray-600 mt-1">{post.excerpt}</p>}
           </article>

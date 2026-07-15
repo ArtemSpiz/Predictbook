@@ -16,7 +16,7 @@ export function ArticleList({
   return (
     <div className="flex flex-col gap-4">
       {articles.map((article, index) => (
-        <Link key={article.slug} href={`/news/${article.slug}`}>
+        <Link key={article.slug} href={`/analysis/${article.slug}`}>
           <ArticleCard card={{ ...article, featured: index === 0 }} />
         </Link>
       ))}
