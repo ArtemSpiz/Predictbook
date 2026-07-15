@@ -9,13 +9,6 @@ export interface SyncStats {
   created: number
   updated: number
   skipped: number
-  withheld: number
-}
-
-/** Items newer than this cutoff are withheld so the public feed lags real time. */
-export function publishCutoffMs(nowMs: number): number {
-  const minutes = Number(process.env.SIGNALS_PUBLISH_DELAY_MINUTES ?? 30)
-  return nowMs - minutes * 60_000
 }
 
 let running = false
@@ -45,12 +38,8 @@ async function fetchFeed(kind: SignalType, since: number): Promise<ExternalFeedR
 async function syncType(payload: Payload, kind: SignalType, stats: SyncStats): Promise<void> {
   const since = await getCursor(payload, kind)
   const feed = await fetchFeed(kind, since)
-  const all = [...(feed.items ?? [])].sort((a, b) => a.created_ms - b.created_ms)
-  stats.fetched += all.length
-  // Withheld items re-arrive next tick: the cursor only advances past stored docs.
-  const cutoff = publishCutoffMs(Date.now())
-  const items = all.filter((i) => i.created_ms <= cutoff)
-  stats.withheld += all.length - items.length
+  const items = [...(feed.items ?? [])].sort((a, b) => a.created_ms - b.created_ms)
+  stats.fetched += items.length
 
   for (const item of items) {
     try {
@@ -87,7 +76,7 @@ async function syncType(payload: Payload, kind: SignalType, stats: SyncStats): P
 
 /** One polling tick: fetch each signal type since its cursor and upsert. Never throws. */
 export async function runSignalsSyncTick(payload: Payload): Promise<SyncStats> {
-  const stats: SyncStats = { fetched: 0, created: 0, updated: 0, skipped: 0, withheld: 0 }
+  const stats: SyncStats = { fetched: 0, created: 0, updated: 0, skipped: 0 }
   if (running) return stats
   running = true
   try {
