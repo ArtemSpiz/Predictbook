@@ -14,20 +14,20 @@ describe('resolveDbAdapter', () => {
     delete (process.env as Record<string, string | undefined>).DATABASE_URL
   })
 
-  it('returns postgres adapter when provider is postgres', () => {
+  it('returns postgres adapter when provider is postgres', async () => {
     process.env.DATABASE_URL = 'postgres://x/y'
-    const a = resolveDbAdapter({ provider: 'postgres' })
+    const a = await resolveDbAdapter({ provider: 'postgres' })
     expect((a as unknown as { __kind: string }).__kind).toBe('postgres')
   })
 
-  it('returns sqlite adapter when provider is sqlite', () => {
+  it('returns sqlite adapter when provider is sqlite', async () => {
     process.env.DATABASE_URL = 'file:./local.db'
-    const a = resolveDbAdapter({ provider: 'sqlite' })
+    const a = await resolveDbAdapter({ provider: 'sqlite' })
     expect((a as unknown as { __kind: string }).__kind).toBe('sqlite')
   })
 
-  it('falls back to sqlite when DATABASE_URL is missing', () => {
-    const a = resolveDbAdapter({ provider: 'postgres' })
+  it('falls back to sqlite when DATABASE_URL is missing', async () => {
+    const a = await resolveDbAdapter({ provider: 'postgres' })
     expect((a as unknown as { __kind: string }).__kind).toBe('sqlite')
   })
 })

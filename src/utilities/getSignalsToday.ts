@@ -6,8 +6,8 @@ import { cacheTags } from '@/utilities/cacheTags'
 async function fetchSignalsToday(): Promise<number> {
   try {
     const payload = await getPayload({ config })
-    const now = new Date()
-    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    const startOfDay = new Date()
+    startOfDay.setUTCHours(0, 0, 0, 0)
     const res = await payload.count({
       collection: 'signals',
       where: {

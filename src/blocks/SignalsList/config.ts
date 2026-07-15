@@ -7,7 +7,7 @@ export const SignalsListBlock: Block = {
   fields: [
     { name: 'heading', type: 'text', required: true, defaultValue: 'Signals' },
     { name: 'subtitle', type: 'textarea' },
-    { name: 'delayText', type: 'text', defaultValue: '10-min delay' },
+    { name: 'delayText', type: 'text', defaultValue: '30-min delay' },
     { name: 'limit', type: 'number', defaultValue: 20, min: 1, max: 50 },
     hiddenField,
   ],

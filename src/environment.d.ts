@@ -24,6 +24,7 @@ declare namespace NodeJS {
     SIGNALS_SYNC_INTERVAL_MS?: string
     SIGNALS_SYNC_BATCH_LIMIT?: string
     SIGNALS_SYNC_SECRET?: string
+    SIGNALS_PUBLISH_DELAY_MINUTES?: string
 
     RESEND_API_KEY?: string
     SMTP_HOST?: string

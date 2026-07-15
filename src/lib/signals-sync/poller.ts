@@ -11,21 +11,21 @@ export function startSignalsPoller(): void {
   if (globals.__signalsPollerStarted) return
   globals.__signalsPollerStarted = true
 
-  const intervalMs = Number(process.env.SIGNALS_SYNC_INTERVAL_MS ?? 10000)
+  const intervalMs = Number(process.env.SIGNALS_SYNC_INTERVAL_MS ?? 1_800_000)
   const port = process.env.PORT ?? 3000
   const url = `http://localhost:${port}/api/signals-sync`
   let inFlight = false
 
   console.info(`[signals-sync] poller started: ${url} every ${intervalMs}ms`)
 
-  setInterval(async () => {
+  const tick = async () => {
     if (inFlight) return
     inFlight = true
     try {
       const res = await fetch(url, {
         method: 'POST',
         headers: { 'x-sync-secret': getSyncSecret() },
-        signal: AbortSignal.timeout(Math.max(intervalMs * 3, 30000)),
+        signal: AbortSignal.timeout(60_000),
       })
       if (!res.ok) console.error(`[signals-sync] tick returned ${res.status}`)
     } catch (err) {
@@ -34,5 +34,9 @@ export function startSignalsPoller(): void {
     } finally {
       inFlight = false
     }
-  }, intervalMs)
+  }
+
+  setInterval(tick, intervalMs)
+  // With a long interval, don't leave the feed empty for a whole period after boot.
+  setTimeout(tick, Math.min(intervalMs, 30_000))
 }

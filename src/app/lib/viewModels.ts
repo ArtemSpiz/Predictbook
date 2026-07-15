@@ -50,12 +50,25 @@ const categoryTitles = (cats: (string | Category)[] | null | undefined): string[
     .filter((c): c is Category => typeof c === 'object' && c !== null)
     .map((c) => c.title)
 
+// Cards label times as UTC, so pin the formatters instead of trusting server TZ.
 export const fmtDay = (iso?: string | null): string =>
-  iso ? new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''
+  iso
+    ? new Date(iso).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        timeZone: 'UTC',
+      })
+    : ''
 
 export const fmtTime = (iso?: string | null): string =>
   iso
-    ? new Date(iso).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
+    ? new Date(iso).toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+        timeZone: 'UTC',
+      })
     : ''
 
 export const categoryNames = categoryTitles
