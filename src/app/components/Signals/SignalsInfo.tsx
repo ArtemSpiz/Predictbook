@@ -6,7 +6,7 @@ import Time from '../../../../public/time.png'
 import Image from 'next/image'
 import SignalsCard from './SignalsCard'
 import type { SignalView } from '@/app/lib/viewModels'
-import { PulseDot } from '@/app/ui/PulseDot'
+import { SignalsTodayBadge } from '@/app/ui/SignalsTodayBadge'
 import { TabPill } from '@/app/ui/TabPill'
 
 export type SignalTab = 'all' | 'whale' | 'arbitrage'
@@ -46,10 +46,7 @@ export default function SignalsInfo({
       <div className="w-full h-px bg-line " />
 
       <div className="flex justify-between items-center">
-        <div className="flex items-center gap-1">
-          <PulseDot />
-          <div className="text-success text-sm">{count} signals today</div>
-        </div>
+        <SignalsTodayBadge count={count} />
 
         <div className="flex items-center gap-1">
           <Image src={Time} alt="" className="w-3 h-3" />

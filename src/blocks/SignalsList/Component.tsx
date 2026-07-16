@@ -1,5 +1,6 @@
 import LiveSignalsInfo from '@/app/components/Signals/LiveSignalsInfo'
 import { findSignals } from '@/utilities/getSignals'
+import { getSignalsToday } from '@/utilities/getSignalsToday'
 import { signalToLiveView } from '@/app/lib/viewModels'
 
 type SignalsListBlockProps = {
@@ -13,9 +14,10 @@ export async function SignalsListBlockComponent({ block }: { block: SignalsListB
   const limit = block.limit ?? 20
   // Arbitrage vastly outnumbers whale alerts, so the newest `limit` are almost
   // all arbitrage — fetch recent whales too, otherwise the Whales tab is empty.
-  const [all, whales] = await Promise.all([
+  const [all, whales, signalsToday] = await Promise.all([
     findSignals({ limit }),
     findSignals({ kind: 'whale', limit }),
+    getSignalsToday(),
   ])
   const bySlug = new Map<string, ReturnType<typeof signalToLiveView>>()
   for (const doc of [...all.docs, ...whales.docs]) bySlug.set(doc.slug, signalToLiveView(doc))
@@ -27,7 +29,7 @@ export async function SignalsListBlockComponent({ block }: { block: SignalsListB
       title={block.heading}
       subtitle={block.subtitle ?? undefined}
       delayText={block.delayText ?? undefined}
-      initialCount={all.totalDocs}
+      initialCount={signalsToday}
       initialItems={items}
       initialLatest={items[0]?.publishedAt ?? null}
       limit={limit}
