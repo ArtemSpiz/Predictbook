@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Clock from '../../../../public/time.png'
 import CustomBtn from '@/app/ui/CustomBtn'
+import { ExternalLink } from '@/app/ui/ExternalLink'
 
 export type AlertCard = {
   type: 'arbitrage' | 'whale'
@@ -15,6 +16,10 @@ export type AlertCard = {
   poly?: string
   kalshi?: string
   spread?: string
+
+  polyUrl?: string
+  kalshiUrl?: string
+  marketUrl?: string
 }
 
 type AlertProps = {
@@ -55,18 +60,26 @@ export default function Alert({ title, cards, delayLabel, viewAllText, viewAllUr
                 <div className="text-muted text-xs">{card.time} UTC</div>
               </div>
 
-              <div className="font-medium text-base mb-3">{card.title}</div>
+              <div className="font-medium text-base mb-3">
+                <ExternalLink href={card.marketUrl} className="hover:underline">
+                  {card.title}
+                </ExternalLink>
+              </div>
 
               {card.type === 'arbitrage' ? (
                 <div className="flex  items-center gap-2 text-sm uppercase font-medium">
                   <div>
                     <span className="mr-2 text-meta ">POLY</span>
-                    <span>{card.poly}</span>
+                    <ExternalLink href={card.polyUrl} className="hover:underline">
+                      {card.poly}
+                    </ExternalLink>
                   </div>
 
                   <div>
                     <span className="mr-2 text-meta">KALSHI</span>
-                    <span className="text-live">{card.kalshi}</span>
+                    <ExternalLink href={card.kalshiUrl} className="text-live hover:underline">
+                      {card.kalshi}
+                    </ExternalLink>
                   </div>
 
                   <div>

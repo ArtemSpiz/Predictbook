@@ -18,14 +18,6 @@ export const Header: GlobalConfig = {
       fields: [linkField(), { name: 'children', type: 'array', fields: [linkField()] }],
     },
     {
-      name: 'social',
-      type: 'array',
-      fields: [
-        { name: 'icon', type: 'upload', relationTo: 'media', required: true },
-        { name: 'url', type: 'text' },
-      ],
-    },
-    {
       name: 'cta',
       type: 'group',
       fields: [

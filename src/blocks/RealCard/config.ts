@@ -71,6 +71,15 @@ export const RealCardBlock: Block = {
         description: 'Decorative image (e.g., Graph)',
       },
     },
+    {
+      name: 'scrollFollow',
+      type: 'checkbox',
+      defaultValue: true,
+      label: 'Follow scroll',
+      admin: {
+        description: 'Card eases along with the page scroll once it enters the viewport (desktop only).',
+      },
+    },
     hiddenField,
   ],
 }

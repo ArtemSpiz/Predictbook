@@ -20,6 +20,7 @@ import { Categories } from './collections/Categories'
 import { Tags } from './collections/Tags'
 import { Signals } from './collections/Signals'
 import { LiveFeed } from './collections/LiveFeed'
+import { Authors } from './collections/Authors'
 import { Ticker } from './collections/Ticker'
 import { ContactSubmissions } from './collections/ContactSubmissions'
 import { Header } from './globals/Header'
@@ -43,6 +44,7 @@ const collections = [
   ),
   Signals,
   LiveFeed,
+  Authors,
   Ticker,
   ContactSubmissions,
 ]

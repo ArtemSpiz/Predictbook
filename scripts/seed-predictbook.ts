@@ -4,8 +4,8 @@ import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { getPayload } from 'payload'
-import sharp from 'sharp'
 import config from '../src/payload.config'
+import { uploadIconWebp as sharedUploadIconWebp } from './lib/uploadIcon'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const PUBLIC = path.resolve(__dirname, '../public')
@@ -58,31 +58,8 @@ const CATEGORY_TITLES = [
   'KALSHI VS POLYMARKET',
 ]
 
-async function uploadIconWebp(payload: any, pngName: string, alt: string) {
-  const webpName = pngName.replace(/\.png$/, '.webp')
-  const found = await payload.find({
-    collection: 'media',
-    where: { filename: { equals: webpName } },
-    limit: 1,
-  })
-  if (found.docs.length) {
-    const existing = found.docs[0]
-    // Record is intact; just restore the physical file if it went missing.
-    // Re-uploading via payload would rename (filename-1) and break idempotency.
-    if (!fileOnDisk(existing.filename)) {
-      const buf = await sharp(path.join(PUBLIC, pngName)).webp().toBuffer()
-      fs.writeFileSync(path.join(MEDIA_DIR, existing.filename), new Uint8Array(buf))
-    }
-    return existing.id
-  }
-  const data = await sharp(path.join(PUBLIC, pngName)).webp().toBuffer()
-  const doc = await payload.create({
-    collection: 'media',
-    data: { alt },
-    file: { data, mimetype: 'image/webp', name: webpName, size: data.length },
-  })
-  return doc.id
-}
+const uploadIconWebp = (payload: any, pngName: string, alt: string) =>
+  sharedUploadIconWebp(payload, PUBLIC, pngName, alt)
 
 async function main() {
   const payload = await getPayload({ config })
@@ -783,8 +760,17 @@ async function main() {
   console.log('[seed] header/footer...')
   const headerTg = await uploadIconWebp(payload, 'tg.png', 'Telegram')
   const headerX = await uploadIconWebp(payload, 'x.png', 'X')
-  const footerTg = await uploadIconWebp(payload, 'footerTg.png', 'Telegram')
-  const footerX = await uploadIconWebp(payload, 'footerX.png', 'X')
+
+  // Site-wide social links now live in Site Settings (shared by header, footer, mobile menu, article share row).
+  await payload.updateGlobal({
+    slug: 'site-settings',
+    data: {
+      social: [
+        { icon: headerTg, url: '' },
+        { icon: headerX, url: '' },
+      ],
+    } as any,
+  })
 
   const link = (url: string, label: string) => ({ link: { type: 'custom' as const, url, label } })
 
@@ -807,10 +793,6 @@ async function main() {
         link('/signals', 'Signals'),
         link('/live', 'Live Feed'),
       ],
-      social: [
-        { icon: headerTg, url: '' },
-        { icon: headerX, url: '' },
-      ],
       cta: { label: 'Real-time alerts', href: '' },
     } as any,
   })
@@ -820,10 +802,6 @@ async function main() {
     data: {
       brandName: 'Predictbook',
       tagline: 'AI-powered newsroom covering prediction markets',
-      social: [
-        { icon: footerTg, url: '' },
-        { icon: footerX, url: '' },
-      ],
       columns: [
         {
           title: 'HOME',

@@ -1,12 +1,11 @@
-import Image from 'next/image'
 import { LiveBadge } from '@/app/ui/LiveBadge'
-import Facebook from '../../../../public/Facebook.png'
-import X from '../../../../public/XNews.png'
-import Copy from '../../../../public/Copy.png'
 import AnotherNews from './AnotherNews'
 import { Breadcrumbs } from '@/app/ui/Breadcrumbs'
 import { getCategoryStyle } from '@/app/lib/getCategoryStyle'
 import { PayloadImage } from '@/app/components/PayloadImage'
+import { SharePageButton } from '@/app/ui/SharePageButton'
+import { EXTERNAL_REL } from '@/app/ui/ExternalLink'
+import type { SocialItem } from '@/app/ui/SocialLinks'
 import { categoryRefs, fmtDay, fmtTime, type ArticleView } from '@/app/lib/viewModels'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import Link from 'next/link'
@@ -15,13 +14,14 @@ import type { News, Media } from '@/payload-types'
 interface Props {
   post: News
   related: ArticleView[]
+  social: SocialItem[]
 }
 
-const Contacts = [{ icon: X }, { icon: Facebook }, { icon: Copy }]
-
-export default function NewsSlug({ post, related }: Props) {
+export default function NewsSlug({ post, related, social }: Props) {
   const categories = categoryRefs(post.categories)
   const author = post.author && typeof post.author === 'object' ? post.author : null
+  const authorProfile =
+    post.authorProfile && typeof post.authorProfile === 'object' ? post.authorProfile : null
   const cover =
     post.coverImage && typeof post.coverImage === 'object' ? (post.coverImage as Media) : null
 
@@ -48,13 +48,22 @@ export default function NewsSlug({ post, related }: Props) {
 
       <div className="flex items-center justify-between">
         <div>
-          {author?.name && (
+          {authorProfile ? (
             <Link
-              href={`/analysis/${post.slug}/${encodeURIComponent(author.name.replace(/\s+/g, '-'))}`}
+              href={`/author/${authorProfile.slug}`}
               className="text-muted mb-1 text-base hover:underline"
             >
-              {author.name}
+              {authorProfile.name}
             </Link>
+          ) : (
+            author?.name && (
+              <Link
+                href={`/analysis/${post.slug}/${encodeURIComponent(author.name.replace(/\s+/g, '-'))}`}
+                className="text-muted mb-1 text-base hover:underline"
+              >
+                {author.name}
+              </Link>
+            )
           )}
           <div className="text-muted text-base">
             {fmtDay(post.publishedAt)} • {fmtTime(post.publishedAt)}
@@ -62,14 +71,18 @@ export default function NewsSlug({ post, related }: Props) {
         </div>
 
         <div className="flex gap-1 items-center self-stretch">
-          {Contacts.map((card, i) => (
-            <div
+          {social.map((item, i) => (
+            <a
               key={i}
+              href={item.url ?? ''}
+              target="_blank"
+              rel={EXTERNAL_REL}
               className="border border-line cursor-pointer rounded-md w-10 h-10 flex justify-center items-center"
             >
-              <Image src={card.icon} alt="" className="w-4 h-4" />
-            </div>
+              <PayloadImage media={item.icon} alt="" className="w-4 h-4 object-contain" />
+            </a>
           ))}
+          <SharePageButton title={post.title} />
         </div>
       </div>
       <div className="w-full h-px bg-line" />

@@ -4,7 +4,8 @@ import { generateMeta } from '@/utilities/generateMeta'
 import { getSiteUrl } from '@/utilities/getSiteUrl'
 import { generatePageStructuredData, jsonLdScriptContent } from '@/utilities/structuredData'
 import LiveFeedSlug from '@/app/components/LiveFeed/LiveFeedSlug'
-import RealCard from '@/app/components/Home/RealCard'
+import { RenderBlockList } from '@/blocks/RenderBlockList'
+import { getSiteSidebar } from '@/utilities/getSiteSettings'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -19,6 +20,7 @@ export default async function LiveFeedThread({ params }: Props) {
   if (!item) notFound()
   if (item._status !== 'published') notFound()
 
+  const sidebar = await getSiteSidebar()
   const base = getSiteUrl()
   const structuredData = generatePageStructuredData({
     title: item.meta?.title || item.title,
@@ -39,7 +41,7 @@ export default async function LiveFeedThread({ params }: Props) {
       <div className="md:border-l md:border-r border-line p-6 flex gap-5 max-md:flex-col max-lg:p-0 max-lg:py-5">
         <LiveFeedSlug item={item} />
         <div className="flex flex-col gap-4 md:max-w-[300px]">
-          <RealCard />
+          <RenderBlockList blocks={sidebar.promoBlocks} />
         </div>
       </div>
     </main>

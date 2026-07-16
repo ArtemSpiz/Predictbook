@@ -13,6 +13,12 @@ const metaFields: Field[] = [
   { name: 'author', type: 'relationship', relationTo: 'users' },
   { name: 'author photo', type: 'upload', relationTo: 'media' },
   { name: 'author job', type: 'text' },
+  {
+    name: 'authorProfile',
+    type: 'relationship',
+    relationTo: 'authors',
+    admin: { description: 'Public author profile shown on the site (/author/[slug]).' },
+  },
   ...(enableCategories
     ? ([
         {

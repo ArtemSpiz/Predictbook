@@ -64,6 +64,21 @@ export const SiteSettings: GlobalConfig = {
           ],
         },
         {
+          label: 'Social',
+          description: 'Site-wide social links used in the header, footer, mobile menu, and article share row.',
+          fields: [
+            {
+              name: 'social',
+              type: 'array',
+              labels: { singular: 'Social link', plural: 'Social links' },
+              fields: [
+                { name: 'icon', type: 'upload', relationTo: 'media', required: true },
+                { name: 'url', type: 'text' },
+              ],
+            },
+          ],
+        },
+        {
           label: 'Sidebar',
           description: 'Widgets shown in the right column of news article/category/author pages.',
           fields: [

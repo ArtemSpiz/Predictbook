@@ -121,7 +121,30 @@ const termsContent = richText(
   p(`If you have questions about these Terms, contact us at ${CONTACT_EMAIL}.`),
 )
 
+const advertiseContent = richText(
+  h('h1', 'Advertise with Predictbook'),
+  p(
+    'Predictbook reaches an engaged audience of prediction-market traders, analysts, and enthusiasts. If you want to put your product in front of them, we would love to talk.',
+  ),
+  h('h2', 'Why Predictbook'),
+  ul([
+    'A focused, high-intent audience following prediction markets daily.',
+    'Real-time signals, analysis, and live coverage that keep readers coming back.',
+    'Flexible placements: sponsored cards, newsletter mentions, and dedicated content.',
+  ]),
+  h('h2', 'Get in Touch'),
+  p(
+    `Tell us about your goals and we will put together a plan that fits. Reach us at ${CONTACT_EMAIL} or through our contact page.`,
+  ),
+)
+
 const pages = [
+  {
+    slug: 'advertise',
+    title: 'Advertise',
+    content: advertiseContent,
+    description: 'Advertise with Predictbook and reach an engaged prediction-market audience.',
+  },
   {
     slug: 'privacy-policy',
     title: 'Privacy Policy',

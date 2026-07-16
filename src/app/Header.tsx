@@ -7,7 +7,7 @@ import Link from 'next/link'
 import Burger from '@/../public/menu.png'
 import { InfiniteScroll } from './InfiniteScroll'
 import { PayloadImage } from '@/app/components/PayloadImage'
-import { SocialLinks } from '@/app/ui/SocialLinks'
+import { SocialLinks, type SocialItem } from '@/app/ui/SocialLinks'
 import { DesktopNav } from '@/app/components/Header/DesktopNav'
 import { HeaderMeta } from '@/app/components/Header/HeaderMeta'
 import { CtaButton } from '@/app/components/Header/CtaButton'
@@ -19,17 +19,18 @@ type NavEntry = NonNullable<HeaderData['nav']>[number]
 
 export function Header({
   data,
+  social,
   signalsToday,
   ticker,
 }: {
   data: HeaderData
+  social: SocialItem[]
   signalsToday: number
   ticker: Ticker[]
 }) {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const nav = data.nav ?? []
-  const social = data.social ?? []
 
   const isActive = (item: NavEntry) => {
     if ((item.children ?? []).length > 0) return pathname.startsWith('/analysis')

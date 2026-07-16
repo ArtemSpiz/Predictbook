@@ -40,6 +40,9 @@ export interface SignalView {
   spread?: string
   volume?: string
   profitablyPP?: string
+  polyUrl?: string
+  kalshiUrl?: string
+  marketUrl?: string
 }
 
 const mediaObj = (v: unknown): Media | null =>
@@ -128,6 +131,9 @@ export function signalToView(s: Signal): SignalView {
     spread: s.spread ?? undefined,
     volume: s.volume ?? undefined,
     profitablyPP: s.profitablyPP ?? undefined,
+    polyUrl: s.polyUrl ?? undefined,
+    kalshiUrl: s.kalshiUrl ?? undefined,
+    marketUrl: s.marketUrl ?? undefined,
   }
 }
 
@@ -162,6 +168,9 @@ export function liveViewToAlert(v: LiveSignalView): AlertCard {
     poly: v.poly,
     kalshi: v.kalshi,
     spread: v.spread,
+    polyUrl: v.polyUrl,
+    kalshiUrl: v.kalshiUrl,
+    marketUrl: v.marketUrl,
   }
 }
 
@@ -177,5 +186,8 @@ export function signalToAlert(s: Signal): AlertCard {
     poly: s.poly ?? undefined,
     kalshi: s.kalshi ?? undefined,
     spread: s.spread ?? undefined,
+    polyUrl: s.polyUrl ?? undefined,
+    kalshiUrl: s.kalshiUrl ?? undefined,
+    marketUrl: s.marketUrl ?? undefined,
   }
 }

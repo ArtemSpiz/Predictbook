@@ -11,6 +11,9 @@ export interface MappedSignalData {
   noPrice?: string
   poly?: string
   kalshi?: string
+  polyUrl?: string
+  kalshiUrl?: string
+  marketUrl?: string
   size?: string
   odds?: string
   spread?: string
@@ -32,6 +35,16 @@ export const formatCents = (price?: number): string | undefined => {
 
 const isPolymarket = (venue?: string) => venue?.toLowerCase().includes('poly') ?? false
 
+/** First link whose key or value contains any of the needles (case-insensitive). */
+const pickLink = (links: Record<string, string> | undefined, ...needles: string[]) => {
+  if (!links) return undefined
+  for (const [key, value] of Object.entries(links)) {
+    const hay = `${key} ${value}`.toLowerCase()
+    if (needles.some((n) => hay.includes(n))) return value
+  }
+  return undefined
+}
+
 /** Map an external feed item to `signals` collection data; null for unknown types. */
 export function mapExternalToSignalData(item: ExternalSignalItem): MappedSignalData | null {
   if (!SIGNAL_TYPES.includes(item.type as SignalType)) return null
@@ -49,6 +62,8 @@ export function mapExternalToSignalData(item: ExternalSignalItem): MappedSignalD
     _status: 'published' as const,
   }
 
+  const links = item.links
+
   if (kind === 'whale') {
     return {
       ...base,
@@ -56,6 +71,7 @@ export function mapExternalToSignalData(item: ExternalSignalItem): MappedSignalD
       subtitle: f.market_outcome,
       size: f.size,
       odds: f.odds_at_entry,
+      marketUrl: pickLink(links, 'poly', 'kalshi', 'market', 'event'),
       profitably: false,
     }
   }
@@ -63,6 +79,8 @@ export function mapExternalToSignalData(item: ExternalSignalItem): MappedSignalD
   const yesPrice = formatCents(f.yes_price)
   const noPrice = formatCents(f.no_price)
   const polyIsYes = isPolymarket(f.yes_venue)
+  const polyUrl = pickLink(links, 'poly')
+  const kalshiUrl = pickLink(links, 'kalshi')
   return {
     ...base,
     title: f.question ?? item.title ?? 'Arbitrage alert',
@@ -72,6 +90,9 @@ export function mapExternalToSignalData(item: ExternalSignalItem): MappedSignalD
     noPrice,
     poly: polyIsYes ? yesPrice : noPrice,
     kalshi: polyIsYes ? noPrice : yesPrice,
+    polyUrl,
+    kalshiUrl,
+    marketUrl: polyUrl ?? kalshiUrl,
     spread: f.spread,
     profitablyPP: f.spread,
     profitably: true,

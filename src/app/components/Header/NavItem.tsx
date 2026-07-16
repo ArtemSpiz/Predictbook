@@ -8,10 +8,11 @@ type NavEntry = NonNullable<Header['nav']>[number]
 export function NavItem({ item, active }: { item: NavEntry; active: boolean }) {
   const children = item.children ?? []
   const hasChildren = children.length > 0
+  const href = resolveLinkHref(item.link)
   return (
     <div className="relative group ">
       <a
-        href={hasChildren ? undefined : resolveLinkHref(item.link)}
+        href={href === '#' ? undefined : href}
         className="flex items-center gap-2 p-4 max-xl:p-3 hover:bg-shell group-hover:bg-shell"
       >
         <span className={`text-sm ${active ? 'font-bold' : 'font-normal'}`}>{item.link?.label}</span>

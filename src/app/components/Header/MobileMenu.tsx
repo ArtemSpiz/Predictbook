@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Down from '@/../public/down.png'
-import { SocialLinks } from '@/app/ui/SocialLinks'
+import { SocialLinks, type SocialItem } from '@/app/ui/SocialLinks'
 import { CtaButton } from './CtaButton'
 import { resolveLinkHref } from '@/utilities/resolveLinkHref'
 import type { Header } from '@/payload-types'
@@ -20,7 +20,7 @@ export function MobileMenu({
   onClose,
 }: {
   nav: NonNullable<Header['nav']>
-  social: NonNullable<Header['social']>
+  social: SocialItem[]
   cta: Header['cta']
   isActive: (item: NavEntry) => boolean
   isOpen: boolean

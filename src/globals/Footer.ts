@@ -12,14 +12,6 @@ export const Footer: GlobalConfig = {
     { name: 'brandName', type: 'text' },
     { name: 'tagline', type: 'text' },
     {
-      name: 'social',
-      type: 'array',
-      fields: [
-        { name: 'icon', type: 'upload', relationTo: 'media', required: true },
-        { name: 'url', type: 'text' },
-      ],
-    },
-    {
       name: 'columns',
       type: 'array',
       maxRows: 4,

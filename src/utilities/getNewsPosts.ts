@@ -12,14 +12,28 @@ interface FindArgs {
   categorySlug?: string
   tagSlug?: string
   authorName?: string
+  authorProfileId?: string
+  search?: string
 }
 
-async function fetchNewsPosts({ page = 1, limit = 10, categorySlug, tagSlug, authorName }: FindArgs) {
+async function fetchNewsPosts({
+  page = 1,
+  limit = 10,
+  categorySlug,
+  tagSlug,
+  authorName,
+  authorProfileId,
+  search,
+}: FindArgs) {
   const payload = await getPayload({ config })
   const where: Where = { _status: { equals: 'published' } }
   if (categorySlug) where['categories.slug'] = { equals: categorySlug }
   if (tagSlug) where['tags.slug'] = { equals: tagSlug }
   if (authorName) where['author.name'] = { equals: authorName }
+  if (authorProfileId) where.authorProfile = { equals: authorProfileId }
+  if (search) {
+    where.or = [{ title: { like: search } }, { subtitle: { like: search } }]
+  }
   const result = await payload.find({
     collection: 'news',
     where,
@@ -32,10 +46,18 @@ async function fetchNewsPosts({ page = 1, limit = 10, categorySlug, tagSlug, aut
 }
 
 export const findNewsPosts = cache((args: FindArgs = {}) => {
-  const { page = 1, limit = 10, categorySlug = '', tagSlug = '', authorName = '' } = args
+  const {
+    page = 1,
+    limit = 10,
+    categorySlug = '',
+    tagSlug = '',
+    authorName = '',
+    authorProfileId = '',
+    search = '',
+  } = args
   return unstable_cache(
-    () => fetchNewsPosts({ page, limit, categorySlug, tagSlug, authorName }),
-    ['news-posts', String(page), String(limit), categorySlug, tagSlug, authorName],
+    () => fetchNewsPosts({ page, limit, categorySlug, tagSlug, authorName, authorProfileId, search }),
+    ['news-posts', String(page), String(limit), categorySlug, tagSlug, authorName, authorProfileId, search],
     { tags: [cacheTags.all, cacheTags.collection('news')] },
   )()
 })

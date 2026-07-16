@@ -1,7 +1,8 @@
 import { PayloadImage } from '@/app/components/PayloadImage'
+import { EXTERNAL_REL } from '@/app/ui/ExternalLink'
 import type { Media } from '@/payload-types'
 
-type SocialItem = { icon?: Media | string | number | null; url?: string | null }
+export type SocialItem = { icon?: Media | string | number | null; url?: string | null }
 
 export function SocialLinks({
   items,
@@ -22,7 +23,7 @@ export function SocialLinks({
           key={i}
           href={item.url ?? ''}
           target="_blank"
-          rel="noopener noreferrer"
+          rel={EXTERNAL_REL}
           className={linkClassName}
         >
           <PayloadImage media={item.icon} alt="" className={iconClassName} />

@@ -20,46 +20,44 @@ const DEFAULTS: SiteSettings = {
   robotsDisallowAll: false,
 }
 
-async function fetchSiteSettings(): Promise<SiteSettings> {
+async function fetchSiteSettingsDoc(): Promise<SiteSettingsDoc | null> {
   try {
     const payload = await getPayload({ config })
-    const data = (await payload.findGlobal({
-      slug: 'site-settings',
-    })) as unknown as Record<string, unknown>
-    return {
-      sitemapIncludeNews: data.sitemapIncludeNews !== false,
-      sitemapIncludeSignals: data.sitemapIncludeSignals !== false,
-      sitemapIncludeLiveFeed: data.sitemapIncludeLiveFeed !== false,
-      robotsDisallowAll: data.robotsDisallowAll === true,
-      gtmId: typeof data.gtmId === 'string' && data.gtmId ? data.gtmId : undefined,
-      ga4Id: typeof data.ga4Id === 'string' && data.ga4Id ? data.ga4Id : undefined,
-    }
-  } catch {
-    return DEFAULTS
-  }
-}
-
-/** Cached SiteSettings global, invalidated by its scoped tag or the coarse `payload` fallback. */
-export const getSiteSettings = () =>
-  unstable_cache(fetchSiteSettings, ['site-settings'], {
-    tags: [cacheTags.all, cacheTags.global('site-settings')],
-  })()
-
-async function fetchSiteSidebar(): Promise<Pick<SiteSettingsDoc, 'promoBlocks' | 'sponsoredBlocks'>> {
-  try {
-    const payload = await getPayload({ config })
-    const data = (await payload.findGlobal({
+    return (await payload.findGlobal({
       slug: 'site-settings',
       depth: 1,
     })) as unknown as SiteSettingsDoc
-    return { promoBlocks: data.promoBlocks ?? [], sponsoredBlocks: data.sponsoredBlocks ?? [] }
   } catch {
-    return { promoBlocks: [], sponsoredBlocks: [] }
+    return null
   }
 }
 
-/** Cached site-wide sidebar blocks (promo + sponsored) for news sub-routes, depth:1 for populated media. */
-export const getSiteSidebar = () =>
-  unstable_cache(fetchSiteSidebar, ['site-sidebar'], {
+/** Single cached read of the site-settings global (depth:1 for populated media);
+ * the typed accessors below all derive from it, so one page = one DB read. */
+const getSiteSettingsDoc = () =>
+  unstable_cache(fetchSiteSettingsDoc, ['site-settings-doc'], {
     tags: [cacheTags.all, cacheTags.global('site-settings')],
   })()
+
+export async function getSiteSettings(): Promise<SiteSettings> {
+  const data = await getSiteSettingsDoc()
+  if (!data) return DEFAULTS
+  return {
+    sitemapIncludeNews: data.sitemapIncludeNews !== false,
+    sitemapIncludeSignals: data.sitemapIncludeSignals !== false,
+    sitemapIncludeLiveFeed: data.sitemapIncludeLiveFeed !== false,
+    robotsDisallowAll: data.robotsDisallowAll === true,
+    gtmId: data.gtmId || undefined,
+    ga4Id: data.ga4Id || undefined,
+  }
+}
+
+export async function getSiteSidebar(): Promise<Pick<SiteSettingsDoc, 'promoBlocks' | 'sponsoredBlocks'>> {
+  const data = await getSiteSettingsDoc()
+  return { promoBlocks: data?.promoBlocks ?? [], sponsoredBlocks: data?.sponsoredBlocks ?? [] }
+}
+
+export async function getSocialLinks(): Promise<NonNullable<SiteSettingsDoc['social']>> {
+  const data = await getSiteSettingsDoc()
+  return data?.social ?? []
+}

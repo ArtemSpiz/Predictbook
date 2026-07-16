@@ -1,8 +1,17 @@
 'use client'
 
-import SignalsInfo from './SignalsInfo'
+import { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
+import SignalsInfo, { type SignalTab } from './SignalsInfo'
 import { useLiveSignals } from '@/app/hooks/useLiveSignals'
 import type { LiveSignalView } from '@/app/lib/viewModels'
+
+const tabFromParam = (v: string | null): SignalTab =>
+  v === 'whales' || v === 'whale'
+    ? 'whale'
+    : v === 'arbitrages' || v === 'arbitrage'
+      ? 'arbitrage'
+      : 'all'
 
 interface Props {
   title: string
@@ -24,6 +33,9 @@ export default function LiveSignalsInfo({
   initialLatest,
   limit,
 }: Props) {
+  const searchParams = useSearchParams()
+  const [tab, setTab] = useState<SignalTab>(tabFromParam(searchParams.get('tab')))
+
   const { freshItems } = useLiveSignals({ initialLatest, limit })
   const fresh = new Set(freshItems.map((i) => i.slug))
   const items = [...freshItems, ...initialItems.filter((i) => !fresh.has(i.slug))]
@@ -34,6 +46,8 @@ export default function LiveSignalsInfo({
       delayText={delayText}
       count={initialCount + freshItems.length}
       items={items}
+      activeTab={tab}
+      onTabChange={setTab}
     />
   )
 }

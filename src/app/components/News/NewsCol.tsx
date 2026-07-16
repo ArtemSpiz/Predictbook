@@ -9,7 +9,8 @@ import ArticleCard from '@/app/ui/ArticleCard'
 import { LoadMoreButton } from '@/app/ui/LoadMoreButton'
 import Link from 'next/link'
 import { sortByFeatured, type ArticleView } from '@/app/lib/viewModels'
-import { loadMoreNews } from '@/app/actions/news'
+import { loadMoreNews, searchNews } from '@/app/actions/news'
+import { TabPill } from '@/app/ui/TabPill'
 
 interface Props {
   articles: ArticleView[]
@@ -43,18 +44,45 @@ export default function NewsCol({
   const hasMore = allArticles.length < totalDocs
 
   const sortedCards = useMemo(() => sortByFeatured(allArticles), [allArticles])
+  const query = searchQuery.trim()
+  const isSearch = query.length > 0
 
-  const filteredCards = useMemo(() => {
-    return sortedCards.filter((card) => {
-      const matchesCategory =
-        activeCategory === 'All' ||
-        card.categories?.some((cat) => cat.toLowerCase() === activeCategory.toLowerCase())
+  const browseCards = useMemo(
+    () =>
+      sortedCards.filter(
+        (card) =>
+          activeCategory === 'All' ||
+          card.categories?.some((cat) => cat.toLowerCase() === activeCategory.toLowerCase()),
+      ),
+    [sortedCards, activeCategory],
+  )
 
-      const matchesSearch = card.title.toLowerCase().includes(searchQuery.trim().toLowerCase())
+  const [searchResults, setSearchResults] = useState<ArticleView[]>([])
+  const [isSearching, setIsSearching] = useState(false)
 
-      return matchesCategory && matchesSearch
-    })
-  }, [sortedCards, activeCategory, searchQuery])
+  // Search runs server-side over all published posts, not just the loaded page.
+  useEffect(() => {
+    const q = searchQuery.trim()
+    if (!q) {
+      setSearchResults([])
+      setIsSearching(false)
+      return
+    }
+    let cancelled = false
+    setIsSearching(true)
+    const t = setTimeout(async () => {
+      const res = await searchNews({ query: q })
+      if (cancelled) return
+      setSearchResults(sortByFeatured(res.articles))
+      setIsSearching(false)
+    }, 300)
+    return () => {
+      cancelled = true
+      clearTimeout(t)
+    }
+  }, [searchQuery])
+
+  const displayCards = isSearch ? searchResults : browseCards
 
   useEffect(() => {
     setActiveCategory(searchParams.get('category') || 'All')
@@ -88,25 +116,18 @@ export default function NewsCol({
       </div>
 
       <div className="flex flex-wrap gap-2">
-        {fullCategories.map((cat) => {
-          const isActive = activeCategory === cat
-          return (
-            <button
-              key={cat}
-              type="button"
-              onClick={() => setActiveCategory(cat)}
-              className={`py-2.5 px-4 rounded-lg text-sm transition-colors
-                ${isActive ? 'text-ink bg-sand' : 'text-muted bg-white'}`}
-            >
-              {cat}
-            </button>
-          )
-        })}
+        {fullCategories.map((cat) => (
+          <TabPill key={cat} active={activeCategory === cat} onClick={() => setActiveCategory(cat)}>
+            {cat}
+          </TabPill>
+        ))}
       </div>
 
       <div className="flex flex-col gap-2">
-        {filteredCards.length > 0 ? (
-          filteredCards.map((card) => (
+        {isSearching ? (
+          <div className="text-sm text-muted text-center py-6">Searching…</div>
+        ) : displayCards.length > 0 ? (
+          displayCards.map((card) => (
             <Link key={card.slug} href={`/analysis/${card.slug}`}>
               <ArticleCard card={card} />
             </Link>
@@ -116,7 +137,7 @@ export default function NewsCol({
         )}
       </div>
 
-      {hasMore && <LoadMoreButton onClick={handleLoadMore} isPending={isPending} />}
+      {!isSearch && hasMore && <LoadMoreButton onClick={handleLoadMore} isPending={isPending} />}
     </div>
   )
 }

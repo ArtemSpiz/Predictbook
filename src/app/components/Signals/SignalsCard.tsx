@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Star from '../../../../public/StarFeatured.png'
 import { CategoryChip } from '@/app/ui/CategoryChips'
+import { ExternalLink } from '@/app/ui/ExternalLink'
 import { sortByFeatured, type SignalView } from '@/app/lib/viewModels'
 
 export default function SignalsCard({ cards }: { cards: SignalView[] }) {
@@ -37,53 +38,39 @@ export default function SignalsCard({ cards }: { cards: SignalView[] }) {
             </div>{' '}
           </div>
 
-          <div className="flex gap-6 justify-between py-4 px-3">
-            <div>
-              <div className="text-base font-medium">{card.title}</div>
-              <div className="text-sm text-muted ">{card.subtitle}</div>
+          <div className="py-4 px-3">
+            <div className="text-xs uppercase font-medium text-muted mb-1">
+              {card.kind === 'whale' ? 'Whale Alert' : 'Arbitrage Alert'}
             </div>
-
-            <div className="p-2 justify-center h-max flex flex-col items-center bg-paper min-w-[78px] max-md:h-[78px]">
-              <div className={`font-medium text-meta text-sm font-mono uppercase`}>
-                {card.profitably ? 'Yes' : 'No'}{' '}
-              </div>
-              <div className={`font-medium text-xl max-md:text-lg font-mono uppercase`}>
-                {card.profitably ? card.yesPrice : card.noPrice}{' '}
-              </div>
-              <div
-                className={`font-medium text-meta text-sm font-mono uppercase ${card.profitably ? 'text-success' : 'text-negative'}`}
-              >
-                {card.profitablyPP}
-              </div>
+            <div className="text-base font-medium">
+              <ExternalLink href={card.marketUrl} className="hover:underline">
+                {card.title}
+              </ExternalLink>
             </div>
           </div>
 
-          <div className="grid grid-cols-3 p-3 border-t border-line">
+          <div className="grid grid-cols-2 p-3 border-t border-line">
             <div className="flex flex-col gap-1">
               <div className="text-muted uppercase font-mono font-medium text-xs">
                 {card.featured ? 'Polymarket ' : 'YES PRICE'}
               </div>
-              <div className="text-positive uppercase font-mono font-medium text-lg">
+              <ExternalLink
+                href={card.polyUrl}
+                className="text-positive uppercase font-mono font-medium text-lg hover:underline"
+              >
                 {card.yesPrice}
-              </div>
+              </ExternalLink>
             </div>
             <div className="flex flex-col gap-1 pl-3 border-l border-l-line">
               <div className="text-muted uppercase font-mono font-medium text-xs">
                 {card.featured ? 'KALSHI' : 'NO PRICE'}
               </div>
-              <div className="text-negative uppercase font-mono font-medium text-lg">
-                {card.noPrice}
-              </div>
-            </div>
-            <div className="flex flex-col gap-1 pl-3 border-l border-l-line">
-              <div className="text-muted uppercase font-mono font-medium text-xs">
-                {card.featured ? 'SPREAD' : '24H VOLUME'}
-              </div>
-              <div
-                className={`uppercase font-mono font-medium text-lg ${card.featured ? 'text-spread' : ''}`}
+              <ExternalLink
+                href={card.kalshiUrl}
+                className="text-negative uppercase font-mono font-medium text-lg hover:underline"
               >
-                {card.featured ? card.spread : card.volume}
-              </div>
+                {card.noPrice}
+              </ExternalLink>
             </div>
           </div>
         </div>

@@ -29,10 +29,11 @@ describe('ContactMethodsBlock', () => {
   const names = ContactMethodsBlock.fields.map((f) => ('name' in f ? f.name : undefined))
 
   it('has slug contact-methods', () => expect(ContactMethodsBlock.slug).toBe('contact-methods'))
-  it('exposes heading, methods, socials, hidden', () => {
-    for (const n of ['heading', 'methods', 'socials', 'hidden']) {
+  it('exposes heading, methods, hidden (socials now come from Site Settings)', () => {
+    for (const n of ['heading', 'methods', 'hidden']) {
       expect(names).toContain(n)
     }
+    expect(names).not.toContain('socials')
   })
 })
 

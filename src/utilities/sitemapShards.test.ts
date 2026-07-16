@@ -1,18 +1,36 @@
 import { describe, it, expect } from 'vitest'
-import { sitemapShardIds, SITEMAP_SHARD_SIZE } from './sitemapShards'
+import { POSTS_SHARD_SIZE, postsSitemapNames, postsSitemapPage } from './sitemapShards'
 
-describe('sitemapShardIds', () => {
-  it('returns only the core shard when there is no news', () => {
-    expect(sitemapShardIds(0)).toEqual([{ id: 0 }])
+describe('postsSitemapNames', () => {
+  it('uses a single posts.xml when within one shard', () => {
+    expect(postsSitemapNames(0)).toEqual(['posts.xml'])
+    expect(postsSitemapNames(1, 10)).toEqual(['posts.xml'])
+    expect(postsSitemapNames(10, 10)).toEqual(['posts.xml'])
   })
 
-  it('adds one news shard per size-worth of posts', () => {
-    expect(sitemapShardIds(1, 10)).toEqual([{ id: 0 }, { id: 1 }])
-    expect(sitemapShardIds(10, 10)).toEqual([{ id: 0 }, { id: 1 }])
-    expect(sitemapShardIds(11, 10)).toEqual([{ id: 0 }, { id: 1 }, { id: 2 }])
+  it('splits into numbered shards past the shard size', () => {
+    expect(postsSitemapNames(11, 10)).toEqual(['posts-1.xml', 'posts-2.xml'])
+    expect(postsSitemapNames(25, 10)).toEqual(['posts-1.xml', 'posts-2.xml', 'posts-3.xml'])
   })
 
-  it('uses a 10k default shard size', () => {
-    expect(SITEMAP_SHARD_SIZE).toBe(10000)
+  it('defaults the shard size under the 50k-URL limit', () => {
+    expect(POSTS_SHARD_SIZE).toBeLessThanOrEqual(50000)
+  })
+})
+
+describe('postsSitemapPage', () => {
+  it('maps posts.xml to page 1', () => {
+    expect(postsSitemapPage('posts.xml')).toBe(1)
+  })
+
+  it('maps numbered shards to their page', () => {
+    expect(postsSitemapPage('posts-1.xml')).toBe(1)
+    expect(postsSitemapPage('posts-3.xml')).toBe(3)
+  })
+
+  it('returns null for non-posts names', () => {
+    expect(postsSitemapPage('pages.xml')).toBeNull()
+    expect(postsSitemapPage('categories.xml')).toBeNull()
+    expect(postsSitemapPage('nonsense')).toBeNull()
   })
 })

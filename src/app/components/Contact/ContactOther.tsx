@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import BtnArrow from '@/../public/BtnArrow.png'
 import { PayloadImage } from '@/app/components/PayloadImage'
+import { EXTERNAL_REL } from '@/app/ui/ExternalLink'
 import type { Media } from '@/payload-types'
 
 export interface ContactMethod {
@@ -52,8 +53,14 @@ export default function ContactOther({ heading = '', methods, socials, socialsHe
           <div className="font-medium">{socialsHeading}</div>
 
           <div className="flex items-center gap-3">
-            {socials.map((item) => (
-              <a className="w-8 h-8" key={item.id} href={item.link || undefined}>
+            {socials.map((item, i) => (
+              <a
+                className="w-8 h-8"
+                key={item.id ?? i}
+                href={item.link || undefined}
+                target="_blank"
+                rel={EXTERNAL_REL}
+              >
                 <PayloadImage media={item.icon} className="w-8 h-8 object-contain" alt="" />
               </a>
             ))}

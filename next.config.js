@@ -31,6 +31,8 @@ const nextConfig = {
       { source: '/news/:path*', destination: '/analysis/:path*', permanent: true },
       { source: '/live-feed', destination: '/live', permanent: true },
       { source: '/live-feed/:path*', destination: '/live/:path*', permanent: true },
+      { source: '/about-us', destination: '/about', permanent: true },
+      { source: '/contact-us', destination: '/contact', permanent: true },
     ]
   },
 }

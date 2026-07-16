@@ -13,7 +13,7 @@ import { localeAlternates } from '@/utilities/metadataAlternates'
 import { LivePreviewListener } from '@/app/components/LivePreviewListener'
 import NewsSlug from '@/app/components/News/NewsSlug'
 import { RenderBlockList } from '@/blocks/RenderBlockList'
-import { getSiteSidebar } from '@/utilities/getSiteSettings'
+import { getSiteSidebar, getSocialLinks } from '@/utilities/getSiteSettings'
 import { newsToArticleView } from '@/app/lib/viewModels'
 import BlockTitle from '@/app/ui/BlockTitle'
 import { Breadcrumbs } from '@/app/ui/Breadcrumbs'
@@ -79,9 +79,10 @@ export default async function AnalysisSlugPage({ params }: Props) {
   if (!post) notFound()
   if (!draft && post._status !== 'published') notFound()
 
-  const [related, sidebar] = await Promise.all([
+  const [related, sidebar, social] = await Promise.all([
     findNewsPosts({ limit: 6 }).then((r) => r.docs.map(newsToArticleView)),
     getSiteSidebar(),
+    getSocialLinks(),
   ])
 
   const base = getSiteUrl()
@@ -103,7 +104,7 @@ export default async function AnalysisSlugPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: jsonLdScriptContent(structuredData) }}
       />
       <div className="md:border-l md:border-r border-line p-6 flex gap-5 max-md:flex-col max-lg:p-0 max-lg:py-5">
-        <NewsSlug post={post} related={related} />
+        <NewsSlug post={post} related={related} social={social} />
         <div className="flex flex-col gap-4 md:max-w-[300px]">
           <RenderBlockList blocks={sidebar.promoBlocks} />
           <RenderBlockList blocks={sidebar.sponsoredBlocks} />

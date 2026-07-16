@@ -1,6 +1,5 @@
 import Link from 'next/link'
-import { SocialLinks } from '@/app/ui/SocialLinks'
-import type { Footer } from '@/payload-types'
+import { SocialLinks, type SocialItem } from '@/app/ui/SocialLinks'
 
 export function FooterBrand({
   brandName,
@@ -9,7 +8,7 @@ export function FooterBrand({
 }: {
   brandName?: string | null
   tagline?: string | null
-  social: NonNullable<Footer['social']>
+  social: SocialItem[]
 }) {
   return (
     <div className="flex items-start justify-between">

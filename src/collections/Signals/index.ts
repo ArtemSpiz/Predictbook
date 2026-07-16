@@ -70,6 +70,14 @@ export const Signals: CollectionConfig = {
             {
               type: 'row',
               fields: [
+                { name: 'polyUrl', type: 'text', label: 'Polymarket URL', admin: { width: '33%' } },
+                { name: 'kalshiUrl', type: 'text', label: 'Kalshi URL', admin: { width: '33%' } },
+                { name: 'marketUrl', type: 'text', label: 'Market URL', admin: { width: '33%' } },
+              ],
+            },
+            {
+              type: 'row',
+              fields: [
                 { name: 'size', type: 'text', admin: { width: '33%' } },
                 { name: 'odds', type: 'text', admin: { width: '33%' } },
                 { name: 'spread', type: 'text', admin: { width: '33%' } },

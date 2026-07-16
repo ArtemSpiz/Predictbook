@@ -1,11 +1,7 @@
 import { getSiteUrl } from '@/utilities/getSiteUrl'
 import { getSiteSettings } from '@/utilities/getSiteSettings'
-import {
-  getPublishedSitemapRows,
-  getPublishedSitemapCount,
-  getAllPublishedSitemapRows,
-} from '@/utilities/sitemapData'
-import { SITEMAP_SHARD_SIZE } from '@/utilities/sitemapShards'
+import { getAllSitemapRows, getSitemapRows, getSitemapCount } from '@/utilities/sitemapData'
+import { POSTS_SHARD_SIZE, postsSitemapNames, postsSitemapPage } from '@/utilities/sitemapShards'
 
 export type SitemapEntry = {
   loc: string
@@ -16,6 +12,9 @@ export type SitemapEntry = {
 
 const xmlEscape = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+
+const iso = (updatedAt: string | null, fallback: string) =>
+  updatedAt ? new Date(updatedAt).toISOString() : fallback
 
 export function entriesToUrlset(entries: SitemapEntry[]): string {
   const body = entries
@@ -30,54 +29,126 @@ export function entriesToUrlset(entries: SitemapEntry[]): string {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${body}</urlset>`
 }
 
-export function shardIndexXml(base: string, ids: { id: number }[]): string {
-  const body = ids.map(({ id }) => `<sitemap><loc>${base}/sitemap/${id}.xml</loc></sitemap>`).join('')
+export function sitemapIndexXml(base: string, names: string[]): string {
+  const body = names
+    .map((name) => `<sitemap><loc>${base}/sitemap/${name}</loc></sitemap>`)
+    .join('')
   return `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${body}</sitemapindex>`
 }
 
-/** Entries for one shard. id 0 = core (static + CMS pages + live-feed); id>=1 = a page of news. */
-export async function buildSitemapShardEntries(id: number): Promise<SitemapEntry[]> {
-  const base = getSiteUrl()
-  const nowIso = new Date().toISOString()
+/** Child sitemap file names listed by the index, respecting the SiteSettings
+ * include flags and omitting sitemaps that would be empty. Categories/Tags live
+ * under /analysis, so they follow the news include flag. */
+export async function sitemapChildNames(): Promise<string[]> {
   const settings = await getSiteSettings()
+  const names: string[] = ['pages.xml']
 
-  if (id >= 1) {
-    if (!settings.sitemapIncludeNews) return []
-    const rows = await getPublishedSitemapRows('news', { page: id, limit: SITEMAP_SHARD_SIZE })
-    return rows.map((row) => ({
-      loc: `${base}/analysis/${row.slug}`,
-      lastmod: row.updatedAt ? new Date(row.updatedAt).toISOString() : nowIso,
-      changefreq: 'monthly' as const,
-      priority: 0.7,
-    }))
+  if (settings.sitemapIncludeNews) {
+    const newsCount = await getSitemapCount('news')
+    if (newsCount > 0) names.push(...postsSitemapNames(newsCount))
+    if ((await getSitemapCount('categories', false)) > 0) names.push('categories.xml')
+    if ((await getSitemapCount('tags', false)) > 0) names.push('tags.xml')
   }
+  if (settings.sitemapIncludeLiveFeed && (await getSitemapCount('live-feed')) > 0) {
+    names.push('live.xml')
+  }
+  return names
+}
 
-  const [pageRows, liveFeedRows] = await Promise.all([
-    getAllPublishedSitemapRows('pages'),
-    settings.sitemapIncludeLiveFeed ? getAllPublishedSitemapRows('live-feed') : Promise.resolve([]),
-  ])
+/** Static routes, section indexes, and CMS pages. */
+export async function buildPagesEntries(now = new Date().toISOString()): Promise<SitemapEntry[]> {
+  const base = getSiteUrl()
+  const settings = await getSiteSettings()
 
   const byUrl = new Map<string, SitemapEntry>()
   const add = (e: SitemapEntry) => byUrl.set(e.loc, e)
 
-  add({ loc: `${base}/`, lastmod: nowIso, changefreq: 'weekly', priority: 1 })
-  if (settings.sitemapIncludeNews) add({ loc: `${base}/analysis`, lastmod: nowIso, changefreq: 'daily', priority: 0.8 })
-  if (settings.sitemapIncludeSignals) add({ loc: `${base}/signals`, lastmod: nowIso, changefreq: 'daily', priority: 0.8 })
-  if (settings.sitemapIncludeLiveFeed) add({ loc: `${base}/live`, lastmod: nowIso, changefreq: 'hourly', priority: 0.8 })
-  add({ loc: `${base}/about`, lastmod: nowIso, changefreq: 'monthly', priority: 0.5 })
-  add({ loc: `${base}/contact`, lastmod: nowIso, changefreq: 'monthly', priority: 0.5 })
+  add({ loc: `${base}/`, lastmod: now, changefreq: 'weekly', priority: 1 })
+  if (settings.sitemapIncludeNews) add({ loc: `${base}/analysis`, lastmod: now, changefreq: 'daily', priority: 0.8 })
+  if (settings.sitemapIncludeSignals) add({ loc: `${base}/signals`, lastmod: now, changefreq: 'daily', priority: 0.8 })
+  if (settings.sitemapIncludeLiveFeed) add({ loc: `${base}/live`, lastmod: now, changefreq: 'hourly', priority: 0.8 })
+  add({ loc: `${base}/about`, lastmod: now, changefreq: 'monthly', priority: 0.5 })
+  add({ loc: `${base}/contact`, lastmod: now, changefreq: 'monthly', priority: 0.5 })
 
-  for (const row of pageRows) {
+  for (const row of await getAllSitemapRows('pages')) {
     if (row.slug === 'home') continue
-    add({ loc: `${base}/${row.slug}`, lastmod: row.updatedAt ? new Date(row.updatedAt).toISOString() : nowIso, changefreq: 'monthly', priority: 0.7 })
-  }
-  for (const row of liveFeedRows) {
-    add({ loc: `${base}/live/${row.slug}`, lastmod: row.updatedAt ? new Date(row.updatedAt).toISOString() : nowIso, changefreq: 'daily', priority: 0.6 })
+    add({ loc: `${base}/${row.slug}`, lastmod: iso(row.updatedAt, now), changefreq: 'monthly', priority: 0.7 })
   }
   return [...byUrl.values()]
 }
 
-export async function sitemapNewsCount(): Promise<number> {
+/** One page of news posts → /analysis/[slug]. */
+export async function buildPostsEntries(
+  page: number,
+  now = new Date().toISOString(),
+): Promise<SitemapEntry[]> {
   const settings = await getSiteSettings()
-  return settings.sitemapIncludeNews ? await getPublishedSitemapCount('news') : 0
+  if (!settings.sitemapIncludeNews) return []
+  const base = getSiteUrl()
+  const rows = await getSitemapRows('news', { page, limit: POSTS_SHARD_SIZE })
+  return rows.map((row) => ({
+    loc: `${base}/analysis/${row.slug}`,
+    lastmod: iso(row.updatedAt, now),
+    changefreq: 'monthly' as const,
+    priority: 0.7,
+  }))
+}
+
+/** Category listings → /analysis/[category]. */
+export async function buildCategoriesEntries(now = new Date().toISOString()): Promise<SitemapEntry[]> {
+  const settings = await getSiteSettings()
+  if (!settings.sitemapIncludeNews) return []
+  const base = getSiteUrl()
+  const rows = await getAllSitemapRows('categories', { requirePublished: false })
+  return rows.map((row) => ({
+    loc: `${base}/analysis/${row.slug}`,
+    lastmod: iso(row.updatedAt, now),
+    changefreq: 'weekly' as const,
+    priority: 0.6,
+  }))
+}
+
+/** Tag pages → /analysis/tag/[tag]. */
+export async function buildTagsEntries(now = new Date().toISOString()): Promise<SitemapEntry[]> {
+  const settings = await getSiteSettings()
+  if (!settings.sitemapIncludeNews) return []
+  const base = getSiteUrl()
+  const rows = await getAllSitemapRows('tags', { requirePublished: false })
+  return rows.map((row) => ({
+    loc: `${base}/analysis/tag/${row.slug}`,
+    lastmod: iso(row.updatedAt, now),
+    changefreq: 'weekly' as const,
+    priority: 0.4,
+  }))
+}
+
+/** Live-feed threads → /live/[slug]. */
+export async function buildLiveEntries(now = new Date().toISOString()): Promise<SitemapEntry[]> {
+  const settings = await getSiteSettings()
+  if (!settings.sitemapIncludeLiveFeed) return []
+  const base = getSiteUrl()
+  const rows = await getAllSitemapRows('live-feed')
+  return rows.map((row) => ({
+    loc: `${base}/live/${row.slug}`,
+    lastmod: iso(row.updatedAt, now),
+    changefreq: 'daily' as const,
+    priority: 0.6,
+  }))
+}
+
+/** Resolve a child sitemap file name to its entries, or null if unknown. */
+export async function buildSitemapByName(name: string): Promise<SitemapEntry[] | null> {
+  const now = new Date().toISOString()
+  switch (name) {
+    case 'pages.xml':
+      return buildPagesEntries(now)
+    case 'categories.xml':
+      return buildCategoriesEntries(now)
+    case 'tags.xml':
+      return buildTagsEntries(now)
+    case 'live.xml':
+      return buildLiveEntries(now)
+  }
+  const postsPage = postsSitemapPage(name)
+  return postsPage !== null ? buildPostsEntries(postsPage, now) : null
 }

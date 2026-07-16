@@ -18,15 +18,6 @@ export const ContactMethodsBlock: Block = {
         { name: 'link', type: 'text' },
       ],
     },
-    {
-      name: 'socials',
-      type: 'array',
-      label: 'Social links',
-      fields: [
-        { name: 'icon', type: 'upload', relationTo: 'media' },
-        { name: 'link', type: 'text', required: true },
-      ],
-    },
     hiddenField,
   ],
 }

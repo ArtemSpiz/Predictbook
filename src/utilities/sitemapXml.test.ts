@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { entriesToUrlset, shardIndexXml } from './sitemapXml'
+import { entriesToUrlset, sitemapIndexXml } from './sitemapXml'
 
 describe('entriesToUrlset', () => {
   it('wraps entries in a urlset and escapes ampersands in loc', () => {
@@ -16,11 +16,11 @@ describe('entriesToUrlset', () => {
   })
 })
 
-describe('shardIndexXml', () => {
-  it('lists one <sitemap> per shard id', () => {
-    const xml = shardIndexXml('https://x.test', [{ id: 0 }, { id: 1 }])
+describe('sitemapIndexXml', () => {
+  it('lists one <sitemap> per child sitemap name', () => {
+    const xml = sitemapIndexXml('https://x.test', ['pages.xml', 'posts.xml'])
     expect(xml).toContain('<sitemapindex')
-    expect(xml).toContain('<loc>https://x.test/sitemap/0.xml</loc>')
-    expect(xml).toContain('<loc>https://x.test/sitemap/1.xml</loc>')
+    expect(xml).toContain('<loc>https://x.test/sitemap/pages.xml</loc>')
+    expect(xml).toContain('<loc>https://x.test/sitemap/posts.xml</loc>')
   })
 })

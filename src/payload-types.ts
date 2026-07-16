@@ -75,6 +75,7 @@ export interface Config {
     tags: Tag;
     signals: Signal;
     'live-feed': LiveFeed;
+    authors: Author;
     ticker: Ticker;
     'contact-submissions': ContactSubmission;
     redirects: Redirect;
@@ -97,6 +98,7 @@ export interface Config {
     tags: TagsSelect<false> | TagsSelect<true>;
     signals: SignalsSelect<false> | SignalsSelect<true>;
     'live-feed': LiveFeedSelect<false> | LiveFeedSelect<true>;
+    authors: AuthorsSelect<false> | AuthorsSelect<true>;
     ticker: TickerSelect<false> | TickerSelect<true>;
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
@@ -585,6 +587,10 @@ export interface Page {
              */
             backgroundImage: string | Media;
             /**
+             * Card eases along with the page scroll once it enters the viewport (desktop only).
+             */
+            scrollFollow?: boolean | null;
+            /**
              * Temporarily hide this block without deleting it.
              */
             hidden?: boolean | null;
@@ -707,6 +713,10 @@ export interface News {
   author?: (string | null) | User;
   'author photo'?: (string | null) | Media;
   'author job'?: string | null;
+  /**
+   * Public author profile shown on the site (/author/[slug]).
+   */
+  authorProfile?: (string | null) | Author;
   categories?: (string | Category)[] | null;
   tags?: (string | Tag)[] | null;
   publishedAt?: string | null;
@@ -725,6 +735,30 @@ export interface News {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "authors".
+ */
+export interface Author {
+  id: string;
+  name: string;
+  role?: string | null;
+  photo?: (string | null) | Media;
+  bio?: string | null;
+  social?:
+    | {
+        icon: string | Media;
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * URL-friendly identifier (auto-generated from name if blank)
+   */
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -770,6 +804,9 @@ export interface Signal {
   noPrice?: string | null;
   poly?: string | null;
   kalshi?: string | null;
+  polyUrl?: string | null;
+  kalshiUrl?: string | null;
+  marketUrl?: string | null;
   size?: string | null;
   odds?: string | null;
   spread?: string | null;
@@ -1145,6 +1182,10 @@ export interface PayloadLockedDocument {
         value: string | LiveFeed;
       } | null)
     | ({
+        relationTo: 'authors';
+        value: string | Author;
+      } | null)
+    | ({
         relationTo: 'ticker';
         value: string | Ticker;
       } | null)
@@ -1504,6 +1545,7 @@ export interface PagesSelect<T extends boolean = true> {
               buttonText?: T;
               buttonUrl?: T;
               backgroundImage?: T;
+              scrollFollow?: T;
               hidden?: T;
               id?: T;
               blockName?: T;
@@ -1598,6 +1640,7 @@ export interface NewsSelect<T extends boolean = true> {
   author?: T;
   'author photo'?: T;
   'author job'?: T;
+  authorProfile?: T;
   categories?: T;
   tags?: T;
   publishedAt?: T;
@@ -1648,6 +1691,9 @@ export interface SignalsSelect<T extends boolean = true> {
   noPrice?: T;
   poly?: T;
   kalshi?: T;
+  polyUrl?: T;
+  kalshiUrl?: T;
+  marketUrl?: T;
   size?: T;
   odds?: T;
   spread?: T;
@@ -1702,6 +1748,26 @@ export interface LiveFeedSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "authors_select".
+ */
+export interface AuthorsSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  photo?: T;
+  bio?: T;
+  social?:
+    | T
+    | {
+        icon?: T;
+        url?: T;
+        id?: T;
+      };
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1934,13 +2000,6 @@ export interface Header {
         id?: string | null;
       }[]
     | null;
-  social?:
-    | {
-        icon: string | Media;
-        url?: string | null;
-        id?: string | null;
-      }[]
-    | null;
   cta?: {
     label?: string | null;
     href?: string | null;
@@ -1956,13 +2015,6 @@ export interface Footer {
   id: string;
   brandName?: string | null;
   tagline?: string | null;
-  social?:
-    | {
-        icon: string | Media;
-        url?: string | null;
-        id?: string | null;
-      }[]
-    | null;
   columns?:
     | {
         title?: string | null;
@@ -2024,6 +2076,13 @@ export interface SiteSetting {
    * GA4 Measurement ID (G-XXXXXXXXXX).
    */
   ga4Id?: string | null;
+  social?:
+    | {
+        icon: string | Media;
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
    * Promo card shown on all news sub-pages.
    */
@@ -2046,6 +2105,10 @@ export interface SiteSetting {
          * Decorative image (e.g., Graph)
          */
         backgroundImage: string | Media;
+        /**
+         * Card eases along with the page scroll once it enters the viewport (desktop only).
+         */
+        scrollFollow?: boolean | null;
         /**
          * Temporarily hide this block without deleting it.
          */
@@ -2170,6 +2233,10 @@ export interface HomePage {
              * Decorative image (e.g., Graph)
              */
             backgroundImage: string | Media;
+            /**
+             * Card eases along with the page scroll once it enters the viewport (desktop only).
+             */
+            scrollFollow?: boolean | null;
             /**
              * Temporarily hide this block without deleting it.
              */
@@ -2303,6 +2370,10 @@ export interface AboutPage {
              */
             backgroundImage: string | Media;
             /**
+             * Card eases along with the page scroll once it enters the viewport (desktop only).
+             */
+            scrollFollow?: boolean | null;
+            /**
              * Temporarily hide this block without deleting it.
              */
             hidden?: boolean | null;
@@ -2356,13 +2427,6 @@ export interface ContactPage {
                   title: string;
                   linkText: string;
                   link?: string | null;
-                  id?: string | null;
-                }[]
-              | null;
-            socials?:
-              | {
-                  icon?: (string | null) | Media;
-                  link: string;
                   id?: string | null;
                 }[]
               | null;
@@ -2432,6 +2496,10 @@ export interface SignalsPage {
          */
         backgroundImage: string | Media;
         /**
+         * Card eases along with the page scroll once it enters the viewport (desktop only).
+         */
+        scrollFollow?: boolean | null;
+        /**
          * Temporarily hide this block without deleting it.
          */
         hidden?: boolean | null;
@@ -2482,6 +2550,10 @@ export interface LiveFeedPage {
          * Decorative image (e.g., Graph)
          */
         backgroundImage: string | Media;
+        /**
+         * Card eases along with the page scroll once it enters the viewport (desktop only).
+         */
+        scrollFollow?: boolean | null;
         /**
          * Temporarily hide this block without deleting it.
          */
@@ -2598,13 +2670,6 @@ export interface HeaderSelect<T extends boolean = true> {
             };
         id?: T;
       };
-  social?:
-    | T
-    | {
-        icon?: T;
-        url?: T;
-        id?: T;
-      };
   cta?:
     | T
     | {
@@ -2622,13 +2687,6 @@ export interface HeaderSelect<T extends boolean = true> {
 export interface FooterSelect<T extends boolean = true> {
   brandName?: T;
   tagline?: T;
-  social?:
-    | T
-    | {
-        icon?: T;
-        url?: T;
-        id?: T;
-      };
   columns?:
     | T
     | {
@@ -2666,6 +2724,13 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   robotsDisallowAll?: T;
   gtmId?: T;
   ga4Id?: T;
+  social?:
+    | T
+    | {
+        icon?: T;
+        url?: T;
+        id?: T;
+      };
   promoBlocks?:
     | T
     | {
@@ -2680,6 +2745,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
               buttonText?: T;
               buttonUrl?: T;
               backgroundImage?: T;
+              scrollFollow?: T;
               hidden?: T;
               id?: T;
               blockName?: T;
@@ -2771,6 +2837,7 @@ export interface HomePageSelect<T extends boolean = true> {
               buttonText?: T;
               buttonUrl?: T;
               backgroundImage?: T;
+              scrollFollow?: T;
               hidden?: T;
               id?: T;
               blockName?: T;
@@ -2865,6 +2932,7 @@ export interface AboutPageSelect<T extends boolean = true> {
               buttonText?: T;
               buttonUrl?: T;
               backgroundImage?: T;
+              scrollFollow?: T;
               hidden?: T;
               id?: T;
               blockName?: T;
@@ -2917,13 +2985,6 @@ export interface ContactPageSelect<T extends boolean = true> {
                     icon?: T;
                     title?: T;
                     linkText?: T;
-                    link?: T;
-                    id?: T;
-                  };
-              socials?:
-                | T
-                | {
-                    icon?: T;
                     link?: T;
                     id?: T;
                   };
@@ -2980,6 +3041,7 @@ export interface SignalsPageSelect<T extends boolean = true> {
               buttonText?: T;
               buttonUrl?: T;
               backgroundImage?: T;
+              scrollFollow?: T;
               hidden?: T;
               id?: T;
               blockName?: T;
@@ -3022,6 +3084,7 @@ export interface LiveFeedPageSelect<T extends boolean = true> {
               buttonText?: T;
               buttonUrl?: T;
               backgroundImage?: T;
+              scrollFollow?: T;
               hidden?: T;
               id?: T;
               blockName?: T;
@@ -3116,6 +3179,7 @@ export interface TaskCreateCollectionExport {
       | 'tags'
       | 'signals'
       | 'live-feed'
+      | 'authors'
       | 'ticker'
       | 'contact-submissions'
       | 'redirects'
