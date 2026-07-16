@@ -21,6 +21,7 @@ export interface MappedSignalData {
   odds?: string
   spread?: string
   platform?: string
+  address?: string
   profitablyPP?: string
   profitably: boolean
   externalId: string
@@ -38,6 +39,10 @@ export const formatCents = (price?: number): string | undefined => {
 }
 
 const isPolymarket = (venue?: string) => venue?.toLowerCase().includes('poly') ?? false
+
+/** Feed sends placeholders ('Unknown', 'N/A …') for hidden wallets; keep only real 0x addresses. */
+export const isWalletAddress = (value?: string): value is string =>
+  !!value && /^0x[a-fA-F0-9]{40}$/.test(value.trim())
 
 /** First link whose key or value contains any of the needles (case-insensitive). */
 const pickLink = (links: Record<string, string> | undefined, ...needles: string[]) => {
@@ -77,6 +82,7 @@ export function mapExternalToSignalData(item: ExternalSignalItem): MappedSignalD
       size: f.size,
       odds: f.odds_at_entry,
       platform: f.platform,
+      address: isWalletAddress(f.address) ? f.address.trim() : undefined,
       marketUrl: pickLink(links, 'poly', 'kalshi', 'market', 'event'),
       profitably: false,
     }

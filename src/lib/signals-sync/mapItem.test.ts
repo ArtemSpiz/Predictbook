@@ -31,6 +31,7 @@ const whaleItem: ExternalSignalItem = {
   fields: {
     platform: 'KALSHI',
     market: 'France vs Spain: To Advance',
+    address: '0x06fb6a9076bd43360d93660c0ca9086db5dd9713',
     side: 'BUY',
     size: '$247,716',
     odds_at_entry: '64.00%',
@@ -90,10 +91,18 @@ describe('mapExternalToSignalData', () => {
       size: '$247,716',
       odds: '64.00%',
       platform: 'KALSHI',
+      address: '0x06fb6a9076bd43360d93660c0ca9086db5dd9713',
       profitably: false,
       slug: `whale-${whaleItem.id}`,
     })
     expect(data?.yesPrice).toBeUndefined()
+  })
+
+  it('drops non-wallet address placeholders', () => {
+    for (const address of ['Unknown', 'N/A (not publicly available)', '0x123']) {
+      const data = mapExternalToSignalData({ ...whaleItem, fields: { ...whaleItem.fields, address } })
+      expect(data?.address).toBeUndefined()
+    }
   })
 
   it('returns null for unknown types', () => {

@@ -4,9 +4,32 @@ import { CategoryChip } from '@/app/ui/CategoryChips'
 import { ExternalLink } from '@/app/ui/ExternalLink'
 import { SignalKindBadge } from '@/app/ui/SignalKindBadge'
 import { sortByFeatured, type SignalView } from '@/app/lib/viewModels'
+import { isWalletAddress } from '@/lib/signals-sync/mapItem'
 
 const venueUrl = (venue: string | undefined, poly?: string, kalshi?: string, fallback?: string) =>
   venue?.toLowerCase().includes('poly') ? (poly ?? fallback) : (kalshi ?? fallback)
+
+const isPolymarket = (platform?: string) => platform?.toLowerCase().includes('poly') ?? false
+
+function WhaleAddress({ card }: { card: SignalView }) {
+  const polyAddress =
+    isPolymarket(card.platform) && isWalletAddress(card.address) ? card.address : undefined
+  return (
+    <div className="text-muted text-sm mt-1">
+      Address:{' '}
+      {polyAddress ? (
+        <ExternalLink
+          href={`https://polymarket.com/${polyAddress}`}
+          className="text-info hover:underline break-all"
+        >
+          {polyAddress}
+        </ExternalLink>
+      ) : (
+        'unknown'
+      )}
+    </div>
+  )
+}
 
 function ArbitrageFooter({ card }: { card: SignalView }) {
   return (
@@ -104,8 +127,13 @@ export default function SignalsCard({ cards }: { cards: SignalView[] }) {
                 {card.title}
               </ExternalLink>
             </div>
-            {card.kind === 'whale' && card.subtitle && (
-              <div className="text-muted text-sm mt-1">Market Outcome: {card.subtitle}</div>
+            {card.kind === 'whale' && (
+              <>
+                {card.subtitle && (
+                  <div className="text-muted text-sm mt-1">Market Outcome: {card.subtitle}</div>
+                )}
+                <WhaleAddress card={card} />
+              </>
             )}
           </div>
 

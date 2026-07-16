@@ -44,6 +44,7 @@ export interface SignalView {
   odds?: string
   spread?: string
   platform?: string
+  address?: string
   volume?: string
   profitablyPP?: string
   polyUrl?: string
@@ -141,6 +142,7 @@ export function signalToView(s: Signal): SignalView {
     odds: s.odds ?? undefined,
     spread: s.spread ?? undefined,
     platform: s.platform ?? undefined,
+    address: s.address ?? undefined,
     volume: s.volume ?? undefined,
     profitablyPP: s.profitablyPP ?? undefined,
     polyUrl: s.polyUrl ?? undefined,

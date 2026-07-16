@@ -819,6 +819,7 @@ export interface Signal {
   odds?: string | null;
   spread?: string | null;
   platform?: string | null;
+  address?: string | null;
   volume?: string | null;
   profitablyPP?: string | null;
   profitably?: boolean | null;
@@ -1711,6 +1712,7 @@ export interface SignalsSelect<T extends boolean = true> {
   odds?: T;
   spread?: T;
   platform?: T;
+  address?: T;
   volume?: T;
   profitablyPP?: T;
   profitably?: T;

@@ -92,6 +92,7 @@ export const Signals: CollectionConfig = {
                 { name: 'platform', type: 'text', admin: { width: '20%' } },
               ],
             },
+            { name: 'address', type: 'text', label: 'Wallet address' },
             {
               type: 'row',
               fields: [
