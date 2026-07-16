@@ -23,6 +23,14 @@ export const SiteSettings: GlobalConfig = {
           label: 'Branding',
           fields: [
             {
+              name: 'siteName',
+              type: 'text',
+              admin: {
+                description:
+                  'Site name shown in the browser tab and the title suffix (e.g. "Page | Site Name"). Falls back to the built-in default when empty.',
+              },
+            },
+            {
               name: 'favicon',
               type: 'upload',
               relationTo: 'media',

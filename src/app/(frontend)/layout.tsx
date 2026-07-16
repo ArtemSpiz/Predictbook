@@ -16,10 +16,17 @@ import { fontMono, fontSans } from './fonts'
 import './globals.css'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { faviconUrl } = await getSiteSettings()
+  const { faviconUrl, siteName } = await getSiteSettings()
+  const name = siteName || siteConfig.name
   return {
     ...(faviconUrl ? { icons: { icon: faviconUrl, shortcut: faviconUrl, apple: faviconUrl } } : {}),
     ...baseMetadata,
+    title: { default: name, template: `%s | ${name}` },
+    applicationName: name,
+    authors: [{ name }],
+    creator: name,
+    publisher: name,
+    openGraph: { ...baseMetadata.openGraph, siteName: name, title: name },
   }
 }
 

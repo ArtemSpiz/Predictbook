@@ -12,6 +12,7 @@ export type SiteSettings = {
   gtmId?: string
   ga4Id?: string
   faviconUrl?: string
+  siteName?: string
 }
 
 const DEFAULTS: SiteSettings = {
@@ -52,6 +53,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     ga4Id: data.ga4Id || undefined,
     faviconUrl:
       data.favicon && typeof data.favicon === 'object' ? (data.favicon.url ?? undefined) : undefined,
+    siteName: data.siteName || undefined,
   }
 }
 

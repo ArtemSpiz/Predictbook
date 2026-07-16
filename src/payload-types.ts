@@ -2070,6 +2070,10 @@ export interface Footer {
 export interface SiteSetting {
   id: string;
   /**
+   * Site name shown in the browser tab and the title suffix (e.g. "Page | Site Name"). Falls back to the built-in default when empty.
+   */
+  siteName?: string | null;
+  /**
    * Site-wide favicon shown in browser tabs. Use a square .ico, .png, or .svg (32×32 or larger).
    */
   favicon?: (string | null) | Media;
@@ -2831,6 +2835,7 @@ export interface FooterSelect<T extends boolean = true> {
  * via the `definition` "site-settings_select".
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
+  siteName?: T;
   favicon?: T;
   sitemapIncludeNews?: T;
   sitemapIncludeSignals?: T;
