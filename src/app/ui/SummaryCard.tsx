@@ -11,6 +11,7 @@ interface SummaryCardProps {
   active?: number
   day?: string
   time?: string
+  buttonUrl?: string
 }
 
 export default function SummaryCard({
@@ -21,6 +22,7 @@ export default function SummaryCard({
   active = 0,
   day = 'Today',
   time = '20:00',
+  buttonUrl = '/signals',
 }: SummaryCardProps) {
   return (
     <div className="overflow-hidden border border-solid border-line ">
@@ -50,7 +52,7 @@ export default function SummaryCard({
         </div>
 
         <div className="max-md:hidden">
-          <CustomBtn text={`Read ${title.toLowerCase()}`} center light />
+          <CustomBtn text={`Read ${title.toLowerCase()}`} center light href={buttonUrl} />
         </div>
       </div>
     </div>

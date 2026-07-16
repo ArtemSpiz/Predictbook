@@ -543,6 +543,10 @@ export interface Page {
              */
             subtitle?: string | null;
             /**
+             * Where the "Read …" button links (defaults to the signals page).
+             */
+            buttonUrl?: string | null;
+            /**
              * If there is only one, the tabs are not displayed on the site.
              */
             tabs?:
@@ -1515,6 +1519,7 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               title?: T;
               subtitle?: T;
+              buttonUrl?: T;
               tabs?:
                 | T
                 | {
@@ -2190,6 +2195,10 @@ export interface HomePage {
              */
             subtitle?: string | null;
             /**
+             * Where the "Read …" button links (defaults to the signals page).
+             */
+            buttonUrl?: string | null;
+            /**
              * If there is only one, the tabs are not displayed on the site.
              */
             tabs?:
@@ -2606,6 +2615,10 @@ export interface NewsPage {
          */
         subtitle?: string | null;
         /**
+         * Where the "Read …" button links (defaults to the signals page).
+         */
+        buttonUrl?: string | null;
+        /**
          * If there is only one, the tabs are not displayed on the site.
          */
         tabs?:
@@ -2807,6 +2820,7 @@ export interface HomePageSelect<T extends boolean = true> {
           | {
               title?: T;
               subtitle?: T;
+              buttonUrl?: T;
               tabs?:
                 | T
                 | {
@@ -3127,6 +3141,7 @@ export interface NewsPageSelect<T extends boolean = true> {
           | {
               title?: T;
               subtitle?: T;
+              buttonUrl?: T;
               tabs?:
                 | T
                 | {

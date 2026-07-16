@@ -24,6 +24,14 @@ export const SummaryBlock: Block = {
       },
     },
     {
+      name: 'buttonUrl',
+      type: 'text',
+      defaultValue: '/signals',
+      admin: {
+        description: 'Where the "Read …" button links (defaults to the signals page).',
+      },
+    },
+    {
       name: 'tabs',
       type: 'array',
       label: 'Summary Tabs',

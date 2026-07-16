@@ -22,7 +22,13 @@ const FALLBACK: SummaryItem[] = [
   },
 ]
 
-export default function Summary({ summaries }: { summaries?: SummaryItem[] }) {
+export default function Summary({
+  summaries,
+  buttonUrl = '/signals',
+}: {
+  summaries?: SummaryItem[]
+  buttonUrl?: string
+}) {
   const TypeSummary = summaries && summaries.length > 0 ? summaries : FALLBACK
   const hasTabs = TypeSummary.length > 1
 
@@ -80,6 +86,7 @@ export default function Summary({ summaries }: { summaries?: SummaryItem[] }) {
         time={card.time}
         direction={direction}
         active={active}
+        buttonUrl={buttonUrl}
       />
     </div>
   )

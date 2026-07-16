@@ -5,6 +5,7 @@ import { getSignalsSummary } from '@/utilities/getSignalsSummary'
 type SummaryBlock = {
   title?: string | null
   subtitle?: string | null
+  buttonUrl?: string | null
   tabs: {
     title: string
     infoTitle: string
@@ -35,7 +36,7 @@ export async function SummaryBlockComponent({ block }: { block: SummaryBlock }) 
     <div className="flex flex-col gap-3">
       <BlockTitle title={block?.title ?? ''} subtitle={block?.subtitle ?? undefined} />
 
-      <Summary summaries={summaries} />
+      <Summary summaries={summaries} buttonUrl={block.buttonUrl ?? '/signals'} />
     </div>
   )
 }
