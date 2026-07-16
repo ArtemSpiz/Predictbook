@@ -19,7 +19,6 @@ export function resolveEmailAdapter(
       defaultFromAddress: config.from,
       defaultFromName: config.from,
       sendEmail: async (message) => {
-        // eslint-disable-next-line no-console
         console.log('[email:console]', JSON.stringify(message, null, 2))
         return { accepted: Array.isArray(message.to) ? message.to : [message.to] }
       },

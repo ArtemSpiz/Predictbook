@@ -9,14 +9,9 @@ const cols: Record<string, string> = {
   '4': 'md:grid-cols-4',
 }
 
-interface Item {
-  heading?: string
-  content?: any
-}
-
 export function TextColumnsBlock({ block }: { block: Block }) {
   const colClass = cols[(block.columns as string) ?? '2'] ?? cols['2']
-  const items = (block.items ?? []) as Item[]
+  const items = block.items ?? []
   return (
     <section className="px-6 py-12">
       <div className="max-w-6xl mx-auto">

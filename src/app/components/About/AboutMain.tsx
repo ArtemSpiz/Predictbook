@@ -5,6 +5,13 @@ import AboutCTA from './AboutCTA'
 import type { AboutPage } from '@/payload-types'
 import StatsBlockComponent from '@/blocks/StatsBlock/Component'
 
+type NumbersBlockNode = {
+  fields: {
+    title?: string | null
+    stats: { value: string; label: string; description?: string | null }[]
+  }
+}
+
 export default function AboutMain({ content }: { content?: AboutPage | null }) {
   const title = content?.title ?? 'About Predictbook'
   return (
@@ -19,7 +26,7 @@ export default function AboutMain({ content }: { content?: AboutPage | null }) {
               converters={({ defaultConverters }) => ({
                 ...defaultConverters,
                 blocks: {
-                  numbersBlock: ({ node }: { node: any }) => (
+                  numbersBlock: ({ node }: { node: NumbersBlockNode }) => (
                     <StatsBlockComponent title={node.fields.title} stats={node.fields.stats} />
                   ),
                 },

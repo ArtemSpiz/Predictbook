@@ -1,18 +1,11 @@
-import type { Media } from '@/payload-types'
 import type { PageBlock } from '@/blocks/types'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import { PayloadImage } from '@/app/components/PayloadImage'
 
 type Block = Extract<PageBlock, { blockType: 'content-media' }>
 
-interface Section {
-  heading?: string
-  content?: any
-  image?: Media | string | null
-}
-
 export function ContentMediaBlock({ block }: { block: Block }) {
-  const sections = (block.sections ?? []) as Section[]
+  const sections = block.sections ?? []
   return (
     <section className="px-6 py-12">
       {block.heading && (

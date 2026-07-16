@@ -28,8 +28,6 @@ import {
   type LinkFields,
 } from '@payloadcms/richtext-lexical'
 import { HighlightFeature } from '@/features/highlight/feature.server'
-import { StatsBlock } from '@/blocks/Stats/Component'
-import StatsBlockComponent from '@/blocks/StatsBlock/Component'
 import NumbersBlock from '@/blocks/StatsBlock/config'
 
 export const wideMarkupLexical = lexicalEditor({

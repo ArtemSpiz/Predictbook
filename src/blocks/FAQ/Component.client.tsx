@@ -5,13 +5,8 @@ import type { PageBlock } from '@/blocks/types'
 
 type Block = Extract<PageBlock, { blockType: 'faq' }>
 
-interface Item {
-  question: string
-  answer: any
-}
-
 export function FAQClient({ block }: { block: Block }) {
-  const items = (block.items ?? []) as Item[]
+  const items = block.items ?? []
   const [open, setOpen] = useState<number | null>(0)
   return (
     <section className="px-6 py-12">

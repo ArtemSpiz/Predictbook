@@ -1,7 +1,7 @@
 import type { PageBlock } from '@/blocks/types'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import Link from 'next/link'
-import { resolveLinkHref } from '@/utilities/resolveLinkHref'
+import { resolveLinkHref, type LinkValue } from '@/utilities/resolveLinkHref'
 
 type Block = Extract<PageBlock, { blockType: 'call-to-action' }>
 
@@ -17,7 +17,7 @@ export function CallToActionBlock({ block }: { block: Block }) {
         )}
         {Array.isArray(block.buttons) && block.buttons.length > 0 && (
           <div className="flex gap-4 justify-center flex-wrap">
-            {block.buttons.map((btn: { link?: any }, i: number) => {
+            {block.buttons.map((btn: { link?: LinkValue }, i: number) => {
               const link = btn.link
               const href = resolveLinkHref(link)
               return (
