@@ -116,7 +116,7 @@ export function liveFeedToView(f: LiveFeed): FeedView {
     title: f.title,
     subtitle: f.subtitle ?? undefined,
     categories: categoryTitles(f.categories),
-    updates: f.updates ?? f.timeline?.length ?? 0,
+    updates: f.timeline?.length ?? 0,
     live: f.live ?? false,
     timeline: (f.timeline ?? []).map((t) => ({ time: t.time, text: t.text })),
   }
