@@ -753,6 +753,7 @@ export interface Author {
   social?:
     | {
         icon: string | Media;
+        text?: string | null;
         url?: string | null;
         id?: string | null;
       }[]
@@ -1773,6 +1774,7 @@ export interface AuthorsSelect<T extends boolean = true> {
     | T
     | {
         icon?: T;
+        text?: T;
         url?: T;
         id?: T;
       };

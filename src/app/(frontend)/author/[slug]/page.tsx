@@ -12,6 +12,7 @@ import { PayloadImage } from '@/app/components/PayloadImage'
 import { SocialLinks } from '@/app/ui/SocialLinks'
 import { RenderBlockList } from '@/blocks/RenderBlockList'
 import { localeAlternates } from '@/utilities/metadataAlternates'
+import Image from 'next/image'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -41,14 +42,38 @@ export default async function AuthorPage({ params }: Props) {
             <div className="flex items-center gap-4">
               {author.photo && (
                 <div className="w-16 h-16 rounded-full overflow-hidden shrink-0">
-                  <PayloadImage media={author.photo} alt={author.name} className="w-16 h-16 object-cover" />
+                  <PayloadImage
+                    media={author.photo}
+                    alt={author.name}
+                    className="w-16 h-16 object-cover"
+                  />
                 </div>
               )}
               <BlockTitle title={author.name} subtitle={author.role ?? undefined} />
             </div>
 
             {author.social && author.social.length > 0 && (
-              <SocialLinks items={author.social} className="flex items-center gap-3" linkClassName="w-8 h-8" />
+              <div className="flex items-center lg:justify-end flex-wrap gap-1">
+                {author.social.map((item, i) => (
+                  <a
+                    key={i}
+                    className="border cursor-pointer text-sm flex-nowrap border-line rounded-md p-2 flex items-center gap-2"
+                  >
+                    <div className="w-4 h-4">
+                      {typeof item.icon === 'object' ? (
+                        <PayloadImage
+                          media={item.icon}
+                          alt={item.text ?? ''}
+                          className="w-4 h-4 object-contain"
+                        />
+                      ) : (
+                        <Image src={item.icon} alt="" width={16} height={16} />
+                      )}
+                    </div>
+                    {item.text && <div className="text-nowrap">{item.text}</div>}
+                  </a>
+                ))}
+              </div>
             )}
           </div>
 

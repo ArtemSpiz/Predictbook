@@ -24,6 +24,7 @@ export const Authors: CollectionConfig = {
       labels: { singular: 'Social link', plural: 'Social links' },
       fields: [
         { name: 'icon', type: 'upload', relationTo: 'media', required: true },
+        { name: 'text', type: 'text' },
         { name: 'url', type: 'text' },
       ],
     },
