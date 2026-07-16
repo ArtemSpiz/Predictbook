@@ -88,7 +88,6 @@ export default async function AuthorPage({ params }: Props) {
               ))}
             </div>
           </div>
-
           {articles.length === 0 ? (
             <EmptyArticles message="There are currently no articles by this author." />
           ) : (
