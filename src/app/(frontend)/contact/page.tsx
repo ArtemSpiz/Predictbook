@@ -2,16 +2,17 @@ import type { Metadata } from 'next'
 import { RenderBlockList } from '@/blocks/RenderBlockList'
 import { getContactPageContent } from '@/utilities/getPageContent'
 import { localeAlternates } from '@/utilities/metadataAlternates'
-import { resolvePageMeta } from '@/fields/seoMeta'
+import { resolvePageMeta } from '@/utilities/resolvePageMeta'
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await getContactPageContent()
   const formBlock = content?.mainBlocks?.find((b) => b.blockType === 'contact-form-fields')
   return {
-    ...resolvePageMeta(content?.meta, {
+    ...(await resolvePageMeta(content?.meta, {
       title: formBlock?.heading ?? 'Contact Us',
       description: formBlock?.subtitle ?? undefined,
-    }),
+      url: '/contact',
+    })),
     ...localeAlternates('contact'),
   }
 }

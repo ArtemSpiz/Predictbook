@@ -2,14 +2,14 @@ import type { Metadata } from 'next'
 import { localeAlternates } from '@/utilities/metadataAlternates'
 import { getHomePageContent } from '@/utilities/getPageContent'
 import { getSiteSettings } from '@/utilities/getSiteSettings'
-import { resolvePageMeta } from '@/fields/seoMeta'
+import { resolvePageMeta } from '@/utilities/resolvePageMeta'
 import { siteConfig } from '@/utilities/siteConfig'
 import Main from '../components/Home/Main'
 
 export async function generateMetadata(): Promise<Metadata> {
   const [content, { siteName }] = await Promise.all([getHomePageContent(), getSiteSettings()])
   const name = siteName || siteConfig.name
-  const meta = resolvePageMeta(content?.meta, {
+  const meta = await resolvePageMeta(content?.meta, {
     title: name,
     description: siteConfig.description,
   })
