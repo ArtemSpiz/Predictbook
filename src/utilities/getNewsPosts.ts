@@ -32,7 +32,7 @@ async function fetchNewsPosts({
   if (authorName) where['author.name'] = { equals: authorName }
   if (authorProfileId) where.authorProfile = { equals: authorProfileId }
   if (search) {
-    where.or = [{ title: { like: search } }, { subtitle: { like: search } }]
+    where.or = [{ title: { like: search } }, { excerpt: { like: search } }]
   }
   const result = await payload.find({
     collection: 'news',

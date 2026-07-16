@@ -1,5 +1,6 @@
 import Summary, { SummaryItem } from '@/app/components/Home/Summary'
 import BlockTitle from '@/app/ui/BlockTitle'
+import { getSignalsSummary } from '@/utilities/getSignalsSummary'
 
 type SummaryBlock = {
   title?: string | null
@@ -15,14 +16,20 @@ type SummaryBlock = {
   }[]
 }
 
-export function SummaryBlockComponent({ block }: { block: SummaryBlock }) {
-  const summaries: SummaryItem[] = block.tabs.map((tab) => ({
-    title: tab.title,
-    infoTitle: tab.infoTitle,
-    day: tab.day ?? 'Today',
-    time: tab.time ?? '20:00',
-    info: tab.info.map((i) => i.text),
-  }))
+export async function SummaryBlockComponent({ block }: { block: SummaryBlock }) {
+  // Daily/Weekly summaries are derived from the signals collection; the CMS tabs
+  // are only used as a fallback when there are no signals to summarise.
+  const derived = await getSignalsSummary()
+  const summaries: SummaryItem[] =
+    derived.length > 0
+      ? derived
+      : block.tabs.map((tab) => ({
+          title: tab.title,
+          infoTitle: tab.infoTitle,
+          day: tab.day ?? 'Today',
+          time: tab.time ?? '20:00',
+          info: tab.info.map((i) => i.text),
+        }))
 
   return (
     <div className="flex flex-col gap-3">
