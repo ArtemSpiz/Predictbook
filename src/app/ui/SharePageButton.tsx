@@ -34,7 +34,7 @@ export function SharePageButton({ title }: { title?: string }) {
       onClick={onShare}
       title={copied ? 'Link copied' : 'Share'}
       aria-label="Share this page"
-      className="border border-line cursor-pointer rounded-md w-10 h-10 flex justify-center items-center bg-transparent"
+      className="border border-solid border-line cursor-pointer rounded-md w-10 h-10 flex justify-center items-center bg-transparent"
     >
       <Image src={Copy} alt="" className="object-contain" />
     </button>
