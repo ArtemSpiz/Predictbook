@@ -2,10 +2,10 @@ import Image from 'next/image'
 import Clock from '../../../../public/time.png'
 import CustomBtn from '@/app/ui/CustomBtn'
 import { ExternalLink } from '@/app/ui/ExternalLink'
+import { SignalKindBadge } from '@/app/ui/SignalKindBadge'
 
 export type AlertCard = {
   type: 'arbitrage' | 'whale'
-  underTitle: string
   time: string
   title: string
 
@@ -47,15 +47,7 @@ export default function Alert({ title, cards, delayLabel, viewAllText, viewAllUr
           {cards.map((card, i) => (
             <div key={i} className="border-t border-line py-3 px-4">
               <div className="flex items-center justify-between mb-3">
-                <div
-                  className={`py-1 px-1.5 border border-solid text-nowrap text-xs uppercase max-h-[20px] leading-none ${
-                    card.underTitle === 'whale alert'
-                      ? 'border-cat-whale-border text-cat-whale-text bg-cat-whale-bg'
-                      : 'border-cat-arb-border bg-cat-arb-bg text-cat-arb-text'
-                  }`}
-                >
-                  {card.underTitle}
-                </div>
+                <SignalKindBadge kind={card.type} />
 
                 <div className="text-muted text-xs">{card.time} UTC</div>
               </div>

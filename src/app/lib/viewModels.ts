@@ -160,7 +160,6 @@ export function signalToLiveView(s: Signal): LiveSignalView {
 export function liveViewToAlert(v: LiveSignalView): AlertCard {
   return {
     type: v.kind,
-    underTitle: v.kind === 'whale' ? 'whale alert' : 'ARBITRAGE',
     time: v.time,
     title: v.title,
     size: v.size,
@@ -178,7 +177,6 @@ export function liveViewToAlert(v: LiveSignalView): AlertCard {
 export function signalToAlert(s: Signal): AlertCard {
   return {
     type: s.kind,
-    underTitle: s.kind === 'whale' ? 'whale alert' : 'ARBITRAGE',
     time: fmtTime(s.publishedAt),
     title: s.title,
     size: s.size ?? undefined,
