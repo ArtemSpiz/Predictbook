@@ -13,7 +13,7 @@ export default function AboutMain({ content }: { content?: AboutPage | null }) {
         <Breadcrumbs items={[{ label: title }]} />
         <BlockTitle title={title} />
         {content?.body && (
-          <div className="prose text-sm text-muted max-w-none">
+          <div className="prose text-muted max-w-none">
             <RichText
               data={content.body}
               converters={({ defaultConverters }) => ({
