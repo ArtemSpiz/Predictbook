@@ -56,7 +56,7 @@ export default function Summary({
   return (
     <div>
       {hasTabs && (
-        <div className="relative flex rounded-lg bg-sand-4 p-1 ">
+        <div className="relative flex rounded-lg bg-sand-4 p-1 justify-center ">
           <span
             className="absolute top-1 bottom-1 rounded-lg bg-ink shadow-sm transition-all duration-350 ease-smooth"
             style={{ left: sliderStyle.left, width: sliderStyle.width }}
@@ -68,7 +68,7 @@ export default function Summary({
                 btnRefs.current[i] = el
               }}
               onClick={() => handleSwitch(i)}
-              className={`relative z-10 px-4 py-2 w-[48%] rounded-lg text-sm bg-transparent transition-colors duration-300 ${
+              className={`relative z-10 px-4 py-2 text-nowrap w-[48%] rounded-lg text-sm bg-transparent transition-colors duration-300 ${
                 active === i ? 'text-paper-2' : 'text-muted'
               }`}
             >

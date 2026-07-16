@@ -11,7 +11,7 @@ export default async function NewsMain() {
           <RenderBlockList blocks={content?.mainBlocks} />
         </div>
 
-        <div className="flex flex-col gap-4 md:max-w-[300px]">
+        <div className="flex flex-col gap-4 md:max-w-[300px] md:w-[300px]">
           <RenderBlockList blocks={content?.sidebarBlocks} />
         </div>
       </div>
