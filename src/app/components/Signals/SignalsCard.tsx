@@ -104,10 +104,8 @@ export default function SignalsCard({ cards }: { cards: SignalView[] }) {
                 {card.title}
               </ExternalLink>
             </div>
-            {card.subtitle && (
-              <div className="text-muted text-sm mt-1">
-                {card.kind === 'whale' ? `Market Outcome: ${card.subtitle}` : card.subtitle}
-              </div>
+            {card.kind === 'whale' && card.subtitle && (
+              <div className="text-muted text-sm mt-1">Market Outcome: {card.subtitle}</div>
             )}
           </div>
 

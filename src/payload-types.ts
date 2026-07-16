@@ -1710,6 +1710,7 @@ export interface SignalsSelect<T extends boolean = true> {
   size?: T;
   odds?: T;
   spread?: T;
+  platform?: T;
   volume?: T;
   profitablyPP?: T;
   profitably?: T;
