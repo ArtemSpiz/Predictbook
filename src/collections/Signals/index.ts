@@ -63,6 +63,13 @@ export const Signals: CollectionConfig = {
             {
               type: 'row',
               fields: [
+                { name: 'yesVenue', type: 'text', label: 'YES venue', admin: { width: '50%' } },
+                { name: 'noVenue', type: 'text', label: 'NO venue', admin: { width: '50%' } },
+              ],
+            },
+            {
+              type: 'row',
+              fields: [
                 { name: 'poly', type: 'text', label: 'Polymarket', admin: { width: '50%' } },
                 { name: 'kalshi', type: 'text', label: 'Kalshi', admin: { width: '50%' } },
               ],
@@ -78,9 +85,10 @@ export const Signals: CollectionConfig = {
             {
               type: 'row',
               fields: [
-                { name: 'size', type: 'text', admin: { width: '33%' } },
-                { name: 'odds', type: 'text', admin: { width: '33%' } },
-                { name: 'spread', type: 'text', admin: { width: '33%' } },
+                { name: 'side', type: 'text', admin: { width: '25%' } },
+                { name: 'size', type: 'text', admin: { width: '25%' } },
+                { name: 'odds', type: 'text', admin: { width: '25%' } },
+                { name: 'spread', type: 'text', admin: { width: '25%' } },
               ],
             },
             {

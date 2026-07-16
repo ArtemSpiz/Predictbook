@@ -37,6 +37,11 @@ export interface SignalView {
   profitably: boolean
   yesPrice?: string
   noPrice?: string
+  yesVenue?: string
+  noVenue?: string
+  side?: string
+  size?: string
+  odds?: string
   spread?: string
   volume?: string
   profitablyPP?: string
@@ -128,6 +133,11 @@ export function signalToView(s: Signal): SignalView {
     profitably: s.profitably ?? false,
     yesPrice: s.yesPrice ?? undefined,
     noPrice: s.noPrice ?? undefined,
+    yesVenue: s.yesVenue ?? undefined,
+    noVenue: s.noVenue ?? undefined,
+    side: s.side ?? undefined,
+    size: s.size ?? undefined,
+    odds: s.odds ?? undefined,
     spread: s.spread ?? undefined,
     volume: s.volume ?? undefined,
     profitablyPP: s.profitablyPP ?? undefined,
@@ -139,8 +149,6 @@ export function signalToView(s: Signal): SignalView {
 
 /** SignalView plus the Alert-card fields and a cursor, for the live polling feed. */
 export interface LiveSignalView extends SignalView {
-  size?: string
-  odds?: string
   poly?: string
   kalshi?: string
   publishedAt: string
@@ -149,8 +157,6 @@ export interface LiveSignalView extends SignalView {
 export function signalToLiveView(s: Signal): LiveSignalView {
   return {
     ...signalToView(s),
-    size: s.size ?? undefined,
-    odds: s.odds ?? undefined,
     poly: s.poly ?? undefined,
     kalshi: s.kalshi ?? undefined,
     publishedAt: s.publishedAt ?? s.createdAt,

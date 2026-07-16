@@ -9,11 +9,14 @@ export interface MappedSignalData {
   publishedAt: string
   yesPrice?: string
   noPrice?: string
+  yesVenue?: string
+  noVenue?: string
   poly?: string
   kalshi?: string
   polyUrl?: string
   kalshiUrl?: string
   marketUrl?: string
+  side?: string
   size?: string
   odds?: string
   spread?: string
@@ -69,6 +72,7 @@ export function mapExternalToSignalData(item: ExternalSignalItem): MappedSignalD
       ...base,
       title: f.market ?? item.title ?? 'Whale alert',
       subtitle: f.market_outcome,
+      side: f.side,
       size: f.size,
       odds: f.odds_at_entry,
       marketUrl: pickLink(links, 'poly', 'kalshi', 'market', 'event'),
@@ -88,6 +92,8 @@ export function mapExternalToSignalData(item: ExternalSignalItem): MappedSignalD
       f.yes_venue && f.no_venue ? `BUY YES @ ${f.yes_venue} · BUY NO @ ${f.no_venue}` : undefined,
     yesPrice,
     noPrice,
+    yesVenue: f.yes_venue,
+    noVenue: f.no_venue,
     poly: polyIsYes ? yesPrice : noPrice,
     kalshi: polyIsYes ? noPrice : yesPrice,
     polyUrl,

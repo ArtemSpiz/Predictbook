@@ -5,6 +5,59 @@ import { ExternalLink } from '@/app/ui/ExternalLink'
 import { SignalKindBadge } from '@/app/ui/SignalKindBadge'
 import { sortByFeatured, type SignalView } from '@/app/lib/viewModels'
 
+const venueUrl = (venue: string | undefined, poly?: string, kalshi?: string, fallback?: string) =>
+  venue?.toLowerCase().includes('poly') ? (poly ?? fallback) : (kalshi ?? fallback)
+
+function ArbitrageFooter({ card }: { card: SignalView }) {
+  return (
+    <div className="grid grid-cols-3 p-3 border-t border-line">
+      <div className="flex flex-col gap-1">
+        <div className="text-muted uppercase font-mono font-medium text-xs">
+          YES{card.yesVenue ? ` · ${card.yesVenue}` : ''}
+        </div>
+        <ExternalLink
+          href={venueUrl(card.yesVenue, card.polyUrl, card.kalshiUrl, card.marketUrl)}
+          className="text-positive uppercase font-mono font-medium text-lg hover:underline"
+        >
+          {card.yesPrice}
+        </ExternalLink>
+      </div>
+      <div className="flex flex-col gap-1 pl-3 border-l border-l-line">
+        <div className="text-muted uppercase font-mono font-medium text-xs">
+          NO{card.noVenue ? ` · ${card.noVenue}` : ''}
+        </div>
+        <ExternalLink
+          href={venueUrl(card.noVenue, card.polyUrl, card.kalshiUrl, card.marketUrl)}
+          className="text-negative uppercase font-mono font-medium text-lg hover:underline"
+        >
+          {card.noPrice}
+        </ExternalLink>
+      </div>
+      <div className="flex flex-col gap-1 pl-3 border-l border-l-line">
+        <div className="text-muted uppercase font-mono font-medium text-xs">Spread</div>
+        <div className="text-success uppercase font-mono font-medium text-lg">{card.spread}</div>
+      </div>
+    </div>
+  )
+}
+
+function WhaleFooter({ card }: { card: SignalView }) {
+  return (
+    <div className="grid grid-cols-2 p-3 border-t border-line">
+      <div className="flex flex-col gap-1">
+        <div className="text-muted uppercase font-mono font-medium text-xs">Side</div>
+        <div className="uppercase font-mono font-medium text-lg">
+          {card.side} <span className="text-success">{card.odds}</span>
+        </div>
+      </div>
+      <div className="flex flex-col gap-1 pl-3 border-l border-l-line">
+        <div className="text-muted uppercase font-mono font-medium text-xs">Size</div>
+        <div className="uppercase font-mono font-medium text-lg">{card.size}</div>
+      </div>
+    </div>
+  )
+}
+
 export default function SignalsCard({ cards }: { cards: SignalView[] }) {
   const sortedCards = sortByFeatured(cards)
 
@@ -47,32 +100,10 @@ export default function SignalsCard({ cards }: { cards: SignalView[] }) {
                 {card.title}
               </ExternalLink>
             </div>
+            {card.subtitle && <div className="text-muted text-sm mt-1">{card.subtitle}</div>}
           </div>
 
-          <div className="grid grid-cols-2 p-3 border-t border-line">
-            <div className="flex flex-col gap-1">
-              <div className="text-muted uppercase font-mono font-medium text-xs">
-                {card.featured ? 'Polymarket ' : 'YES PRICE'}
-              </div>
-              <ExternalLink
-                href={card.polyUrl}
-                className="text-positive uppercase font-mono font-medium text-lg hover:underline"
-              >
-                {card.yesPrice}
-              </ExternalLink>
-            </div>
-            <div className="flex flex-col gap-1 pl-3 border-l border-l-line">
-              <div className="text-muted uppercase font-mono font-medium text-xs">
-                {card.featured ? 'KALSHI' : 'NO PRICE'}
-              </div>
-              <ExternalLink
-                href={card.kalshiUrl}
-                className="text-negative uppercase font-mono font-medium text-lg hover:underline"
-              >
-                {card.noPrice}
-              </ExternalLink>
-            </div>
-          </div>
+          {card.kind === 'whale' ? <WhaleFooter card={card} /> : <ArbitrageFooter card={card} />}
         </div>
       ))}
     </div>
