@@ -29,9 +29,7 @@ export default function NewsSlug({ post, related, social }: Props) {
     <div className="flex flex-col gap-6 flex-1 md:border-r border-line md:p-5">
       <Breadcrumbs items={[{ label: 'Analysis', href: '/analysis' }, { label: post.title }]} />
       <div className="flex items-center gap-2">
-        {post.live && (
-          <LiveBadge className="h-[-webkit-fill-available] bg-live-soft" />
-        )}
+        {post.live && <LiveBadge className="h-[-webkit-fill-available] bg-live-soft" />}
 
         {categories.map((category) => (
           <Link
@@ -79,7 +77,7 @@ export default function NewsSlug({ post, related, social }: Props) {
               rel={EXTERNAL_REL}
               className="border border-line cursor-pointer rounded-md w-10 h-10 flex justify-center items-center"
             >
-              <PayloadImage media={item.icon} alt="" className="w-4 h-4 object-contain" />
+              <PayloadImage media={item.icon} alt="" className="object-contain" />
             </a>
           ))}
           <SharePageButton title={post.title} />

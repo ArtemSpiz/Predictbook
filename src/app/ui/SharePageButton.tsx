@@ -36,7 +36,7 @@ export function SharePageButton({ title }: { title?: string }) {
       aria-label="Share this page"
       className="border border-line cursor-pointer rounded-md w-10 h-10 flex justify-center items-center bg-transparent"
     >
-      <Image src={Copy} alt="" className="w-4 h-4" />
+      <Image src={Copy} alt="" className="object-contain" />
     </button>
   )
 }
