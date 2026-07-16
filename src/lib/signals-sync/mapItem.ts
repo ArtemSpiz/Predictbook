@@ -20,6 +20,7 @@ export interface MappedSignalData {
   size?: string
   odds?: string
   spread?: string
+  platform?: string
   profitablyPP?: string
   profitably: boolean
   externalId: string
@@ -75,6 +76,7 @@ export function mapExternalToSignalData(item: ExternalSignalItem): MappedSignalD
       side: f.side,
       size: f.size,
       odds: f.odds_at_entry,
+      platform: f.platform,
       marketUrl: pickLink(links, 'poly', 'kalshi', 'market', 'event'),
       profitably: false,
     }

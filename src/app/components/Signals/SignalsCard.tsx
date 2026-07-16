@@ -43,7 +43,7 @@ function ArbitrageFooter({ card }: { card: SignalView }) {
 
 function WhaleFooter({ card }: { card: SignalView }) {
   return (
-    <div className="grid grid-cols-2 p-3 border-t border-line">
+    <div className="grid grid-cols-3 p-3 border-t border-line">
       <div className="flex flex-col gap-1">
         <div className="text-muted uppercase font-mono font-medium text-xs">Side</div>
         <div className="uppercase font-mono font-medium text-lg">
@@ -53,6 +53,10 @@ function WhaleFooter({ card }: { card: SignalView }) {
       <div className="flex flex-col gap-1 pl-3 border-l border-l-line">
         <div className="text-muted uppercase font-mono font-medium text-xs">Size</div>
         <div className="uppercase font-mono font-medium text-lg">{card.size}</div>
+      </div>
+      <div className="flex flex-col gap-1 pl-3 border-l border-l-line">
+        <div className="text-muted uppercase font-mono font-medium text-xs">Platform</div>
+        <div className="uppercase font-mono font-medium text-lg">{card.platform}</div>
       </div>
     </div>
   )
@@ -100,7 +104,11 @@ export default function SignalsCard({ cards }: { cards: SignalView[] }) {
                 {card.title}
               </ExternalLink>
             </div>
-            {card.subtitle && <div className="text-muted text-sm mt-1">{card.subtitle}</div>}
+            {card.subtitle && (
+              <div className="text-muted text-sm mt-1">
+                {card.kind === 'whale' ? `Market Outcome: ${card.subtitle}` : card.subtitle}
+              </div>
+            )}
           </div>
 
           {card.kind === 'whale' ? <WhaleFooter card={card} /> : <ArbitrageFooter card={card} />}

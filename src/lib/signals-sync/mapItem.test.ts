@@ -89,6 +89,7 @@ describe('mapExternalToSignalData', () => {
       side: 'BUY',
       size: '$247,716',
       odds: '64.00%',
+      platform: 'KALSHI',
       profitably: false,
       slug: `whale-${whaleItem.id}`,
     })

@@ -818,6 +818,7 @@ export interface Signal {
   size?: string | null;
   odds?: string | null;
   spread?: string | null;
+  platform?: string | null;
   volume?: string | null;
   profitablyPP?: string | null;
   profitably?: boolean | null;

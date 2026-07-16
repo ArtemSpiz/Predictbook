@@ -85,10 +85,11 @@ export const Signals: CollectionConfig = {
             {
               type: 'row',
               fields: [
-                { name: 'side', type: 'text', admin: { width: '25%' } },
-                { name: 'size', type: 'text', admin: { width: '25%' } },
-                { name: 'odds', type: 'text', admin: { width: '25%' } },
-                { name: 'spread', type: 'text', admin: { width: '25%' } },
+                { name: 'side', type: 'text', admin: { width: '20%' } },
+                { name: 'size', type: 'text', admin: { width: '20%' } },
+                { name: 'odds', type: 'text', admin: { width: '20%' } },
+                { name: 'spread', type: 'text', admin: { width: '20%' } },
+                { name: 'platform', type: 'text', admin: { width: '20%' } },
               ],
             },
             {
