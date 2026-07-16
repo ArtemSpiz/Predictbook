@@ -31,7 +31,10 @@ export default function NewsCol({
 }: Props) {
   const searchParams = useSearchParams()
 
-  const fullCategories = useMemo(() => ['All', ...categories], [categories])
+  const fullCategories = useMemo(
+    () => ['All', ...categories.filter((c) => c !== 'All')],
+    [categories],
+  )
   const initialCategory = searchParams.get('category') || 'All'
 
   const [activeCategory, setActiveCategory] = useState(initialCategory)
