@@ -3,6 +3,7 @@ import BlockTitle from '@/app/ui/BlockTitle'
 import { Breadcrumbs } from '@/app/ui/Breadcrumbs'
 import AboutCTA from './AboutCTA'
 import type { AboutPage } from '@/payload-types'
+import StatsBlockComponent from '@/blocks/StatsBlock/Component'
 
 export default function AboutMain({ content }: { content?: AboutPage | null }) {
   const title = content?.title ?? 'About Predictbook'
@@ -13,7 +14,17 @@ export default function AboutMain({ content }: { content?: AboutPage | null }) {
         <BlockTitle title={title} />
         {content?.body && (
           <div className="prose text-sm text-muted max-w-none">
-            <RichText data={content.body} />
+            <RichText
+              data={content.body}
+              converters={({ defaultConverters }) => ({
+                ...defaultConverters,
+                blocks: {
+                  numbersBlock: ({ node }: { node: any }) => (
+                    <StatsBlockComponent title={node.fields.title} stats={node.fields.stats} />
+                  ),
+                },
+              })}
+            />
           </div>
         )}
         <AboutCTA cta={content?.cta} />

@@ -33,6 +33,7 @@ const allBlocks = [
   Stats,
   SummaryBlock,
   RealCardBlock,
+
   ...(starterConfig.features.swiper ? [Testimonials] : []),
   ...(starterConfig.features.charts ? [StatsChart] : []),
 ]

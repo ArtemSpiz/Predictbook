@@ -2,6 +2,7 @@ import type { TextFieldSingleValidation } from 'payload'
 import {
   AlignFeature,
   BlockquoteFeature,
+  BlocksFeature,
   BoldFeature,
   ChecklistFeature,
   EXPERIMENTAL_TableFeature,
@@ -27,6 +28,9 @@ import {
   type LinkFields,
 } from '@payloadcms/richtext-lexical'
 import { HighlightFeature } from '@/features/highlight/feature.server'
+import { StatsBlock } from '@/blocks/Stats/Component'
+import StatsBlockComponent from '@/blocks/StatsBlock/Component'
+import NumbersBlock from '@/blocks/StatsBlock/config'
 
 export const wideMarkupLexical = lexicalEditor({
   features: ({ rootFeatures }) => {
@@ -96,6 +100,7 @@ export const wideMarkupLexical = lexicalEditor({
         },
       }),
       HighlightFeature(),
+      BlocksFeature({ blocks: [NumbersBlock] }),
     ]
   },
 })
