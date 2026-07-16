@@ -2070,6 +2070,10 @@ export interface Footer {
 export interface SiteSetting {
   id: string;
   /**
+   * Site-wide favicon shown in browser tabs. Use a square .ico, .png, or .svg (32×32 or larger).
+   */
+  favicon?: (string | null) | Media;
+  /**
    * Include published news posts in sitemap.xml.
    */
   sitemapIncludeNews?: boolean | null;
@@ -2326,6 +2330,20 @@ export interface HomePage {
           }
       )[]
     | null;
+  meta?: {
+    /**
+     * Browser tab / search title. Falls back to the page heading.
+     */
+    title?: string | null;
+    /**
+     * Meta description for search engines and social shares.
+     */
+    description?: string | null;
+    /**
+     * Open Graph / social share image (recommended 1200×630).
+     */
+    image?: (string | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2404,6 +2422,20 @@ export interface AboutPage {
           }
       )[]
     | null;
+  meta?: {
+    /**
+     * Browser tab / search title. Falls back to the page heading.
+     */
+    title?: string | null;
+    /**
+     * Meta description for search engines and social shares.
+     */
+    description?: string | null;
+    /**
+     * Open Graph / social share image (recommended 1200×630).
+     */
+    image?: (string | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2473,6 +2505,20 @@ export interface ContactPage {
           }
       )[]
     | null;
+  meta?: {
+    /**
+     * Browser tab / search title. Falls back to the page heading.
+     */
+    title?: string | null;
+    /**
+     * Meta description for search engines and social shares.
+     */
+    description?: string | null;
+    /**
+     * Open Graph / social share image (recommended 1200×630).
+     */
+    image?: (string | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2529,6 +2575,20 @@ export interface SignalsPage {
         blockType: 'real-card';
       }[]
     | null;
+  meta?: {
+    /**
+     * Browser tab / search title. Falls back to the page heading.
+     */
+    title?: string | null;
+    /**
+     * Meta description for search engines and social shares.
+     */
+    description?: string | null;
+    /**
+     * Open Graph / social share image (recommended 1200×630).
+     */
+    image?: (string | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2584,6 +2644,20 @@ export interface LiveFeedPage {
         blockType: 'real-card';
       }[]
     | null;
+  meta?: {
+    /**
+     * Browser tab / search title. Falls back to the page heading.
+     */
+    title?: string | null;
+    /**
+     * Meta description for search engines and social shares.
+     */
+    description?: string | null;
+    /**
+     * Open Graph / social share image (recommended 1200×630).
+     */
+    image?: (string | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2657,6 +2731,20 @@ export interface NewsPage {
         blockType: 'summary';
       }[]
     | null;
+  meta?: {
+    /**
+     * Browser tab / search title. Falls back to the page heading.
+     */
+    title?: string | null;
+    /**
+     * Meta description for search engines and social shares.
+     */
+    description?: string | null;
+    /**
+     * Open Graph / social share image (recommended 1200×630).
+     */
+    image?: (string | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2743,6 +2831,7 @@ export interface FooterSelect<T extends boolean = true> {
  * via the `definition` "site-settings_select".
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
+  favicon?: T;
   sitemapIncludeNews?: T;
   sitemapIncludeSignals?: T;
   sitemapIncludeLiveFeed?: T;
@@ -2914,6 +3003,13 @@ export interface HomePageSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -2963,6 +3059,13 @@ export interface AboutPageSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -3029,6 +3132,13 @@ export interface ContactPageSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -3073,6 +3183,13 @@ export interface SignalsPageSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -3115,6 +3232,13 @@ export interface LiveFeedPageSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -3173,6 +3297,13 @@ export interface NewsPageSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
       };
   updatedAt?: T;
   createdAt?: T;

@@ -7,6 +7,7 @@ import { RealCardBlock } from '@/blocks/RealCard/config'
 import { AnalysisBlock } from '@/blocks/Analysis/config'
 import { LiveFeedBlock } from '@/blocks/LiveFeedBlock/config'
 import { CategorySectionBlock } from '@/blocks/CategorySection/config'
+import { seoTab } from '@/fields/seoMeta'
 
 export const HomePage: GlobalConfig = {
   slug: 'home-page',
@@ -76,6 +77,7 @@ export const HomePage: GlobalConfig = {
             },
           ],
         },
+        seoTab,
       ],
     },
   ],

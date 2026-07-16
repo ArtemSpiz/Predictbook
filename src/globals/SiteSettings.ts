@@ -20,6 +20,20 @@ export const SiteSettings: GlobalConfig = {
       type: 'tabs',
       tabs: [
         {
+          label: 'Branding',
+          fields: [
+            {
+              name: 'favicon',
+              type: 'upload',
+              relationTo: 'media',
+              admin: {
+                description:
+                  'Site-wide favicon shown in browser tabs. Use a square .ico, .png, or .svg (32×32 or larger).',
+              },
+            },
+          ],
+        },
+        {
           label: 'SEO',
           fields: [
             {

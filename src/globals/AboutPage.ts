@@ -4,6 +4,7 @@ import { revalidateGlobalHooks } from '@/hooks/revalidateFrontCache'
 import { wideMarkupLexical } from '@/fields/wideMarkupLexical'
 import { LiveFeedBlock } from '@/blocks/LiveFeedBlock/config'
 import { RealCardBlock } from '@/blocks/RealCard/config'
+import { seoTab } from '@/fields/seoMeta'
 
 export const AboutPage: GlobalConfig = {
   slug: 'about-page',
@@ -50,6 +51,7 @@ export const AboutPage: GlobalConfig = {
             },
           ],
         },
+        seoTab,
       ],
     },
   ],

@@ -3,6 +3,7 @@ import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { revalidateGlobalHooks } from '@/hooks/revalidateFrontCache'
 import { NewsListBlock } from '@/blocks/NewsList/config'
 import { SummaryBlock } from '@/blocks/Summary/config'
+import { seoTab } from '@/fields/seoMeta'
 
 export const NewsPage: GlobalConfig = {
   slug: 'news-page',
@@ -36,6 +37,7 @@ export const NewsPage: GlobalConfig = {
             },
           ],
         },
+        seoTab,
       ],
     },
   ],

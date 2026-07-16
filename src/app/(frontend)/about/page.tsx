@@ -3,11 +3,12 @@ import AboutMain from '@/app/components/About/AboutMain'
 import { RenderBlockList } from '@/blocks/RenderBlockList'
 import { getAboutPageContent } from '@/utilities/getPageContent'
 import { localeAlternates } from '@/utilities/metadataAlternates'
+import { resolvePageMeta } from '@/fields/seoMeta'
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await getAboutPageContent()
   return {
-    title: content?.title ?? 'About Predictbook',
+    ...resolvePageMeta(content?.meta, { title: content?.title ?? 'About Predictbook' }),
     ...localeAlternates('about'),
   }
 }

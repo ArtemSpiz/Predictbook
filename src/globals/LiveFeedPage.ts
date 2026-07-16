@@ -3,6 +3,7 @@ import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { revalidateGlobalHooks } from '@/hooks/revalidateFrontCache'
 import { LiveFeedListBlock } from '@/blocks/LiveFeedList/config'
 import { RealCardBlock } from '@/blocks/RealCard/config'
+import { seoTab } from '@/fields/seoMeta'
 
 export const LiveFeedPage: GlobalConfig = {
   slug: 'live-feed-page',
@@ -36,6 +37,7 @@ export const LiveFeedPage: GlobalConfig = {
             },
           ],
         },
+        seoTab,
       ],
     },
   ],

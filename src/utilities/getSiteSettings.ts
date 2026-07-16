@@ -11,6 +11,7 @@ export type SiteSettings = {
   robotsDisallowAll: boolean
   gtmId?: string
   ga4Id?: string
+  faviconUrl?: string
 }
 
 const DEFAULTS: SiteSettings = {
@@ -49,6 +50,8 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     robotsDisallowAll: data.robotsDisallowAll === true,
     gtmId: data.gtmId || undefined,
     ga4Id: data.ga4Id || undefined,
+    faviconUrl:
+      data.favicon && typeof data.favicon === 'object' ? (data.favicon.url ?? undefined) : undefined,
   }
 }
 

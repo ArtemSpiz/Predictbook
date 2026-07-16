@@ -4,6 +4,7 @@ import { revalidateGlobalHooks } from '@/hooks/revalidateFrontCache'
 import { ContactFormFieldsBlock } from '@/blocks/ContactFormFields/config'
 import { ContactMethodsBlock } from '@/blocks/ContactMethods/config'
 import { ContactValueBlock } from '@/blocks/ContactValue/config'
+import { seoTab } from '@/fields/seoMeta'
 
 export const ContactPage: GlobalConfig = {
   slug: 'contact-page',
@@ -37,6 +38,7 @@ export const ContactPage: GlobalConfig = {
             },
           ],
         },
+        seoTab,
       ],
     },
   ],

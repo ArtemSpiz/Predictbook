@@ -15,7 +15,15 @@ import { generateStructuredData, jsonLdScriptContent } from '@/utilities/structu
 import { fontMono, fontSans } from './fonts'
 import './globals.css'
 
-export const metadata: Metadata = {
+export async function generateMetadata(): Promise<Metadata> {
+  const { faviconUrl } = await getSiteSettings()
+  return {
+    ...(faviconUrl ? { icons: { icon: faviconUrl, shortcut: faviconUrl, apple: faviconUrl } } : {}),
+    ...baseMetadata,
+  }
+}
+
+const baseMetadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: { default: siteConfig.name, template: `%s | ${siteConfig.name}` },
   description: siteConfig.description,

@@ -3,6 +3,7 @@ import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { revalidateGlobalHooks } from '@/hooks/revalidateFrontCache'
 import { SignalsListBlock } from '@/blocks/SignalsList/config'
 import { RealCardBlock } from '@/blocks/RealCard/config'
+import { seoTab } from '@/fields/seoMeta'
 
 export const SignalsPage: GlobalConfig = {
   slug: 'signals-page',
@@ -36,6 +37,7 @@ export const SignalsPage: GlobalConfig = {
             },
           ],
         },
+        seoTab,
       ],
     },
   ],
