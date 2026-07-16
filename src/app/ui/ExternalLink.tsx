@@ -15,7 +15,9 @@ export function ExternalLink({
   title?: string
   children: ReactNode
 }) {
-  if (!href) return <>{children}</>
+  // Without a URL, still render a styled span so callers keep their className
+  // (colours, etc.) instead of dropping to bare text.
+  if (!href) return <span className={className}>{children}</span>
   return (
     <a href={href} target="_blank" rel={EXTERNAL_REL} className={className} title={title}>
       {children}
