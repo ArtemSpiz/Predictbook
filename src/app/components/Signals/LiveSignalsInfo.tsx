@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import SignalsInfo, { type SignalTab } from './SignalsInfo'
 import { useLiveSignals } from '@/app/hooks/useLiveSignals'
@@ -23,8 +23,18 @@ interface Props {
   limit: number
 }
 
-/** Client shell around SignalsInfo that prepends freshly polled signals. */
-export default function LiveSignalsInfo({
+/** Client shell around SignalsInfo that prepends freshly polled signals.
+ * Wrapped in Suspense because useSearchParams (tab deep-linking) otherwise
+ * bails static prerendering of /signals. */
+export default function LiveSignalsInfo(props: Props) {
+  return (
+    <Suspense fallback={null}>
+      <LiveSignalsInfoInner {...props} />
+    </Suspense>
+  )
+}
+
+function LiveSignalsInfoInner({
   title,
   subtitle,
   delayText,
