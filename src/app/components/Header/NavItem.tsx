@@ -15,18 +15,20 @@ export function NavItem({ item, active }: { item: NavEntry; active: boolean }) {
         href={href === '#' ? undefined : href}
         className="flex items-center gap-2 p-4 max-xl:p-3 hover:bg-shell group-hover:bg-shell"
       >
-        <span className={`text-sm ${active ? 'font-bold' : 'font-normal'}`}>{item.link?.label}</span>
+        <span className={`text-sm ${active ? 'font-bold' : 'font-normal'}`}>
+          {item.link?.label}
+        </span>
         {hasChildren && (
           <Image src={Down} alt="" className="w-3 transition-transform group-hover:-rotate-180" />
         )}
       </a>
       {hasChildren && (
-        <div className="absolute left-0 mx-auto top-full hidden group-hover:block bg-shell min-w-[105px] z-20 ">
+        <div className="absolute left-0 mx-auto top-full hidden group-hover:block bg-shell min-w-[109px] z-20 ">
           {children.map((child, i) => (
             <a
               key={i}
               href={resolveLinkHref(child.link)}
-              className="block p-4 text-sm text-center  border-t border-paper hover:bg-sand-2"
+              className="block p-4 text-sm text-left  border-t border-paper hover:bg-sand-2"
             >
               {child.link?.label}
             </a>
