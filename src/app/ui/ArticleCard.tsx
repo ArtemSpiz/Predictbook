@@ -14,7 +14,7 @@ export default function ArticleCard({ card }: { card: ArticleView }) {
           <PayloadImage
             media={card.image}
             alt={card.title}
-            className="w-full h-auto md:max-h-[290px]"
+            className="w-full h-auto md:max-h-[290px] object-cover"
           />
 
           {(card.isDeveloping || card.live) && (
@@ -26,31 +26,30 @@ export default function ArticleCard({ card }: { card: ArticleView }) {
         </div>
       )}
 
-      <div className={`border-b border-line ${card.featured ? 'px-4 py-2' : 'p-4'}`}>
-        {!card.image && (card.isDeveloping || card.live) && (
-          <div className="mb-2 flex items-center gap-2">
-            {card.isDeveloping && <DevelopingBadge className="w-max bg-developing-bg" />}
-            {card.live && <LiveBadge className="w-max bg-live-soft" />}
+      <div className="p-4 flex flex-col gap-2">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <CategoryChips
+              categories={card.categories}
+              chipClassName="border border-solid p-1.5 text-sm uppercase max-md:text-xs"
+            />
+            {!card.image && card.isDeveloping && (
+              <DevelopingBadge className="w-max bg-developing-bg" />
+            )}
+            {!card.image && card.live && <LiveBadge className="w-max bg-live-soft" />}
           </div>
-        )}
-        <div className="inline-block mb-1 ">
-          <div className="text-base font-medium">{card.title}</div>
-          <span className="block -mt-1 h-px w-full scale-x-0 bg-ink origin-left transition-transform duration-300 group-hover:scale-x-100" />
-        </div>
-        <div className="line-clamp-3 text-sm text-muted">{card.text}</div>
-      </div>
-
-      <div
-        className={`"flex items-center justify-between max-md:flex-row-reverse ${card.featured ? 'px-4 py-2' : 'p-4'}`}
-      >
-        <div className="text-nowrap text-sm text-date">
-          {card.day} · {card.time}
+          <div className="text-nowrap text-sm text-date">
+            {card.day} · {card.time}
+          </div>
         </div>
 
-        <CategoryChips
-          categories={card.categories}
-          chipClassName="border border-solid p-1.5 text-sm uppercase max-md:text-xs"
-        />
+        <div>
+          <div className="inline-block">
+            <div className="text-base font-medium">{card.title}</div>
+            <span className="block -mt-1 h-px w-full scale-x-0 bg-ink origin-left transition-transform duration-300 group-hover:scale-x-100" />
+          </div>
+          <div className="line-clamp-3 text-sm text-muted">{card.text}</div>
+        </div>
       </div>
     </div>
   )

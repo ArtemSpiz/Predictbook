@@ -43,7 +43,7 @@ export default function ArticleTypeMobileSwitcher({
         <div className="font-semibold text-base">{header.title}</div>
         {header.subtitle && <div className="text-sm text-muted">{header.subtitle}</div>}
       </div>
-      <div className="relative mx-auto w-full justify-between flex rounded-xl bg-white p-1 gap-2 border border-line">
+      <div className="relative mx-auto w-full justify-between flex overflow-x-auto no-scrollbar rounded-xl bg-white p-1 gap-2 border border-line">
         <span
           className="absolute top-1 bottom-1 rounded-lg bg-ink shadow-sm transition-all duration-350 ease-smooth"
           style={{ left: sliderStyle.left, width: sliderStyle.width }}
@@ -55,7 +55,7 @@ export default function ArticleTypeMobileSwitcher({
               btnRefs.current[i] = el
             }}
             onClick={() => setActive(i)}
-            className={`relative z-10 flex-1 px-4 py-2 rounded-lg text-sm bg-transparent transition-colors duration-300 ${
+            className={`relative z-10 flex-1 whitespace-nowrap px-4 py-2 rounded-lg text-sm bg-transparent transition-colors duration-300 ${
               active === i ? 'text-paper-2' : 'text-muted'
             }`}
           >

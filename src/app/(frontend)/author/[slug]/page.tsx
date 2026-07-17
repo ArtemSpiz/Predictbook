@@ -11,7 +11,6 @@ import BlockTitle from '@/app/ui/BlockTitle'
 import { PayloadImage } from '@/app/components/PayloadImage'
 import { RenderBlockList } from '@/blocks/RenderBlockList'
 import { localeAlternates } from '@/utilities/metadataAlternates'
-import Image from 'next/image'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -35,7 +34,7 @@ export default async function AuthorPage({ params }: Props) {
     <main className="container-custom">
       <div className="md:border-l md:border-r border-line p-6 flex gap-5 max-md:flex-col max-lg:p-0 max-lg:py-5">
         <div className="flex flex-col gap-6 flex-1 md:border-r border-line md:p-5">
-          <Breadcrumbs items={[{ label: 'Analysis', href: '/analysis' }, { label: author.name }]} />
+          <Breadcrumbs items={[{ label: author.name }]} />
 
           <div className="flex justify-between gap-3 lg:items-center max-lg:flex-col">
             <div className="flex items-center gap-4">
@@ -53,25 +52,32 @@ export default async function AuthorPage({ params }: Props) {
 
             {author.social && author.social.length > 0 && (
               <div className="flex items-center lg:justify-end flex-wrap gap-1">
-                {author.social.map((item, i) => (
-                  <a
-                    key={i}
-                    className="border cursor-pointer text-sm flex-nowrap border-line rounded-md p-2 flex items-center gap-2"
-                  >
-                    <div className="w-4 h-4">
-                      {typeof item.icon === 'object' ? (
-                        <PayloadImage
-                          media={item.icon}
+                {author.social.map((item, i) => {
+                  // Icons are usually SVG uploads, which next/image can't optimize
+                  // without dangerouslyAllowSVG — render them directly.
+                  const iconUrl =
+                    typeof item.icon === 'object' && item.icon ? item.icon.url : item.icon
+                  return (
+                    <a
+                      key={i}
+                      href={item.url ?? undefined}
+                      target={item.url ? '_blank' : undefined}
+                      rel={item.url ? 'noopener noreferrer' : undefined}
+                      className="border cursor-pointer text-sm flex-nowrap border-line rounded-md px-2 flex items-center gap-2 min-w-8 min-h-8"
+                    >
+                      {iconUrl && (
+                        <img
+                          src={iconUrl}
                           alt={item.text ?? ''}
+                          width={16}
+                          height={16}
                           className="w-4 h-4 object-contain"
                         />
-                      ) : (
-                        <Image src={item.icon} alt="" width={16} height={16} />
                       )}
-                    </div>
-                    {item.text && <div className="text-nowrap">{item.text}</div>}
-                  </a>
-                ))}
+                      {item.text && <div className="text-nowrap">{item.text}</div>}
+                    </a>
+                  )
+                })}
               </div>
             )}
           </div>

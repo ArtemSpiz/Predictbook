@@ -15,11 +15,17 @@ export function ArticleList({
 }) {
   return (
     <div className="flex flex-col gap-4">
-      {articles.map((article, index) => (
-        <Link key={article.slug} href={`/analysis/${article.slug}`}>
-          <ArticleCard card={{ ...article, featured: index === 0 }} />
-        </Link>
-      ))}
+      <div className="grid gap-2 xl:grid-cols-2">
+        {articles.map((article, index) => (
+          <Link
+            key={article.slug}
+            href={`/analysis/${article.slug}`}
+            className={index === 0 ? 'xl:col-span-2' : ''}
+          >
+            <ArticleCard card={{ ...article, featured: index === 0 }} />
+          </Link>
+        ))}
+      </div>
       {children}
     </div>
   )

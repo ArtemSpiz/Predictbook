@@ -689,6 +689,9 @@ export interface Page {
 export interface News {
   id: string;
   title: string;
+  /**
+   * Short summary, also used as the meta description fallback. Max 150 characters.
+   */
   excerpt?: string | null;
   coverImage?: (string | null) | Media;
   /**

@@ -78,7 +78,12 @@ export const News: CollectionConfig = {
           label: 'Content',
           fields: [
             { name: 'title', type: 'text', required: true },
-            { name: 'excerpt', type: 'textarea' },
+            {
+              name: 'excerpt',
+              type: 'textarea',
+              maxLength: 150,
+              admin: { description: 'Short summary, also used as the meta description fallback. Max 150 characters.' },
+            },
             { name: 'coverImage', type: 'upload', relationTo: 'media' },
             {
               type: 'row',
