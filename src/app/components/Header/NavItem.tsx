@@ -13,7 +13,7 @@ export function NavItem({ item, active }: { item: NavEntry; active: boolean }) {
     <div className="relative group ">
       <a
         href={href === '#' ? undefined : href}
-        className="flex items-center gap-2 p-4 max-xl:p-3 hover:bg-shell group-hover:bg-shell w-[110px]"
+        className="flex items-center gap-2 p-4 justify-center max-xl:p-3 hover:bg-shell group-hover:bg-shell w-[110px]"
       >
         <span className={`text-sm ${active ? 'font-bold' : 'font-normal'}`}>
           {item.link?.label}
