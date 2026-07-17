@@ -13,7 +13,7 @@ export function NavItem({ item, active }: { item: NavEntry; active: boolean }) {
     <div className="relative group ">
       <a
         href={href === '#' ? undefined : href}
-        className="flex items-center gap-2 p-4 max-xl:p-3 hover:bg-shell group-hover:bg-shell"
+        className="flex items-center gap-2 p-4 max-xl:p-3 hover:bg-shell group-hover:bg-shell w-[110px]"
       >
         <span className={`text-sm ${active ? 'font-bold' : 'font-normal'}`}>
           {item.link?.label}
@@ -23,7 +23,7 @@ export function NavItem({ item, active }: { item: NavEntry; active: boolean }) {
         )}
       </a>
       {hasChildren && (
-        <div className="absolute left-0 mx-auto top-full hidden group-hover:block bg-shell min-w-[109px] z-20 ">
+        <div className="absolute left-0 mx-auto top-full hidden group-hover:block bg-shell min-w-[110px] z-20 ">
           {children.map((child, i) => (
             <a
               key={i}
