@@ -1,4 +1,5 @@
 import { LiveBadge } from '@/app/ui/LiveBadge'
+import { DevelopingBadge } from '@/app/ui/DevelopingBadge'
 import AnotherNews from './AnotherNews'
 import { Breadcrumbs } from '@/app/ui/Breadcrumbs'
 import { getCategoryStyle } from '@/app/lib/getCategoryStyle'
@@ -29,6 +30,8 @@ export default function NewsSlug({ post, related, social }: Props) {
     <div className="flex flex-col gap-6 flex-1 md:border-r border-line md:p-5">
       <Breadcrumbs items={[{ label: 'Analysis', href: '/analysis' }, { label: post.title }]} />
       <div className="flex items-center gap-2">
+        {post.isDeveloping && <DevelopingBadge className="h-[-webkit-fill-available]" />}
+
         {post.live && <LiveBadge className="h-[-webkit-fill-available] bg-live-soft" />}
 
         {categories.map((category) => (

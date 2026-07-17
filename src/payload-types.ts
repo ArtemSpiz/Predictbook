@@ -657,10 +657,6 @@ export interface Page {
           }
       )[]
     | null;
-  /**
-   * URL-friendly identifier (auto-generated from title if blank)
-   */
-  slug: string;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -669,6 +665,10 @@ export interface Page {
      */
     image?: (string | null) | Media;
   };
+  /**
+   * URL-friendly identifier (auto-generated from title if blank)
+   */
+  slug: string;
   parent?: (string | null) | Page;
   breadcrumbs?:
     | {
@@ -699,6 +699,10 @@ export interface News {
    * Show the live badge.
    */
   live?: boolean | null;
+  /**
+   * Show the developing badge.
+   */
+  isDeveloping?: boolean | null;
   content: {
     root: {
       type: string;
@@ -724,10 +728,6 @@ export interface News {
   categories?: (string | Category)[] | null;
   tags?: (string | Tag)[] | null;
   publishedAt?: string | null;
-  /**
-   * URL-friendly identifier (auto-generated from title if blank)
-   */
-  slug: string;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -736,6 +736,10 @@ export interface News {
      */
     image?: (string | null) | Media;
   };
+  /**
+   * URL-friendly identifier (auto-generated from title if blank)
+   */
+  slug: string;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -829,10 +833,6 @@ export interface Signal {
   externalText?: string | null;
   categories?: (string | Category)[] | null;
   publishedAt?: string | null;
-  /**
-   * URL-friendly identifier (auto-generated from title if blank)
-   */
-  slug: string;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -841,6 +841,10 @@ export interface Signal {
      */
     image?: (string | null) | Media;
   };
+  /**
+   * URL-friendly identifier (auto-generated from title if blank)
+   */
+  slug: string;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -868,10 +872,6 @@ export interface LiveFeed {
   updates?: number | null;
   categories?: (string | Category)[] | null;
   publishedAt?: string | null;
-  /**
-   * URL-friendly identifier (auto-generated from title if blank)
-   */
-  slug: string;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -880,6 +880,10 @@ export interface LiveFeed {
      */
     image?: (string | null) | Media;
   };
+  /**
+   * URL-friendly identifier (auto-generated from title if blank)
+   */
+  slug: string;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1616,7 +1620,6 @@ export interface PagesSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
-  slug?: T;
   meta?:
     | T
     | {
@@ -1624,6 +1627,7 @@ export interface PagesSelect<T extends boolean = true> {
         description?: T;
         image?: T;
       };
+  slug?: T;
   parent?: T;
   breadcrumbs?:
     | T
@@ -1647,6 +1651,7 @@ export interface NewsSelect<T extends boolean = true> {
   coverImage?: T;
   featured?: T;
   live?: T;
+  isDeveloping?: T;
   content?: T;
   author?: T;
   'author photo'?: T;
@@ -1655,7 +1660,6 @@ export interface NewsSelect<T extends boolean = true> {
   categories?: T;
   tags?: T;
   publishedAt?: T;
-  slug?: T;
   meta?:
     | T
     | {
@@ -1663,6 +1667,7 @@ export interface NewsSelect<T extends boolean = true> {
         description?: T;
         image?: T;
       };
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1722,7 +1727,6 @@ export interface SignalsSelect<T extends boolean = true> {
   externalText?: T;
   categories?: T;
   publishedAt?: T;
-  slug?: T;
   meta?:
     | T
     | {
@@ -1730,6 +1734,7 @@ export interface SignalsSelect<T extends boolean = true> {
         description?: T;
         image?: T;
       };
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1753,7 +1758,6 @@ export interface LiveFeedSelect<T extends boolean = true> {
   updates?: T;
   categories?: T;
   publishedAt?: T;
-  slug?: T;
   meta?:
     | T
     | {
@@ -1761,6 +1765,7 @@ export interface LiveFeedSelect<T extends boolean = true> {
         description?: T;
         image?: T;
       };
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

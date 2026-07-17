@@ -11,6 +11,7 @@ export interface ArticleView {
   day: string
   time: string
   live?: boolean
+  isDeveloping?: boolean
   featured?: boolean
   authorName?: string
 }
@@ -105,6 +106,7 @@ export function newsToArticleView(b: News): ArticleView {
     day: fmtDay(b.publishedAt),
     time: fmtTime(b.publishedAt),
     live: b.live ?? false,
+    isDeveloping: b.isDeveloping ?? false,
     featured: b.featured ?? false,
     authorName: author?.name ?? undefined,
   }

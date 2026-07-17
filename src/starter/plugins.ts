@@ -14,6 +14,7 @@ export function buildPlugins(features: FeaturesConfig) {
       seoPlugin({
         collections: ['pages', 'news', 'signals', 'live-feed'],
         uploadsCollection: 'media',
+        tabbedUI: true,
         generateTitle: ({ doc }: { doc?: { title?: string } }) => `${doc?.title ?? 'Untitled'}`,
       }),
     )

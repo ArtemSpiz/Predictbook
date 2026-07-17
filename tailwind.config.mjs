@@ -83,6 +83,8 @@ export default {
         'chip-bg': '#E0E8F5',
         'chip-border': '#CAD7ED',
         'blue': '#3B82F6',
+        'developing': '#6B42D9',
+        'developing-bg': '#F7F4F2',
         'amber': '#F59E0B',
         'red': '#EF4444',
         'green': '#10B981',

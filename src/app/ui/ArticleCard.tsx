@@ -1,4 +1,5 @@
 import { LiveBadge } from '@/app/ui/LiveBadge'
+import { DevelopingBadge } from '@/app/ui/DevelopingBadge'
 import { CategoryChips } from '@/app/ui/CategoryChips'
 import { PayloadImage } from '@/app/components/PayloadImage'
 import type { ArticleView } from '../lib/viewModels'
@@ -16,16 +17,22 @@ export default function ArticleCard({ card }: { card: ArticleView }) {
             className="w-full h-auto md:max-h-[290px]"
           />
 
-          {card.live && (
+          {(card.isDeveloping || card.live) && (
             <div className="absolute top-3.5 left-4 flex items-center gap-2">
-              <LiveBadge className="bg-live-soft" />
+              {card.isDeveloping && <DevelopingBadge className="bg-developing-bg" />}
+              {card.live && <LiveBadge className="bg-live-soft" />}
             </div>
           )}
         </div>
       )}
 
       <div className={`border-b border-line ${card.featured ? 'px-4 py-2' : 'p-4'}`}>
-        {card.live && !card.image && <LiveBadge className="w-max mb-2 bg-live-soft" />}
+        {!card.image && (card.isDeveloping || card.live) && (
+          <div className="mb-2 flex items-center gap-2">
+            {card.isDeveloping && <DevelopingBadge className="w-max bg-developing-bg" />}
+            {card.live && <LiveBadge className="w-max bg-live-soft" />}
+          </div>
+        )}
         <div className="inline-block mb-1 ">
           <div className="text-base font-medium">{card.title}</div>
           <span className="block -mt-1 h-px w-full scale-x-0 bg-ink origin-left transition-transform duration-300 group-hover:scale-x-100" />
