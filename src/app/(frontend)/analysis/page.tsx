@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: block?.subtitle ?? undefined,
       url: '/analysis',
     })),
-    ...localeAlternates('analysis'),
+    ...localeAlternates('analysis', '/analysis/feed'),
   }
 }
 

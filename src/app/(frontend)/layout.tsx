@@ -17,18 +17,36 @@ import { fontMono, fontSans } from './fonts'
 import './globals.css'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { faviconUrl, siteName, googleSiteVerification, bingSiteVerification } =
-    await getSiteSettings()
+  const {
+    faviconUrl,
+    siteName,
+    googleSiteVerification,
+    bingSiteVerification,
+    defaultMetaDescription,
+    defaultMetaImageUrl,
+  } = await getSiteSettings()
   const name = siteName || siteConfig.name
+  const description = defaultMetaDescription || siteConfig.description
   return {
     ...(faviconUrl ? { icons: { icon: faviconUrl, shortcut: faviconUrl, apple: faviconUrl } } : {}),
     ...baseMetadata,
     title: { default: name, template: `%s | ${name}` },
+    description,
     applicationName: name,
     authors: [{ name }],
     creator: name,
     publisher: name,
-    openGraph: { ...baseMetadata.openGraph, siteName: name, title: name },
+    openGraph: {
+      ...baseMetadata.openGraph,
+      siteName: name,
+      title: name,
+      description,
+      ...(defaultMetaImageUrl ? { images: [defaultMetaImageUrl] } : {}),
+    },
+    twitter: {
+      ...baseMetadata.twitter,
+      ...(defaultMetaImageUrl ? { images: [defaultMetaImageUrl] } : {}),
+    },
     alternates: { types: { 'application/rss+xml': `${getSiteUrl()}/feed` } },
     ...(googleSiteVerification || bingSiteVerification
       ? {
