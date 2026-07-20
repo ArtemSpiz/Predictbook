@@ -10,6 +10,7 @@ import { Breadcrumbs } from '@/app/ui/Breadcrumbs'
 import BlockTitle from '@/app/ui/BlockTitle'
 import { PayloadImage } from '@/app/components/PayloadImage'
 import { RenderBlockList } from '@/blocks/RenderBlockList'
+import { ContentLayout } from '@/app/ui/ContentLayout'
 import { localeAlternates } from '@/utilities/metadataAlternates'
 
 type Props = { params: Promise<{ slug: string }> }
@@ -32,8 +33,8 @@ export default async function AuthorPage({ params }: Props) {
 
   return (
     <main className="container-custom">
-      <div className="md:border-l md:border-r border-line p-6 flex gap-5 max-md:flex-col max-lg:p-0 max-lg:py-5">
-        <div className="flex flex-col gap-6 flex-1 md:border-r border-line md:p-5">
+      <ContentLayout>
+        <div className="flex flex-col gap-6 flex-1 lg:border-r border-line lg:p-5">
           <Breadcrumbs items={[{ label: author.name }]} />
 
           <div className="flex justify-between gap-3 lg:items-center max-lg:flex-col">
@@ -90,10 +91,10 @@ export default async function AuthorPage({ params }: Props) {
             <ArticleList articles={articles} />
           )}
         </div>
-        <div className="flex flex-col gap-4 md:max-w-[300px]">
+        <div className="flex flex-col gap-4 lg:max-w-[300px]">
           <RenderBlockList blocks={sidebar.promoBlocks} />
         </div>
-      </div>
+      </ContentLayout>
     </main>
   )
 }

@@ -5,6 +5,7 @@ import { getSiteUrl } from '@/utilities/getSiteUrl'
 import { generatePageStructuredData, jsonLdScriptContent } from '@/utilities/structuredData'
 import LiveFeedSlug from '@/app/components/LiveFeed/LiveFeedSlug'
 import { RenderBlockList } from '@/blocks/RenderBlockList'
+import { ContentLayout } from '@/app/ui/ContentLayout'
 import { getSiteSidebar } from '@/utilities/getSiteSettings'
 
 type Props = { params: Promise<{ slug: string }> }
@@ -38,12 +39,12 @@ export default async function LiveFeedThread({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLdScriptContent(structuredData) }}
       />
-      <div className="md:border-l md:border-r border-line p-6 flex gap-5 max-md:flex-col max-lg:p-0 max-lg:py-5">
+      <ContentLayout>
         <LiveFeedSlug item={item} />
-        <div className="flex flex-col gap-4 md:max-w-[300px]">
+        <div className="flex flex-col gap-4 lg:max-w-[300px]">
           <RenderBlockList blocks={sidebar.promoBlocks} />
         </div>
-      </div>
+      </ContentLayout>
     </main>
   )
 }

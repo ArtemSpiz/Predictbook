@@ -30,7 +30,7 @@ export default function NewsSlug({ post, related, social }: Props) {
     post.coverImage && typeof post.coverImage === 'object' ? (post.coverImage as Media) : null
 
   return (
-    <div className="flex flex-col gap-6 flex-1 md:border-r border-line md:p-5">
+    <div className="flex flex-col gap-6 flex-1 lg:border-r border-line lg:p-5">
       <Breadcrumbs items={[{ label: 'Analysis', href: '/analysis' }, { label: post.title }]} />
       <div className="flex items-center gap-2">
         {post.isDeveloping && <DevelopingBadge className="h-[-webkit-fill-available]" />}
@@ -50,7 +50,7 @@ export default function NewsSlug({ post, related, social }: Props) {
 
       <h1 className="text-2xl font-bold">{post.title}</h1>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col items-start gap-3 md:flex-row md:items-center md:justify-between">
         <div>
           {authorProfile ? (
             <Link
@@ -74,21 +74,23 @@ export default function NewsSlug({ post, related, social }: Props) {
           </div>
         </div>
 
-        <div className="flex gap-1 items-center self-stretch">
+        <div className="flex flex-wrap gap-2 items-center max-md:w-full">
           <PreferredSourceButton />
 
-          {social.map((item, i) => (
-            <a
-              key={i}
-              href={item.url ?? ''}
-              target="_blank"
-              rel={EXTERNAL_REL}
-              className="border border-line cursor-pointer rounded-md w-10 h-10 flex justify-center items-center"
-            >
-              <PayloadImage media={item.icon} alt="" className="object-contain" />
-            </a>
-          ))}
-          <SharePageButton title={post.title} />
+          <div className="flex gap-1 items-center">
+            {social.map((item, i) => (
+              <a
+                key={i}
+                href={item.url ?? ''}
+                target="_blank"
+                rel={EXTERNAL_REL}
+                className="border border-line cursor-pointer rounded-md w-10 h-10 flex justify-center items-center"
+              >
+                <PayloadImage media={item.icon} alt="" className="object-contain" />
+              </a>
+            ))}
+            <SharePageButton title={post.title} />
+          </div>
         </div>
       </div>
 
