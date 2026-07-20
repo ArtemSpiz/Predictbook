@@ -121,7 +121,7 @@ export async function generateMetadata({ params }: Props) {
   if (category) {
     return {
       title: `${category.title} — Analysis`,
-      ...localeAlternates(`analysis/${slug}`),
+      ...localeAlternates(`analysis/${slug}`, `/analysis/${slug}/feed`),
     }
   }
   const post = await getNewsPostBySlug(slug)

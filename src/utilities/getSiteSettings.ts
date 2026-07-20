@@ -15,6 +15,8 @@ export type SiteSettings = {
   bingSiteVerification?: string
   faviconUrl?: string
   siteName?: string
+  defaultMetaDescription?: string
+  defaultMetaImageUrl?: string
 }
 
 const DEFAULTS: SiteSettings = {
@@ -58,6 +60,11 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     faviconUrl:
       data.favicon && typeof data.favicon === 'object' ? (data.favicon.url ?? undefined) : undefined,
     siteName: data.siteName || undefined,
+    defaultMetaDescription: data.defaultMetaDescription || undefined,
+    defaultMetaImageUrl:
+      data.defaultMetaImage && typeof data.defaultMetaImage === 'object'
+        ? (data.defaultMetaImage.url ?? undefined)
+        : undefined,
   }
 }
 

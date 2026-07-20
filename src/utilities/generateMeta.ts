@@ -2,20 +2,23 @@ import type { Metadata } from 'next'
 
 import type { Media } from '@/payload-types'
 import { getSiteUrl } from './getSiteUrl'
+import { getSiteSettings } from './getSiteSettings'
 import { localeAlternates } from './metadataAlternates'
 import { siteConfig } from './siteConfig'
+
+type MediaRef = (number | string | null) | Media
 
 type MetaGroup = {
   title?: string | null
   description?: string | null
-  image?: (number | null) | Media
+  image?: MediaRef
 }
 
 type MetaDoc = {
   title?: string | null
   excerpt?: string | null
   meta?: MetaGroup | null
-  coverImage?: (number | null) | Media
+  coverImage?: MediaRef
   publishedAt?: string | null
   updatedAt?: string | null
 }
@@ -33,17 +36,20 @@ function mediaUrl(value: unknown): string | undefined {
  * fallbacks to the doc's own title/excerpt/cover image. Sets canonical, Open
  * Graph and Twitter cards; emits `article` OG (with dates) when `type: 'article'`.
  */
-export function generateMeta(args: {
+export async function generateMeta(args: {
   doc: MetaDoc | null | undefined
   pathSuffix: string
   type?: 'website' | 'article'
-}): Metadata {
+}): Promise<Metadata> {
   const { doc, pathSuffix, type = 'website' } = args
   const base = getSiteUrl()
+  const { defaultMetaDescription, defaultMetaImageUrl } = await getSiteSettings()
 
   const title = doc?.meta?.title || doc?.title || siteConfig.name
-  const description = doc?.meta?.description || doc?.excerpt || siteConfig.description
-  const customImage = mediaUrl(doc?.meta?.image) || mediaUrl(doc?.coverImage)
+  const description =
+    doc?.meta?.description || doc?.excerpt || defaultMetaDescription || siteConfig.description
+  const customImage =
+    mediaUrl(doc?.meta?.image) || mediaUrl(doc?.coverImage) || defaultMetaImageUrl
   const url = `${base}${pathSuffix.startsWith('/') || pathSuffix === '' ? pathSuffix : `/${pathSuffix}`}` || base
 
   return {

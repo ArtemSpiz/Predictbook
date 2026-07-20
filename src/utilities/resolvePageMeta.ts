@@ -22,12 +22,13 @@ export async function resolvePageMeta(
   meta: MetaGroup,
   fallback: { title: string; description?: string; url?: string },
 ): Promise<Metadata> {
-  const { siteName } = await getSiteSettings()
+  const { siteName, defaultMetaDescription, defaultMetaImageUrl } = await getSiteSettings()
   const name = siteName || siteConfig.name
   const title = meta?.title || fallback.title
-  const description = meta?.description || fallback.description || undefined
+  const description = meta?.description || fallback.description || defaultMetaDescription || undefined
   const image = meta?.image
-  const imageUrl = image && typeof image === 'object' ? (image.url ?? undefined) : undefined
+  const imageUrl =
+    (image && typeof image === 'object' ? (image.url ?? undefined) : undefined) ?? defaultMetaImageUrl
 
   return {
     title,

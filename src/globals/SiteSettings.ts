@@ -45,6 +45,23 @@ export const SiteSettings: GlobalConfig = {
           label: 'SEO',
           fields: [
             {
+              name: 'defaultMetaDescription',
+              type: 'textarea',
+              admin: {
+                description:
+                  'Site-wide default meta description for search results and social shares. Used on every page that has no description of its own.',
+              },
+            },
+            {
+              name: 'defaultMetaImage',
+              type: 'upload',
+              relationTo: 'media',
+              admin: {
+                description:
+                  'Site-wide default Open Graph / social share image (recommended 1200×630). Used on every page that has no image of its own.',
+              },
+            },
+            {
               name: 'sitemapIncludeNews',
               type: 'checkbox',
               defaultValue: true,

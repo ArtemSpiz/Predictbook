@@ -12,10 +12,11 @@ export function buildPlugins(features: FeaturesConfig) {
   if (features.seo) {
     plugins.push(
       seoPlugin({
-        collections: ['pages', 'news', 'signals', 'live-feed'],
+        collections: ['pages', 'news', 'signals', 'live-feed', 'authors'],
         uploadsCollection: 'media',
         tabbedUI: true,
-        generateTitle: ({ doc }: { doc?: { title?: string } }) => `${doc?.title ?? 'Untitled'}`,
+        generateTitle: ({ doc }: { doc?: { title?: string; name?: string } }) =>
+          `${doc?.title ?? doc?.name ?? 'Untitled'}`,
       }),
     )
   }

@@ -769,6 +769,14 @@ export interface Author {
    * URL-friendly identifier (auto-generated from name if blank)
    */
   slug: string;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1838,6 +1846,13 @@ export interface AuthorsSelect<T extends boolean = true> {
         id?: T;
       };
   slug?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2143,6 +2158,14 @@ export interface SiteSetting {
    * Site-wide favicon shown in browser tabs. Use a square .ico, .png, or .svg (32×32 or larger).
    */
   favicon?: (string | null) | Media;
+  /**
+   * Site-wide default meta description for search results and social shares. Used on every page that has no description of its own.
+   */
+  defaultMetaDescription?: string | null;
+  /**
+   * Site-wide default Open Graph / social share image (recommended 1200×630). Used on every page that has no image of its own.
+   */
+  defaultMetaImage?: (string | null) | Media;
   /**
    * Include published news posts in sitemap.xml.
    */
@@ -2911,6 +2934,8 @@ export interface FooterSelect<T extends boolean = true> {
 export interface SiteSettingsSelect<T extends boolean = true> {
   siteName?: T;
   favicon?: T;
+  defaultMetaDescription?: T;
+  defaultMetaImage?: T;
   sitemapIncludeNews?: T;
   sitemapIncludeSignals?: T;
   sitemapIncludeLiveFeed?: T;

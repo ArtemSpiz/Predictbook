@@ -11,7 +11,7 @@ import BlockTitle from '@/app/ui/BlockTitle'
 import { PayloadImage } from '@/app/components/PayloadImage'
 import { RenderBlockList } from '@/blocks/RenderBlockList'
 import { ContentLayout } from '@/app/ui/ContentLayout'
-import { localeAlternates } from '@/utilities/metadataAlternates'
+import { generateMeta } from '@/utilities/generateMeta'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -103,9 +103,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const author = await getAuthorBySlug(slug)
   if (!author) return {}
-  return {
-    title: author.name,
-    description: author.bio ?? undefined,
-    ...localeAlternates(`author/${slug}`),
-  }
+  return generateMeta({
+    doc: {
+      title: author.name,
+      excerpt: author.bio,
+      meta: author.meta,
+      coverImage: author.photo,
+    },
+    pathSuffix: `author/${slug}`,
+  })
 }

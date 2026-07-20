@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: block?.subtitle ?? undefined,
       url: '/live',
     })),
-    ...localeAlternates('live'),
+    ...localeAlternates('live', '/live/feed'),
   }
 }
 
