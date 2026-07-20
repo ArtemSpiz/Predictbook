@@ -1,4 +1,5 @@
 import { SidebarRegion, MainRegion } from '@/blocks/RenderHomeBlocks'
+import { ContentLayout } from '@/app/ui/ContentLayout'
 import { getHomePageContent } from '@/utilities/getPageContent'
 
 export default async function Main() {
@@ -9,7 +10,7 @@ export default async function Main() {
 
   return (
     <div className="container-custom">
-      <div className="md:border-l md:border-r border-line p-6 flex gap-5 max-lg:flex-col max-lg:p-0 max-lg:py-5">
+      <ContentLayout>
         <div className="flex flex-col gap-5 w-full lg:max-w-[300px]">
           <SidebarRegion blocks={content?.sidebarBlocks} signalsHeader={signalsHeader} />
         </div>
@@ -17,7 +18,7 @@ export default async function Main() {
         <div className="md:border-l border-line flex flex-col gap-5 md:pl-5 flex-1">
           <MainRegion blocks={content?.mainBlocks} categoryHeader={categoryHeader} />
         </div>
-      </div>
+      </ContentLayout>
     </div>
   )
 }
