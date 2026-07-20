@@ -29,6 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
     creator: name,
     publisher: name,
     openGraph: { ...baseMetadata.openGraph, siteName: name, title: name },
+    alternates: { types: { 'application/rss+xml': `${getSiteUrl()}/feed` } },
     ...(googleSiteVerification || bingSiteVerification
       ? {
           verification: {
