@@ -39,7 +39,7 @@ export default function SignalsInfo({
   const shown = activeTab === 'all' ? items : items.filter((i) => i.kind === activeTab)
 
   return (
-    <div className="flex flex-col gap-6 flex-1 md:border-r border-line md:p-5">
+    <div className="flex flex-col gap-6 flex-1 lg:border-r border-line lg:p-5">
       <Breadcrumbs items={[{ label: title }]} />
       <BlockTitle title={title} subtitle={subtitle} />
 

@@ -53,8 +53,8 @@ export default async function AuthorPage({ params }: Props) {
 
   return (
     <main className="container-custom">
-      <div className="md:border-l md:border-r border-line p-6 flex gap-5 max-md:flex-col max-lg:p-0 max-lg:py-5">
-        <div className="flex flex-col gap-6 flex-1 md:border-r border-line md:p-5">
+      <div className="md:border-l md:border-r border-line p-6 flex gap-5 max-lg:flex-col max-lg:p-0 max-lg:py-5">
+        <div className="flex flex-col gap-6 flex-1 lg:border-r border-line lg:p-5">
           <Breadcrumbs items={[{ label: 'Analysis', href: '/analysis' }, { label: author }]} />
 
           <div className="flex justify-between gap-3 lg:items-center max-lg:flex-col">
@@ -94,7 +94,7 @@ export default async function AuthorPage({ params }: Props) {
             <ArticleList articles={articles} />
           )}
         </div>
-        <div className="flex flex-col gap-4 md:max-w-[300px]">
+        <div className="flex flex-col gap-4 lg:max-w-[300px]">
           <RenderBlockList blocks={sidebar.promoBlocks} />
         </div>
       </div>

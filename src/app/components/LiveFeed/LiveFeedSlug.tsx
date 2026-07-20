@@ -13,7 +13,7 @@ import type { LiveFeed } from '@/payload-types'
 export default function LiveFeedSlug({ item }: { item: LiveFeed }) {
   const categories = categoryNames(item.categories)
   return (
-    <div className="flex flex-col gap-6 flex-1 md:border-r border-line md:p-5">
+    <div className="flex flex-col gap-6 flex-1 lg:border-r border-line lg:p-5">
       <Breadcrumbs items={[{ label: 'Live Feed', href: '/live' }, { label: item.title }]} />
       <div className="flex items-center gap-2">
         {item.live && <LiveBadge className="h-[-webkit-fill-available] bg-live-soft" />}
