@@ -11,6 +11,8 @@ export type SiteSettings = {
   robotsDisallowAll: boolean
   gtmId?: string
   ga4Id?: string
+  googleSiteVerification?: string
+  bingSiteVerification?: string
   faviconUrl?: string
   siteName?: string
 }
@@ -51,6 +53,8 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     robotsDisallowAll: data.robotsDisallowAll === true,
     gtmId: data.gtmId || undefined,
     ga4Id: data.ga4Id || undefined,
+    googleSiteVerification: data.googleSiteVerification || undefined,
+    bingSiteVerification: data.bingSiteVerification || undefined,
     faviconUrl:
       data.favicon && typeof data.favicon === 'object' ? (data.favicon.url ?? undefined) : undefined,
     siteName: data.siteName || undefined,

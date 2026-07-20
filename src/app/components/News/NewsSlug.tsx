@@ -5,6 +5,9 @@ import { Breadcrumbs } from '@/app/ui/Breadcrumbs'
 import { getCategoryStyle } from '@/app/lib/getCategoryStyle'
 import { PayloadImage } from '@/app/components/PayloadImage'
 import { SharePageButton } from '@/app/ui/SharePageButton'
+import { PreferredSourceButton } from '@/app/ui/PreferredSourceButton'
+import { InvestingDisclaimer } from '@/app/ui/InvestingDisclaimer'
+import AboutCTA from '@/app/components/About/AboutCTA'
 import { EXTERNAL_REL } from '@/app/ui/ExternalLink'
 import type { SocialItem } from '@/app/ui/SocialLinks'
 import { categoryRefs, fmtDay, fmtTime, type ArticleView } from '@/app/lib/viewModels'
@@ -72,6 +75,8 @@ export default function NewsSlug({ post, related, social }: Props) {
         </div>
 
         <div className="flex gap-1 items-center self-stretch">
+          <PreferredSourceButton />
+
           {social.map((item, i) => (
             <a
               key={i}
@@ -86,6 +91,7 @@ export default function NewsSlug({ post, related, social }: Props) {
           <SharePageButton title={post.title} />
         </div>
       </div>
+
       <div className="w-full h-px bg-line" />
 
       <div className="flex flex-col gap-6">
@@ -94,6 +100,10 @@ export default function NewsSlug({ post, related, social }: Props) {
         <div className="prose max-w-none">
           <RichText data={post.content} />
         </div>
+
+        <AboutCTA />
+
+        <InvestingDisclaimer />
       </div>
 
       <div className="w-full h-px bg-line" />

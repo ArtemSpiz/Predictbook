@@ -863,8 +863,34 @@ export interface LiveFeed {
   coverImage?: (string | null) | Media;
   timeline?:
     | {
+        /**
+         * Manual label shown for this update (e.g. "Latest", "09:30").
+         */
         time: string;
-        text: string;
+        /**
+         * Optional update title.
+         */
+        heading?: string | null;
+        image?: (string | null) | Media;
+        body: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        /**
+         * Auto-set when the update is first added; drives the "x minutes ago" label.
+         */
+        at?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -1754,7 +1780,10 @@ export interface LiveFeedSelect<T extends boolean = true> {
     | T
     | {
         time?: T;
-        text?: T;
+        heading?: T;
+        image?: T;
+        body?: T;
+        at?: T;
         id?: T;
       };
   live?: T;
@@ -2101,6 +2130,14 @@ export interface SiteSetting {
    * Block all crawlers (robots.txt Disallow: /). Use for staging.
    */
   robotsDisallowAll?: boolean | null;
+  /**
+   * Google Search Console verification token. In GSC, add a URL-prefix property and choose the "HTML tag" method — paste only the content value here (not the whole meta tag).
+   */
+  googleSiteVerification?: string | null;
+  /**
+   * Bing Webmaster Tools verification token (msvalidate.01 meta content).
+   */
+  bingSiteVerification?: string | null;
   /**
    * Google Tag Manager container ID (GTM-XXXXXXX).
    */
@@ -2849,6 +2886,8 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   sitemapIncludeSignals?: T;
   sitemapIncludeLiveFeed?: T;
   robotsDisallowAll?: T;
+  googleSiteVerification?: T;
+  bingSiteVerification?: T;
   gtmId?: T;
   ga4Id?: T;
   social?:

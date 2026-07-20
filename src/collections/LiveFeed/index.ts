@@ -1,6 +1,7 @@
 import type { Access, CollectionConfig } from 'payload'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { slugField } from '@/fields/slug'
+import { wideMarkupLexical } from '@/fields/wideMarkupLexical'
 import { revalidateCollectionHooks } from '@/hooks/revalidateFrontCache'
 import { pingIndexNowOnPublish } from '@/utilities/indexNow'
 
@@ -28,6 +29,19 @@ export const LiveFeed: CollectionConfig = {
     maxPerDoc: 25,
   },
   hooks: {
+    // Stamp each timeline update with its creation time once, so the public
+    // "x minutes ago" label is stable across edits (manual `time` stays the label).
+    beforeChange: [
+      ({ data }) => {
+        if (Array.isArray(data?.timeline)) {
+          const now = new Date().toISOString()
+          data.timeline = data.timeline.map((entry) =>
+            entry && !entry.at ? { ...entry, at: now } : entry,
+          )
+        }
+        return data
+      },
+    ],
     afterChange: [
       ...revalidateCollectionHooks.afterChange,
       pingIndexNowOnPublish((slug) => `/live/${slug}`),
@@ -49,8 +63,24 @@ export const LiveFeed: CollectionConfig = {
               type: 'array',
               labels: { singular: 'Update', plural: 'Updates' },
               fields: [
-                { name: 'time', type: 'text', required: true },
-                { name: 'text', type: 'textarea', required: true },
+                {
+                  name: 'time',
+                  type: 'text',
+                  required: true,
+                  admin: { description: 'Manual label shown for this update (e.g. "Latest", "09:30").' },
+                },
+                { name: 'heading', type: 'text', admin: { description: 'Optional update title.' } },
+                { name: 'image', type: 'upload', relationTo: 'media' },
+                { name: 'body', type: 'richText', editor: wideMarkupLexical, required: true },
+                {
+                  name: 'at',
+                  type: 'date',
+                  admin: {
+                    readOnly: true,
+                    date: { pickerAppearance: 'dayAndTime' },
+                    description: 'Auto-set when the update is first added; drives the "x minutes ago" label.',
+                  },
+                },
               ],
             },
           ],

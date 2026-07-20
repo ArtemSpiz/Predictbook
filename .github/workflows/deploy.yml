@@ -31,6 +31,13 @@ jobs:
             git fetch --depth=1 origin main
             git reset --hard origin/main
             docker compose -f docker-compose.prod.yml up -d --build
+            # Apply pending Payload migrations inside the freshly built app container.
+            n=0
+            until docker compose -f docker-compose.prod.yml exec -T app pnpm migrate; do
+              n=$((n+1))
+              if [ "$n" -ge 6 ]; then echo "migrations failed after $n attempts" >&2; exit 1; fi
+              echo "app container not ready for migrate, retry $n..."; sleep 5
+            done
             docker image prune -f
             docker builder prune -f --max-used-space 4GB
           EOF

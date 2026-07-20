@@ -41,7 +41,7 @@ export default function GridArticles({
             <Link
               key={card.slug}
               href={`/analysis/${card.slug}`}
-              className={isFeatured ? 'xl:col-span-2' : ''}
+              className={isFeatured ? 'xl:col-span-2' : 'h-full'}
             >
               <ArticleCard
                 card={{
