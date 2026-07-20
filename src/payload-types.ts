@@ -946,6 +946,24 @@ export interface ContactSubmission {
   email: string;
   subject: string;
   message: string;
+  /**
+   * Captured automatically on submit.
+   */
+  metadata?: {
+    ipAddress?: string | null;
+    country?: string | null;
+    city?: string | null;
+    region?: string | null;
+    /**
+     * Referral source (document.referrer).
+     */
+    referrer?: string | null;
+    /**
+     * Page the form was submitted from.
+     */
+    landingUrl?: string | null;
+    userAgent?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1847,6 +1865,17 @@ export interface ContactSubmissionsSelect<T extends boolean = true> {
   email?: T;
   subject?: T;
   message?: T;
+  metadata?:
+    | T
+    | {
+        ipAddress?: T;
+        country?: T;
+        city?: T;
+        region?: T;
+        referrer?: T;
+        landingUrl?: T;
+        userAgent?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

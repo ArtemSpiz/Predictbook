@@ -80,6 +80,8 @@ export function useContactForm({ nameLabel, emailLabel, subjectLabel }: Options)
           subject: form.subject,
           message: form.message,
           turnstileToken: captchaToken,
+          referrer: typeof document !== 'undefined' ? document.referrer : undefined,
+          landingUrl: typeof window !== 'undefined' ? window.location.href : undefined,
         }),
       })
       setStatus(res.ok ? 'sent' : 'error')
