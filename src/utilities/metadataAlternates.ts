@@ -20,5 +20,5 @@ export function localeAlternates(pathSuffix: string): Pick<Metadata, 'alternates
 
   const canonical = `${base}${suffix || '/'}`
 
-  return { alternates: { canonical } }
+  return { alternates: { canonical, types: { 'application/rss+xml': `${base}/feed` } } }
 }
