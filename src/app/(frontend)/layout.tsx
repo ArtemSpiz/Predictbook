@@ -3,6 +3,7 @@ import { draftMode } from 'next/headers'
 import { Header } from '@/app/Header'
 import { Footer } from '@/app/Footer'
 import { AnalyticsScripts } from '@/app/components/AnalyticsScripts'
+import { CookieConsent } from '@/app/components/CookieConsent'
 import { PageTransition } from '@/app/components/PageTransition'
 import { getSiteUrl } from '@/utilities/getSiteUrl'
 import { getSiteSettings, getSocialLinks } from '@/utilities/getSiteSettings'
@@ -16,7 +17,8 @@ import { fontMono, fontSans } from './fonts'
 import './globals.css'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { faviconUrl, siteName } = await getSiteSettings()
+  const { faviconUrl, siteName, googleSiteVerification, bingSiteVerification } =
+    await getSiteSettings()
   const name = siteName || siteConfig.name
   return {
     ...(faviconUrl ? { icons: { icon: faviconUrl, shortcut: faviconUrl, apple: faviconUrl } } : {}),
@@ -27,6 +29,14 @@ export async function generateMetadata(): Promise<Metadata> {
     creator: name,
     publisher: name,
     openGraph: { ...baseMetadata.openGraph, siteName: name, title: name },
+    ...(googleSiteVerification || bingSiteVerification
+      ? {
+          verification: {
+            ...(googleSiteVerification ? { google: googleSiteVerification } : {}),
+            ...(bingSiteVerification ? { other: { 'msvalidate.01': bingSiteVerification } } : {}),
+          },
+        }
+      : {}),
   }
 }
 
@@ -85,6 +95,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
         {/* No analytics in draft/preview so editor sessions don't skew metrics. */}
         {!draft && <AnalyticsScripts gtmId={settings.gtmId} ga4Id={settings.ga4Id} />}
+        {!draft && <CookieConsent enabled={!!(settings.gtmId || settings.ga4Id)} />}
         <Header data={headerData} social={social} signalsToday={signalsToday} ticker={ticker} />
         <PageTransition>{children}</PageTransition>
         <Footer data={footerData} social={social} />

@@ -52,9 +52,10 @@ COPY --from=builder /app/package.json ./package.json
 # next start re-reads next.config.js at runtime (it imports imageHosts.mjs);
 # without these the image remotePatterns are lost and /_next/image 400s.
 COPY --from=builder /app/next.config.js ./next.config.js
-COPY --from=builder /app/src/starter/imageHosts.mjs ./src/starter/imageHosts.mjs
-COPY --from=builder /app/src/payload-types.ts ./src/payload-types.ts
 COPY --from=builder /app/starter.config.ts ./starter.config.ts
-COPY --from=builder /app/src/migrations ./src/migrations
+# tsconfig + full source are needed at runtime so `payload migrate` can load the
+# config (payload.config.ts + collections/globals) and resolve @/ aliases on deploy.
+COPY --from=builder /app/tsconfig.json ./tsconfig.json
+COPY --from=builder /app/src ./src
 EXPOSE 3000
 CMD ["pnpm", "start"]

@@ -1,5 +1,6 @@
 import Summary, { SummaryItem } from '@/app/components/Home/Summary'
 import BlockTitle from '@/app/ui/BlockTitle'
+import { PreferredSourceButton } from '@/app/ui/PreferredSourceButton'
 import { getSignalsSummary } from '@/utilities/getSignalsSummary'
 
 type SummaryBlock = {
@@ -34,9 +35,13 @@ export async function SummaryBlockComponent({ block }: { block: SummaryBlock }) 
 
   return (
     <div className="flex flex-col gap-3">
-      <BlockTitle title={block?.title ?? ''} subtitle={block?.subtitle ?? undefined} />
+      <div className="flex justify-between items-center gap-3">
+        <BlockTitle title={block?.title ?? ''} subtitle={block?.subtitle ?? undefined} />
+      </div>
 
       <Summary summaries={summaries} buttonUrl={block.buttonUrl ?? '/signals'} />
+
+      <PreferredSourceButton />
     </div>
   )
 }

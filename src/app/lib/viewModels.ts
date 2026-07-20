@@ -16,6 +16,8 @@ export interface ArticleView {
   authorName?: string
 }
 
+export type TimelineEntry = NonNullable<LiveFeed['timeline']>[number]
+
 export interface FeedView {
   slug: string
   title: string
@@ -23,7 +25,7 @@ export interface FeedView {
   categories: string[]
   updates: number
   live?: boolean
-  timeline: { time: string; text: string }[]
+  timeline: TimelineEntry[]
 }
 
 export interface SignalView {
@@ -120,7 +122,7 @@ export function liveFeedToView(f: LiveFeed): FeedView {
     categories: categoryTitles(f.categories),
     updates: f.timeline?.length ?? 0,
     live: f.live ?? false,
-    timeline: (f.timeline ?? []).map((t) => ({ time: t.time, text: t.text })),
+    timeline: f.timeline ?? [],
   }
 }
 

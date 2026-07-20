@@ -68,6 +68,21 @@ export const SiteSettings: GlobalConfig = {
               defaultValue: false,
               admin: { description: 'Block all crawlers (robots.txt Disallow: /). Use for staging.' },
             },
+            {
+              name: 'googleSiteVerification',
+              type: 'text',
+              admin: {
+                description:
+                  'Google Search Console verification token. In GSC, add a URL-prefix property and choose the "HTML tag" method — paste only the content value here (not the whole meta tag).',
+              },
+            },
+            {
+              name: 'bingSiteVerification',
+              type: 'text',
+              admin: {
+                description: 'Bing Webmaster Tools verification token (msvalidate.01 meta content).',
+              },
+            },
           ],
         },
         {

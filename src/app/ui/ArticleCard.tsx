@@ -7,7 +7,7 @@ import type { ArticleView } from '../lib/viewModels'
 export default function ArticleCard({ card }: { card: ArticleView }) {
   return (
     <div
-      className={`border cursor-pointer bg-white border-line border-solid transition-all duration-200 ease-in-out hover:bg-hover group ${card.featured ? 'xl:col-span-2' : ''}`}
+      className={`border cursor-pointer bg-white border-line border-solid transition-all duration-200 ease-in-out hover:bg-hover group flex flex-col h-full ${card.featured ? 'xl:col-span-2' : ''}`}
     >
       {card.featured && card.image && (
         <div className="relative h-auto w-full">
@@ -26,7 +26,7 @@ export default function ArticleCard({ card }: { card: ArticleView }) {
         </div>
       )}
 
-      <div className="p-4 flex flex-col gap-2">
+      <div className="p-4 flex flex-col gap-2 flex-1">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <CategoryChips
