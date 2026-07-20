@@ -23,6 +23,7 @@ import { LiveFeed } from './collections/LiveFeed'
 import { Authors } from './collections/Authors'
 import { Ticker } from './collections/Ticker'
 import { ContactSubmissions } from './collections/ContactSubmissions'
+import { NewsletterSubmissions } from './collections/NewsletterSubmissions'
 import { Header } from './globals/Header'
 import { Footer } from './globals/Footer'
 import { Translations } from './globals/Translations'
@@ -47,6 +48,7 @@ const collections = [
   Authors,
   Ticker,
   ContactSubmissions,
+  NewsletterSubmissions,
 ]
 
 const storagePlugin = resolveStorageAdapter(starterConfig.storage)

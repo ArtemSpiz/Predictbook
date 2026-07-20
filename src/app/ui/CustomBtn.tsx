@@ -8,6 +8,8 @@ interface CustomBtnProps {
   light?: boolean
   icon?: boolean
   href?: string
+  type?: 'button' | 'submit'
+  disabled?: boolean
 }
 
 export default function CustomBtn({
@@ -16,8 +18,10 @@ export default function CustomBtn({
   light = false,
   icon = true,
   href,
+  type = 'button',
+  disabled = false,
 }: CustomBtnProps) {
-  const className = `group w-full leading-none font-light border-none flex items-center gap-2 px-3 py-2.5 rounded-lg ${
+  const className = `group w-full leading-none font-light border-none flex items-center gap-2 px-3 py-2.5 rounded-lg disabled:opacity-60 ${
     center ? 'justify-center' : 'justify-between'
   } ${light ? 'bg-cream ' : 'bg-sand'}`
 
@@ -42,7 +46,7 @@ export default function CustomBtn({
     )
   }
   return (
-    <button type="button" className={className}>
+    <button type={type} disabled={disabled} className={className}>
       {inner}
     </button>
   )

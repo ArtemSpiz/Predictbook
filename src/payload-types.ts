@@ -78,6 +78,7 @@ export interface Config {
     authors: Author;
     ticker: Ticker;
     'contact-submissions': ContactSubmission;
+    'newsletter-submissions': NewsletterSubmission;
     redirects: Redirect;
     search: Search;
     exports: Export;
@@ -101,6 +102,7 @@ export interface Config {
     authors: AuthorsSelect<false> | AuthorsSelect<true>;
     ticker: TickerSelect<false> | TickerSelect<true>;
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
+    'newsletter-submissions': NewsletterSubmissionsSelect<false> | NewsletterSubmissionsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
@@ -977,6 +979,34 @@ export interface ContactSubmission {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "newsletter-submissions".
+ */
+export interface NewsletterSubmission {
+  id: string;
+  email: string;
+  /**
+   * Captured automatically on submit.
+   */
+  metadata?: {
+    ipAddress?: string | null;
+    country?: string | null;
+    city?: string | null;
+    region?: string | null;
+    /**
+     * Referral source (document.referrer).
+     */
+    referrer?: string | null;
+    /**
+     * Page the form was submitted from.
+     */
+    landingUrl?: string | null;
+    userAgent?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1261,6 +1291,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'contact-submissions';
         value: string | ContactSubmission;
+      } | null)
+    | ({
+        relationTo: 'newsletter-submissions';
+        value: string | NewsletterSubmission;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1880,6 +1914,26 @@ export interface ContactSubmissionsSelect<T extends boolean = true> {
   email?: T;
   subject?: T;
   message?: T;
+  metadata?:
+    | T
+    | {
+        ipAddress?: T;
+        country?: T;
+        city?: T;
+        region?: T;
+        referrer?: T;
+        landingUrl?: T;
+        userAgent?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "newsletter-submissions_select".
+ */
+export interface NewsletterSubmissionsSelect<T extends boolean = true> {
+  email?: T;
   metadata?:
     | T
     | {
@@ -3446,6 +3500,7 @@ export interface TaskCreateCollectionExport {
       | 'authors'
       | 'ticker'
       | 'contact-submissions'
+      | 'newsletter-submissions'
       | 'redirects'
       | 'search'
       | 'exports'
