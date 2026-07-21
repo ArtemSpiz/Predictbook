@@ -16,7 +16,21 @@ export const ContactFormFieldsBlock: Block = {
       name: 'subjectOptions',
       type: 'array',
       label: 'Subject options',
-      fields: [{ name: 'label', type: 'text', required: true }],
+      fields: [
+        { name: 'label', type: 'text', required: true },
+        {
+          name: 'routeTo',
+          type: 'email',
+          label: 'Route inquiries to',
+          admin: { description: 'Mailbox this subject is emailed to. Falls back to the default recipient.' },
+        },
+      ],
+    },
+    {
+      name: 'defaultRecipient',
+      type: 'email',
+      label: 'Default recipient',
+      admin: { description: 'Mailbox used when a subject has no specific route.' },
     },
     { name: 'nameLabel', type: 'text', defaultValue: 'Full name' },
     { name: 'emailLabel', type: 'text', defaultValue: 'Email address' },

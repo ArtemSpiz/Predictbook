@@ -1,14 +1,11 @@
-'use client'
-
 import CTAbg from '@/../public/CTAbg.png'
-import CustomBtn from '@/app/ui/CustomBtn'
 import Image from 'next/image'
 import type { AboutPage } from '@/payload-types'
-import { useNewsletterForm } from '@/app/hooks/useNewsletterForm'
-import { Turnstile } from '@/app/components/Contact/Turnstile'
+
+const DEFAULT_EMBED_URL = 'https://predictbook.substack.com/embed'
 
 export default function AboutCTA({ cta }: { cta?: AboutPage['cta'] }) {
-  const { email, error, status, updateEmail, handleSubmit, setCaptchaToken } = useNewsletterForm()
+  const embedUrl = cta?.embedUrl || DEFAULT_EMBED_URL
 
   return (
     <div className="flex relative items-center justify-center text-center flex-col p-6 gap-4 bg-ink">
@@ -24,42 +21,13 @@ export default function AboutCTA({ cta }: { cta?: AboutPage['cta'] }) {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="relative flex flex-col gap-2 items-center">
-        <div className="flex self-stretch gap-2 mx-auto max-md:flex-col">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => updateEmail(e.target.value)}
-            placeholder={cta?.placeholder ?? 'Your email'}
-            aria-label="Email address"
-            className="bg-white-a24 md:min-w-[230px] focus:outline-none p-2.5 border border-sand-a32 rounded-lg placeholder:text-white-a56 text-white backdrop-blur-sm"
-          />
-          <div className="w-max max-md:w-full">
-            <CustomBtn
-              text={
-                status === 'submitting'
-                  ? 'Subscribing...'
-                  : status === 'sent'
-                    ? 'Subscribed'
-                    : (cta?.buttonText ?? 'Subscribe')
-              }
-              icon={false}
-              type="submit"
-              disabled={status === 'submitting'}
-            />
-          </div>
-        </div>
-
-        <Turnstile onToken={setCaptchaToken} />
-
-        {error && <p className="text-xs text-red-300">{error}</p>}
-        {status === 'sent' && (
-          <p className="text-xs text-green-300">Thanks — you&apos;re subscribed.</p>
-        )}
-        {status === 'error' && (
-          <p className="text-xs text-red-300">Something went wrong. Please try again.</p>
-        )}
-      </form>
+      <iframe
+        src={embedUrl}
+        title="Subscribe to the Predictbook newsletter"
+        className="relative w-full max-w-[440px] h-[150px] rounded-lg bg-white"
+        frameBorder="0"
+        scrolling="no"
+      />
     </div>
   )
 }

@@ -33,8 +33,12 @@ export const AboutPage: GlobalConfig = {
                   defaultValue:
                     'Never miss the latest market analysis, prediction insights, and emerging opportunities. Delivered straight to your inbox.',
                 },
-                { name: 'placeholder', type: 'text', defaultValue: 'Your email' },
-                { name: 'buttonText', type: 'text', defaultValue: 'Subscribe' },
+                {
+                  name: 'embedUrl',
+                  type: 'text',
+                  label: 'Substack embed URL',
+                  defaultValue: 'https://predictbook.substack.com/embed',
+                },
               ],
             },
           ],
