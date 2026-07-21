@@ -57,7 +57,9 @@
       "Bash(curl -s \"http://localhost:3000/analysis\")",
       "Bash(awk '/export interface News \\\\{/,/^\\\\}/' /Users/silentfox/Work/Predictbook/src/payload-types.ts)",
       "Bash(node -e 'const p=require\\(\"./package.json\"\\);const all={...p.dependencies,...p.devDependencies};Object.keys\\(all\\).filter\\(k=>/payload|rss|feed|atom|syndicat/i.test\\(k\\)\\).forEach\\(k=>console.log\\(k,all[k]\\)\\)')",
-      "Bash(grep -iE \"^rss$|^feed$|^podcast$|atom\")"
+      "Bash(grep -iE \"^rss$|^feed$|^podcast$|atom\")",
+      "Bash(curl -s -o /dev/null -w \"analysis/weekly-pulse → HTTP %{http_code}\\\\n\" https://predictbook.co/analysis/weekly-pulse)",
+      "Bash(pnpm tsc *)"
     ]
   }
 }

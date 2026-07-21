@@ -8,10 +8,10 @@ import { defaultLocale } from '@/i18n/config'
  * SiteSettings global on top where needed.
  */
 export const siteConfig = {
-  name: process.env.NEXT_PUBLIC_SITE_NAME || 'Payload Starter',
+  name: process.env.NEXT_PUBLIC_SITE_NAME || 'Predictbook',
   description:
     process.env.NEXT_PUBLIC_SITE_DESCRIPTION ||
-    'A news built with Payload CMS and Next.js.',
+    'Predictbook: prediction market analysis, signals, and news.',
   /** BCP-47 language tag for the default locale, e.g. `en`. */
   locale: defaultLocale,
   /** Open Graph locale form, e.g. `en_US`. */
