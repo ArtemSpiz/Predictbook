@@ -2527,8 +2527,7 @@ export interface AboutPage {
   cta?: {
     heading?: string | null;
     text?: string | null;
-    placeholder?: string | null;
-    buttonText?: string | null;
+    embedUrl?: string | null;
   };
   sidebarBlocks?:
     | (
@@ -2607,9 +2606,17 @@ export interface ContactPage {
         subjectOptions?:
           | {
               label: string;
+              /**
+               * Mailbox this subject is emailed to. Falls back to the default recipient.
+               */
+              routeTo?: string | null;
               id?: string | null;
             }[]
           | null;
+        /**
+         * Mailbox used when a subject has no specific route.
+         */
+        defaultRecipient?: string | null;
         nameLabel?: string | null;
         emailLabel?: string | null;
         subjectLabel?: string | null;
@@ -3186,8 +3193,7 @@ export interface AboutPageSelect<T extends boolean = true> {
     | {
         heading?: T;
         text?: T;
-        placeholder?: T;
-        buttonText?: T;
+        embedUrl?: T;
       };
   sidebarBlocks?:
     | T
@@ -3248,8 +3254,10 @@ export interface ContactPageSelect<T extends boolean = true> {
                 | T
                 | {
                     label?: T;
+                    routeTo?: T;
                     id?: T;
                   };
+              defaultRecipient?: T;
               nameLabel?: T;
               emailLabel?: T;
               subjectLabel?: T;

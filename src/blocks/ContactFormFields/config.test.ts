@@ -13,6 +13,7 @@ describe('ContactFormFieldsBlock', () => {
       'heading',
       'subtitle',
       'subjectOptions',
+      'defaultRecipient',
       'nameLabel',
       'emailLabel',
       'subjectLabel',
