@@ -28,7 +28,8 @@ export const SummaryBlock: Block = {
       type: 'text',
       defaultValue: '/signals',
       admin: {
-        description: 'Where the "Read …" button links (defaults to the signals page).',
+        description:
+          'Default link for the "Read …" button, used by any tab without its own URL (defaults to the signals page).',
       },
     },
     {
@@ -49,6 +50,14 @@ export const SummaryBlock: Block = {
           name: 'infoTitle',
           type: 'text',
           required: true,
+        },
+        {
+          name: 'buttonUrl',
+          type: 'text',
+          admin: {
+            description:
+              'Where this tab\'s "Read …" button links. Leave empty to use the block-level default below.',
+          },
         },
         {
           name: 'day',
