@@ -569,6 +569,17 @@ export interface Page {
                   buttonText?: string | null;
                   day?: string | null;
                   time?: string | null;
+                  /**
+                   * Auto-generate bullet points from recent signals for this period. Shown below any manual bullets.
+                   */
+                  autoPeriod?: ('off' | '1d' | '3d' | '7d' | '30d' | 'custom') | null;
+                  /**
+                   * Number of days to look back (used when Auto-fill = Custom).
+                   */
+                  autoDays?: number | null;
+                  /**
+                   * Optional manual bullets, shown above the auto-filled ones.
+                   */
                   info?:
                     | {
                         text: string;
@@ -1649,6 +1660,8 @@ export interface PagesSelect<T extends boolean = true> {
                     buttonText?: T;
                     day?: T;
                     time?: T;
+                    autoPeriod?: T;
+                    autoDays?: T;
                     info?:
                       | T
                       | {
@@ -2420,6 +2433,17 @@ export interface HomePage {
                   buttonText?: string | null;
                   day?: string | null;
                   time?: string | null;
+                  /**
+                   * Auto-generate bullet points from recent signals for this period. Shown below any manual bullets.
+                   */
+                  autoPeriod?: ('off' | '1d' | '3d' | '7d' | '30d' | 'custom') | null;
+                  /**
+                   * Number of days to look back (used when Auto-fill = Custom).
+                   */
+                  autoDays?: number | null;
+                  /**
+                   * Optional manual bullets, shown above the auto-filled ones.
+                   */
                   info?:
                     | {
                         text: string;
@@ -2929,6 +2953,17 @@ export interface NewsPage {
               buttonText?: string | null;
               day?: string | null;
               time?: string | null;
+              /**
+               * Auto-generate bullet points from recent signals for this period. Shown below any manual bullets.
+               */
+              autoPeriod?: ('off' | '1d' | '3d' | '7d' | '30d' | 'custom') | null;
+              /**
+               * Number of days to look back (used when Auto-fill = Custom).
+               */
+              autoDays?: number | null;
+              /**
+               * Optional manual bullets, shown above the auto-filled ones.
+               */
               info?:
                 | {
                     text: string;
@@ -3153,6 +3188,8 @@ export interface HomePageSelect<T extends boolean = true> {
                     buttonText?: T;
                     day?: T;
                     time?: T;
+                    autoPeriod?: T;
+                    autoDays?: T;
                     info?:
                       | T
                       | {
@@ -3513,6 +3550,8 @@ export interface NewsPageSelect<T extends boolean = true> {
                     buttonText?: T;
                     day?: T;
                     time?: T;
+                    autoPeriod?: T;
+                    autoDays?: T;
                     info?:
                       | T
                       | {

@@ -83,3 +83,27 @@ export const getSignalsSummary = () =>
   unstable_cache(fetchSignalsSummary, ['signals-summary'], {
     tags: [cacheTags.all, cacheTags.collection('signals')],
   })()
+
+async function fetchSignalsBullets(days: number): Promise<string[]> {
+  try {
+    const payload = await getPayload({ config })
+    const cutoff = new Date(Date.now() - days * DAY_MS).toISOString()
+    const { docs } = await payload.find({
+      collection: 'signals',
+      where: { publishedAt: { greater_than_equal: cutoff } },
+      sort: '-publishedAt',
+      limit: 1000,
+      depth: 0,
+      overrideAccess: true,
+    })
+    return summarize(docs as unknown as Signal[])
+  } catch {
+    return []
+  }
+}
+
+/** Cached summary bullet points derived from signals within the last `days`. */
+export const getSignalsBullets = (days: number) =>
+  unstable_cache(() => fetchSignalsBullets(days), ['signals-bullets', String(days)], {
+    tags: [cacheTags.all, cacheTags.collection('signals')],
+  })()

@@ -86,10 +86,40 @@ export const SummaryBlock: Block = {
           defaultValue: '20:00',
         },
         {
+          name: 'autoPeriod',
+          type: 'select',
+          defaultValue: 'off',
+          label: 'Auto-fill from signals',
+          options: [
+            { label: 'Off (manual only)', value: 'off' },
+            { label: 'Last 24 hours', value: '1d' },
+            { label: 'Last 3 days', value: '3d' },
+            { label: 'Last 7 days', value: '7d' },
+            { label: 'Last 30 days', value: '30d' },
+            { label: 'Custom (days)', value: 'custom' },
+          ],
+          admin: {
+            description:
+              'Auto-generate bullet points from recent signals for this period. Shown below any manual bullets.',
+          },
+        },
+        {
+          name: 'autoDays',
+          type: 'number',
+          min: 1,
+          label: 'Custom days',
+          admin: {
+            condition: (_, siblingData) => siblingData?.autoPeriod === 'custom',
+            description: 'Number of days to look back (used when Auto-fill = Custom).',
+          },
+        },
+        {
           name: 'info',
           type: 'array',
           label: 'Bullet Points',
-          minRows: 1,
+          admin: {
+            description: 'Optional manual bullets, shown above the auto-filled ones.',
+          },
           fields: [
             {
               name: 'text',

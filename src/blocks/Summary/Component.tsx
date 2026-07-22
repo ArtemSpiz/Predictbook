@@ -1,7 +1,7 @@
 import Summary, { SummaryItem } from '@/app/components/Home/Summary'
 import BlockTitle from '@/app/ui/BlockTitle'
 import { PreferredSourceButton } from '@/app/ui/PreferredSourceButton'
-import { getSignalsSummary } from '@/utilities/getSignalsSummary'
+import { getSignalsBullets, getSignalsSummary } from '@/utilities/getSignalsSummary'
 
 type SummaryBlock = {
   title?: string | null
@@ -15,10 +15,21 @@ type SummaryBlock = {
     buttonText?: string | null
     day?: string | null
     time?: string | null
-    info: {
+    autoPeriod?: ('off' | '1d' | '3d' | '7d' | '30d' | 'custom') | null
+    autoDays?: number | null
+    info?: {
       text: string
     }[]
   }[]
+}
+
+const PRESET_DAYS: Record<string, number> = { '1d': 1, '3d': 3, '7d': 7, '30d': 30 }
+
+const autoDaysFor = (tab: SummaryBlock['tabs'][number]): number | null => {
+  const period = tab.autoPeriod
+  if (!period || period === 'off') return null
+  if (period === 'custom') return tab.autoDays && tab.autoDays > 0 ? tab.autoDays : null
+  return PRESET_DAYS[period] ?? null
 }
 
 export async function SummaryBlockComponent({ block }: { block: SummaryBlock }) {
@@ -43,15 +54,22 @@ export async function SummaryBlockComponent({ block }: { block: SummaryBlock }) 
   // signals collection.
   const hasCmsTabs = (block.tabs?.length ?? 0) > 0
   const summaries: SummaryItem[] = hasCmsTabs
-    ? block.tabs.map((tab) => ({
-        title: tab.title,
-        infoTitle: tab.infoTitle,
-        day: tab.day ?? 'Today',
-        time: tab.time ?? '20:00',
-        info: tab.info.map((i) => i.text),
-        buttonUrl: tab.buttonUrl || block.buttonUrl || '/signals',
-        buttonText: tab.buttonText || block.buttonText || undefined,
-      }))
+    ? await Promise.all(
+        block.tabs.map(async (tab) => {
+          const manual = tab.info?.map((i) => i.text) ?? []
+          const days = autoDaysFor(tab)
+          const auto = days ? await getSignalsBullets(days) : []
+          return {
+            title: tab.title,
+            infoTitle: tab.infoTitle,
+            day: tab.day ?? 'Today',
+            time: tab.time ?? '20:00',
+            info: [...manual, ...auto],
+            buttonUrl: tab.buttonUrl || block.buttonUrl || '/signals',
+            buttonText: tab.buttonText || block.buttonText || undefined,
+          }
+        }),
+      )
     : (await getSignalsSummary()).map((d, i) => ({
         ...d,
         buttonUrl: tabUrl(d.title, i),
