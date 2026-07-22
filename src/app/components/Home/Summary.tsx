@@ -9,6 +9,7 @@ export interface SummaryItem {
   day?: string
   time?: string
   buttonUrl?: string
+  buttonText?: string
 }
 
 const FALLBACK: SummaryItem[] = [
@@ -88,6 +89,7 @@ export default function Summary({
         direction={direction}
         active={active}
         buttonUrl={card.buttonUrl ?? buttonUrl}
+        buttonText={card.buttonText}
       />
     </div>
   )

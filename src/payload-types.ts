@@ -549,6 +549,10 @@ export interface Page {
              */
             buttonUrl?: string | null;
             /**
+             * Default label for the button, used by any tab without its own text. Leave empty to fall back to "Read <tab title>".
+             */
+            buttonText?: string | null;
+            /**
              * If there is only one, the tabs are not displayed on the site.
              */
             tabs?:
@@ -559,6 +563,10 @@ export interface Page {
                    * Where this tab's "Read …" button links. Leave empty to use the block-level default below.
                    */
                   buttonUrl?: string | null;
+                  /**
+                   * This tab's button label. Leave empty to use the block-level default, then "Read <tab title>".
+                   */
+                  buttonText?: string | null;
                   day?: string | null;
                   time?: string | null;
                   info?:
@@ -798,6 +806,14 @@ export interface Category {
    * URL-friendly identifier (auto-generated from title if blank)
    */
   slug: string;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1623,12 +1639,14 @@ export interface PagesSelect<T extends boolean = true> {
               title?: T;
               subtitle?: T;
               buttonUrl?: T;
+              buttonText?: T;
               tabs?:
                 | T
                 | {
                     title?: T;
                     infoTitle?: T;
                     buttonUrl?: T;
+                    buttonText?: T;
                     day?: T;
                     time?: T;
                     info?:
@@ -1774,6 +1792,13 @@ export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   slug?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2375,6 +2400,10 @@ export interface HomePage {
              */
             buttonUrl?: string | null;
             /**
+             * Default label for the button, used by any tab without its own text. Leave empty to fall back to "Read <tab title>".
+             */
+            buttonText?: string | null;
+            /**
              * If there is only one, the tabs are not displayed on the site.
              */
             tabs?:
@@ -2385,6 +2414,10 @@ export interface HomePage {
                    * Where this tab's "Read …" button links. Leave empty to use the block-level default below.
                    */
                   buttonUrl?: string | null;
+                  /**
+                   * This tab's button label. Leave empty to use the block-level default, then "Read <tab title>".
+                   */
+                  buttonText?: string | null;
                   day?: string | null;
                   time?: string | null;
                   info?:
@@ -2876,6 +2909,10 @@ export interface NewsPage {
          */
         buttonUrl?: string | null;
         /**
+         * Default label for the button, used by any tab without its own text. Leave empty to fall back to "Read <tab title>".
+         */
+        buttonText?: string | null;
+        /**
          * If there is only one, the tabs are not displayed on the site.
          */
         tabs?:
@@ -2886,6 +2923,10 @@ export interface NewsPage {
                * Where this tab's "Read …" button links. Leave empty to use the block-level default below.
                */
               buttonUrl?: string | null;
+              /**
+               * This tab's button label. Leave empty to use the block-level default, then "Read <tab title>".
+               */
+              buttonText?: string | null;
               day?: string | null;
               time?: string | null;
               info?:
@@ -3102,12 +3143,14 @@ export interface HomePageSelect<T extends boolean = true> {
               title?: T;
               subtitle?: T;
               buttonUrl?: T;
+              buttonText?: T;
               tabs?:
                 | T
                 | {
                     title?: T;
                     infoTitle?: T;
                     buttonUrl?: T;
+                    buttonText?: T;
                     day?: T;
                     time?: T;
                     info?:
@@ -3460,12 +3503,14 @@ export interface NewsPageSelect<T extends boolean = true> {
               title?: T;
               subtitle?: T;
               buttonUrl?: T;
+              buttonText?: T;
               tabs?:
                 | T
                 | {
                     title?: T;
                     infoTitle?: T;
                     buttonUrl?: T;
+                    buttonText?: T;
                     day?: T;
                     time?: T;
                     info?:

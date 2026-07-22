@@ -33,6 +33,14 @@ export const SummaryBlock: Block = {
       },
     },
     {
+      name: 'buttonText',
+      type: 'text',
+      admin: {
+        description:
+          'Default label for the button, used by any tab without its own text. Leave empty to fall back to "Read <tab title>".',
+      },
+    },
+    {
       name: 'tabs',
       type: 'array',
       label: 'Summary Tabs',
@@ -57,6 +65,14 @@ export const SummaryBlock: Block = {
           admin: {
             description:
               'Where this tab\'s "Read …" button links. Leave empty to use the block-level default below.',
+          },
+        },
+        {
+          name: 'buttonText',
+          type: 'text',
+          admin: {
+            description:
+              'This tab\'s button label. Leave empty to use the block-level default, then "Read <tab title>".',
           },
         },
         {

@@ -119,10 +119,15 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params
   const category = await getCategoryBySlug(slug)
   if (category) {
-    return {
-      title: `${category.title} — Analysis`,
-      ...localeAlternates(`analysis/${slug}`, `/analysis/${slug}/feed`),
-    }
+    const meta = await generateMeta({
+      doc: {
+        title: category.meta?.title || `${category.title} — Analysis`,
+        excerpt: category.description,
+        meta: category.meta,
+      },
+      pathSuffix: `/analysis/${slug}`,
+    } as Parameters<typeof generateMeta>[0])
+    return { ...meta, ...localeAlternates(`analysis/${slug}`, `/analysis/${slug}/feed`) }
   }
   const post = await getNewsPostBySlug(slug)
   if (!post) return {}

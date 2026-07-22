@@ -7,10 +7,12 @@ type SummaryBlock = {
   title?: string | null
   subtitle?: string | null
   buttonUrl?: string | null
+  buttonText?: string | null
   tabs: {
     title: string
     infoTitle: string
     buttonUrl?: string | null
+    buttonText?: string | null
     day?: string | null
     time?: string | null
     info: {
@@ -28,12 +30,20 @@ export async function SummaryBlockComponent({ block }: { block: SummaryBlock }) 
     block.buttonUrl ||
     '/signals'
 
+  // Per-tab button label, matched to a CMS tab the same way, falling back to the
+  // block-level default (then, in SummaryCard, to "Read <tab title>").
+  const tabText = (title: string, index: number) =>
+    block.tabs?.find((t) => t.title.toLowerCase() === title.toLowerCase())?.buttonText ||
+    block.tabs?.[index]?.buttonText ||
+    block.buttonText ||
+    undefined
+
   // Daily/Weekly summaries are derived from the signals collection; the CMS tabs
   // are only used as a fallback when there are no signals to summarise.
   const derived = await getSignalsSummary()
   const summaries: SummaryItem[] =
     derived.length > 0
-      ? derived.map((d, i) => ({ ...d, buttonUrl: tabUrl(d.title, i) }))
+      ? derived.map((d, i) => ({ ...d, buttonUrl: tabUrl(d.title, i), buttonText: tabText(d.title, i) }))
       : block.tabs.map((tab) => ({
           title: tab.title,
           infoTitle: tab.infoTitle,
@@ -41,6 +51,7 @@ export async function SummaryBlockComponent({ block }: { block: SummaryBlock }) 
           time: tab.time ?? '20:00',
           info: tab.info.map((i) => i.text),
           buttonUrl: tab.buttonUrl || block.buttonUrl || '/signals',
+          buttonText: tab.buttonText || block.buttonText || undefined,
         }))
 
   return (
