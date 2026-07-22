@@ -16,13 +16,18 @@ function summarize(items: Signal[]): string[] {
   const whales = items.filter((i) => i.kind === 'whale')
   const arbs = items.filter((i) => i.kind === 'arbitrage')
   const info = [
-    `${items.length} new signals — ${whales.length} whale alerts, ${arbs.length} arbitrage opportunities`,
+    `${items.length} new signals - ${whales.length} whale alerts, ${arbs.length} arbitrage opportunities`,
   ]
 
-  const biggestWhale = [...whales].filter((w) => w.size).sort((a, b) => money(b.size) - money(a.size))[0]
-  if (biggestWhale?.size) info.push(`Largest whale: ${biggestWhale.size} on “${biggestWhale.title}”`)
+  const biggestWhale = [...whales]
+    .filter((w) => w.size)
+    .sort((a, b) => money(b.size) - money(a.size))[0]
+  if (biggestWhale?.size)
+    info.push(`Largest whale: ${biggestWhale.size} on “${biggestWhale.title}”`)
 
-  const widestArb = [...arbs].filter((a) => a.spread).sort((a, b) => pct(b.spread) - pct(a.spread))[0]
+  const widestArb = [...arbs]
+    .filter((a) => a.spread)
+    .sort((a, b) => pct(b.spread) - pct(a.spread))[0]
   if (widestArb?.spread) info.push(`Widest spread: ${widestArb.spread} on “${widestArb.title}”`)
 
   return info
@@ -53,8 +58,20 @@ async function fetchSignalsSummary(): Promise<SummaryItem[]> {
     })
 
     return [
-      { title: 'Daily summary', infoTitle: 'Daily Market Pulse', day: 'Today', time, info: summarize(day) },
-      { title: 'Weekly summary', infoTitle: 'Weekly Market Pulse', day: 'Last 7 days', time, info: summarize(week) },
+      {
+        title: 'Daily summary',
+        infoTitle: 'Daily Market Pulse',
+        day: 'Today',
+        time,
+        info: summarize(day),
+      },
+      {
+        title: 'Weekly summary',
+        infoTitle: 'Weekly Market Pulse',
+        day: 'Last 7 days',
+        time,
+        info: summarize(week),
+      },
     ]
   } catch {
     return []
