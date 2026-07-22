@@ -42,15 +42,18 @@ export const revalidateCollectionHooks: {
   afterDelete: CollectionAfterDeleteHook[]
 } = {
   afterChange: [
-    ({ collection, doc }) => {
+    // Awaited so revalidateTag runs within the write request's context; a
+    // fire-and-forget flush races request teardown and intermittently drops the
+    // invalidation, leaving pages on their stale ISR cache until the timer.
+    async ({ collection, doc }) => {
       // Payload's generic hook doc type has no `slug`; the runtime typeof guard below makes this safe.
-      void flush(collectionRevalidationTags(collection.slug, doc as { slug?: unknown }))
+      await flush(collectionRevalidationTags(collection.slug, doc as { slug?: unknown }))
       return doc
     },
   ],
   afterDelete: [
-    ({ collection, doc }) => {
-      void flush(collectionRevalidationTags(collection.slug, doc as { slug?: unknown }))
+    async ({ collection, doc }) => {
+      await flush(collectionRevalidationTags(collection.slug, doc as { slug?: unknown }))
       return doc
     },
   ],
@@ -59,8 +62,8 @@ export const revalidateCollectionHooks: {
 /** Spread into a global's `hooks` to revalidate its scoped tag on save. */
 export const revalidateGlobalHooks: { afterChange: GlobalAfterChangeHook[] } = {
   afterChange: [
-    ({ global, doc }) => {
-      void flush(globalRevalidationTags(global.slug))
+    async ({ global, doc }) => {
+      await flush(globalRevalidationTags(global.slug))
       return doc
     },
   ],

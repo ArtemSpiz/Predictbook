@@ -89,7 +89,7 @@ export async function buildPostsEntries(
   return rows.map((row) => ({
     loc: `${base}/analysis/${row.slug}`,
     lastmod: iso(row.updatedAt, now),
-    changefreq: 'monthly' as const,
+    changefreq: 'daily' as const,
     priority: 0.7,
   }))
 }
@@ -103,7 +103,9 @@ export async function buildCategoriesEntries(now = new Date().toISOString()): Pr
   return rows.map((row) => ({
     loc: `${base}/analysis/${row.slug}`,
     lastmod: iso(row.updatedAt, now),
-    changefreq: 'weekly' as const,
+    // The weekly-pulse category is updated weekly; every other category (incl.
+    // daily-pulse and the topic categories) turns over daily.
+    changefreq: row.slug === 'weekly-pulse' ? ('weekly' as const) : ('daily' as const),
     priority: 0.6,
   }))
 }
@@ -131,7 +133,7 @@ export async function buildLiveEntries(now = new Date().toISOString()): Promise<
   return rows.map((row) => ({
     loc: `${base}/live/${row.slug}`,
     lastmod: iso(row.updatedAt, now),
-    changefreq: 'daily' as const,
+    changefreq: 'hourly' as const,
     priority: 0.6,
   }))
 }
