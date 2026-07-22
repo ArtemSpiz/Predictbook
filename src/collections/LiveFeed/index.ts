@@ -76,9 +76,9 @@ export const LiveFeed: CollectionConfig = {
                   name: 'at',
                   type: 'date',
                   admin: {
-                    readOnly: true,
                     date: { pickerAppearance: 'dayAndTime' },
-                    description: 'Auto-set when the update is first added; drives the "x minutes ago" label.',
+                    description:
+                      'Drives the "x minutes ago" label. Auto-set when the update is first added; edit to override.',
                   },
                 },
               ],

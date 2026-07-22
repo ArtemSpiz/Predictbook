@@ -52,13 +52,14 @@ export default function Summary({
     const btn = btnRefs.current[active]
     if (btn) {
       setSliderStyle({ left: btn.offsetLeft, width: btn.offsetWidth })
+      btn.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: 'smooth' })
     }
   }, [active, hasTabs])
 
   return (
     <div>
       {hasTabs && (
-        <div className="relative flex rounded-lg bg-sand-4 p-1 justify-center ">
+        <div className="relative flex rounded-lg bg-sand-4 p-1 overflow-x-auto no-scrollbar">
           <span
             className="absolute top-1 bottom-1 rounded-lg bg-ink shadow-sm transition-all duration-350 ease-smooth"
             style={{ left: sliderStyle.left, width: sliderStyle.width }}
@@ -70,7 +71,8 @@ export default function Summary({
                 btnRefs.current[i] = el
               }}
               onClick={() => handleSwitch(i)}
-              className={`relative z-10 px-4 py-2 text-nowrap w-[48%] rounded-lg text-sm bg-transparent transition-colors duration-300 ${
+              style={{ minWidth: `${100 / Math.min(TypeSummary.length, 3)}%` }}
+              className={`relative z-10 px-4 py-2 text-nowrap flex-1 shrink-0 rounded-lg text-sm bg-transparent transition-colors duration-300 ${
                 active === i ? 'text-paper-2' : 'text-muted'
               }`}
             >

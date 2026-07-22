@@ -38,21 +38,25 @@ export async function SummaryBlockComponent({ block }: { block: SummaryBlock }) 
     block.buttonText ||
     undefined
 
-  // Daily/Weekly summaries are derived from the signals collection; the CMS tabs
-  // are only used as a fallback when there are no signals to summarise.
-  const derived = await getSignalsSummary()
-  const summaries: SummaryItem[] =
-    derived.length > 0
-      ? derived.map((d, i) => ({ ...d, buttonUrl: tabUrl(d.title, i), buttonText: tabText(d.title, i) }))
-      : block.tabs.map((tab) => ({
-          title: tab.title,
-          infoTitle: tab.infoTitle,
-          day: tab.day ?? 'Today',
-          time: tab.time ?? '20:00',
-          info: tab.info.map((i) => i.text),
-          buttonUrl: tab.buttonUrl || block.buttonUrl || '/signals',
-          buttonText: tab.buttonText || block.buttonText || undefined,
-        }))
+  // CMS tabs take precedence: if any are configured, render them as-is. Only when
+  // none are configured do we fall back to Daily/Weekly summaries derived from the
+  // signals collection.
+  const hasCmsTabs = (block.tabs?.length ?? 0) > 0
+  const summaries: SummaryItem[] = hasCmsTabs
+    ? block.tabs.map((tab) => ({
+        title: tab.title,
+        infoTitle: tab.infoTitle,
+        day: tab.day ?? 'Today',
+        time: tab.time ?? '20:00',
+        info: tab.info.map((i) => i.text),
+        buttonUrl: tab.buttonUrl || block.buttonUrl || '/signals',
+        buttonText: tab.buttonText || block.buttonText || undefined,
+      }))
+    : (await getSignalsSummary()).map((d, i) => ({
+        ...d,
+        buttonUrl: tabUrl(d.title, i),
+        buttonText: tabText(d.title, i),
+      }))
 
   return (
     <div className="flex flex-col gap-3">

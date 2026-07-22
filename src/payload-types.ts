@@ -918,7 +918,7 @@ export interface LiveFeed {
           [k: string]: unknown;
         };
         /**
-         * Auto-set when the update is first added; drives the "x minutes ago" label.
+         * Drives the "x minutes ago" label. Auto-set when the update is first added; edit to override.
          */
         at?: string | null;
         id?: string | null;
