@@ -10,6 +10,7 @@ import * as migration_20260710_123211_migration from './20260710_123211_migratio
 import * as migration_20260716_165730_migration from './20260716_165730_migration';
 import * as migration_20260716_171359_migration from './20260716_171359_migration';
 import * as migration_20260720_120000_livefeed_text_to_richtext from './20260720_120000_livefeed_text_to_richtext';
+import * as migration_20260723_150000_livefeed_live_to_status from './20260723_150000_livefeed_live_to_status';
 
 export const migrations = [
   {
@@ -71,5 +72,10 @@ export const migrations = [
     up: migration_20260720_120000_livefeed_text_to_richtext.up,
     down: migration_20260720_120000_livefeed_text_to_richtext.down,
     name: '20260720_120000_livefeed_text_to_richtext',
+  },
+  {
+    up: migration_20260723_150000_livefeed_live_to_status.up,
+    down: migration_20260723_150000_livefeed_live_to_status.down,
+    name: '20260723_150000_livefeed_live_to_status',
   },
 ];

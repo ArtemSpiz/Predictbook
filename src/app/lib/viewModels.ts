@@ -121,7 +121,7 @@ export function liveFeedToView(f: LiveFeed): FeedView {
     subtitle: f.subtitle ?? undefined,
     categories: categoryTitles(f.categories),
     updates: f.timeline?.length ?? 0,
-    live: f.live ?? false,
+    live: f.status !== 'closed',
     timeline: f.timeline ?? [],
   }
 }

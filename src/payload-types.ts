@@ -939,7 +939,7 @@ export interface LiveFeed {
         id?: string | null;
       }[]
     | null;
-  live?: boolean | null;
+  status?: ('live' | 'closed') | null;
   /**
    * Update count badge.
    */
@@ -1902,7 +1902,7 @@ export interface LiveFeedSelect<T extends boolean = true> {
         at?: T;
         id?: T;
       };
-  live?: T;
+  status?: T;
   updates?: T;
   authors?: T;
   lastEditedBy?: T;

@@ -19,7 +19,11 @@ export default function LiveFeedSlug({ item }: { item: LiveFeed }) {
     <div className="flex flex-col gap-6 flex-1 lg:border-r border-line lg:p-5">
       <Breadcrumbs items={[{ label: 'Live Feed', href: '/live' }, { label: item.title }]} />
       <div className="flex items-center gap-2">
-        {item.live && <LiveBadge className="h-[-webkit-fill-available] bg-live-soft" />}
+        {item.status === 'closed' ? (
+          <div className="px-1.5 py-1 text-sm font-medium uppercase text-gray-strong">Closed</div>
+        ) : (
+          <LiveBadge className="h-[-webkit-fill-available] bg-live-soft" />
+        )}
 
         {categories.map((category) => (
           <CategoryChip

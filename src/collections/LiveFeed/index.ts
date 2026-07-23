@@ -15,7 +15,7 @@ export const LiveFeed: CollectionConfig = {
   slug: 'live-feed',
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'live', 'publishedAt', '_status'],
+    defaultColumns: ['title', 'status', 'publishedAt', '_status'],
     group: 'Content',
   },
   access: {
@@ -92,7 +92,16 @@ export const LiveFeed: CollectionConfig = {
             {
               type: 'row',
               fields: [
-                { name: 'live', type: 'checkbox', defaultValue: false, admin: { width: '50%' } },
+                {
+                  name: 'status',
+                  type: 'radio',
+                  defaultValue: 'live',
+                  options: [
+                    { label: 'Live', value: 'live' },
+                    { label: 'Closed', value: 'closed' },
+                  ],
+                  admin: { width: '50%', layout: 'horizontal' },
+                },
                 {
                   name: 'updates',
                   type: 'number',

@@ -96,7 +96,7 @@ export function generateLiveBlogStructuredData(item: LiveFeed, url: string) {
     }),
     ...(item.updatedAt && { dateModified: item.updatedAt }),
     // Closed threads have a known end; live ones are still ongoing.
-    ...(!item.live && item.updatedAt && { coverageEndTime: item.updatedAt }),
+    ...(item.status === 'closed' && item.updatedAt && { coverageEndTime: item.updatedAt }),
     image,
     author,
     ...(editor && { editor: { '@type': 'Person', name: editor } }),
