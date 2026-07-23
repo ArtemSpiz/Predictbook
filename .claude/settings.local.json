@@ -61,7 +61,10 @@
       "Bash(curl -s -o /dev/null -w \"analysis/weekly-pulse → HTTP %{http_code}\\\\n\" https://predictbook.co/analysis/weekly-pulse)",
       "Bash(pnpm tsc *)",
       "Bash(echo \"=== exit: $? ===\")",
-      "Bash(curl -s https://predictbook.co)"
+      "Bash(curl -s https://predictbook.co)",
+      "Bash(npx tsc *)",
+      "Bash(curl -s \"https://predictbook.co/analysis/weekly-pulse\")",
+      "Bash(awk *)"
     ]
   }
 }

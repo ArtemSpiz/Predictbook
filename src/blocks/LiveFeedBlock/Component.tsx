@@ -10,7 +10,7 @@ type LiveFeedBlockProps = {
 }
 
 export async function LiveFeedBlockComponent({ block }: { block: LiveFeedBlockProps }) {
-  const res = await findLiveFeed({ limit: block.limit ?? 1 })
+  const res = await findLiveFeed({ limit: 1 })
   const items = res.docs.map(liveFeedToView)
   return (
     <Feed
@@ -18,6 +18,7 @@ export async function LiveFeedBlockComponent({ block }: { block: LiveFeedBlockPr
       viewAllText={block.viewAllText}
       viewAllUrl={block.viewAllUrl ?? '/live'}
       items={items}
+      timelineLimit={block.limit ?? 3}
     />
   )
 }

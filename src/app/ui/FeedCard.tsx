@@ -11,9 +11,11 @@ import type { FeedView } from '../lib/viewModels'
 interface FeedCardProps {
   card: FeedView
   home?: boolean
+  timelineLimit?: number
 }
 
-export default function FeedCard({ card, home = false }: FeedCardProps) {
+export default function FeedCard({ card, home = false, timelineLimit }: FeedCardProps) {
+  const timeline = timelineLimit ? card.timeline.slice(0, timelineLimit) : card.timeline
   return (
     <div className="bg-white border border-line">
       <div
@@ -45,7 +47,7 @@ export default function FeedCard({ card, home = false }: FeedCardProps) {
       </div>
 
       <div className="p-4">
-        {card.timeline.map((item, index) => (
+        {timeline.map((item, index) => (
           <div key={index} className="flex gap-4 items-start">
             <div
               className={`shrink-0 text-sm ${item.time.toLowerCase() === 'latest' ? 'text-live' : 'text-muted'}`}
@@ -67,7 +69,7 @@ export default function FeedCard({ card, home = false }: FeedCardProps) {
                   className="mb-2 w-full rounded-lg"
                 />
               )}
-              <div className="prose max-w-none text-sm text-muted">
+              <div className="prose max-w-none text-sm text-muted [&_p:first-child]:mt-0 [&_p:last-child]:mb-0">
                 <RichText data={item.body} />
               </div>
             </div>

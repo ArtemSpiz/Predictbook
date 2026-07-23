@@ -10,6 +10,9 @@ type LiveFeedListBlockProps = {
   limit?: number | null
 }
 
+// Each thread card previews only its most recent updates; the full timeline lives at /live/[slug].
+const TIMELINE_PREVIEW = 3
+
 export async function LiveFeedListBlockComponent({ block }: { block: LiveFeedListBlockProps }) {
   const res = await findLiveFeed({ limit: block.limit ?? 20 })
   const items = res.docs.map(liveFeedToView)
@@ -21,7 +24,7 @@ export async function LiveFeedListBlockComponent({ block }: { block: LiveFeedLis
       <div className="flex flex-col gap-5">
         {items.map((card) => (
           <Link key={card.slug} href={`/live/${card.slug}`}>
-            <FeedCard card={card} />
+            <FeedCard card={card} timelineLimit={TIMELINE_PREVIEW} />
           </Link>
         ))}
       </div>

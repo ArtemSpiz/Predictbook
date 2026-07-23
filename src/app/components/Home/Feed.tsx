@@ -9,9 +9,10 @@ interface FeedProps {
   viewAllText: string
   viewAllUrl: string
   items: FeedView[]
+  timelineLimit?: number
 }
 
-export default function Feed({ heading, viewAllText, viewAllUrl, items }: FeedProps) {
+export default function Feed({ heading, viewAllText, viewAllUrl, items, timelineLimit }: FeedProps) {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex justify-between gap-3">
@@ -26,7 +27,7 @@ export default function Feed({ heading, viewAllText, viewAllUrl, items }: FeedPr
       <div className="flex flex-col gap-6">
         {items.map((card) => (
           <Link key={card.slug} href={`/live/${card.slug}`}>
-            <FeedCard card={card} home />
+            <FeedCard card={card} home timelineLimit={timelineLimit} />
           </Link>
         ))}
       </div>

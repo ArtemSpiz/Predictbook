@@ -6,6 +6,7 @@ import { Breadcrumbs } from '@/app/ui/Breadcrumbs'
 import { PayloadImage } from '@/app/components/PayloadImage'
 import { RelativeTime } from '@/app/ui/RelativeTime'
 import { PreferredSourceButton } from '@/app/ui/PreferredSourceButton'
+import { Byline } from '@/app/components/LiveFeed/Byline'
 import { categoryNames, fmtDay, fmtTime } from '@/app/lib/viewModels'
 import Timeline from '../../../../public/timeline.png'
 import type { LiveFeed } from '@/payload-types'
@@ -38,7 +39,11 @@ export default function LiveFeedSlug({ item }: { item: LiveFeed }) {
         </div>
       </div>
 
-      <PreferredSourceButton />
+      <Byline authors={item.authors} editor={item.lastEditedBy} />
+
+      <div className="flex items-center justify-between gap-4 flex-wrap">
+        <PreferredSourceButton />
+      </div>
 
       {item.coverImage && (
         <PayloadImage media={item.coverImage} alt={item.title} className="w-full rounded-xl" />
@@ -69,7 +74,7 @@ export default function LiveFeedSlug({ item }: { item: LiveFeed }) {
                   className="mb-2 w-full rounded-lg"
                 />
               )}
-              <div className="prose max-w-none text-sm text-muted">
+              <div className="prose max-w-none text-sm text-muted [&_p:first-child]:mt-0 [&_p:last-child]:mb-0">
                 <RichText data={entry.body} />
               </div>
             </div>

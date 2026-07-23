@@ -940,6 +940,14 @@ export interface LiveFeed {
    * Update count badge.
    */
   updates?: number | null;
+  /**
+   * Byline — one or more authors running this thread.
+   */
+  authors?: (string | Author)[] | null;
+  /**
+   * Auto: the last user who edited this thread ("Edited by").
+   */
+  lastEditedBy?: (string | null) | User;
   categories?: (string | Category)[] | null;
   publishedAt?: string | null;
   meta?: {
@@ -1891,6 +1899,8 @@ export interface LiveFeedSelect<T extends boolean = true> {
       };
   live?: T;
   updates?: T;
+  authors?: T;
+  lastEditedBy?: T;
   categories?: T;
   publishedAt?: T;
   meta?:
@@ -2306,36 +2316,100 @@ export interface SiteSetting {
    * Promo card shown on all news sub-pages.
    */
   promoBlocks?:
-    | {
-        /**
-         * Icon in the badge (e.g., Lightning)
-         */
-        badgeIcon: string | Media;
-        badgeText: string;
-        showLiveDot?: boolean | null;
-        title: string;
-        description: string;
-        buttonText: string;
-        /**
-         * Where the button leads (optional; if left blank, there is no link)
-         */
-        buttonUrl?: string | null;
-        /**
-         * Decorative image (e.g., Graph)
-         */
-        backgroundImage: string | Media;
-        /**
-         * Card eases along with the page scroll once it enters the viewport (desktop only).
-         */
-        scrollFollow?: boolean | null;
-        /**
-         * Temporarily hide this block without deleting it.
-         */
-        hidden?: boolean | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'real-card';
-      }[]
+    | (
+        | {
+            /**
+             * Optional heading above the block, e.g. "Summary". Leave empty to hide.
+             */
+            title?: string | null;
+            /**
+             * Optional description text below the title.
+             */
+            subtitle?: string | null;
+            /**
+             * Default link for the "Read …" button, used by any tab without its own URL (defaults to the signals page).
+             */
+            buttonUrl?: string | null;
+            /**
+             * Default label for the button, used by any tab without its own text. Leave empty to fall back to "Read <tab title>".
+             */
+            buttonText?: string | null;
+            /**
+             * If there is only one, the tabs are not displayed on the site.
+             */
+            tabs?:
+              | {
+                  title: string;
+                  infoTitle: string;
+                  /**
+                   * Where this tab's "Read …" button links. Leave empty to use the block-level default below.
+                   */
+                  buttonUrl?: string | null;
+                  /**
+                   * This tab's button label. Leave empty to use the block-level default, then "Read <tab title>".
+                   */
+                  buttonText?: string | null;
+                  day?: string | null;
+                  time?: string | null;
+                  /**
+                   * Auto-generate bullet points from recent signals for this period. Shown below any manual bullets.
+                   */
+                  autoPeriod?: ('off' | '1d' | '3d' | '7d' | '30d' | 'custom') | null;
+                  /**
+                   * Number of days to look back (used when Auto-fill = Custom).
+                   */
+                  autoDays?: number | null;
+                  /**
+                   * Optional manual bullets, shown above the auto-filled ones.
+                   */
+                  info?:
+                    | {
+                        text: string;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  id?: string | null;
+                }[]
+              | null;
+            /**
+             * Temporarily hide this block without deleting it.
+             */
+            hidden?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'summary';
+          }
+        | {
+            /**
+             * Icon in the badge (e.g., Lightning)
+             */
+            badgeIcon: string | Media;
+            badgeText: string;
+            showLiveDot?: boolean | null;
+            title: string;
+            description: string;
+            buttonText: string;
+            /**
+             * Where the button leads (optional; if left blank, there is no link)
+             */
+            buttonUrl?: string | null;
+            /**
+             * Decorative image (e.g., Graph)
+             */
+            backgroundImage: string | Media;
+            /**
+             * Card eases along with the page scroll once it enters the viewport (desktop only).
+             */
+            scrollFollow?: boolean | null;
+            /**
+             * Temporarily hide this block without deleting it.
+             */
+            hidden?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'real-card';
+          }
+      )[]
     | null;
   /**
    * Sponsored logos card shown on news article pages only.
@@ -2518,6 +2592,9 @@ export interface HomePage {
           }
         | {
             heading: string;
+            /**
+             * How many timeline updates to show from the latest thread.
+             */
             limit?: number | null;
             viewAllText: string;
             viewAllUrl?: string | null;
@@ -2598,7 +2675,72 @@ export interface AboutPage {
   sidebarBlocks?:
     | (
         | {
+            /**
+             * Optional heading above the block, e.g. "Summary". Leave empty to hide.
+             */
+            title?: string | null;
+            /**
+             * Optional description text below the title.
+             */
+            subtitle?: string | null;
+            /**
+             * Default link for the "Read …" button, used by any tab without its own URL (defaults to the signals page).
+             */
+            buttonUrl?: string | null;
+            /**
+             * Default label for the button, used by any tab without its own text. Leave empty to fall back to "Read <tab title>".
+             */
+            buttonText?: string | null;
+            /**
+             * If there is only one, the tabs are not displayed on the site.
+             */
+            tabs?:
+              | {
+                  title: string;
+                  infoTitle: string;
+                  /**
+                   * Where this tab's "Read …" button links. Leave empty to use the block-level default below.
+                   */
+                  buttonUrl?: string | null;
+                  /**
+                   * This tab's button label. Leave empty to use the block-level default, then "Read <tab title>".
+                   */
+                  buttonText?: string | null;
+                  day?: string | null;
+                  time?: string | null;
+                  /**
+                   * Auto-generate bullet points from recent signals for this period. Shown below any manual bullets.
+                   */
+                  autoPeriod?: ('off' | '1d' | '3d' | '7d' | '30d' | 'custom') | null;
+                  /**
+                   * Number of days to look back (used when Auto-fill = Custom).
+                   */
+                  autoDays?: number | null;
+                  /**
+                   * Optional manual bullets, shown above the auto-filled ones.
+                   */
+                  info?:
+                    | {
+                        text: string;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  id?: string | null;
+                }[]
+              | null;
+            /**
+             * Temporarily hide this block without deleting it.
+             */
+            hidden?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'summary';
+          }
+        | {
             heading: string;
+            /**
+             * How many timeline updates to show from the latest thread.
+             */
             limit?: number | null;
             viewAllText: string;
             viewAllUrl?: string | null;
@@ -2772,36 +2914,100 @@ export interface SignalsPage {
       }[]
     | null;
   sidebarBlocks?:
-    | {
-        /**
-         * Icon in the badge (e.g., Lightning)
-         */
-        badgeIcon: string | Media;
-        badgeText: string;
-        showLiveDot?: boolean | null;
-        title: string;
-        description: string;
-        buttonText: string;
-        /**
-         * Where the button leads (optional; if left blank, there is no link)
-         */
-        buttonUrl?: string | null;
-        /**
-         * Decorative image (e.g., Graph)
-         */
-        backgroundImage: string | Media;
-        /**
-         * Card eases along with the page scroll once it enters the viewport (desktop only).
-         */
-        scrollFollow?: boolean | null;
-        /**
-         * Temporarily hide this block without deleting it.
-         */
-        hidden?: boolean | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'real-card';
-      }[]
+    | (
+        | {
+            /**
+             * Optional heading above the block, e.g. "Summary". Leave empty to hide.
+             */
+            title?: string | null;
+            /**
+             * Optional description text below the title.
+             */
+            subtitle?: string | null;
+            /**
+             * Default link for the "Read …" button, used by any tab without its own URL (defaults to the signals page).
+             */
+            buttonUrl?: string | null;
+            /**
+             * Default label for the button, used by any tab without its own text. Leave empty to fall back to "Read <tab title>".
+             */
+            buttonText?: string | null;
+            /**
+             * If there is only one, the tabs are not displayed on the site.
+             */
+            tabs?:
+              | {
+                  title: string;
+                  infoTitle: string;
+                  /**
+                   * Where this tab's "Read …" button links. Leave empty to use the block-level default below.
+                   */
+                  buttonUrl?: string | null;
+                  /**
+                   * This tab's button label. Leave empty to use the block-level default, then "Read <tab title>".
+                   */
+                  buttonText?: string | null;
+                  day?: string | null;
+                  time?: string | null;
+                  /**
+                   * Auto-generate bullet points from recent signals for this period. Shown below any manual bullets.
+                   */
+                  autoPeriod?: ('off' | '1d' | '3d' | '7d' | '30d' | 'custom') | null;
+                  /**
+                   * Number of days to look back (used when Auto-fill = Custom).
+                   */
+                  autoDays?: number | null;
+                  /**
+                   * Optional manual bullets, shown above the auto-filled ones.
+                   */
+                  info?:
+                    | {
+                        text: string;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  id?: string | null;
+                }[]
+              | null;
+            /**
+             * Temporarily hide this block without deleting it.
+             */
+            hidden?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'summary';
+          }
+        | {
+            /**
+             * Icon in the badge (e.g., Lightning)
+             */
+            badgeIcon: string | Media;
+            badgeText: string;
+            showLiveDot?: boolean | null;
+            title: string;
+            description: string;
+            buttonText: string;
+            /**
+             * Where the button leads (optional; if left blank, there is no link)
+             */
+            buttonUrl?: string | null;
+            /**
+             * Decorative image (e.g., Graph)
+             */
+            backgroundImage: string | Media;
+            /**
+             * Card eases along with the page scroll once it enters the viewport (desktop only).
+             */
+            scrollFollow?: boolean | null;
+            /**
+             * Temporarily hide this block without deleting it.
+             */
+            hidden?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'real-card';
+          }
+      )[]
     | null;
   meta?: {
     /**
@@ -2841,36 +3047,100 @@ export interface LiveFeedPage {
       }[]
     | null;
   sidebarBlocks?:
-    | {
-        /**
-         * Icon in the badge (e.g., Lightning)
-         */
-        badgeIcon: string | Media;
-        badgeText: string;
-        showLiveDot?: boolean | null;
-        title: string;
-        description: string;
-        buttonText: string;
-        /**
-         * Where the button leads (optional; if left blank, there is no link)
-         */
-        buttonUrl?: string | null;
-        /**
-         * Decorative image (e.g., Graph)
-         */
-        backgroundImage: string | Media;
-        /**
-         * Card eases along with the page scroll once it enters the viewport (desktop only).
-         */
-        scrollFollow?: boolean | null;
-        /**
-         * Temporarily hide this block without deleting it.
-         */
-        hidden?: boolean | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'real-card';
-      }[]
+    | (
+        | {
+            /**
+             * Optional heading above the block, e.g. "Summary". Leave empty to hide.
+             */
+            title?: string | null;
+            /**
+             * Optional description text below the title.
+             */
+            subtitle?: string | null;
+            /**
+             * Default link for the "Read …" button, used by any tab without its own URL (defaults to the signals page).
+             */
+            buttonUrl?: string | null;
+            /**
+             * Default label for the button, used by any tab without its own text. Leave empty to fall back to "Read <tab title>".
+             */
+            buttonText?: string | null;
+            /**
+             * If there is only one, the tabs are not displayed on the site.
+             */
+            tabs?:
+              | {
+                  title: string;
+                  infoTitle: string;
+                  /**
+                   * Where this tab's "Read …" button links. Leave empty to use the block-level default below.
+                   */
+                  buttonUrl?: string | null;
+                  /**
+                   * This tab's button label. Leave empty to use the block-level default, then "Read <tab title>".
+                   */
+                  buttonText?: string | null;
+                  day?: string | null;
+                  time?: string | null;
+                  /**
+                   * Auto-generate bullet points from recent signals for this period. Shown below any manual bullets.
+                   */
+                  autoPeriod?: ('off' | '1d' | '3d' | '7d' | '30d' | 'custom') | null;
+                  /**
+                   * Number of days to look back (used when Auto-fill = Custom).
+                   */
+                  autoDays?: number | null;
+                  /**
+                   * Optional manual bullets, shown above the auto-filled ones.
+                   */
+                  info?:
+                    | {
+                        text: string;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  id?: string | null;
+                }[]
+              | null;
+            /**
+             * Temporarily hide this block without deleting it.
+             */
+            hidden?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'summary';
+          }
+        | {
+            /**
+             * Icon in the badge (e.g., Lightning)
+             */
+            badgeIcon: string | Media;
+            badgeText: string;
+            showLiveDot?: boolean | null;
+            title: string;
+            description: string;
+            buttonText: string;
+            /**
+             * Where the button leads (optional; if left blank, there is no link)
+             */
+            buttonUrl?: string | null;
+            /**
+             * Decorative image (e.g., Graph)
+             */
+            backgroundImage: string | Media;
+            /**
+             * Card eases along with the page scroll once it enters the viewport (desktop only).
+             */
+            scrollFollow?: boolean | null;
+            /**
+             * Temporarily hide this block without deleting it.
+             */
+            hidden?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'real-card';
+          }
+      )[]
     | null;
   meta?: {
     /**
@@ -3104,6 +3374,36 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   promoBlocks?:
     | T
     | {
+        summary?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              buttonUrl?: T;
+              buttonText?: T;
+              tabs?:
+                | T
+                | {
+                    title?: T;
+                    infoTitle?: T;
+                    buttonUrl?: T;
+                    buttonText?: T;
+                    day?: T;
+                    time?: T;
+                    autoPeriod?: T;
+                    autoDays?: T;
+                    info?:
+                      | T
+                      | {
+                          text?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
+              hidden?: T;
+              id?: T;
+              blockName?: T;
+            };
         'real-card'?:
           | T
           | {
@@ -3292,6 +3592,36 @@ export interface AboutPageSelect<T extends boolean = true> {
   sidebarBlocks?:
     | T
     | {
+        summary?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              buttonUrl?: T;
+              buttonText?: T;
+              tabs?:
+                | T
+                | {
+                    title?: T;
+                    infoTitle?: T;
+                    buttonUrl?: T;
+                    buttonText?: T;
+                    day?: T;
+                    time?: T;
+                    autoPeriod?: T;
+                    autoDays?: T;
+                    info?:
+                      | T
+                      | {
+                          text?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
+              hidden?: T;
+              id?: T;
+              blockName?: T;
+            };
         'live-feed-block'?:
           | T
           | {
@@ -3428,6 +3758,36 @@ export interface SignalsPageSelect<T extends boolean = true> {
   sidebarBlocks?:
     | T
     | {
+        summary?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              buttonUrl?: T;
+              buttonText?: T;
+              tabs?:
+                | T
+                | {
+                    title?: T;
+                    infoTitle?: T;
+                    buttonUrl?: T;
+                    buttonText?: T;
+                    day?: T;
+                    time?: T;
+                    autoPeriod?: T;
+                    autoDays?: T;
+                    info?:
+                      | T
+                      | {
+                          text?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
+              hidden?: T;
+              id?: T;
+              blockName?: T;
+            };
         'real-card'?:
           | T
           | {
@@ -3478,6 +3838,36 @@ export interface LiveFeedPageSelect<T extends boolean = true> {
   sidebarBlocks?:
     | T
     | {
+        summary?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              buttonUrl?: T;
+              buttonText?: T;
+              tabs?:
+                | T
+                | {
+                    title?: T;
+                    infoTitle?: T;
+                    buttonUrl?: T;
+                    buttonText?: T;
+                    day?: T;
+                    time?: T;
+                    autoPeriod?: T;
+                    autoDays?: T;
+                    info?:
+                      | T
+                      | {
+                          text?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
+              hidden?: T;
+              id?: T;
+              blockName?: T;
+            };
         'real-card'?:
           | T
           | {

@@ -2,7 +2,11 @@ import { notFound } from 'next/navigation'
 import { getLiveFeedBySlug } from '@/utilities/getLiveFeed'
 import { generateMeta } from '@/utilities/generateMeta'
 import { getSiteUrl } from '@/utilities/getSiteUrl'
-import { generatePageStructuredData, jsonLdScriptContent } from '@/utilities/structuredData'
+import {
+  generatePageStructuredData,
+  generateLiveBlogStructuredData,
+  jsonLdScriptContent,
+} from '@/utilities/structuredData'
 import LiveFeedSlug from '@/app/components/LiveFeed/LiveFeedSlug'
 import { RenderBlockList } from '@/blocks/RenderBlockList'
 import { ContentLayout } from '@/app/ui/ContentLayout'
@@ -32,12 +36,17 @@ export default async function LiveFeedThread({ params }: Props) {
     dateModified: item.updatedAt || undefined,
     breadcrumbParent: { name: 'Live Feed', url: `${base}/live` },
   })
+  const liveBlogData = generateLiveBlogStructuredData(item, `${base}/live/${item.slug}`)
 
   return (
     <main className="container-custom">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLdScriptContent(structuredData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScriptContent(liveBlogData) }}
       />
       <ContentLayout>
         <LiveFeedSlug item={item} />

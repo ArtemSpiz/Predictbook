@@ -1,5 +1,6 @@
 import { getSiteUrl } from './getSiteUrl'
 import { siteConfig } from './siteConfig'
+import type { LiveFeed, Author } from '@/payload-types'
 
 /**
  * Serialize for `<script type="application/ld+json">`: escape `<` so CMS-stored
@@ -38,6 +39,76 @@ export function generateStructuredData() {
         inLanguage: siteConfig.locale,
       },
     ],
+  }
+}
+
+type LexicalNode = { text?: unknown; children?: LexicalNode[] }
+type TimelineBody = NonNullable<LiveFeed['timeline']>[number]['body']
+
+/** Flatten a Lexical richtext value to a single plain-text string. */
+function lexicalToPlainText(data: TimelineBody): string {
+  const walk = (nodes: LexicalNode[] = []): string =>
+    nodes
+      .map((n) => (typeof n.text === 'string' ? n.text : '') + (n.children ? walk(n.children) : ''))
+      .join('')
+  const root = (data as { root?: { children?: LexicalNode[] } })?.root
+  return walk(root?.children)
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+const absoluteUrl = (u: string | null | undefined, baseUrl: string): string | null =>
+  u ? (/^https?:\/\//.test(u) ? u : `${baseUrl}${u}`) : null
+
+/**
+ * LiveBlogPosting for a live-feed thread — maps each timeline update to a
+ * BlogPosting under `liveBlogUpdate`. Embed via `jsonLdScriptContent`.
+ */
+export function generateLiveBlogStructuredData(item: LiveFeed, url: string) {
+  const baseUrl = getSiteUrl()
+  const cover = item.coverImage && typeof item.coverImage === 'object' ? item.coverImage.url : null
+  const image = absoluteUrl(cover, baseUrl) ?? `${baseUrl}${siteConfig.defaultOgImage}`
+  const publisher = {
+    '@type': 'Organization',
+    name: siteConfig.name,
+    logo: { '@type': 'ImageObject', url: `${baseUrl}${siteConfig.defaultOgImage}` },
+  }
+  const authors = (item.authors ?? [])
+    .filter((a): a is Author => typeof a === 'object' && a !== null)
+    .map((a) => ({ '@type': 'Person', name: a.name, url: `${baseUrl}/author/${a.slug}` }))
+  const author = authors.length
+    ? authors
+    : { '@type': 'Organization', name: siteConfig.name, url: baseUrl }
+  const editor =
+    item.lastEditedBy && typeof item.lastEditedBy === 'object' ? item.lastEditedBy.name : null
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'LiveBlogPosting',
+    '@id': `${url}/#liveblog`,
+    url,
+    headline: item.title,
+    ...(item.subtitle && { description: item.subtitle }),
+    ...(item.publishedAt && {
+      datePublished: item.publishedAt,
+      coverageStartTime: item.publishedAt,
+    }),
+    ...(item.updatedAt && { dateModified: item.updatedAt }),
+    // Closed threads have a known end; live ones are still ongoing.
+    ...(!item.live && item.updatedAt && { coverageEndTime: item.updatedAt }),
+    image,
+    author,
+    ...(editor && { editor: { '@type': 'Person', name: editor } }),
+    publisher,
+    liveBlogUpdate: (item.timeline ?? []).map((entry) => {
+      const at = entry.at ?? item.publishedAt ?? item.updatedAt
+      return {
+        '@type': 'BlogPosting',
+        headline: entry.heading || entry.time || item.title,
+        ...(at && { datePublished: at, dateModified: at }),
+        articleBody: lexicalToPlainText(entry.body),
+      }
+    }),
   }
 }
 

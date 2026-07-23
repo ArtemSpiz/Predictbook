@@ -4,6 +4,7 @@ import { revalidateGlobalHooks } from '@/hooks/revalidateFrontCache'
 import { wideMarkupLexical } from '@/fields/wideMarkupLexical'
 import { LiveFeedBlock } from '@/blocks/LiveFeedBlock/config'
 import { RealCardBlock } from '@/blocks/RealCard/config'
+import { SummaryBlock } from '@/blocks/Summary/config'
 import { seoTab } from '@/fields/seoMeta'
 
 export const AboutPage: GlobalConfig = {
@@ -51,7 +52,7 @@ export const AboutPage: GlobalConfig = {
               name: 'sidebarBlocks',
               type: 'blocks',
               labels: { singular: 'Sidebar block', plural: 'Sidebar blocks' },
-              blocks: [LiveFeedBlock, RealCardBlock],
+              blocks: [SummaryBlock, LiveFeedBlock, RealCardBlock],
             },
           ],
         },

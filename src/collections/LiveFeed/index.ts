@@ -32,13 +32,14 @@ export const LiveFeed: CollectionConfig = {
     // Stamp each timeline update with its creation time once, so the public
     // "x minutes ago" label is stable across edits (manual `time` stays the label).
     beforeChange: [
-      ({ data }) => {
+      ({ data, req }) => {
         if (Array.isArray(data?.timeline)) {
           const now = new Date().toISOString()
           data.timeline = data.timeline.map((entry) =>
             entry && !entry.at ? { ...entry, at: now } : entry,
           )
         }
+        if (data && req.user) data.lastEditedBy = req.user.id
         return data
       },
     ],
@@ -98,6 +99,22 @@ export const LiveFeed: CollectionConfig = {
                   admin: { width: '50%', description: 'Update count badge.' },
                 },
               ],
+            },
+            {
+              name: 'authors',
+              type: 'relationship',
+              relationTo: 'authors',
+              hasMany: true,
+              admin: { description: 'Byline — one or more authors running this thread.' },
+            },
+            {
+              name: 'lastEditedBy',
+              type: 'relationship',
+              relationTo: 'users',
+              admin: {
+                readOnly: true,
+                description: 'Auto: the last user who edited this thread ("Edited by").',
+              },
             },
             {
               name: 'categories',

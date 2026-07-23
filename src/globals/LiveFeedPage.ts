@@ -3,6 +3,7 @@ import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { revalidateGlobalHooks } from '@/hooks/revalidateFrontCache'
 import { LiveFeedListBlock } from '@/blocks/LiveFeedList/config'
 import { RealCardBlock } from '@/blocks/RealCard/config'
+import { SummaryBlock } from '@/blocks/Summary/config'
 import { seoTab } from '@/fields/seoMeta'
 
 export const LiveFeedPage: GlobalConfig = {
@@ -33,7 +34,7 @@ export const LiveFeedPage: GlobalConfig = {
               name: 'sidebarBlocks',
               type: 'blocks',
               labels: { singular: 'Sidebar block', plural: 'Sidebar blocks' },
-              blocks: [RealCardBlock],
+              blocks: [SummaryBlock, RealCardBlock],
             },
           ],
         },

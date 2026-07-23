@@ -3,6 +3,7 @@ import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { revalidateGlobalHooks } from '@/hooks/revalidateFrontCache'
 import { RealCardBlock } from '@/blocks/RealCard/config'
 import { SponsoredCardBlock } from '@/blocks/SponsoredCard/config'
+import { SummaryBlock } from '@/blocks/Summary/config'
 
 /**
  * Site-wide SEO / analytics backbone. Sitemap and robots route handlers read
@@ -141,7 +142,7 @@ export const SiteSettings: GlobalConfig = {
               type: 'blocks',
               labels: { singular: 'Promo block', plural: 'Promo blocks' },
               admin: { description: 'Promo card shown on all news sub-pages.' },
-              blocks: [RealCardBlock],
+              blocks: [SummaryBlock, RealCardBlock],
             },
             {
               name: 'sponsoredBlocks',
