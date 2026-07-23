@@ -558,6 +558,10 @@ export interface Page {
             tabs?:
               | {
                   title: string;
+                  /**
+                   * Small uppercase text in the card header. Leave empty to fall back to the tab title.
+                   */
+                  label?: string | null;
                   infoTitle: string;
                   /**
                    * Where this tab's "Read …" button links. Leave empty to use the block-level default below.
@@ -1663,6 +1667,7 @@ export interface PagesSelect<T extends boolean = true> {
                 | T
                 | {
                     title?: T;
+                    label?: T;
                     infoTitle?: T;
                     buttonUrl?: T;
                     buttonText?: T;
@@ -2340,6 +2345,10 @@ export interface SiteSetting {
             tabs?:
               | {
                   title: string;
+                  /**
+                   * Small uppercase text in the card header. Leave empty to fall back to the tab title.
+                   */
+                  label?: string | null;
                   infoTitle: string;
                   /**
                    * Where this tab's "Read …" button links. Leave empty to use the block-level default below.
@@ -2496,6 +2505,10 @@ export interface HomePage {
             tabs?:
               | {
                   title: string;
+                  /**
+                   * Small uppercase text in the card header. Leave empty to fall back to the tab title.
+                   */
+                  label?: string | null;
                   infoTitle: string;
                   /**
                    * Where this tab's "Read …" button links. Leave empty to use the block-level default below.
@@ -2697,6 +2710,10 @@ export interface AboutPage {
             tabs?:
               | {
                   title: string;
+                  /**
+                   * Small uppercase text in the card header. Leave empty to fall back to the tab title.
+                   */
+                  label?: string | null;
                   infoTitle: string;
                   /**
                    * Where this tab's "Read …" button links. Leave empty to use the block-level default below.
@@ -2938,6 +2955,10 @@ export interface SignalsPage {
             tabs?:
               | {
                   title: string;
+                  /**
+                   * Small uppercase text in the card header. Leave empty to fall back to the tab title.
+                   */
+                  label?: string | null;
                   infoTitle: string;
                   /**
                    * Where this tab's "Read …" button links. Leave empty to use the block-level default below.
@@ -3071,6 +3092,10 @@ export interface LiveFeedPage {
             tabs?:
               | {
                   title: string;
+                  /**
+                   * Small uppercase text in the card header. Leave empty to fall back to the tab title.
+                   */
+                  label?: string | null;
                   infoTitle: string;
                   /**
                    * Where this tab's "Read …" button links. Leave empty to use the block-level default below.
@@ -3212,6 +3237,10 @@ export interface NewsPage {
         tabs?:
           | {
               title: string;
+              /**
+               * Small uppercase text in the card header. Leave empty to fall back to the tab title.
+               */
+              label?: string | null;
               infoTitle: string;
               /**
                * Where this tab's "Read …" button links. Leave empty to use the block-level default below.
@@ -3385,6 +3414,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
                 | T
                 | {
                     title?: T;
+                    label?: T;
                     infoTitle?: T;
                     buttonUrl?: T;
                     buttonText?: T;
@@ -3483,6 +3513,7 @@ export interface HomePageSelect<T extends boolean = true> {
                 | T
                 | {
                     title?: T;
+                    label?: T;
                     infoTitle?: T;
                     buttonUrl?: T;
                     buttonText?: T;
@@ -3603,6 +3634,7 @@ export interface AboutPageSelect<T extends boolean = true> {
                 | T
                 | {
                     title?: T;
+                    label?: T;
                     infoTitle?: T;
                     buttonUrl?: T;
                     buttonText?: T;
@@ -3769,6 +3801,7 @@ export interface SignalsPageSelect<T extends boolean = true> {
                 | T
                 | {
                     title?: T;
+                    label?: T;
                     infoTitle?: T;
                     buttonUrl?: T;
                     buttonText?: T;
@@ -3849,6 +3882,7 @@ export interface LiveFeedPageSelect<T extends boolean = true> {
                 | T
                 | {
                     title?: T;
+                    label?: T;
                     infoTitle?: T;
                     buttonUrl?: T;
                     buttonText?: T;
@@ -3935,6 +3969,7 @@ export interface NewsPageSelect<T extends boolean = true> {
                 | T
                 | {
                     title?: T;
+                    label?: T;
                     infoTitle?: T;
                     buttonUrl?: T;
                     buttonText?: T;

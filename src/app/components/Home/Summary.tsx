@@ -4,6 +4,7 @@ import SummaryCard from '@/app/ui/SummaryCard'
 
 export interface SummaryItem {
   title: string
+  label?: string
   infoTitle: string
   info: string[]
   day?: string
@@ -84,6 +85,7 @@ export default function Summary({
 
       <SummaryCard
         title={card.title}
+        label={card.label}
         infoTitle={card.infoTitle}
         info={card.info}
         day={card.day}

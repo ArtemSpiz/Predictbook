@@ -5,6 +5,7 @@ import CustomBtn from '@/app/ui/CustomBtn'
 
 interface SummaryCardProps {
   title: string
+  label?: string
   infoTitle: string
   info: string[]
   direction?: number
@@ -17,6 +18,7 @@ interface SummaryCardProps {
 
 export default function SummaryCard({
   title,
+  label,
   infoTitle,
   info,
   direction = 1,
@@ -29,7 +31,7 @@ export default function SummaryCard({
   return (
     <div className="overflow-hidden border border-solid border-line ">
       <div className="flex items-center justify-between border-b border-line bg-white p-4">
-        <div className="text-xs uppercase text-black">{title}</div>
+        <div className="text-xs uppercase text-black">{label || title}</div>
         <div className="text-xs text-muted">
           {day} · {time}
         </div>

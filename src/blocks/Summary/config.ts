@@ -55,6 +55,14 @@ export const SummaryBlock: Block = {
           required: true,
         },
         {
+          name: 'label',
+          type: 'text',
+          admin: {
+            description:
+              'Small uppercase text in the card header. Leave empty to fall back to the tab title.',
+          },
+        },
+        {
           name: 'infoTitle',
           type: 'text',
           required: true,

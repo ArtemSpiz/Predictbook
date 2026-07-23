@@ -10,6 +10,7 @@ type SummaryBlock = {
   buttonText?: string | null
   tabs: {
     title: string
+    label?: string | null
     infoTitle: string
     buttonUrl?: string | null
     buttonText?: string | null
@@ -61,6 +62,7 @@ export async function SummaryBlockComponent({ block }: { block: SummaryBlock }) 
           const auto = days ? await getSignalsBullets(days) : []
           return {
             title: tab.title,
+            label: tab.label ?? undefined,
             infoTitle: tab.infoTitle,
             day: tab.day ?? 'Today',
             time: tab.time ?? '20:00',
