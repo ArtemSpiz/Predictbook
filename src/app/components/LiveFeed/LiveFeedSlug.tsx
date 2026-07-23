@@ -7,12 +7,14 @@ import { PayloadImage } from '@/app/components/PayloadImage'
 import { RelativeTime } from '@/app/ui/RelativeTime'
 import { PreferredSourceButton } from '@/app/ui/PreferredSourceButton'
 import { Byline } from '@/app/components/LiveFeed/Byline'
+import { sortByNewest } from '@/utilities/timeline'
 import { categoryNames, fmtDay, fmtTime } from '@/app/lib/viewModels'
 import Timeline from '../../../../public/timeline.png'
 import type { LiveFeed } from '@/payload-types'
 
 export default function LiveFeedSlug({ item }: { item: LiveFeed }) {
   const categories = categoryNames(item.categories)
+  const timeline = sortByNewest(item.timeline ?? [])
   return (
     <div className="flex flex-col gap-6 flex-1 lg:border-r border-line lg:p-5">
       <Breadcrumbs items={[{ label: 'Live Feed', href: '/live' }, { label: item.title }]} />
@@ -52,7 +54,7 @@ export default function LiveFeedSlug({ item }: { item: LiveFeed }) {
       <div className="w-full h-px bg-line" />
 
       <div className="p-4 bg-white">
-        {(item.timeline ?? []).map((entry, index) => (
+        {timeline.map((entry, index) => (
           <div key={index} className="flex gap-4 items-start">
             <div
               className={`shrink-0 text-sm ${entry.time.toLowerCase() === 'latest' ? 'text-live' : 'text-muted'}`}

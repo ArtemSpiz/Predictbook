@@ -6,6 +6,7 @@ import { LiveBadge } from '@/app/ui/LiveBadge'
 import { CategoryChips } from '@/app/ui/CategoryChips'
 import { PayloadImage } from '@/app/components/PayloadImage'
 import { RelativeTime } from '@/app/ui/RelativeTime'
+import { sortByNewest } from '@/utilities/timeline'
 import type { FeedView } from '../lib/viewModels'
 
 interface FeedCardProps {
@@ -17,9 +18,7 @@ interface FeedCardProps {
 export default function FeedCard({ card, home = false, timelineLimit }: FeedCardProps) {
   // Previews show the newest updates first, ordered by their timestamp.
   const timeline = timelineLimit
-    ? [...card.timeline]
-        .sort((a, b) => new Date(b.at ?? 0).getTime() - new Date(a.at ?? 0).getTime())
-        .slice(0, timelineLimit)
+    ? sortByNewest(card.timeline).slice(0, timelineLimit)
     : card.timeline
   return (
     <div className="bg-white border border-line">

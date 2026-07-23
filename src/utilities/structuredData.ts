@@ -1,5 +1,6 @@
 import { getSiteUrl } from './getSiteUrl'
 import { siteConfig } from './siteConfig'
+import { sortByNewest } from './timeline'
 import type { LiveFeed, Author } from '@/payload-types'
 
 /**
@@ -100,7 +101,7 @@ export function generateLiveBlogStructuredData(item: LiveFeed, url: string) {
     author,
     ...(editor && { editor: { '@type': 'Person', name: editor } }),
     publisher,
-    liveBlogUpdate: (item.timeline ?? []).map((entry) => {
+    liveBlogUpdate: sortByNewest(item.timeline ?? []).map((entry) => {
       const at = entry.at ?? item.publishedAt ?? item.updatedAt
       return {
         '@type': 'BlogPosting',
