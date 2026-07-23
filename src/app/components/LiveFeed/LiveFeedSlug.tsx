@@ -55,7 +55,7 @@ export default function LiveFeedSlug({ item }: { item: LiveFeed }) {
 
       <div className="p-4 bg-white">
         {timeline.map((entry, index) => (
-          <div key={index} className="flex-col md:flex gap-4 items-start">
+          <div key={index} className="flex flex-col sm:flex-row gap-1 sm:gap-4 items-start">
             <div
               className={`md:w-32 shrink-0 text-sm ${entry.time.toLowerCase() === 'latest' ? 'text-live' : 'text-muted'}`}
             >
