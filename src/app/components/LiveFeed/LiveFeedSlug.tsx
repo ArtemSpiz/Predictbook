@@ -55,9 +55,9 @@ export default function LiveFeedSlug({ item }: { item: LiveFeed }) {
 
       <div className="p-4 bg-white">
         {timeline.map((entry, index) => (
-          <div key={index} className="flex gap-4 items-start">
+          <div key={index} className="flex-col md:flex gap-4 items-start">
             <div
-              className={`shrink-0 text-sm ${entry.time.toLowerCase() === 'latest' ? 'text-live' : 'text-muted'}`}
+              className={`md:w-32 shrink-0 text-sm ${entry.time.toLowerCase() === 'latest' ? 'text-live' : 'text-muted'}`}
             >
               {entry.time}
               <RelativeTime iso={entry.at} className="block text-xs text-muted" />
