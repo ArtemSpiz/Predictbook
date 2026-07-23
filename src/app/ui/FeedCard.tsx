@@ -15,7 +15,12 @@ interface FeedCardProps {
 }
 
 export default function FeedCard({ card, home = false, timelineLimit }: FeedCardProps) {
-  const timeline = timelineLimit ? card.timeline.slice(0, timelineLimit) : card.timeline
+  // Previews show the newest updates first, ordered by their timestamp.
+  const timeline = timelineLimit
+    ? [...card.timeline]
+        .sort((a, b) => new Date(b.at ?? 0).getTime() - new Date(a.at ?? 0).getTime())
+        .slice(0, timelineLimit)
+    : card.timeline
   return (
     <div className="bg-white border border-line">
       <div
