@@ -1,11 +1,7 @@
-import Image from 'next/image'
-import { RichText } from '@payloadcms/richtext-lexical/react'
 import CustomBtn from '@/app/ui/CustomBtn'
-import Timeline from '../../../public/timeline.png'
 import { LiveBadge } from '@/app/ui/LiveBadge'
 import { CategoryChips } from '@/app/ui/CategoryChips'
-import { PayloadImage } from '@/app/components/PayloadImage'
-import { RelativeTime } from '@/app/ui/RelativeTime'
+import { TimelineItem } from '@/app/components/LiveFeed/TimelineItem'
 import { sortByNewest } from '@/utilities/timeline'
 import type { FeedView } from '../lib/viewModels'
 
@@ -52,32 +48,7 @@ export default function FeedCard({ card, home = false, timelineLimit }: FeedCard
 
       <div className="p-4">
         {timeline.map((item, index) => (
-          <div key={index} className="flex gap-4 items-start">
-            <div
-              className={`shrink-0 text-sm ${item.time.toLowerCase() === 'latest' ? 'text-live' : 'text-muted'}`}
-            >
-              {item.time}
-              <RelativeTime iso={item.at} className="block text-xs text-muted" />
-            </div>
-
-            <div className="w-3 h-auto shrink-0">
-              <Image src={Timeline} alt="" />
-            </div>
-
-            <div className="flex-1 pb-6">
-              {item.heading && <div className="mb-1 text-sm font-medium">{item.heading}</div>}
-              {item.image && (
-                <PayloadImage
-                  media={item.image}
-                  alt={item.heading ?? ''}
-                  className="mb-2 w-full rounded-lg"
-                />
-              )}
-              <div className="prose max-w-none text-sm text-muted [&_p:first-child]:mt-0 [&_p:last-child]:mb-0">
-                <RichText data={item.body} />
-              </div>
-            </div>
-          </div>
+          <TimelineItem key={index} entry={item} compact />
         ))}
       </div>
 

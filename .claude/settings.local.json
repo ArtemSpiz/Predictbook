@@ -64,7 +64,10 @@
       "Bash(curl -s https://predictbook.co)",
       "Bash(npx tsc *)",
       "Bash(curl -s \"https://predictbook.co/analysis/weekly-pulse\")",
-      "Bash(awk *)"
+      "Bash(awk *)",
+      "Bash(npx eslint *)",
+      "Bash(curl *)",
+      "Bash(lsof -iTCP -sTCP:LISTEN -P)"
     ]
   }
 }

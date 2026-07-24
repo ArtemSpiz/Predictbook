@@ -55,7 +55,7 @@ export default function SummaryCard({
           </ul>
         </div>
 
-        <div className="max-md:hidden">
+        <div className="">
           <CustomBtn
             text={buttonText || `Read ${title.toLowerCase()}`}
             center

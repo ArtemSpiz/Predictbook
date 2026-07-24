@@ -65,17 +65,28 @@ export function MobileMenu({
                   </Link>
                 ) : (
                   <>
-                    <a
-                      onClick={() => setAnalysisOpen(!analysisOpen)}
-                      className="flex w-full bg-transparent items-center justify-between border-b border-line px-6 py-5 text-lg"
-                    >
-                      <span className={isActive(item) ? 'font-bold' : ''}>{item.link?.label}</span>
-                      <Image
-                        src={Down}
-                        alt=""
-                        className={`w-3 transition-transform ${analysisOpen ? 'rotate-180' : ''}`}
-                      />
-                    </a>
+                    <div className="flex w-full items-center justify-between border-b border-line pr-6 text-lg">
+                      <Link
+                        href={resolveLinkHref(item.link)}
+                        onClick={onClose}
+                        className={`flex-1 px-6 py-5 ${isActive(item) ? 'font-bold' : ''}`}
+                      >
+                        {item.link?.label}
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => setAnalysisOpen(!analysisOpen)}
+                        aria-label={`Toggle ${item.link?.label} submenu`}
+                        aria-expanded={analysisOpen}
+                        className="bg-transparent py-5 pl-4"
+                      >
+                        <Image
+                          src={Down}
+                          alt=""
+                          className={`w-3 transition-transform ${analysisOpen ? 'rotate-180' : ''}`}
+                        />
+                      </button>
+                    </div>
                     <div
                       className={`overflow-hidden transition-all duration-300 ${
                         analysisOpen ? 'max-h-96' : 'max-h-0'
@@ -100,7 +111,11 @@ export function MobileMenu({
         </div>
 
         <div className=" p-6">
-          <CtaButton label={cta?.label} href={cta?.href} className="w-full rounded-lg bg-ink py-3 text-white" />
+          <CtaButton
+            label={cta?.label}
+            href={cta?.href}
+            className="w-full rounded-lg bg-ink py-3 px-2 text-white"
+          />
           <SocialLinks
             items={social}
             className="mt-6 items-center justify-center flex gap-4"

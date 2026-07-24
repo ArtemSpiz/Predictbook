@@ -48,7 +48,10 @@ export default function NewsSlug({ post, related, social }: Props) {
         ))}
       </div>
 
-      <h1 className="text-2xl font-bold">{post.title}</h1>
+      <div>
+        <h1 className="text-2xl font-bold">{post.title}</h1>
+        {post.excerpt && <p className="mt-2 text-muted text-lg">{post.excerpt}</p>}
+      </div>
 
       <div className="flex flex-col items-start gap-3 md:flex-row md:items-center md:justify-between">
         <div>
